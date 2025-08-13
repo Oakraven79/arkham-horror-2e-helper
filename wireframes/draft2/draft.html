@@ -30,13 +30,23 @@
       display:flex;
       justify-content:center;
       align-items:flex-start;
+      background: url('arkham-horror-the-card-game-lcg-artwork.jpg') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    body::before{
+      content:'';
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.15); /* adjust to taste */
+      z-index: 0;
     }
 
     /* Container */
     .app{
       width:100%;
       max-width: none; 
-      background:var(--panel);
+      background:transparent;
       border-radius:12px;
       box-shadow:0 6px 18px rgba(16,24,40,0.06);
       overflow:hidden;
@@ -57,6 +67,15 @@
 
     /* Main layout */
     .main{
+
+      /* frosted glass */
+      background: rgba(255, 255, 255, 0.171);   /* translucent fill */
+      backdrop-filter: blur(12px) saturate(120%);
+      -webkit-backdrop-filter: blur(12px) saturate(120%); /* Safari */
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 14px;
+      overflow: hidden;  
+      
       display:grid;
       grid-template-columns:220px 1fr 260px;
       gap:var(--gap);
