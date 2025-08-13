@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Arkham Helper — Wireframe</title>
+  <style>
+    :root{
+      --gap: 16px;
+      --bg: #f6f6f7;
+      --panel: #ffffff;
+      --muted: #9aa0a6;
+      --accent: #e6e6ea;
+      --border: #e0e0e3;
+      --radius: 10px;
+      --max-width: 1200px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color-scheme: light;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:#111;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:24px;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+    }
+
+    /* Container */
+    .app{
+      width:100%;
+      max-width: none; 
+      background:var(--panel);
+      border-radius:12px;
+      box-shadow:0 6px 18px rgba(16,24,40,0.06);
+      overflow:hidden;
+      border:1px solid var(--border);
+    }
+
+    /* Top status bar */
+    .status{
+      display:flex;
+      gap:var(--gap);
+      align-items:center;
+      padding:14px 20px;
+      background:linear-gradient(#f3f4f6,#f7f7f8);
+      border-bottom:1px solid var(--border);
+    }
+    .status .tile{padding:10px 14px;border-radius:8px;background:var(--accent);font-weight:600}
+    .status .spacer{flex:1}
+
+    /* Main layout */
+    .main{
+      display:grid;
+      grid-template-columns:220px 1fr 260px;
+      gap:var(--gap);
+      padding:20px;
+      align-items:start;
+    }
+
+    /* Sidebar */
+    nav.sidebar{
+      background:transparent;
+      padding:8px;
+      height:calc(100% - 16px);
+    }
+    .sidebar .nav-item{
+      padding:18px 16px;
+      border-radius:10px;
+      margin-bottom:10px;
+      font-weight:600;
+      background:transparent;
+      cursor:pointer;
+      border:1px solid transparent;
+    }
+    .sidebar .nav-item.active{
+      background:#efeff2;
+      border-color:var(--border);
+    }
+
+    /* Right panel */
+    .right-panel{
+      padding:12px;
+      border-radius:8px;
+      background:#fbfbfc;
+      min-height:320px;
+      border:1px solid var(--border);
+    }
+
+    /* Content area */
+    .content{
+      padding:12px 24px;
+      background:transparent;
+      min-height:420px;
+    }
+
+    .content h1{font-size:32px;margin:10px 0 18px}
+
+    .card-view{
+      display:grid;
+      grid-template-columns:160px 1fr;
+      gap:20px;
+      align-items:start;
+    }
+    .card-art{
+      width:160px;height:160px;border-radius:8px;background:linear-gradient(180deg,#eee,#f4f4f6);display:flex;align-items:center;justify-content:center;border:1px solid var(--border)
+    }
+    .card-meta h2{margin:0 0 8px;font-size:20px}
+    .card-meta p{margin:0;color:var(--muted)}
+
+    .card-text{
+      margin-top:22px;
+      padding:14px;border-radius:8px;border:1px solid var(--border);background:#fff;min-height:80px
+    }
+
+    .controls{display:flex;gap:12px;align-items:center;margin-top:18px}
+    .btn{padding:10px 16px;border-radius:8px;border:1px solid var(--border);background:#fff;cursor:pointer;font-weight:700}
+    .btn.positive{background:#f4fff6}
+
+    /* Small responsive tweaks */
+    @media (max-width:980px){
+      .main{grid-template-columns:180px 1fr;}
+      .right-panel{display:none}
+    }
+    @media (max-width:640px){
+      body{padding:12px}
+      .main{grid-template-columns:1fr;}
+      nav.sidebar{display:flex;gap:8px;overflow:auto;padding-bottom:12px}
+      .sidebar .nav-item{min-width:120px;white-space:nowrap}
+      .status{flex-wrap:wrap}
+    }
+
+    /* small utility */
+    .muted{color:var(--muted);font-size:13px}
+    .pill{padding:6px 10px;border-radius:999px;background:#fff;border:1px solid var(--border);font-weight:700}
+
+    /* GOO tile highlight */
+    .goo-alert{animation:gooPulse 1.2s ease-in-out}
+    @keyframes gooPulse{0%{box-shadow:0 0 0 0 rgba(255,120,80,0.12)}50%{box-shadow:0 0 0 10px rgba(255,120,80,0)}100%{box-shadow:0 0 0 0 rgba(255,120,80,0)}}
+  </style>
+</head>
+<body>
+  <div class="app" role="application" aria-label="Arkham Helper wireframe">
+    <header class="status" role="banner">
+      <div class="tile">Elder Signs: <strong id="round-val">3/6</strong></div>
+      
+      
+      <div class="tile">No of Investigators: <strong id="round-val">6</strong></div>
+      
+      <div class="spacer"></div>
+      
+      <div class="tile">Terror: <strong id="terror-val">3</strong></div>
+      <div class="tile" id="doom">Doom: <strong id="doom-val">5/10</strong></div>
+      <div class="tile" id="open-doom">Gates Open: <strong id="doom-val">5/8</strong></div>
+      <div class="tile" id="goo-tile" title="Great Old One (tap to open)">GOO: <strong id="goo-name">Nyarlathotep</strong></div>
+    </header>
+
+    <main class="main" role="main">
+      <nav class="sidebar" aria-label="Primary navigation">
+        <div class="nav-item active" data-view="mythos">Mythos</div>
+        <div class="nav-item" data-view="encounters">Encounters</div>
+        <div class="nav-item" data-view="encounters"> Other World Encounters</div>
+        <div class="nav-item" data-view="goo">Great Old One</div>
+        <div class="nav-item" data-view="global">Global Effects</div>
+        <div class="nav-item" data-view="history">History</div>
+      </nav>
+
+      <section class="content" id="panel-content">
+        <h1>Mythos</h1>
+
+        <div class="card-view">
+          <div class="card-art" aria-hidden="true">ART</div>
+
+          <div class="card-meta">
+            <h2 id="card-title">Card title</h2>
+            <p class="muted" id="card-sub">Resolve effect, open gates </p>
+
+            <div class="card-text" id="card-body">Card text — long effect copy goes here. Use this area to show consequences and quick buttons for common effects (e.g. "Spawn Monster", "Advance Doom").</div>
+
+            <div class="controls">
+              <button class="btn" id="draw-mythos">Draw Next Mythos</button>
+              <button class="btn" id="apply-btn">Apply effect</button>
+              <button class="btn" id="apply-btn">Replace Environment effect</button>
+              <button class="btn" id="apply-btn">Replace Rumor effect</button>
+              <button class="btn" id="apply-btn">Undo Last Action</button>
+              <label class="muted" style="margin-left:6px">Auto update state</label>
+            </div>
+          </div>
+        </div>
+
+        <h1>Environment</h1>
+
+        <div class="card-view">
+          <div class="card-art" aria-hidden="true">ART</div>
+
+          <div class="card-meta">
+            <h2 id="card-title">Card title</h2>
+            <p class="muted" id="card-sub">Stays in effect until a new environment card is drawn</p>
+
+            <div class="card-text" id="card-body">Card text — long effect copy goes here. Use this area to show consequences and quick buttons for common effects (e.g. "Spawn Monster", "Advance Doom").</div>
+
+            <div class="controls">
+              <button class="btn" id="apply-btn">Apply effect</button>
+              
+              <label class="muted" style="margin-left:6px">Auto update state</label>
+            </div>
+          </div>
+        </div>
+
+        <h1>Rumor</h1>
+
+        <div class="card-view">
+          <div class="card-art" aria-hidden="true">ART</div>
+
+          <div class="card-meta">
+            <h2 id="card-title">Card title</h2>
+            <p class="muted" id="card-sub">No Rumor on set up. Ignore new rumors until Pass/Fail</p>
+
+            <div class="card-text" id="card-body">Card text — long effect copy goes here. Use this area to show consequences and quick buttons for common effects (e.g. "Spawn Monster", "Advance Doom").</div>
+
+            <div class="controls">
+              <button class="btn" id="apply-btn">Apply effect</button>
+              <button class="btn" id="apply-btn">Resolve effect</button>
+              <button class="btn" id="apply-btn">Undo Last Action</button>
+              <label class="muted" style="margin-left:6px">Auto update state</label>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <aside class="right-panel" aria-label="Quick actions and summary">
+
+        <div class="muted" style="margin-bottom:8px">Active Mythos Effects</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="padding:10px;border-radius:8px;background:#fff;border:1px solid var(--border)">Effect: Rain of Madness</div>
+          <div style="padding:10px;border-radius:8px;background:#fff;border:1px solid var(--border)">Effect: Shifting Gates</div>
+        </div>
+
+        <hr style="margin:18px 0;border:none;border-top:1px dashed var(--border)" />
+
+        <div class="muted" style="margin-bottom:8px">Terror Effects (3/10)</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="padding:10px;border-radius:8px;background:#fff;border:1px solid var(--border)">3: General Store Closed</div>
+          <div style="padding:10px;border-radius:8px;background:#fff;border:1px solid var(--border)">6: Curiositie Shoppe Closed</div>
+          <div style="padding:10px;border-radius:8px;background:#fff;border:1px solid var(--border)">9: Magick Shoppe Closed</div>
+          <div style="padding:10px;border-radius:8px;background:#fff;border:1px solid var(--border)">10: No Monster Limit</div>
+        </div>
+        <div class="muted" style="margin-bottom:8px">Every time the terror increases, remove an unclaimed Ally and discard all Barred cards</div>
+
+        <hr style="margin:18px 0;border:none;border-top:1px dashed var(--border)" />
+
+        <div class="muted">Monster Limit (#p+3)</div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <div class="pill">Gates: <strong id="gates-val">2</strong></div>
+          
+        </div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <div class="pill">Gates: <strong id="gates-val">2</strong></div>
+          <div class="pill">Clues: <strong id="clues-val-2">8</strong></div>
+        </div>
+
+        <hr style="margin:18px 0;border:none;border-top:1px dashed var(--border)" />
+
+        <div class="muted">Quick counters</div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <div class="pill">Gates: <strong id="gates-val">2</strong></div>
+          <div class="pill">Clues: <strong id="clues-val-2">8</strong></div>
+        </div>
+
+      </aside>
+    </main>
+  </div>
+
+  <script>
+    // tiny interactive bits so the template feels live
+    const doomVal = document.getElementById('doom-val');
+    const drawBtn = document.getElementById('draw-mythos');
+    const applyBtn = document.getElementById('apply-btn');
+    const gooTile = document.getElementById('goo-tile');
+    const cardTitle = document.getElementById('card-title');
+    const cardBody = document.getElementById('card-body');
+
+    let doom = 5;
+
+    function setCard(title, body) {
+      cardTitle.textContent = title;
+      cardBody.textContent = body;
+    }
+
+    drawBtn.addEventListener('click', ()=>{
+      // simple demo: draw a Mythos that advances doom
+      setCard('The Great Old One Stirs', 'Advance Doom by 2. If Doom >= 9, the Great Old One awakens.');
+      // visual cue
+      gooTile.classList.add('goo-alert');
+      setTimeout(()=>gooTile.classList.remove('goo-alert'),1400);
+    });
+
+    applyBtn.addEventListener('click', ()=>{
+      // apply the sample effect
+      doom += 2;
+      doomVal.textContent = doom;
+      if (doom >= 9) {
+        setCard('The Great Old One Awakens!', 'Awakening sequence triggered — tap the GOO tile for setup instructions.');
+        gooTile.classList.add('goo-alert');
+      }
+    });
+
+    // nav behaviour (switch panels - this is a skeleton)
+    document.querySelectorAll('.nav-item').forEach(item=>{
+      item.addEventListener('click', ()=>{
+        document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));
+        item.classList.add('active');
+        const view = item.dataset.view;
+        // minimal view switch: update header title
+        document.querySelector('.content h1').textContent = item.textContent;
+        // small per-view hints
+        switch(view){
+          case 'goo':
+            setCard('Great Old One — Nyarlathotep', 'Open GOO screen for lore, awakening conditions, and combat setup.');
+            break;
+          case 'global':
+            setCard('Global Effects', 'List of currently active world effects and controls to toggle or remove them.');
+            break;
+          case 'encounters':
+            setCard('Encounters', 'Pick an encounter deck and draw cards.');
+            break;
+          default:
+            setCard(item.textContent, 'Use this panel to interact with ' + item.textContent + '.');
+        }
+      })
+    })
+
+    // GOO tile click opens GOO view
+    gooTile.addEventListener('click', ()=>{
+      document.querySelector('[data-view=goo]').click();
+    });
+  </script>
+</body>
+</html>
