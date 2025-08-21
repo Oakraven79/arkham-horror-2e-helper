@@ -15,6 +15,7 @@ body {
 }
 
 .card {
+  position: relative;
   width: 275px;
   height: 440px;
   background: radial-gradient(circle at 50% 30%, #f5e6c4 0%, #e0cfa9 60%, #d4b98b 100%);
@@ -35,6 +36,94 @@ body {
   object-position: center;
   display: block;      /* removes baseline spacing */
 }
+
+
+.mythoscardfront {
+  width: 275px;
+  height: 440px;
+  position: relative;
+  
+  background-color: #bebebe; /* parchment tan, shows through PNG transparency */
+  border: 8px solid #1d1d1d;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: 'IM Fell English', serif;
+  flex-shrink: 0;  /* don’t let flexbox squeeze it */
+  background-image: url('mythos front.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; /* or contain (see below) */
+}
+
+/* bottom-right box */
+.corner-box {
+  position: absolute;
+  bottom: 0.5rem;  /* ✅ anchors it at bottom */
+  right: 0.5rem;   /* ✅ anchors it at right */
+
+
+  display: flex;
+  flex-direction: column;
+
+  height: 25%;    /* 🟢 25% of card height */
+  width: 55%;
+
+  border: 3px solid #1d1d1d;   /* 🟢 border here */
+  box-shadow: 0 0 10px #1d1d1d;
+
+
+  border-radius: 6px;
+  overflow: hidden;
+  text-align: center;
+  font-size: 0.8rem;
+  z-index: 3; /* keeps it above background */
+}
+
+.corner-box .top,
+.corner-box .bottom {
+  flex: 1; /* each half fills 50% of the box height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.corner-box .top {
+  background: #ddd;
+  color: #000;
+  padding: 0.25rem;
+}
+
+.corner-box .bottom {
+  background: #000;
+  color: #fff;
+  padding: 0.25rem;
+}
+
+
+.circle-badge {
+  position: absolute;
+  bottom: 7%;
+  left: 1.8%;
+
+  width: 95px;   /* make it a square */
+  height: 95px;
+  border-radius: 50%;       /* 🟢 makes it a circle */
+  border: 3px solid rgb(0, 0, 0);  /* optional border */
+  overflow: hidden;         /* ensures image stays inside circle */
+  z-index: 3;
+}
+
+.circle-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* fills circle without distortion */
+  display: block;
+}
+
+
 
 /* Title Ribbon */
 .title {
@@ -103,6 +192,18 @@ body {
 
 <div class="card">
   <div class="image"><img src="mythos_backing.jpg"></div>
+</div>
+
+<div class="mythoscardfront">
+  <div class="corner-box">
+    <div class="top">+2</div>
+    <div class="bottom">Horror</div>
+  </div>
+
+  <div class="circle-badge">
+    <img src="old-house.jpg" alt="icon">
+  </div>
+
 </div>
 
 </body>
