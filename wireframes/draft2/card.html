@@ -91,7 +91,7 @@ body {
 }
 
 .corner-box .top {
-  background: #ddd;
+  background: rgb(211, 211, 211); /* semi-transparent red for demo */
   color: #000;
   padding: 0.25rem;
 }
@@ -111,9 +111,10 @@ body {
   width: 95px;   /* make it a square */
   height: 95px;
   border-radius: 50%;       /* 🟢 makes it a circle */
-  border: 3px solid rgb(0, 0, 0);  /* optional border */
+  border: 3px solid #1d1d1d;   /* 🟢 border here */
+  box-shadow: 0 0 10px #1d1d1d;
   overflow: hidden;         /* ensures image stays inside circle */
-  z-index: 3;
+  z-index: 1;
 }
 
 .circle-badge img {
@@ -123,6 +124,24 @@ body {
   display: block;
 }
 
+.square-badge {
+  position: absolute;
+  bottom: 0.5rem;  /* ✅ anchors it at bottom */       /* adjust so it overlaps the circle */
+  left: 1.5%;   /* ✅ anchors it at right */
+  width: 35%;         /* size of the square */
+  height: 9%;
+  background: #ddd; /* semi-transparent red for demo */
+  border: 3px solid #1d1d1d;   /* 🟢 border here */
+  box-shadow: 0 0 10px #1d1d1d;
+  z-index: 2;          /* lower than circle to sit underneath */
+  border-radius: 6px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+
+}
 
 
 /* Title Ribbon */
@@ -203,6 +222,8 @@ body {
   <div class="circle-badge">
     <img src="old-house.jpg" alt="icon">
   </div>
+
+  <div class="square-badge">The Witch<br>House</div>
 
 </div>
 
