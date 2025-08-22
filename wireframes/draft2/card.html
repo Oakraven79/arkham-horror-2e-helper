@@ -6,6 +6,10 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=IM+Fell+English&display=swap');
 
+:root {
+  --card-width: 335px; 
+}
+
 body {
   background: #2b2b2b;
   display: flex;
@@ -15,10 +19,9 @@ body {
 }
 
 
-
 .card {
   position: relative;
-  width: 330px;
+  width: var(--card-width);
   aspect-ratio: 55/88;
   background: radial-gradient(circle at 50% 30%, #f5e6c4 0%, #e0cfa9 60%, #d4b98b 100%);
   border: 8px solid #1d1d1d;
@@ -42,7 +45,7 @@ body {
 
 .mythoscardfront {
   position: relative;
-  width: 330px;
+  width: var(--card-width);
   aspect-ratio: 55/88;
 
   background-color: #bebebe; /* parchment tan, shows through PNG transparency */
@@ -145,7 +148,7 @@ body {
 
 }
 
-.text-overlay {
+.mythodcardheaderbox {
   position: absolute;
   top: 1%;    /* center vertically */
  
@@ -164,19 +167,57 @@ body {
 
 
 .mythodcardtitle {
-  font-size: 1.5rem;
-  font-weight: 1.2rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.6em;
+  font-weight: 1.2em;
+  margin-bottom: 0.5em;
 }
 
 .mythodcardtype {
-  font-size: 1.0rem;
-  font-weight: 0.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.2em;
+  font-weight: 0.5em;
+  margin-bottom: 0.5em;
   font-style: italic;
 }
 
+.mythodcarddesc {
+  font-size: 1em;
+  font-weight: 0.5em;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  position: absolute;
+  top: 20%;          /* starts 30% down from the top of the card */
+  left: 50%;         /* anchor at horizontal center */
+  transform: translateX(-50%); /* shift back so it’s actually centered */
+  
+  width: 83%;        /* 70% of card width */
+  text-align: center;
+  font-family:'Times New Roman', Times, serif;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
 
+.mythodcarddesc h3{
+  margin-bottom: 0.25em;  /* add smaller spacing if you want */
+  margin-top: 0.5em;
+}
+
+
+.mythodcarddesc-small {
+  font-size: .75em;
+  font-weight: 0.5em;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  position: absolute;
+  top: 16%;          /* starts 30% down from the top of the card */
+  left: 50%;         /* anchor at horizontal center */
+  transform: translateX(-50%); /* shift back so it’s actually centered */
+  
+  width: 83%;        /* 70% of card width */
+  text-align: center;
+  font-family:'Times New Roman', Times, serif;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
 
 </style>
 </head>
@@ -197,10 +238,11 @@ body {
 
 
 <div class="mythoscardfront">
-  <div class="text-overlay">
+  <div class="mythodcardheaderbox">
     <div class="mythodcardtitle">Fourth Of July Parade!</div>
     <div class="mythodcardtype">Headline</div>
   </div>
+  <div class="mythodcarddesc">Investigators cannot move into or out of the Merchant District street until the end of the next turn. Leave this card in play until then to indicate this.<h3>Close:</h3> Merchant District Streets <h3>Clue Appears at:</h3>Black Cave</div>
   <div class="corner-box">
     <div class="top">+2</div>
     <div class="bottom">Horror</div>
@@ -213,10 +255,12 @@ body {
 
 
 <div class="mythoscardfront">
-  <div class="text-overlay">
+  <div class="mythodcardheaderbox">
     <div class="mythodcardtitle">The Chill of the Grave</div>
     <div class="mythodcardtype">Environment (Mystic)</div>
+    
   </div>
+  <div class="mythodcarddesc">All <i>Undead</i> Monsters have their toughness increased by 1.<h3>Clue Appears at:</h3>Science Building</div>
   <div class="corner-box">
     <div class="top">+2</div>
     <div class="bottom">Horror</div>
@@ -229,11 +273,15 @@ body {
 
 
 <div class="mythoscardfront">
-  <div class="text-overlay">
+  <div class="mythodcardheaderbox">
     <div class="mythodcardtitle">Disturbing the Dead</div>
     <div class="mythodcardtype">Rumor</div>
     
   </div>
+  <div class="mythodcarddesc-small"><p><b>Ongoing Effect: </b> Roll a die at the end of every <b>Mythos Phase</b> while this is in play (Beginning the turn after it entered play). On a 1 or 2, increase the terror level by 1.</p>
+    <p><b>Pass:</b> If a player discards 2 gate trophies during the <b>Arkham Encounter Phase</b> while in the Rivertown Streets, return this card to the box. Each player draws 1 Spell.</p>
+    <p><b>Fail:</b> If the terror level reaches 10, return the card to the box. Every investigator is <i>Cursed</i>.</p>
+    <h3>Activity at:</h3>Rivertown Streets</div>
   <div class="corner-box">
     <div class="top">+2</div>
     <div class="bottom">Horror</div>
