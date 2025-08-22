@@ -41,10 +41,10 @@ body {
 
 
 .mythoscardfront {
+  position: relative;
   width: 330px;
   aspect-ratio: 55/88;
-  position: relative;
-  
+
   background-color: #bebebe; /* parchment tan, shows through PNG transparency */
   border: 8px solid #1d1d1d;
   border-radius: 12px;
@@ -150,7 +150,7 @@ body {
   top: 1%;    /* center vertically */
  
 
-  width: 80%;   /* control how wide the box is */
+  width: 90%;   /* control how wide the box is */
   padding: 1rem;
 
   background:transparent; /* 🟢 semi-transparent black */
@@ -160,6 +160,20 @@ body {
   justify-content: center;
   border-radius: 8px;
   z-index: 3;
+}
+
+
+.mythodcardtitle {
+  font-size: 1.5rem;
+  font-weight: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.mythodcardtype {
+  font-size: 1.0rem;
+  font-weight: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-style: italic;
 }
 
 
@@ -183,25 +197,54 @@ body {
 
 
 <div class="mythoscardfront">
-
   <div class="text-overlay">
-Fourth Of July Parade!
-
+    <div class="mythodcardtitle">Fourth Of July Parade!</div>
+    <div class="mythodcardtype">Headline</div>
   </div>
-
-
   <div class="corner-box">
     <div class="top">+2</div>
     <div class="bottom">Horror</div>
   </div>
-
   <div class="circle-badge">
     <img src="old-house.jpg" alt="icon">
   </div>
-
   <div class="square-badge">The Witch<br>House</div>
-
 </div>
+
+
+<div class="mythoscardfront">
+  <div class="text-overlay">
+    <div class="mythodcardtitle">The Chill of the Grave</div>
+    <div class="mythodcardtype">Environment (Mystic)</div>
+  </div>
+  <div class="corner-box">
+    <div class="top">+2</div>
+    <div class="bottom">Horror</div>
+  </div>
+  <div class="circle-badge">
+    <img src="isle.jpg" alt="icon">
+  </div>
+  <div class="square-badge">Univisited<br>Isle</div>
+</div>
+
+
+<div class="mythoscardfront">
+  <div class="text-overlay">
+    <div class="mythodcardtitle">Disturbing the Dead</div>
+    <div class="mythodcardtype">Rumor</div>
+    
+  </div>
+  <div class="corner-box">
+    <div class="top">+2</div>
+    <div class="bottom">Horror</div>
+  </div>
+  <div class="circle-badge">
+    <img src="cave.jpg" alt="icon">
+  </div>
+  <div class="square-badge">Black<br>Cave</div>
+</div>
+
+
 
 </body>
 </html>
