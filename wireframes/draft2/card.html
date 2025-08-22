@@ -91,8 +91,12 @@ body {
 .corner-box .bottom {
   flex: 1; /* each half fills 50% of the box height */
   display: flex;
+  flex-direction: row;       /* 🟢 images/text flow left→right */
   align-items: center;
   justify-content: center;
+  gap: 0.25rem;              /* space between items */
+  overflow: hidden;   
+
 }
 
 .corner-box .top {
@@ -105,6 +109,16 @@ body {
   background: #000;
   color: #fff;
   padding: 0.25rem;
+}
+
+.corner-box .top img,
+.corner-box .bottom img {
+  max-width: 80%;
+  max-height: 80%;
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.9));
 }
 
 
@@ -244,7 +258,7 @@ body {
   </div>
   <div class="mythodcarddesc">Investigators cannot move into or out of the Merchant District street until the end of the next turn. Leave this card in play until then to indicate this.<h3>Close:</h3> Merchant District Streets <h3>Clue Appears at:</h3>Black Cave</div>
   <div class="corner-box">
-    <div class="top">+2</div>
+    <div class="top"><img src="crescent-moon-icon.png"><img src="crescent-moon-icon.png"></div>
     <div class="bottom">Horror</div>
   </div>
   <div class="circle-badge">
@@ -263,7 +277,7 @@ body {
   <div class="mythodcarddesc">All <i>Undead</i> Monsters have their toughness increased by 1.<h3>Clue Appears at:</h3>Science Building</div>
   <div class="corner-box">
     <div class="top">+2</div>
-    <div class="bottom">Horror</div>
+    <div class="bottom"><img src="crescent-moon-icon.png"></div>
   </div>
   <div class="circle-badge">
     <img src="isle.jpg" alt="icon">
@@ -283,8 +297,8 @@ body {
     <p><b>Fail:</b> If the terror level reaches 10, return the card to the box. Every investigator is <i>Cursed</i>.</p>
     <h3>Activity at:</h3>Rivertown Streets</div>
   <div class="corner-box">
-    <div class="top">+2</div>
-    <div class="bottom">Horror</div>
+    <div class="top"><img src="triangle-icon.png"></div>
+    <div class="bottom"><img src="hexagon-icon.png"></div>
   </div>
   <div class="circle-badge">
     <img src="cave.jpg" alt="icon">
