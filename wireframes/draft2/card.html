@@ -9,12 +9,13 @@
 :root {
   --card-width: 335px; 
 }
-
 body {
   background: #2b2b2b;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;  /* ← allows items to go to a new line */
+  gap: 1rem;        /* optional, adds spacing between wrapped items */
   height: 100vh;
 }
 
@@ -48,10 +49,10 @@ body {
   width: var(--card-width);
   aspect-ratio: 55/88;
 
-  background-color: #bebebe; /* parchment tan, shows through PNG transparency */
+  background-color: #dbdbdb; /* parchment tan, shows through PNG transparency */
   border: 8px solid #1d1d1d;
   border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -268,6 +269,15 @@ body {
   background: transparent; /* default = off */
 }
 
+
+.otherworldcardfront .center-panel h1,
+.otherworldcardfront .center-panel h2,
+.otherworldcardfront .center-panel h3 {
+  text-align: center;
+  margin: 0.4rem 0; /* much smaller than default */
+}
+
+
 /* different color variants */
 .otherworldcardfront.blue::after {
   background: rgba(0, 150, 255, 0.3);
@@ -295,8 +305,16 @@ body {
 
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); /* drop shadow */
   z-index: 2; /* above overlay */
+  text-align: center; /* ✅ centers all text inside */
 }
 
+.otherworldcardfront .center-panel p {
+  font-size: 1.05rem;
+  text-align: justify;  /* paragraphs justified */
+  margin: 0.25rem 0;   /* shrink gap */
+  padding: 0.1rem 1.3rem;     /* top/bottom = 0.5rem, left/right = 2rem */
+  font-family:'Times New Roman', Times, serif;
+}
 
 </style>
 </head>
@@ -381,23 +399,50 @@ body {
 <div class="otherworldcardfront blue">
   <div class="center-panel">
     <!-- You can put text, icons, or keep it empty -->
+     <h2>Abyss</h2>
+     <p>The caverns split. Make a <b>Luck(+1) check</b> and consult the chart below:</p>
+     <p>Successes:<br>0-1: Move to the Black Cave.<br>2: Move to The Dreamlands.<br>
+      3+: You enter a dark temple. Pass a <b>Luck (-1) check</b> to draw a Unique Item. </p>
+    
+     <h2>Celano</h2>
+     <p>The huge book opens nmoiselessly at your approach. If you choose you may read it, in which case you must pass a <b>Fight(-1)[2] check</b> to defeat its guardian. If you do, draw 3 Spells and keep 2 of them. If you fail, lose 3 stamina. </p>
+     <h2>Other</h2>
+     <p>A monster appears!</p>
   </div>
 </div>
 
 <div class="otherworldcardfront green">
   <div class="center-panel">
     <!-- You can put text, icons, or keep it empty -->
+    <h2>The Dreamlands</h2>
+    <p>You encounter the talking cats of Ulthar. Pass a <b>Will (+0) check</b> to draw 1 Spell.</p>
+    <h2>City Of The Great Race</h2>
+    <p>Pass a <b>Luck (-1) check</b> to find something useful among the incomprehensible artifacts. If so, draw 1 Unique Item.</p>
+    <h2>Other</h2>
+    <p>A glimpse of home give you hope. Gain 1 Sanity.</p>
   </div>
 </div>
 
 <div class="otherworldcardfront red">
   <div class="center-panel">
     <!-- You can put text, icons, or keep it empty -->
+     <h2>R'lyeh</h2>
+     <p>Pass a <b>Speed (-1) check</b> or you slip and slide down a barnacled surface, slashing your skin to ribbons. Lose 3 Stamina</p>
+     <h2>Abyss</h2>
+     <p>Pass a <b>Luck (-1) check</b> or you are faced with an enourmouse mountain with a strange symbol carved into it, as if by the claw of a gigantic creature. The world swims around you and you lose 3 Sanity.</p>
+     <h2>Other</h2>
+     <p>The obsidian door refuses to open. Pass a <b>Fight (-1) check</b> or stay here next turn struggling with it. </p>
   </div>
 </div>
 
 <div class="otherworldcardfront yellow">
   <div class="center-panel">
+    <h2>R'lyeh</h2>
+    <p>The stink of this place is unbearable. Pass a <b>Will (-1) check</b> or lose 1 Stamina, 1 Sanity and your lunch.</p>
+    <h2>City Of The Great Race</h2>
+    <p>In a flash of insight, you realise the purpose of the bladed artifact. Shivering, you put it back where you found it. Lose 1 Sanity but gain 1 Clue token.</p>
+    <h2>Other</h2>
+    <p>Time and space bend around you. Make a <b>Luck (-1) check</b>. If you pass, return to Arkham. If you fail, stay here next turn.</p>
     <!-- You can put text, icons, or keep it empty -->
   </div>
 </div>
