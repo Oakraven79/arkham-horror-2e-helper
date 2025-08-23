@@ -233,6 +233,71 @@ body {
   overflow-wrap: break-word;
 }
 
+
+
+/* Otherworld encounters*/
+
+.otherworldcardfront {
+  position: relative;
+  width: var(--card-width);
+  aspect-ratio: 55/88;
+
+  background-color: #bebebe; /* parchment tan, shows through PNG transparency */
+  border: 8px solid #1d1d1d;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: 'IM Fell English', serif;
+  flex-shrink: 0;  /* don’t let flexbox squeeze it */
+  background-image: url('otherworld encounter front.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; /* or contain (see below) */
+}
+
+
+
+/* add the overlay layer */
+.otherworldcardfront::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: transparent; /* default = off */
+}
+
+/* different color variants */
+.otherworldcardfront.blue::after {
+  background: rgba(0, 150, 255, 0.3);
+}
+.otherworldcardfront.red::after {
+  background: rgba(255, 0, 0, 0.3);
+}
+.otherworldcardfront.green::after {
+  background: rgba(0, 255, 0, 0.3);
+}
+.otherworldcardfront.yellow::after {
+  background: rgba(255, 255, 0, 0.3);
+}
+
+.otherworldcardfront .center-panel {
+  position: absolute;
+  top: 2%;
+  left: 2%;
+  right: 2%;
+  bottom: 2%;
+
+  background: rgba(206, 205, 205, 0.6); /* semi-transparent grey */
+  border: 3px solid black;           /* black border */
+  border-radius: 8px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); /* drop shadow */
+  z-index: 2; /* above overlay */
+}
+
+
 </style>
 </head>
 <body>
@@ -241,10 +306,8 @@ body {
 
 
 
-<div class="card">
-  <div class="image"><img src="otherworld_encounter.jpg"></div>
-</div>
 
+<!--Mythos card wireframes -->
 <div class="card">
   <div class="image"><img src="mythos_backing.jpg"></div>
 </div>
@@ -304,6 +367,39 @@ body {
     <img src="cave.jpg" alt="icon">
   </div>
   <div class="square-badge">Black<br>Cave</div>
+</div>
+
+
+
+<!--Other world encounter wireframes -->
+
+
+<div class="card">
+  <div class="image"><img src="otherworld_encounter.jpg"></div>
+</div>
+
+<div class="otherworldcardfront blue">
+  <div class="center-panel">
+    <!-- You can put text, icons, or keep it empty -->
+  </div>
+</div>
+
+<div class="otherworldcardfront green">
+  <div class="center-panel">
+    <!-- You can put text, icons, or keep it empty -->
+  </div>
+</div>
+
+<div class="otherworldcardfront red">
+  <div class="center-panel">
+    <!-- You can put text, icons, or keep it empty -->
+  </div>
+</div>
+
+<div class="otherworldcardfront yellow">
+  <div class="center-panel">
+    <!-- You can put text, icons, or keep it empty -->
+  </div>
 </div>
 
 
