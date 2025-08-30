@@ -10,7 +10,7 @@
   --card-width: 335px; 
 }
 body {
-  background: #2b2b2b;
+  background: #a1a1a1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -236,7 +236,87 @@ body {
 
 
 
-/* Otherworld encounters*/
+
+
+
+
+
+</style>
+</head>
+<body>
+
+<!-- Cards are 55mm x 88mm  for mythos, encounter and otherworld encounter -->
+
+
+
+
+<!--Mythos card wireframes -->
+<div class="card">
+  <div class="image"><img src="mythos_backing.jpg"></div>
+</div>
+
+
+
+<div class="mythoscardfront">
+  <div class="mythodcardheaderbox">
+    <div class="mythodcardtitle">Fourth Of July Parade!</div>
+    <div class="mythodcardtype">Headline</div>
+  </div>
+  <div class="mythodcarddesc">Investigators cannot move into or out of the Merchant District street until the end of the next turn. Leave this card in play until then to indicate this.<h3>Close:</h3> Merchant District Streets <h3>Clue Appears at:</h3>Black Cave</div>
+  <div class="corner-box">
+    <div class="top"><img src="crescent-moon-icon.png"></div>
+    <div class="bottom"><img src="cross-icon.png"></div>
+  </div>
+  <div class="circle-badge">
+    <img src="old-house.jpg" alt="icon">
+  </div>
+  <div class="square-badge">The Witch<br>House</div>
+</div>
+
+
+<div class="mythoscardfront">
+  <div class="mythodcardheaderbox">
+    <div class="mythodcardtitle">The Chill of the Grave</div>
+    <div class="mythodcardtype">Environment (Mystic)</div>
+    
+  </div>
+  <div class="mythodcarddesc">All <i>Undead</i> Monsters have their toughness increased by 1.<h3>Clue Appears at:</h3>Science Building</div>
+  <div class="corner-box">
+    <div class="top"><img src="cross-icon.png"></div>
+    <div class="bottom"><img src="crescent-moon-icon.png"></div>
+  </div>
+  <div class="circle-badge">
+    <img src="isle.jpg" alt="icon">
+  </div>
+  <div class="square-badge">Univisited<br>Isle</div>
+</div>
+
+
+<div class="mythoscardfront">
+  <div class="mythodcardheaderbox">
+    <div class="mythodcardtitle">Disturbing the Dead</div>
+    <div class="mythodcardtype">Rumor</div>
+    
+  </div>
+  <div class="mythodcarddesc-small"><p><b>Ongoing Effect: </b> Roll a die at the end of every <b>Mythos Phase</b> while this is in play (Beginning the turn after it entered play). On a 1 or 2, increase the terror level by 1.</p>
+    <p><b>Pass:</b> If a player discards 2 gate trophies during the <b>Arkham Encounter Phase</b> while in the Rivertown Streets, return this card to the box. Each player draws 1 Spell.</p>
+    <p><b>Fail:</b> If the terror level reaches 10, return the card to the box. Every investigator is <i>Cursed</i>.</p>
+    <h3>Activity at:</h3>Rivertown Streets</div>
+  <div class="corner-box">
+    <div class="top"><img src="left-lean-icon.png"><img src="triangle-icon.png"><img src="star-icon.png"></div>
+    <div class="bottom"><img src="hexagon-icon.png"></div>
+  </div>
+  <div class="circle-badge">
+    <img src="cave.jpg" alt="icon">
+  </div>
+  <div class="square-badge">Black<br>Cave</div>
+</div>
+
+
+
+<!--Other world encounter wireframes -->
+<style>
+  /* Otherworld encounters*/
 
 .otherworldcardfront {
   position: relative;
@@ -317,80 +397,6 @@ body {
 }
 
 </style>
-</head>
-<body>
-
-<!-- Cards are 55mm x 88mm  for mythos, encounter and otherworld encounter -->
-
-
-
-
-<!--Mythos card wireframes -->
-<div class="card">
-  <div class="image"><img src="mythos_backing.jpg"></div>
-</div>
-
-
-
-<div class="mythoscardfront">
-  <div class="mythodcardheaderbox">
-    <div class="mythodcardtitle">Fourth Of July Parade!</div>
-    <div class="mythodcardtype">Headline</div>
-  </div>
-  <div class="mythodcarddesc">Investigators cannot move into or out of the Merchant District street until the end of the next turn. Leave this card in play until then to indicate this.<h3>Close:</h3> Merchant District Streets <h3>Clue Appears at:</h3>Black Cave</div>
-  <div class="corner-box">
-    <div class="top"><img src="crescent-moon-icon.png"></div>
-    <div class="bottom"><img src="cross-icon.png"></div>
-  </div>
-  <div class="circle-badge">
-    <img src="old-house.jpg" alt="icon">
-  </div>
-  <div class="square-badge">The Witch<br>House</div>
-</div>
-
-
-<div class="mythoscardfront">
-  <div class="mythodcardheaderbox">
-    <div class="mythodcardtitle">The Chill of the Grave</div>
-    <div class="mythodcardtype">Environment (Mystic)</div>
-    
-  </div>
-  <div class="mythodcarddesc">All <i>Undead</i> Monsters have their toughness increased by 1.<h3>Clue Appears at:</h3>Science Building</div>
-  <div class="corner-box">
-    <div class="top"><img src="cross-icon.png"></div>
-    <div class="bottom"><img src="crescent-moon-icon.png"></div>
-  </div>
-  <div class="circle-badge">
-    <img src="isle.jpg" alt="icon">
-  </div>
-  <div class="square-badge">Univisited<br>Isle</div>
-</div>
-
-
-<div class="mythoscardfront">
-  <div class="mythodcardheaderbox">
-    <div class="mythodcardtitle">Disturbing the Dead</div>
-    <div class="mythodcardtype">Rumor</div>
-    
-  </div>
-  <div class="mythodcarddesc-small"><p><b>Ongoing Effect: </b> Roll a die at the end of every <b>Mythos Phase</b> while this is in play (Beginning the turn after it entered play). On a 1 or 2, increase the terror level by 1.</p>
-    <p><b>Pass:</b> If a player discards 2 gate trophies during the <b>Arkham Encounter Phase</b> while in the Rivertown Streets, return this card to the box. Each player draws 1 Spell.</p>
-    <p><b>Fail:</b> If the terror level reaches 10, return the card to the box. Every investigator is <i>Cursed</i>.</p>
-    <h3>Activity at:</h3>Rivertown Streets</div>
-  <div class="corner-box">
-    <div class="top"><img src="left-lean-icon.png"><img src="triangle-icon.png"><img src="star-icon.png"></div>
-    <div class="bottom"><img src="hexagon-icon.png"></div>
-  </div>
-  <div class="circle-badge">
-    <img src="cave.jpg" alt="icon">
-  </div>
-  <div class="square-badge">Black<br>Cave</div>
-</div>
-
-
-
-<!--Other world encounter wireframes -->
-
 
 <div class="card">
   <div class="image"><img src="otherworld_encounter.jpg"></div>
@@ -444,6 +450,198 @@ body {
     <h2>Other</h2>
     <p>Time and space bend around you. Make a <b>Luck (-1) check</b>. If you pass, return to Arkham. If you fail, stay here next turn.</p>
     <!-- You can put text, icons, or keep it empty -->
+  </div>
+</div>
+
+<!-- Now to do the arkham encounter cards -->
+<style>
+
+  /* Arkham Encounter Cards */
+.arkhamencountercard {
+  position: relative;
+  width: var(--card-width, 300px);
+  aspect-ratio: 55/88;
+  border: 8px solid #1d1d1d;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+  font-family: 'IM Fell English', serif;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.arkhamencountercardframe {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Mask applied to art stack */
+.fg-mask {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.fg-mask img {
+  flex: 1;
+  height: 33%;
+  object-fit: cover;
+}
+
+
+/* Mask applied to art stack */
+.fg-mask-half {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.fg-mask-half img {
+  flex: 1;
+  height: 50%;
+  object-fit: cover;
+}
+
+/* Frame image on top of stack */
+.arkhamencountercardframe .frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 1; /* below overlay */
+}
+
+
+ </style>
+
+<div class="arkhamencountercard">
+  <div class="arkhamencountercardframe">
+
+    <!-- art stack (cut by stencil) -->
+    <div class="fg-mask">
+      <img src="cave.jpg" alt="top">
+      <img src="old-house.jpg" alt="middle">
+      <img src="isle.jpg" alt="bottom">
+    </div>
+
+    <!-- visible frame -->
+    <img class="frame" src="arkham encounter.png" alt="frame">
+  </div>
+</div>
+
+<div class="arkhamencountercard">
+  <div class="arkhamencountercardframe">
+
+    <!-- art stack (cut by stencil) -->
+    <div class="fg-mask">
+      <img src="cave.jpg" alt="top">
+      <img src="old-house.jpg" alt="middle">
+      <img src="isle.jpg" alt="bottom">
+    </div>
+    <!-- visible frame -->
+    <img class="frame" src="arkham encounter yellow.png" alt="frame">
+  </div>
+</div>
+
+<div class="arkhamencountercard">
+  <div class="arkhamencountercardframe">
+
+    <!-- art stack (cut by stencil) -->
+    <div class="fg-mask">
+      <img src="cave.jpg" alt="top">
+      <img src="old-house.jpg" alt="middle">
+      <img src="isle.jpg" alt="bottom">
+    </div>
+    <!-- visible frame -->
+    <img class="frame" src="arkham encounter orange.png" alt="frame">
+  </div>
+</div>
+
+<div class="arkhamencountercard">
+  <div class="arkhamencountercardframe">
+
+    <!-- art stack (cut by stencil) -->
+    <div class="fg-mask">
+      <img src="cave.jpg" alt="top">
+      <img src="old-house.jpg" alt="middle">
+      <img src="isle.jpg" alt="bottom">
+    </div>
+
+    <!-- visible frame -->
+    <img class="frame" src="arkham encounter grey.png" alt="frame">
+  </div>
+</div>
+
+<div class="arkhamencountercard">
+  <div class="arkhamencountercardframe">
+
+    <!-- art stack (cut by stencil) -->
+    <div class="fg-mask">
+      <img src="cave.jpg" alt="top">
+      <img src="old-house.jpg" alt="middle">
+      <img src="isle.jpg" alt="bottom">
+    </div>
+    <!-- visible frame -->
+    <img class="frame" src="arkham encounter light grey.png" alt="frame">
+  </div>
+</div>
+
+<div class="arkhamencountercard">
+  <div class="arkhamencountercardframe">
+
+    <!-- art stack (cut by stencil) -->
+    <div class="fg-mask">
+      <img src="cave.jpg" alt="top">
+      <img src="old-house.jpg" alt="middle">
+      <img src="isle.jpg" alt="bottom">
+    </div>
+    <!-- visible frame -->
+    <img class="frame" src="arkham encounter purple.png" alt="frame">
+  </div>
+</div>
+<div class="arkhamencountercard">
+  <div class="arkhamencountercardframe">
+
+    <!-- art stack (cut by stencil) -->
+    <div class="fg-mask">
+      <img src="cave.jpg" alt="top">
+      <img src="old-house.jpg" alt="middle">
+      <img src="isle.jpg" alt="bottom">
+    </div>
+
+    <!-- visible frame -->
+    <img class="frame" src="arkham encounter brown.png" alt="frame">
+  </div>
+</div>
+
+<div class="arkhamencountercard">
+  <div class="arkhamencountercardframe">
+
+    <!-- art stack (cut by stencil) -->
+    <div class="fg-mask">
+      <img src="cave.jpg" alt="top">
+      <img src="old-house.jpg" alt="middle">
+      <img src="isle.jpg" alt="bottom">
+    </div>
+    <!-- visible frame -->
+    <img class="frame" src="arkham encounter green.png" alt="frame">
+  </div>
+</div>
+
+<div class="arkhamencountercard">
+  <div class="arkhamencountercardframe">
+
+    <!-- art stack (cut by stencil) -->
+    <div class="fg-mask-half">
+      <img src="cave.jpg" alt="top">
+      <img src="old-house.jpg" alt="middle">
+    </div>
+    <!-- visible frame -->
+    <img class="frame" src="arkham encounter blue.png" alt="frame">
   </div>
 </div>
 
