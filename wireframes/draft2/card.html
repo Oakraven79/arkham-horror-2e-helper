@@ -516,7 +516,40 @@ body {
 }
 
 
+
+/* Text on inside of encounter card  */
+
+.arkhamencountercardframe .center-panel {
+  position: absolute;
+  top: 5%;
+  left: 2%;
+  right: 2%;
+  bottom: 2%;
+
+  z-index: 2; /* above overlay */
+  text-align: center; /* ✅ centers all text inside */
+}
+
+.arkhamencountercardframe .center-panel p {
+  font-size: 0.8rem;
+  text-align: justify;  /* paragraphs justified */
+  margin: 0.25rem 0;   /* shrink gap */
+  padding: 0.1rem 1.3rem;     /* top/bottom = 0.5rem, left/right = 2rem */
+  font-family:'Times New Roman', Times, serif;
+}
+
+
+.arkhamencountercardframe .center-panel h1,
+.arkhamencountercardframe .center-panel h2,
+.arkhamencountercardframe .center-panel h3 {
+  text-align: center;
+  margin: 0.4rem 0; /* much smaller than default */
+}
+
  </style>
+
+
+
 <!-- REd - St Mary's Hospital, Woods and Ye Olde Magick Shoppe-->
 <div class="arkhamencountercard">
   <div class="arkhamencountercardframe">
@@ -530,6 +563,41 @@ body {
 
     <!-- visible frame -->
     <img class="frame" src="arkham encounter red.png" alt="frame">
+  </div>
+</div>
+
+<div class="arkhamencountercard">
+  <div class="arkhamencountercardframe">
+    <div class="center-panel">
+      <!-- You can put text, icons, or keep it empty -->
+      <h2>St. Mary's Hospital</h2>
+      <p>Nurse Sharon slips something into your
+hand when the doctor isn't looking. Pass
+a <b>Sneak (-1) check</b> to keep anyone else
+from noticing. If you do, you later examine
+the object and find it to be an old parchment
+with a spell scratched on it. Draw 1 Spell.
+If you fail, an orderly takes it away from
+you and you gain nothing.</p>
+      <h2>Woods</h2>
+      <p>You come across a cringing dog. Pass a
+<b>Speed (-2) check</b> to catch and calm him.
+If you have Food, you can discard that to
+automatically pass the check instead of
+rolling. You see by his collar that he is
+named <b>Duke</b>. Take his Ally card. If it isn't
+available, gain $3 as a reward for returning
+him to his owner, instead.</p>
+      <h2>Ye Olde Magick Shoppe</h2>
+      <p>Miriam Beecher talks to you for awhile,
+explaining some very interesting theories
+she has concerning the Mythos. Gain 1
+Clue token.</p>
+  </div>
+
+
+    <!-- visible frame -->
+    <img class="frame" src="arkham encounter red front.png" alt="frame">
   </div>
 </div>
 
@@ -548,6 +616,38 @@ body {
   </div>
 </div>
 
+<div class="arkhamencountercard">
+  <div class="arkhamencountercardframe">
+    <div class="center-panel">
+      <!-- You can put text, icons, or keep it empty -->
+      <h2>Administration Building</h2>
+      <p>Your discussions on the Mythos lead campus security to conclude that you are
+off your rocker, and they escort you off
+campus. Move to Arkham Asylum and
+immediately have an encounter there.
+
+</p>
+      <h2>Library</h2>
+      <p>Lose 1 Sanity.
+begins to whisper terrible things to you.
+A book in a shadowy corner of the library</p>
+      <h2>Science Building</h2>
+      <p>A chemical brew bubbles on a nearby
+Bunsen burner. It smells delicious. If you
+drink it, make a <b>Luck (+0) check</b>. If you
+pass, the strange liquid fortifies you. Roll
+a die and gain that many points, split
+between your Stamina and Sanity however
+you like. If you fail, the liquid turns out to
+be coffee. Gain 1 Stamina.</p>
+  </div>
+
+
+    <!-- visible frame -->
+    <img class="frame" src="arkham encounter yellow front.png" alt="frame">
+  </div>
+</div>
+
 <!-- Orange - Curioisitie Shoppe, Newspaper, Train Station -->
 <div class="arkhamencountercard">
   <div class="arkhamencountercardframe">
@@ -563,6 +663,40 @@ body {
   </div>
 </div>
 
+
+<div class="arkhamencountercard">
+  <div class="arkhamencountercardframe">
+    <div class="center-panel">
+      <!-- You can put text, icons, or keep it empty -->
+<h2>Curiositie Shoppe</h2>
+      <p>As you wander into the back of the shop,
+you hear a noise. Pass a <b>Speed (-1) check</b> or you look up just in time to see a
+descending club. Everything goes black.
+When you awaken, you are somewhere
+else. Draw a Mythos card and move to the
+gate location shown on it, then immediately
+have an encounter there.
+</p>
+      <h2>Newspaper</h2>
+      <p>You accidentally tip over a bottle of ink
+and are aghast at the pattern the ink forms
+on the newsroom floor. Lose 1 Sanity.</p>
+      <h2>Train Station</h2>
+      <p>A stranger in a turban steps off the Boston
+local train with a crazed look on his face.
+Make a <b>Luck (-1) check</b>. If you pass, the
+man pulls a strange object from beneath
+his cloak and gives it to you. Draw 1
+Unique Item. If you fail, he pulls a poisoned
+blade out of his cloak and stabs you. Roll
+a die and lose that much Stamina.</p>
+  </div>
+
+
+    <!-- visible frame -->
+    <img class="frame" src="arkham encounter orange front.png" alt="frame">
+  </div>
+</div>
 <!-- Dark Grey - Hibb Roadhouse, Police Station, Velmas Diner-->
 <div class="arkhamencountercard">
   <div class="arkhamencountercardframe">
@@ -576,6 +710,31 @@ body {
 
     <!-- visible frame -->
     <img class="frame" src="arkham encounter grey.png" alt="frame">
+  </div>
+</div>
+
+<div class="arkhamencountercard">
+  <div class="arkhamencountercardframe">
+    <div class="center-panel">
+      <!-- You can put text, icons, or keep it empty -->
+      <h2>Hibb's Roadhouse</h2>
+      <p>A stranger buys you a drink. You may
+search the Common Item deck for a
+Whiskey card and take it.</p>
+      <h2>Police Station</h2>
+      <p>Pass a Will (-1) check to convince Deputy Dingby to share some files with you that
+are very interesting. Gain 2 Clue tokens.</p>
+      <h2>Velma's Diner</h2>
+      <p>"This must be where pies go when they
+
+die." If you want, pay $1 to enjoy a fine
+
+slice of cherry pie. If you do, gain 2 Stamina.</p>
+  </div>
+
+
+    <!-- visible frame -->
+    <img class="frame" src="arkham encounter grey front.png" alt="frame">
   </div>
 </div>
 
@@ -595,6 +754,37 @@ body {
 
 <div class="arkhamencountercard">
   <div class="arkhamencountercardframe">
+    <div class="center-panel">
+      <!-- You can put text, icons, or keep it empty -->
+      <h2>Arkham Asylum</h2>
+      <p>Nurse Heather is coming! Make a <b>Speed
+
+(-1) check</b> to hide in time. If you pass, you
+see her drop something as she walks by. Draw 1 Unique Item. If you fail, she throws you out. Move to the street.</p>
+      <h2>Bank of Arkham</h2>
+      <p>A man wearing dirty and tattered clothing
+is loitering outside the bank. He offers to
+sell you his last possession to get some
+food money for him and his family. If you
+accept, pay $2 and make a <b>Luck (-1) check</b>.
+If you pass, draw 1 Unique Item. If you
+fail, draw 1 Common Item.</p>
+      <h2>Independence Square</h2>
+      <p>Make a <b>Will (-1) check</b>. If you pass it,
+<b>Anna Kaslow</b> the fortune teller offers her
+help in your investigation. Take her Ally
+card if it is still available. Otherwise, gain
+2 Clue tokens. If you fail, nothing happens.</p>
+  </div>
+
+
+    <!-- visible frame -->
+    <img class="frame" src="arkham encounter light grey front.png" alt="frame">
+  </div>
+</div>
+
+<div class="arkhamencountercard">
+  <div class="arkhamencountercardframe">
 
     <!-- art stack (cut by stencil) -->
     <div class="fg-mask">
@@ -606,6 +796,49 @@ body {
     <img class="frame" src="arkham encounter purple.png" alt="frame">
   </div>
 </div>
+
+<div class="arkhamencountercard">
+  <div class="arkhamencountercardframe">
+    <div class="center-panel">
+      <!-- You can put text, icons, or keep it empty -->
+      <h2>Black Cave</h2>
+      <p>A monster appears!</p>
+      <h2>General Store</h2>
+      <p>You notice that some of the locals have an
+odd, fish-like quality to them that sets your
+teeth on edge. The shopkeeper notices your
+gaze and nods, "Marsh stock, from over
+in Innsmouth. Watch yourself around
+them." Shivering, you lose 1 Sanity.</p>
+      <h2>Graveyard</h2>
+      <p>
+
+You find a man painting a picture of one
+of the horrible gargoyles lining the walls of the graveyard.
+
+Seeing you, he introduces himself as <b>Richard Upton Pickman</b>,
+
+a painter visiting from Boston. If you spend
+monster trophies that have a total of 5
+toughness, Pickman takes a liking to you.
+Take his Ally card. If it is not available, he
+teaches you an incantation instead. Draw 1 Spell.
+
+
+        
+  
+
+=</p>
+  </div>
+
+
+    <!-- visible frame -->
+    <img class="frame" src="arkham encounter purple front.png" alt="frame">
+  </div>
+</div>
+
+
+
 <div class="arkhamencountercard">
   <div class="arkhamencountercardframe">
 
@@ -618,6 +851,51 @@ body {
 
     <!-- visible frame -->
     <img class="frame" src="arkham encounter brown.png" alt="frame">
+  </div>
+</div>
+
+
+<div class="arkhamencountercard">
+  <div class="arkhamencountercardframe">
+    <div class="center-panel">
+      <!-- You can put text, icons, or keep it empty -->
+      <h2>Historical Society</h2>
+      <p>Perusing the county records, you discover
+something horrifying about your family
+tree. Lose 1 Sanity.</p>
+      <h2>Ma's Boarding House</h2>
+      <p>
+
+The last guest to stay in your room had to
+
+
+
+leave in a hurry and left something behind.Draw 1 Common Item.</p>
+      <h2>South Church</h2>
+      <p>
+        
+You enter the confessional. "Bless me,
+Father, for I have sinned." Make a Luck
+(+0) check and consult the chart below:</p>
+
+<p>Successes:<br>
+0) "Father? Are you there?" You hear a scream in the next compartment! Lose
+3 Sanity and move to the street.<br>
+1) "Father?" There is no answer Sighing,
+you leave. Move to the street.<br>
+2+) "I don't remember my last confession."
+Raise your Sanity to its maximum
+value.</p>
+
+
+
+
+      </p>
+  </div>
+
+
+    <!-- visible frame -->
+    <img class="frame" src="arkham encounter brown front.png" alt="frame">
   </div>
 </div>
 
@@ -637,6 +915,44 @@ body {
 
 <div class="arkhamencountercard">
   <div class="arkhamencountercardframe">
+    <div class="center-panel">
+      <!-- You can put text, icons, or keep it empty -->
+      <h2>River Docks</h2>
+      <p> As you look out across the waves, you feel strangely compelled to throw yourself into
+        
+        the ocean's watery embrace. Pass a <b>Will
+(+1) check </b> or you are <i>lost in time and space</i>.
+
+</p>
+      <h2>The Unnamable</h2>
+      <p>You hear the scurrying and squeaking of
+        a horde of rats from inside the walls.
+Abruptly, you realize that they are moving
+to surround you. Pass a <b>Speed (-1) check</b>
+to make it to the front door first. If you
+fail, you are lost in time and space.
+
+</p>
+      <h2>Unvisited Isle</h2>
+      <p>Looking up at the night sky from the island, you see constellations that you've never seen before. The entire night sky is different
+here! Lose 1 Sanity and gain 1 Clue token.
+
+
+
+
+
+</p>
+  </div>
+
+
+    <!-- visible frame -->
+    <img class="frame" src="arkham encounter green front.png" alt="frame">
+  </div>
+</div>
+
+
+<div class="arkhamencountercard">
+  <div class="arkhamencountercardframe">
 
     <!-- art stack (cut by stencil) -->
     <div class="fg-mask-half">
@@ -648,6 +964,42 @@ body {
   </div>
 </div>
 
+<div class="arkhamencountercard">
+  <div class="arkhamencountercardframe">
+    <div class="center-panel">
+      <!-- You can put text, icons, or keep it empty -->
+      <h2>Silver Twilight Lodge</h2>
+      <p>and keep one of your choice.
+Pass a<b>Lore (-1)</b> check to draw 2 Spells
+You find an old parchment in the study.</p>
+      <h2>Inner Sanctum</h2>
+      <p>You are allowed into the vault of Silver
+Secrets. Pass a <b>Luck (-2)</b> check to steal a
+very unusual item. Search the Unique Item
+deck and take any 1 Unique Item you want.</p>
+      <h2>The Witch House</h2>
+      <p>seen this symbol before?" A man standing
+Make a <b>Lore (-1) check</b>. If you pass, the
+man introduces himself as <b>Thomas F.
+Malone</b>, a police detective visiting Arkham
+on a case. He's impressed with you and
+offers to join you. Take his Ally card. If
+it's not available, he tells you some valuable
+information instead. Gain 2 Clue tokens.
+If you fail, nothing happens.
+
+"Excuse me, stranger, but have you ever
+
+The Witch House
+
+near the house holds up an occult symbol.</p>
+  </div>
+
+
+    <!-- visible frame -->
+    <img class="frame" src="arkham encounter blue front.png" alt="frame">
+  </div>
+</div>
 
 
 </body>
