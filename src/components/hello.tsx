@@ -1,6 +1,8 @@
 import React from 'react'
 
-function HelloWorld() {
+export interface HelloWorldProps {}
+
+export const HelloWorld = ({}: HelloWorldProps) => {
   return (
     <div style={{ padding: '20px', fontFamily: 'sans-serif', textAlign: 'center' }}>
       <h1>Hello, World!</h1>
@@ -8,5 +10,3 @@ function HelloWorld() {
     </div>
   )
 }
-
-export default HelloWorld

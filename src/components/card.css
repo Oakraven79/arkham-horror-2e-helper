@@ -1,0 +1,28 @@
+:root {
+  --card-width: 335px; 
+}
+body {
+  background: #a1a1a1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;  /* ← allows items to go to a new line */
+  gap: 1rem;        /* optional, adds spacing between wrapped items */
+  height: 100vh;
+}
+
+
+.card {
+  position: relative;
+  width: var(--card-width);
+  aspect-ratio: 55/88;
+  background: radial-gradient(circle at 50% 30%, #f5e6c4 0%, #e0cfa9 60%, #d4b98b 100%);
+  border: 8px solid #1d1d1d;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: 'IM Fell English', serif;
+  flex-shrink: 0;  /* don’t let flexbox squeeze it */
+}
