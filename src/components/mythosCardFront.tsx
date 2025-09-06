@@ -1,13 +1,28 @@
 import './card.css'
 
-export interface MythosCardFrontProps {}
+import { MonsterIcons } from './constants'
 
-export const MythosCardFront = ({}: MythosCardFrontProps) => {
+export interface MythosCardFrontProps {
+  /** Card title */
+  title: string
+  /** What type of card is this? */
+  cardType?: 'HeadLine' | 'Environment' | 'Environment (Mystic)' | 'Rumor'
+  /** Monster movement icons */
+  monsterMoveWhite: MonsterIcons[]
+  monsterMoveBlack: MonsterIcons[]
+}
+
+export const MythosCardFront = ({
+  title,
+  cardType,
+  monsterMoveWhite,
+  monsterMoveBlack,
+}: MythosCardFrontProps) => {
   return (
     <div className="mythoscardfront">
       <div className="mythodcardheaderbox">
-        <div className="mythodcardtitle">Fourth Of July Parade!</div>
-        <div className="mythodcardtype">Headline</div>
+        <div className="mythodcardtitle">{title}</div>
+        <div className="mythodcardtype">{cardType}</div>
       </div>
       <div className="mythodcarddesc">
         Investigators cannot move into or out of the Merchant District street until the end of the
@@ -25,7 +40,7 @@ export const MythosCardFront = ({}: MythosCardFrontProps) => {
       </div>
 
       <div className="mythos-portal-location">
-        <img src="/images/old-house.jpg" alt="icon" />
+        <img src="/images/old-house.jpg" />
       </div>
       <div className="mythos-portal-location-text">
         The Witch
