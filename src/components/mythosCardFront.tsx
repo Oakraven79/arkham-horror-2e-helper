@@ -1,13 +1,13 @@
 import './card.css'
 
-import { MonsterIcons } from './constants'
+import { MonsterIcons, getMonsterIconPath } from './constants'
 
 export interface MythosCardFrontProps {
   /** Card title */
   title: string
   /** What type of card is this? */
   cardType?: 'HeadLine' | 'Environment' | 'Environment (Mystic)' | 'Rumor'
-  /** Monster movement icons */
+  /** Monster movement for white and black */
   monsterMoveWhite: MonsterIcons[]
   monsterMoveBlack: MonsterIcons[]
 }
@@ -32,10 +32,14 @@ export const MythosCardFront = ({
 
       <div className="mythos-monster-corner-box">
         <div className="monster-top">
-          <img src="/images/crescent-moon-icon.png" />
+          {monsterMoveWhite.map((icon) => (
+            <img key={icon} src={getMonsterIconPath(icon)} alt={icon} />
+          ))}
         </div>
         <div className="monster-bottom">
-          <img src="/images/cross-icon.png" />
+          {monsterMoveBlack.map((icon) => (
+            <img key={icon} src={getMonsterIconPath(icon)} alt={icon} />
+          ))}
         </div>
       </div>
 

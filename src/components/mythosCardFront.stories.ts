@@ -34,6 +34,8 @@ export const HeadlineExample: Story = {
   args: {
     title: 'Fourth Of July Parade!',
     cardType: 'HeadLine',
+    monsterMoveWhite: ['crescentMoon'],
+    monsterMoveBlack: ['cross'],
   },
 }
 
@@ -41,5 +43,7 @@ export const EnvironmentExample: Story = {
   args: {
     title: 'The Chill of the Grave',
     cardType: 'Environment (Mystic)',
+    monsterMoveWhite: ['cross'],
+    monsterMoveBlack: ['crescentMoon'],
   },
 }
