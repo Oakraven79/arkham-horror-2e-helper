@@ -1,18 +1,9 @@
 :root {
   --card-width: 335px; 
 }
-body {
-  background: #a1a1a1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;  /* ← allows items to go to a new line */
-  gap: 1rem;        /* optional, adds spacing between wrapped items */
-  height: 100vh;
-}
 
-
-.card {
+/* Mythos Card back */
+.mythoscardback {
   position: relative;
   width: var(--card-width);
   aspect-ratio: 55/88;
@@ -26,3 +17,207 @@ body {
   font-family: 'IM Fell English', serif;
   flex-shrink: 0;  /* don’t let flexbox squeeze it */
 }
+
+.mythoscardback img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* scale + crop */
+  object-position: center;
+  display: block;      /* removes baseline spacing */
+}
+
+/* Mythos Card Front */
+
+.mythoscardfront {
+  position: relative;
+  width: var(--card-width);
+  aspect-ratio: 55/88;
+
+  background-color: #dbdbdb; /* parchment tan, shows through PNG transparency */
+  border: 8px solid #1d1d1d;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: 'IM Fell English', serif;
+  flex-shrink: 0;  /* don’t let flexbox squeeze it */
+  background-image: url('/images/mythosFront.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; /* or contain (see below) */
+}
+
+
+.mythodcardheaderbox {
+  position: absolute;
+  top: 1%;    /* center vertically */
+  width: 90%;   /* control how wide the box is */
+  padding: 1rem;
+  background:transparent; /* 🟢 semi-transparent black */
+  text-align: center;  
+  justify-content: center;
+  border-radius: 8px;
+  z-index: 3;
+}
+
+
+.mythodcardtitle {
+  font-size: 1.6em;
+  font-weight: 1.2em;
+  margin-bottom: 0.5em;
+}
+
+.mythodcardtype {
+  font-size: 1.2em;
+  font-weight: 0.5em;
+  margin-bottom: 0.5em;
+  font-style: italic;
+}
+
+.mythodcarddesc {
+  font-size: 1em;
+  font-weight: 0.5em;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  position: absolute;
+  top: 20%;          /* starts 30% down from the top of the card */
+  left: 50%;         /* anchor at horizontal center */
+  transform: translateX(-50%); /* shift back so it’s actually centered */
+  
+  width: 83%;        /* 70% of card width */
+  text-align: center;
+  font-family:'Times New Roman', Times, serif;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.mythodcarddesc h3{
+  margin-bottom: 0.25em;  /* add smaller spacing if you want */
+  margin-top: 0.5em;
+}
+
+
+.mythodcarddesc-small {
+  font-size: .75rem;
+  font-weight: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+  position: absolute;
+  top: 16%;          /* starts 30% down from the top of the card */
+  left: 50%;         /* anchor at horizontal center */
+  transform: translateX(-50%); /* shift back so it’s actually centered */
+  
+  width: 83%;        /* 70% of card width */
+  text-align: center;
+  font-family:'Times New Roman', Times, serif;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+
+/* bottom-right monster movement box */
+.mythos-monster-corner-box {
+  position: absolute;
+  bottom: 0.5rem;  /* ✅ anchors it at bottom */
+  right: 0.5rem;   /* ✅ anchors it at right */
+
+
+  display: flex;
+  flex-direction: column;
+
+  height: 25%;    /* 🟢 25% of card height */
+  width: 55%;
+
+  border: 3px solid #1d1d1d;   /* 🟢 border here */
+  box-shadow: 0 0 10px #1d1d1d;
+
+
+  border-radius: 6px;
+  overflow: hidden;
+  text-align: center;
+  font-size: 0.8rem;
+  z-index: 3; /* keeps it above background */
+}
+
+.mythos-monster-corner-box .monster-top,
+.mythos-monster-corner-box .monster-bottom {
+  flex: 1; /* each half fills 50% of the box height */
+  display: flex;
+  flex-direction: row;       /* 🟢 images/text flow left→right */
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;              /* space between items */
+  overflow: hidden;   
+
+}
+
+.mythos-monster-corner-box .monster-top {
+  background: rgb(211, 211, 211); /* semi-transparent red for demo */
+  color: #000;
+  padding: 0.25rem;
+}
+
+.mythos-monster-corner-box .monster-bottom {
+  background: #000;
+  color: #fff;
+  padding: 0.25rem;
+}
+
+.mythos-monster-corner-box .monster-top img,
+.mythos-monster-corner-box .monster-bottom img {
+  max-width: 80%;
+  max-height: 80%;
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(3px 3px 4px rgba(0,0,0,0.9));
+}
+
+/* Portal Location*/
+
+.mythos-portal-location {
+  position: absolute;
+  bottom: 7%;
+  left: 2.5%;
+
+  width: 34%;   /* make it a square */
+  aspect-ratio: 1;
+  border-radius: 50%;       /* 🟢 makes it a circle */
+  border: 3px solid #1d1d1d;   /* 🟢 border here */
+  box-shadow: 0 0 10px #1d1d1d;
+  overflow: hidden;         /* ensures image stays inside circle */
+  z-index: 1;
+}
+
+.mythos-portal-location img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* fills circle without distortion */
+  display: block;
+}
+
+.mythos-portal-location-text {
+  position: absolute;
+  bottom: 0.5rem;  /* ✅ anchors it at bottom */       /* adjust so it overlaps the circle */
+  left: 1.5%;   /* ✅ anchors it at right */
+  width: 35%;         /* size of the square */
+  height: 9%;
+  background: #ddd; /* semi-transparent red for demo */
+  border: 3px solid #1d1d1d;   /* 🟢 border here */
+  box-shadow: 0 0 10px #1d1d1d;
+  z-index: 2;          /* lower than circle to sit underneath */
+  border-radius: 6px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+
+}
+
+
+
+
+
+
