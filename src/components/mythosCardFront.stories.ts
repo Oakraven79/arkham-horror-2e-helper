@@ -48,8 +48,7 @@ Merchant District Streets
 Black Cave`,
     monsterMoveWhite: ['crescentMoon'],
     monsterMoveBlack: ['cross'],
-    portalLocation: `The Witch  
-    House`,
+    portalLocation: 'The Witch House',
   },
 }
 
@@ -57,7 +56,12 @@ export const EnvironmentExample: Story = {
   args: {
     title: 'The Chill of the Grave',
     cardType: 'Environment (Mystic)',
+    cardDescription: `All *Undead* Monsters have their toughness increased by 1.
+
+### Clue Appears at:
+Science Building`,
     monsterMoveWhite: ['cross'],
     monsterMoveBlack: ['crescentMoon'],
+    portalLocation: 'Unvisited Isle',
   },
 }

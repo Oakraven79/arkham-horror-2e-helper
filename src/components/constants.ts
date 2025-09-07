@@ -32,7 +32,7 @@ export const encounterLocations = [
     House`,
   },
   {
-    location: 'Unvisted Isle',
+    location: 'Unvisited Isle',
     file: '/images/isle.jpg',
     display: `Unvisited Isle`,
   },
