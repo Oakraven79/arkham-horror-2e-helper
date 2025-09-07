@@ -33,13 +33,15 @@ export const MythosCardFront = ({
 }: MythosCardFrontProps) => {
   const encounterObj = encounterLocationMap[portalLocation]
 
+  const descSizeClass = cardDescription.length > 250 ? 'mythodcarddesc-small' : 'mythodcarddesc'
+
   return (
     <div className="mythoscardfront">
       <div className="mythodcardheaderbox">
         <div className="mythodcardtitle">{title}</div>
         <div className="mythodcardtype">{cardType}</div>
       </div>
-      <div className="mythodcarddesc">
+      <div className={descSizeClass}>
         <ReactMarkdown>{cardDescription}</ReactMarkdown>
       </div>
 
