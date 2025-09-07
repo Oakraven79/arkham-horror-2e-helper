@@ -1,23 +1,38 @@
+import ReactMarkdown from 'react-markdown'
+
 import './card.css'
 
-import { MonsterIcons, getMonsterIconPath } from './constants'
+import {
+  MonsterIcons,
+  getMonsterIconPath,
+  EncounterLocation,
+  encounterLocationMap,
+} from './constants'
 
 export interface MythosCardFrontProps {
   /** Card title */
   title: string
   /** What type of card is this? */
   cardType?: 'HeadLine' | 'Environment' | 'Environment (Mystic)' | 'Rumor'
+  /** Mythos description */
+  cardDescription: string
   /** Monster movement for white and black */
   monsterMoveWhite: MonsterIcons[]
   monsterMoveBlack: MonsterIcons[]
+  /** Portal Location */
+  portalLocation: EncounterLocation
 }
 
 export const MythosCardFront = ({
   title,
   cardType,
+  cardDescription,
   monsterMoveWhite,
   monsterMoveBlack,
+  portalLocation,
 }: MythosCardFrontProps) => {
+  const encounterObj = encounterLocationMap[portalLocation]
+
   return (
     <div className="mythoscardfront">
       <div className="mythodcardheaderbox">
@@ -25,9 +40,7 @@ export const MythosCardFront = ({
         <div className="mythodcardtype">{cardType}</div>
       </div>
       <div className="mythodcarddesc">
-        Investigators cannot move into or out of the Merchant District street until the end of the
-        next turn. Leave this card in play until then to indicate this.<h3>Close:</h3> Merchant
-        District Streets <h3>Clue Appears at:</h3>Black Cave
+        <ReactMarkdown>{cardDescription}</ReactMarkdown>
       </div>
 
       <div className="mythos-monster-corner-box">
@@ -44,12 +57,10 @@ export const MythosCardFront = ({
       </div>
 
       <div className="mythos-portal-location">
-        <img src="/images/old-house.jpg" />
+        <img src={encounterObj.file} />
       </div>
       <div className="mythos-portal-location-text">
-        The Witch
-        <br />
-        House
+        <ReactMarkdown>{encounterObj.display}</ReactMarkdown>
       </div>
     </div>
   )

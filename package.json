@@ -31,6 +31,7 @@
     "next": "15.4.4",
     "payload": "3.50.0",
     "react": "19.1.0",
+    "react-markdown": "^10.1.0",
     "sharp": "0.34.2"
   },
   "devDependencies": {
@@ -40,11 +41,14 @@
     "@storybook/addon-docs": "^9.1.4",
     "@storybook/addon-onboarding": "^9.1.4",
     "@storybook/addon-vitest": "^9.1.4",
+    "@storybook/nextjs-vite": "^9.1.4",
     "@testing-library/react": "16.3.0",
     "@types/node": "^22.5.4",
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
     "@vitejs/plugin-react": "4.5.2",
+    "@vitest/browser": "3.2.3",
+    "@vitest/coverage-v8": "3.2.3",
     "eslint": "^9.16.0",
     "eslint-config-next": "15.4.4",
     "eslint-plugin-storybook": "^9.1.4",
@@ -55,10 +59,7 @@
     "storybook": "^9.1.4",
     "typescript": "5.7.3",
     "vite-tsconfig-paths": "5.1.4",
-    "vitest": "3.2.3",
-    "@storybook/nextjs-vite": "^9.1.4",
-    "@vitest/browser": "3.2.3",
-    "@vitest/coverage-v8": "3.2.3"
+    "vitest": "3.2.3"
   },
   "engines": {
     "node": "^18.20.2 || >=20.9.0",
