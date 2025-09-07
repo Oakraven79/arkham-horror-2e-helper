@@ -7,7 +7,7 @@ import { monsterIcons, encounterLocationNames } from './constants'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Mythos Cards/MythosCardFront',
+  title: 'Mythos Cards/Card Front',
   component: MythosCardFront,
   parameters: {},
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
