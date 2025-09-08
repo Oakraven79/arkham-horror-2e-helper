@@ -3,18 +3,18 @@
 export const encounterLocations = [
   {
     location: 'The Witch House',
-    file: '/images/old-house.jpg',
+    file: '/images/arkhamLocations/old-house.jpg',
     display: `The Witch  
     House`,
   },
   {
     location: 'Unvisited Isle',
-    file: '/images/isle.jpg',
+    file: '/images/arkhamLocations/isle.jpg',
     display: `Unvisited Isle`,
   },
   {
     location: 'Black Cave',
-    file: '/images/cave.jpg',
+    file: '/images/arkhamLocations/cave.jpg',
     display: `Black Cave`,
   },
 ] as const

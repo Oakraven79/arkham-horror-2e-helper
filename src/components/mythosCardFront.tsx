@@ -13,14 +13,20 @@ export interface MythosCardFrontProps {
   /** Card title */
   title: string
   /** What type of card is this? */
-  cardType?: 'HeadLine' | 'Environment' | 'Environment (Mystic)' | 'Rumor'
+  cardType?:
+    | 'HeadLine'
+    | 'Environment'
+    | 'Environment (Mystic)'
+    | 'Environment (Urban)'
+    | 'Environment (Weather)'
+    | 'Rumor'
   /** Mythos description */
   cardDescription: string
   /** Monster movement for white and black */
-  monsterMoveWhite: MonsterIcons[]
-  monsterMoveBlack: MonsterIcons[]
+  monsterMoveWhite?: MonsterIcons[]
+  monsterMoveBlack?: MonsterIcons[]
   /** Portal Location */
-  portalLocation: EncounterLocation
+  portalLocation?: EncounterLocation
 }
 
 export const MythosCardFront = ({
@@ -31,7 +37,7 @@ export const MythosCardFront = ({
   monsterMoveBlack,
   portalLocation,
 }: MythosCardFrontProps) => {
-  const encounterObj = encounterLocationMap[portalLocation]
+  const encounterObj = portalLocation ? encounterLocationMap[portalLocation] : null
 
   const descSizeClass = cardDescription.length > 250 ? 'mythodcarddesc-small' : 'mythodcarddesc'
 

@@ -12,12 +12,12 @@ export const monsterIcons = [
 export type MonsterIcons = (typeof monsterIcons)[number]
 
 const monsterIconMap: Record<MonsterIcons, string> = {
-  cross: '/images/cross-icon.png',
-  crescentMoon: '/images/crescent-moon-icon.png',
-  hexagon: '/images/hexagon-icon.png',
-  leftLean: '/images/left-lean-icon.png',
-  star: '/images/star-icon.png',
-  triangle: '/images/triangle-icon.png',
+  cross: '/images/icons/cross-icon.png',
+  crescentMoon: '/images/icons/crescent-moon-icon.png',
+  hexagon: '/images/icons/hexagon-icon.png',
+  leftLean: '/images/icons/left-lean-icon.png',
+  star: '/images/icons/star-icon.png',
+  triangle: '/images/icons/triangle-icon.png',
 }
 
 export function getMonsterIconPath(icon: MonsterIcons): string {
