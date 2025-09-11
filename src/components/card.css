@@ -49,7 +49,7 @@
 }
 
 
-.mythodcardheaderbox {
+.mythoscardheaderbox {
   position: absolute;
   top: 1%;    /* center vertically */
   width: 90%;   /* control how wide the box is */
@@ -62,26 +62,33 @@
 }
 
 
-.mythodcardtitle {
+.mythoscardtitle {
   font-size: 1.6em;
   font-weight: 1.2em;
   margin-bottom: 0.5em;
 }
 
-.mythodcardtitle-long {
+.mythoscardtitle-long {
   font-size: 1.1em;
   font-weight: 1.2em;
   margin-bottom: 0.5em;
 }
 
-.mythodcardtype {
+.mythoscardtype {
   font-size: 1.2em;
   font-weight: 0.5em;
   margin-bottom: 0.5em;
   font-style: italic;
 }
 
-.mythodcarddesc {
+.mythoscardtype-small {
+  font-size: 0.9em;
+  font-weight: 0.5em;
+  margin-bottom: 0.5em;
+  font-style: italic;
+}
+
+.mythoscarddesc {
   font-size: 1em;
   font-weight: 0.5em;
   margin-bottom: 0.5em;
@@ -98,14 +105,31 @@
   overflow-wrap: break-word;
 }
 
-.mythodcarddesc h3{
+.mythoscarddesc h3{
   margin-bottom: 0.25em;  /* add smaller spacing if you want */
   margin-top: 0.5em;
 }
 
 
-.mythodcarddesc-small {
+.mythoscarddesc-small {
   font-size: .75rem;
+  font-weight: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+  position: absolute;
+  top: 16%;          /* starts 30% down from the top of the card */
+  left: 50%;         /* anchor at horizontal center */
+  transform: translateX(-50%); /* shift back so it’s actually centered */
+  
+  width: 83%;        /* 70% of card width */
+  text-align: center;
+  font-family:'Times New Roman', Times, serif;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.mythoscarddesc-really-small {
+  font-size: .65rem;
   font-weight: 0.5rem;
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
@@ -152,7 +176,7 @@
   display: flex;
   flex-direction: row;       /* 🟢 images/text flow left→right */
   align-items: center;
-  justify-content: center;
+  justify-content: center; /* spread when few */
   gap: 0.25rem;              /* space between items */
   overflow: hidden;   
 
@@ -176,8 +200,10 @@
   max-height: 80%;
   height: 100%;
   width: auto;
-  object-fit: contain;
+  object-fit: cover;
   filter: drop-shadow(3px 3px 4px rgba(0,0,0,0.9));
+  margin-left: -25%;
+  margin-right: -25%;
 }
 
 /* Portal Location*/

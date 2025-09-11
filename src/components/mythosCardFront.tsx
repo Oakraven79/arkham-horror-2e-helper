@@ -29,6 +29,14 @@ export interface MythosCardFrontProps {
   portalLocation?: EncounterLocation
 }
 
+function getDescSizeClass(description: string) {
+  const len = description.length
+
+  if (len > 500) return 'mythoscarddesc-really-small'
+  if (len > 250) return 'mythoscarddesc-small'
+  return 'mythoscarddesc'
+}
+
 export const MythosCardFront = ({
   title,
   cardType,
@@ -39,15 +47,17 @@ export const MythosCardFront = ({
 }: MythosCardFrontProps) => {
   const encounterObj = portalLocation ? encounterLocationMap[portalLocation] : null
 
-  const descSizeClass = cardDescription.length > 250 ? 'mythodcarddesc-small' : 'mythodcarddesc'
+  const descSizeClass = getDescSizeClass(cardDescription)
 
-  const titleSizeClass = title.length > 22 ? 'mythodcardtitle-long' : 'mythodcardtitle'
+  const titleSizeClass = title.length > 22 ? 'mythoscardtitle-long' : 'mythoscardtitle'
+
+  const cardTypeSizeClass = title.length > 22 ? 'mythoscardtype-small' : 'mythoscardtype'
 
   return (
     <div className="mythoscardfront">
-      <div className="mythodcardheaderbox">
+      <div className="mythoscardheaderbox">
         <div className={titleSizeClass}>{title}</div>
-        <div className="mythodcardtype">{cardType}</div>
+        <div className={cardTypeSizeClass}>{cardType}</div>
       </div>
       <div className={descSizeClass}>
         <ReactMarkdown>{cardDescription}</ReactMarkdown>

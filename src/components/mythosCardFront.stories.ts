@@ -157,3 +157,21 @@ Miskatonic U. Streets`,
     portalLocation: 'Unvisited Isle',
   },
 }
+
+export const AllMonstersRumorExample: Story = {
+  args: {
+    title: 'The Tattered King',
+    cardType: 'Rumor',
+    cardDescription: `**Ongoing Effect:** Place 1 Clue token on
+this card at the end of every **Mythos Phase**
+(beginning the turn after it enters play).
+
+**Fail:** When the 5th clue token is placed on
+this card, return this card to the box. Any
+investigator in a street area is devoured,
+as the tattered king catches sight of him in
+the dead of night.`,
+    monsterMoveWhite: ['leftLean', 'triangle', 'star', 'cross', 'circle'],
+    monsterMoveBlack: ['square', 'diamond', 'crescentMoon', 'hexagon'],
+  },
+}
