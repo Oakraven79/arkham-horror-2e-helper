@@ -7,6 +7,9 @@ export const monsterIcons = [
   'leftLean',
   'star',
   'triangle',
+  'circle',
+  'square',
+  'diamond',
 ] as const
 
 export type MonsterIcons = (typeof monsterIcons)[number]
@@ -18,6 +21,9 @@ const monsterIconMap: Record<MonsterIcons, string> = {
   leftLean: '/images/icons/left-lean-icon.png',
   star: '/images/icons/star-icon.png',
   triangle: '/images/icons/triangle-icon.png',
+  circle: '/images/icons/circle-icon.png',
+  square: '/images/icons/square-icon.png',
+  diamond: '/images/icons/diamond-icon.png',
 }
 
 export function getMonsterIconPath(icon: MonsterIcons): string {

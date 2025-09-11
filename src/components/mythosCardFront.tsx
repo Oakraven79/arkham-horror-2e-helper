@@ -41,10 +41,12 @@ export const MythosCardFront = ({
 
   const descSizeClass = cardDescription.length > 250 ? 'mythodcarddesc-small' : 'mythodcarddesc'
 
+  const titleSizeClass = title.length > 22 ? 'mythodcardtitle-long' : 'mythodcardtitle'
+
   return (
     <div className="mythoscardfront">
       <div className="mythodcardheaderbox">
-        <div className="mythodcardtitle">{title}</div>
+        <div className={titleSizeClass}>{title}</div>
         <div className="mythodcardtype">{cardType}</div>
       </div>
       <div className={descSizeClass}>
