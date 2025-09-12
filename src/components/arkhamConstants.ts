@@ -2,6 +2,11 @@
 
 export const encounterLocations = [
   {
+    location: null,
+    file: null,
+    display: null,
+  },
+  {
     location: 'The Witch House',
     file: '/images/arkhamLocations/old-house.jpg',
     display: `The Witch  

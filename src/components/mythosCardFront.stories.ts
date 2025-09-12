@@ -38,7 +38,7 @@ type Story = StoryObj<typeof meta>
 export const HeadlineExample: Story = {
   args: {
     title: 'Fourth Of July Parade!',
-    cardType: 'HeadLine',
+    cardType: 'Headline',
     cardDescription: `Investigators cannot move into or out of the Merchant District street until the end of the next turn. Leave this card in play until then to indicate this.  
 
 ### Close:
@@ -173,5 +173,39 @@ as the tattered king catches sight of him in
 the dead of night.`,
     monsterMoveWhite: ['leftLean', 'triangle', 'star', 'cross', 'circle'],
     monsterMoveBlack: ['square', 'diamond', 'crescentMoon', 'hexagon'],
+  },
+}
+
+export const NoCardTypeExample: Story = {
+  args: {
+    title: 'The Story Continues ...',
+    cardDescription: `*"I cannot remember, I **must** not
+remember what I saw on that dark
+and foreboding night ... "*
+
+
+Shuffle the Mythos deck, being
+sure to include this card in it.
+After the deck is shuffled, draw
+a new Mythos card for the turn.`,
+  },
+}
+
+export const AllMonstersButCustomLocationExample: Story = {
+  args: {
+    title: 'The Next Act Begins',
+    cardType: 'Headline',
+    cardDescription: `The terror level is increased by 1. However,
+no gate is opened this turn.
+
+The next act of the charity performance of
+"The King in Yellow" has begun.
+
+The first piavey must put the top card of
+deck into play.
+
+The first player gains 1 Clue token.`,
+    monsterMoveWhite: ['square', 'diamond', 'crescentMoon', 'hexagon'],
+    monsterMoveBlack: ['leftLean', 'triangle', 'star', 'cross', 'circle'],
   },
 }
