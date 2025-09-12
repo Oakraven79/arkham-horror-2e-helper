@@ -38,6 +38,7 @@ export interface MythosCardFrontMonsterMovementProps {
   /** Monster movement for white and black */
   monsterMoveWhite?: MonsterIcons[]
   monsterMoveBlack?: MonsterIcons[]
+  centered?: boolean
 }
 
 function getDescSizeClass(description: string) {
@@ -72,13 +73,17 @@ const MythosCardFrontEncounterLocation = ({
 const MythosCardFrontMonsterMovement = ({
   monsterMoveBlack,
   monsterMoveWhite,
+  centered,
 }: MythosCardFrontMonsterMovementProps) => {
   if (!monsterMoveBlack && !monsterMoveWhite) {
     return
   }
+  const monsterBoxClassName = centered
+    ? 'mythos-monster-corner-box centered'
+    : 'mythos-monster-corner-box'
 
   return (
-    <div className="mythos-monster-corner-box">
+    <div className={monsterBoxClassName}>
       <div className="monster-top">
         {(monsterMoveWhite ?? []).map((icon) => (
           <img key={icon} src={getMonsterIconPath(icon)} alt={icon} />
@@ -109,6 +114,8 @@ export const MythosCardFront = ({
 
   const cardTypeSizeClass = title.length > 22 ? 'mythoscardtype-small' : 'mythoscardtype'
 
+  const centeredMonsterMovementBox = !portalLocation
+
   return (
     <div className="mythoscardfront">
       <div className="mythoscardheaderbox">
@@ -122,6 +129,7 @@ export const MythosCardFront = ({
       <MythosCardFrontMonsterMovement
         monsterMoveBlack={monsterMoveBlack}
         monsterMoveWhite={monsterMoveWhite}
+        centered={centeredMonsterMovementBox}
       />
 
       <MythosCardFrontEncounterLocation portalLocation={portalLocation} />

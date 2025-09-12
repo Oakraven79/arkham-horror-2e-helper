@@ -150,7 +150,7 @@
 .mythos-monster-corner-box {
   position: absolute;
   bottom: 0.5rem;  /* ✅ anchors it at bottom */
-  right: 0.5rem;   /* ✅ anchors it at right */
+  right: 0.5rem;  /* ✅ anchors it at right */
 
 
   display: flex;
@@ -168,6 +168,12 @@
   text-align: center;
   font-size: 0.8rem;
   z-index: 3; /* keeps it above background */
+}
+
+.mythos-monster-corner-box.centered {
+  right: auto;        /* cancel right anchoring */
+  left: 50%;          /* push box’s left edge to middle */
+  transform: translateX(-50%); /* center by its own width */
 }
 
 .mythos-monster-corner-box .monster-top,
