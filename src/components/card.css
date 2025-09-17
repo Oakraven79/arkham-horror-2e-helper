@@ -254,6 +254,48 @@
 
 }
 
+/* Portal Location Alternatives */
+
+.mythos-portal-alt-location {
+  position: absolute;
+  bottom: 7%;
+  left: 2.5%;
+
+  width: 34%;   /* make it a square */
+  aspect-ratio: 1;
+  
+  
+  overflow: hidden;         /* ensures image stays inside circle */
+  z-index: 1;
+}
+
+.mythos-portal-alt-location img {
+  width: 100%;
+
+  object-fit: cover;   /* fills circle without distortion */
+  display: block;
+}
+
+.mythos-portal-alt-location-text {
+  position: absolute;
+  bottom: 0.5rem;  /* ✅ anchors it at bottom */       /* adjust so it overlaps the circle */
+  left: 1.5%;   /* ✅ anchors it at right */
+  width: 35%;         /* size of the square */
+  height: 11%;
+  background: #ddd; /* semi-transparent red for demo */
+  border: 3px solid #1d1d1d;   /* 🟢 border here */
+  box-shadow: 0 0 10px #1d1d1d;
+  z-index: 2;          /* lower than circle to sit underneath */
+  border-radius: 6px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8em;
+  
+
+}
+
 
 /* Other World Cards*/
 

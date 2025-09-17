@@ -158,7 +158,7 @@ Miskatonic U. Streets`,
   },
 }
 
-export const AllMonstersRumorExample: Story = {
+export const AllMonstersRumorAltLocationExample: Story = {
   args: {
     title: 'The Tattered King',
     cardType: 'Rumor',
@@ -173,9 +173,8 @@ as the tattered king catches sight of him in
 the dead of night.`,
     monsterMoveWhite: ['leftLean', 'triangle', 'star', 'cross', 'circle'],
     monsterMoveBlack: ['square', 'diamond', 'crescentMoon', 'hexagon'],
-    portalLocationAltText: `No gates open, but
-add 2 doom tokens
-to the doom track.`,
+    portalLocationAltImg: '/images/misc/doomCounters.png',
+    portalLocationAltText: `No gates open, but add 2 doom tokens to the doom track.`,
   },
 }
 
@@ -194,7 +193,7 @@ a new Mythos card for the turn.`,
   },
 }
 
-export const AllMonstersButCustomLocationExample: Story = {
+export const AllMonstersButNoLocationExample: Story = {
   args: {
     title: 'The Next Act Begins',
     cardType: 'Headline',

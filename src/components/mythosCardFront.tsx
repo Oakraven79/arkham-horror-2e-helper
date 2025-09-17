@@ -89,10 +89,10 @@ const MythosCardFrontEncounterAltLocation = ({
 
   return (
     <div>
-      <div className="mythos-portal-location-text">
+      <div className="mythos-portal-alt-location-text">
         <ReactMarkdown>{portalLocationAltText}</ReactMarkdown>
       </div>
-      <div className="mythos-portal-location">
+      <div className="mythos-portal-alt-location">
         <img src={portalLocationAltImg} />
       </div>
     </div>
