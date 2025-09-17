@@ -173,6 +173,9 @@ as the tattered king catches sight of him in
 the dead of night.`,
     monsterMoveWhite: ['leftLean', 'triangle', 'star', 'cross', 'circle'],
     monsterMoveBlack: ['square', 'diamond', 'crescentMoon', 'hexagon'],
+    portalLocationAltText: `No gates open, but
+add 2 doom tokens
+to the doom track.`,
   },
 }
 

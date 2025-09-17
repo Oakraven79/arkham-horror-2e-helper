@@ -27,11 +27,20 @@ export interface MythosCardFrontProps {
   monsterMoveBlack?: MonsterIcons[]
   /** Portal Location */
   portalLocation?: EncounterLocation
+  /** Portal Alt Text and IMG */
+  portalLocationAltImg?: string
+  portalLocationAltText?: string
 }
 
 export interface MythosCardFrontEncounterLocationProps {
   /** Portal Location */
   portalLocation?: EncounterLocation
+}
+
+export interface MythosCardFrontEncounterAltLocationProps {
+  /** Portal Location */
+  portalLocationAltImg?: string
+  portalLocationAltText?: string
 }
 
 export interface MythosCardFrontMonsterMovementProps {
@@ -65,6 +74,26 @@ const MythosCardFrontEncounterLocation = ({
       </div>
       <div className="mythos-portal-location">
         <img src={encounterObj.file} />
+      </div>
+    </div>
+  )
+}
+
+const MythosCardFrontEncounterAltLocation = ({
+  portalLocationAltImg,
+  portalLocationAltText,
+}: MythosCardFrontEncounterAltLocationProps) => {
+  if (!portalLocationAltImg && !portalLocationAltText) {
+    return
+  }
+
+  return (
+    <div>
+      <div className="mythos-portal-location-text">
+        <ReactMarkdown>{portalLocationAltText}</ReactMarkdown>
+      </div>
+      <div className="mythos-portal-location">
+        <img src={portalLocationAltImg} />
       </div>
     </div>
   )
@@ -105,6 +134,8 @@ export const MythosCardFront = ({
   monsterMoveWhite,
   monsterMoveBlack,
   portalLocation,
+  portalLocationAltImg,
+  portalLocationAltText,
 }: MythosCardFrontProps) => {
   const encounterObj = portalLocation ? encounterLocationMap[portalLocation] : null
 
@@ -114,7 +145,8 @@ export const MythosCardFront = ({
 
   const cardTypeSizeClass = title.length > 22 ? 'mythoscardtype-small' : 'mythoscardtype'
 
-  const centeredMonsterMovementBox = !portalLocation
+  const centeredMonsterMovementBox =
+    !portalLocation && !portalLocationAltImg && !portalLocationAltText
 
   return (
     <div className="mythoscardfront">
@@ -130,6 +162,11 @@ export const MythosCardFront = ({
         monsterMoveBlack={monsterMoveBlack}
         monsterMoveWhite={monsterMoveWhite}
         centered={centeredMonsterMovementBox}
+      />
+
+      <MythosCardFrontEncounterAltLocation
+        portalLocationAltImg={portalLocationAltImg}
+        portalLocationAltText={portalLocationAltText}
       />
 
       <MythosCardFrontEncounterLocation portalLocation={portalLocation} />
