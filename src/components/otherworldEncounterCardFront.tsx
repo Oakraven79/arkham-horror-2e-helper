@@ -15,8 +15,24 @@ export interface OtherworldEncounterCardFrontProps {
   colour: CardColor
 }
 
-export const MythosCardFront = ({ textBlocks, colour }: OtherworldEncounterCardFrontProps) => {
+export const OtherworldEncounterCardFront = ({
+  textBlocks,
+  colour,
+}: OtherworldEncounterCardFrontProps) => {
   const cardClass = 'otherworldcardfront ' + colour
 
-  return <div className={cardClass}></div>
+  return (
+    <div className={cardClass}>
+      <div className="otherworldcard-center-panel">
+        {textBlocks.map((block, index) => (
+          <div>
+            <h2>{block.header}</h2>
+            <p>
+              <ReactMarkdown>{block.desc}</ReactMarkdown>
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 }

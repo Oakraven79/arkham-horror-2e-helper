@@ -340,7 +340,7 @@
   overflow: hidden;
   font-family: 'IM Fell English', serif;
   flex-shrink: 0;  /* don’t let flexbox squeeze it */
-  background-image: url('otherworld encounter front.jpg');
+  background-image: url('/images/otherworldEncounterFront.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover; /* or contain (see below) */
@@ -358,12 +358,6 @@
 }
 
 
-.otherworldcardfront .center-panel h1,
-.otherworldcardfront .center-panel h2,
-.otherworldcardfront .center-panel h3 {
-  text-align: center;
-  margin: 0.4rem 0; /* much smaller than default */
-}
 
 
 /* different color variants */
@@ -380,7 +374,7 @@
   background: rgba(255, 255, 0, 0.3);
 }
 
-.otherworldcardfront .center-panel {
+.otherworldcardfront .otherworldcard-center-panel {
   position: absolute;
   top: 2%;
   left: 2%;
@@ -396,10 +390,19 @@
   text-align: center; /* ✅ centers all text inside */
 }
 
-.otherworldcardfront .center-panel p {
+.otherworldcardfront .otherworldcard-center-panel p {
   font-size: 1.05rem;
   text-align: justify;  /* paragraphs justified */
-  margin: 0.25rem 0;   /* shrink gap */
+  margin: 0.0em -.75em;   /* shrink gap */
   padding: 0.1rem 1.3rem;     /* top/bottom = 0.5rem, left/right = 2rem */
   font-family:'Times New Roman', Times, serif;
 }
+
+.otherworldcardfront .otherworldcard-center-panel h1,
+.otherworldcardfront .otherworldcard-center-panel h2,
+.otherworldcardfront .otherworldcard-center-panel h3 {
+  text-align: center;
+  margin: 0.4rem 0; /* much smaller than default */
+  font-size: 1.2em;
+}
+
