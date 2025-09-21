@@ -44,3 +44,14 @@ export const encounterLocationMap: Record<
   acc[loc.location] = { file: loc.file, display: loc.display }
   return acc
 }, {} as any)
+
+export const mythosCardTypesList = [
+  'Headline',
+  'Environment',
+  'Environment (Mystic)',
+  'Environment (Urban)',
+  'Environment (Weather)',
+  'Rumor',
+] as const
+
+export type MythosCardType = (typeof mythosCardTypesList)[number]

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { fn } from 'storybook/test'
 
 import { MythosCardFront } from './mythosCardFront'
-import { monsterIcons, encounterLocationNames } from './constants'
+import { monsterIcons, encounterLocationNames, mythosCardTypesList } from './constants'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -14,6 +14,10 @@ const meta = {
   tags: ['autodocs'],
   // More on argTypes: https://storybook.js.org/docs/api/argtypes
   argTypes: {
+    cardType: {
+      control: { type: 'select' },
+      options: mythosCardTypesList, // ✅ same source as component + Payload
+    },
     monsterMoveWhite: {
       control: { type: 'multi-select' },
       options: monsterIcons, // 👈 auto-synced with your type

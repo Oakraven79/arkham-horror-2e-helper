@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    'mythos-cards': MythosCard;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -77,6 +78,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    'mythos-cards': MythosCardsSelect<false> | MythosCardsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -158,6 +160,44 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mythos-cards".
+ */
+export interface MythosCard {
+  id: string;
+  title: string;
+  cardType:
+    | 'Headline'
+    | 'Environment'
+    | 'Environment (Mystic)'
+    | 'Environment (Urban)'
+    | 'Environment (Weather)'
+    | 'Rumor';
+  desc?: string | null;
+  encounterLocation: 'none' | 'The Witch House' | 'Unvisited Isle' | 'Black Cave';
+  altLocationText?: string | null;
+  altLocationImg?: string | null;
+  monsterMoveWhite?:
+    | ('cross' | 'crescentMoon' | 'hexagon' | 'leftLean' | 'star' | 'triangle' | 'circle' | 'square' | 'diamond')[]
+    | null;
+  monsterMoveBlack?:
+    | ('cross' | 'crescentMoon' | 'hexagon' | 'leftLean' | 'star' | 'triangle' | 'circle' | 'square' | 'diamond')[]
+    | null;
+  boxedset:
+    | 'Base Game'
+    | 'Dunwich Horror'
+    | 'Kingsport Horror'
+    | 'Innsmouth Horror'
+    | 'Miskatonic Horror'
+    | 'Curse of the Dark Pharaoh (original)'
+    | 'Curse of the Dark Pharaoh (Revised Edition)'
+    | 'The Black Goat of the Woods'
+    | 'The King in Yellow'
+    | 'The Lurker at the Threshold';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -170,6 +210,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'mythos-cards';
+        value: string | MythosCard;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -252,6 +296,23 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mythos-cards_select".
+ */
+export interface MythosCardsSelect<T extends boolean = true> {
+  title?: T;
+  cardType?: T;
+  desc?: T;
+  encounterLocation?: T;
+  altLocationText?: T;
+  altLocationImg?: T;
+  monsterMoveWhite?: T;
+  monsterMoveBlack?: T;
+  boxedset?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

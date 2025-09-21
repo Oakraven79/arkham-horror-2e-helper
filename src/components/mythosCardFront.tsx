@@ -9,17 +9,13 @@ import {
   encounterLocationMap,
 } from './constants'
 
+import { MythosCardType } from './constants'
+
 export interface MythosCardFrontProps {
   /** Card title */
   title: string
   /** What type of card is this? */
-  cardType?:
-    | 'Headline'
-    | 'Environment'
-    | 'Environment (Mystic)'
-    | 'Environment (Urban)'
-    | 'Environment (Weather)'
-    | 'Rumor'
+  cardType?: MythosCardType
   /** Mythos description */
   cardDescription: string
   /** Monster movement for white and black */
