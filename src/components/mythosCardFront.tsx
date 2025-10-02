@@ -47,7 +47,7 @@ export interface MythosCardFrontMonsterMovementProps {
 }
 
 function getDescSizeClass(description: string) {
-  const len = description.length
+  const len = description?.length ?? 1
 
   if (len > 500) return 'mythoscarddesc-really-small'
   if (len > 250) return 'mythoscarddesc-small'
@@ -137,9 +137,9 @@ export const MythosCardFront = ({
 
   const descSizeClass = getDescSizeClass(cardDescription)
 
-  const titleSizeClass = title.length > 22 ? 'mythoscardtitle-long' : 'mythoscardtitle'
+  const titleSizeClass = (title?.length ?? 1) > 22 ? 'mythoscardtitle-long' : 'mythoscardtitle'
 
-  const cardTypeSizeClass = title.length > 22 ? 'mythoscardtype-small' : 'mythoscardtype'
+  const cardTypeSizeClass = (title?.length ?? 1) > 22 ? 'mythoscardtype-small' : 'mythoscardtype'
 
   const monsterMoveBlackList: MonsterIcons[] = monsterMoveBlack
     ? Array.isArray(monsterMoveBlack)

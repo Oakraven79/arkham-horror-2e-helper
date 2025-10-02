@@ -42,9 +42,6 @@ export default async function DebugPreview({ params }: Props) {
         portalLocationAltImg={doc.altLocationImg}
         portalLocationAltText={doc.altLocationText}
       />
-
-      <h2>Payload Document</h2>
-      <pre>{JSON.stringify(doc, null, 2)}</pre>
     </Fragment>
   )
 }
