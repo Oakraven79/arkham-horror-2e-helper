@@ -195,6 +195,7 @@ export interface MythosCard {
     | 'The Lurker at the Threshold';
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -313,6 +314,7 @@ export interface MythosCardsSelect<T extends boolean = true> {
   boxedset?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

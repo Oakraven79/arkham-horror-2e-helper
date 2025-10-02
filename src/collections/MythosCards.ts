@@ -8,6 +8,13 @@ export const MythosCards: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
   },
+  versions: {
+    drafts: {
+      autosave: {
+        interval: 375,
+      },
+    },
+  },
   fields: [
     {
       name: 'title',

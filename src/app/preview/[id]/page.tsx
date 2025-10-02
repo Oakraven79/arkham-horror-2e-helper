@@ -1,9 +1,12 @@
 import { notFound } from 'next/navigation'
 
+import { RefreshRouteOnSave } from './RefreshRouteOnSave'
+
 import { getPayload } from 'payload'
 import config from '../../../payload.config'
 
 import { MythosCardFront } from '@/components/mythosCardFront'
+import { Fragment } from 'react'
 
 interface Props {
   params: { id: string }
@@ -15,7 +18,7 @@ export default async function DebugPreview({ params }: Props) {
 
   const payload = await getPayload({ config })
 
-  const id = params.id
+  const { id } = await params
 
   const doc = await payload.findByID({
     collection: 'mythos-cards',
@@ -25,11 +28,8 @@ export default async function DebugPreview({ params }: Props) {
   })
 
   return (
-    <div>
-      <h2>Payload Document</h2>
-      <pre>{JSON.stringify(doc, null, 2)}</pre>
-
-      <hr />
+    <Fragment>
+      <RefreshRouteOnSave />
       <h2>Rendered Card</h2>
 
       <MythosCardFront
@@ -42,6 +42,9 @@ export default async function DebugPreview({ params }: Props) {
         portalLocationAltImg={doc.altLocationImg}
         portalLocationAltText={doc.altLocationText}
       />
-    </div>
+
+      <h2>Payload Document</h2>
+      <pre>{JSON.stringify(doc, null, 2)}</pre>
+    </Fragment>
   )
 }
