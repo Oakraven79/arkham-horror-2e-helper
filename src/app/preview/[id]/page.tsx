@@ -35,12 +35,12 @@ export default async function DebugPreview({ params }: Props) {
       <MythosCardFront
         title={doc.title}
         cardType={doc.cardType}
-        cardDescription={doc.desc}
-        monsterMoveWhite={doc.monsterMoveWhite}
-        monsterMoveBlack={doc.monsterMoveBlack}
+        cardDescription={doc.desc ?? ''}
+        monsterMoveWhite={doc.monsterMoveWhite?.slice().reverse()}
+        monsterMoveBlack={doc.monsterMoveBlack?.slice().reverse()}
         portalLocation={doc.encounterLocation}
-        portalLocationAltImg={doc.altLocationImg}
-        portalLocationAltText={doc.altLocationText}
+        portalLocationAltImg={doc.altLocationImg ?? undefined}
+        portalLocationAltText={doc.altLocationText ?? undefined}
       />
     </Fragment>
   )

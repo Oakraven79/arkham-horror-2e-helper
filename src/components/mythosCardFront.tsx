@@ -59,7 +59,7 @@ const MythosCardFrontEncounterLocation = ({
 }: MythosCardFrontEncounterLocationProps) => {
   const encounterObj = portalLocation ? encounterLocationMap[portalLocation] : null
 
-  if (encounterObj === null) {
+  if (encounterObj === null || encounterObj?.file === 'null') {
     return
   }
 
@@ -100,13 +100,7 @@ const MythosCardFrontMonsterMovement = ({
   monsterMoveWhite,
   centered,
 }: MythosCardFrontMonsterMovementProps) => {
-  console.log(monsterMoveBlack, monsterMoveBlack?.length, !monsterMoveBlack)
-  console.log(monsterMoveWhite, monsterMoveWhite?.length, !monsterMoveWhite)
-
-  console.log(!monsterMoveBlack?.length && !monsterMoveWhite?.length)
-
   if (!monsterMoveBlack?.length && !monsterMoveWhite?.length) {
-    console.log('No monsters, returning')
     return
   }
 
