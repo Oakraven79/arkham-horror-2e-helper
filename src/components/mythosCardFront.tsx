@@ -141,6 +141,17 @@ export const MythosCardFront = ({
 
   const cardTypeSizeClass = title.length > 22 ? 'mythoscardtype-small' : 'mythoscardtype'
 
+  const monsterMoveBlackList: MonsterIcons[] = monsterMoveBlack
+    ? Array.isArray(monsterMoveBlack)
+      ? monsterMoveBlack
+      : [monsterMoveBlack]
+    : []
+  const monsterMoveWhiteList: MonsterIcons[] = monsterMoveWhite
+    ? Array.isArray(monsterMoveWhite)
+      ? monsterMoveWhite
+      : [monsterMoveWhite]
+    : []
+
   const centeredMonsterMovementBox =
     !portalLocation && !portalLocationAltImg && !portalLocationAltText
 
@@ -155,8 +166,8 @@ export const MythosCardFront = ({
       </div>
 
       <MythosCardFrontMonsterMovement
-        monsterMoveBlack={monsterMoveBlack}
-        monsterMoveWhite={monsterMoveWhite}
+        monsterMoveBlack={monsterMoveBlackList}
+        monsterMoveWhite={monsterMoveWhiteList}
         centered={centeredMonsterMovementBox}
       />
 

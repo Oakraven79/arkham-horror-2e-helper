@@ -20,6 +20,10 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    livePreview: {
+      url: ({ data, req }) => `${req.protocol}//${req.host}/preview/${data.id}/`,
+      collections: ['mythos-cards'],
+    },
   },
   collections: [Users, Media, MythosCards],
   editor: lexicalEditor(),
