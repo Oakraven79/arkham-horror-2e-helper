@@ -100,9 +100,16 @@ const MythosCardFrontMonsterMovement = ({
   monsterMoveWhite,
   centered,
 }: MythosCardFrontMonsterMovementProps) => {
-  if (!monsterMoveBlack && !monsterMoveWhite) {
+  console.log(monsterMoveBlack, monsterMoveBlack?.length, !monsterMoveBlack)
+  console.log(monsterMoveWhite, monsterMoveWhite?.length, !monsterMoveWhite)
+
+  console.log(!monsterMoveBlack?.length && !monsterMoveWhite?.length)
+
+  if (!monsterMoveBlack?.length && !monsterMoveWhite?.length) {
+    console.log('No monsters, returning')
     return
   }
+
   const monsterBoxClassName = centered
     ? 'mythos-monster-corner-box centered'
     : 'mythos-monster-corner-box'
