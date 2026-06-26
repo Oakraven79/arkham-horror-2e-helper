@@ -10,6 +10,7 @@ import sharp from 'sharp'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { MythosCards } from './collections/MythosCards'
+import { GameSessions } from './collections/GameSessions'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -25,7 +26,7 @@ export default buildConfig({
       collections: ['mythos-cards'],
     },
   },
-  collections: [Users, Media, MythosCards],
+  collections: [Users, Media, MythosCards, GameSessions],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

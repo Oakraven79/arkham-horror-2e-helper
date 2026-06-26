@@ -4,8 +4,10 @@ import config from '@/payload.config'
 import { describe, it, beforeAll, expect } from 'vitest'
 
 let payload: Payload
+const describeWithPayloadEnv =
+  process.env.PAYLOAD_SECRET && process.env.DATABASE_URI ? describe : describe.skip
 
-describe('API', () => {
+describeWithPayloadEnv('API', () => {
   beforeAll(async () => {
     const payloadConfig = await config
     payload = await getPayload({ config: payloadConfig })

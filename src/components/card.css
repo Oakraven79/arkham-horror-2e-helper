@@ -34,6 +34,7 @@
   aspect-ratio: 55/88;
 
   background-color: #dbdbdb; /* parchment tan, shows through PNG transparency */
+  color: #111;
   border: 8px solid #1d1d1d;
   border-radius: 12px;
   box-shadow: 0 8px 25px rgba(0,0,0,0.3);
@@ -46,6 +47,15 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover; /* or contain (see below) */
+}
+
+.mythoscardfront p,
+.mythoscardfront h1,
+.mythoscardfront h2,
+.mythoscardfront h3,
+.mythoscardfront strong,
+.mythoscardfront em {
+  color: inherit;
 }
 
 
@@ -405,4 +415,3 @@
   margin: 0.4rem 0; /* much smaller than default */
   font-size: 1.2em;
 }
-

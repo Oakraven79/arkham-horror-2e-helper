@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 
-import { fn } from 'storybook/test'
-
 import { MythosCardFront } from './mythosCardFront'
 import { monsterIcons, encounterLocationNames, mythosCardTypesList } from './constants'
 
@@ -32,8 +30,6 @@ const meta = {
       options: encounterLocationNames,
     },
   },
-  // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
-  args: { onClick: fn() },
 } satisfies Meta<typeof MythosCardFront>
 
 export default meta

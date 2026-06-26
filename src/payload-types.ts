@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     media: Media;
     'mythos-cards': MythosCard;
+    'game-sessions': GameSession;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -79,6 +80,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'mythos-cards': MythosCardsSelect<false> | MythosCardsSelect<true>;
+    'game-sessions': GameSessionsSelect<false> | GameSessionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -199,6 +201,141 @@ export interface MythosCard {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "game-sessions".
+ */
+export interface GameSession {
+  id: string;
+  name: string;
+  status: 'active' | 'paused' | 'complete' | 'abandoned';
+  playerCount: number;
+  activeExpansions?:
+    | (
+        | 'Base Game'
+        | 'Dunwich Horror'
+        | 'Kingsport Horror'
+        | 'Innsmouth Horror'
+        | 'Miskatonic Horror'
+        | 'Curse of the Dark Pharaoh (original)'
+        | 'Curse of the Dark Pharaoh (Revised Edition)'
+        | 'The Black Goat of the Woods'
+        | 'The King in Yellow'
+        | 'The Lurker at the Threshold'
+      )[]
+    | null;
+  turnNumber: number;
+  currentPhase:
+    | 'Setup'
+    | 'Upkeep'
+    | 'Movement'
+    | 'Arkham Encounters'
+    | 'Other World Encounters'
+    | 'Mythos'
+    | 'Final Battle';
+  /**
+   * Player or investigator currently holding the first player marker.
+   */
+  firstPlayer?: string | null;
+  tracks: {
+    doomCurrent: number;
+    doomMax?: number | null;
+    terror: number;
+    gatesOpen: number;
+    elderSigns: number;
+    monstersInArkham: number;
+    monstersInOutskirts: number;
+  };
+  /**
+   * Deck state for drawing without repeats. Shuffle events should rebuild the draw pile from the discard pile.
+   */
+  mythos: {
+    /**
+     * Cards still available to draw this cycle, in draw order.
+     */
+    drawPile?: (string | MythosCard)[] | null;
+    /**
+     * Resolved cards that can return to the deck after a shuffle event.
+     */
+    discardPile?: (string | MythosCard)[] | null;
+    /**
+     * Every Mythos card drawn during this session. This is preserved even after shuffles.
+     */
+    drawHistory?: (string | MythosCard)[] | null;
+    /**
+     * The card currently being revealed/resolved this Mythos phase.
+     */
+    currentDraw?: (string | null) | MythosCard;
+    currentDrawRevealed?: boolean | null;
+    /**
+     * Only one Environment card should be active at a time.
+     */
+    activeEnvironment?: (string | null) | MythosCard;
+    /**
+     * Only one Rumor card should be active at a time.
+     */
+    activeRumor?: (string | null) | MythosCard;
+    shuffleCount: number;
+  };
+  /**
+   * Records when the discard pile was shuffled back into the draw pile.
+   */
+  shuffleEvents?:
+    | {
+        turnNumber?: number | null;
+        phase?:
+          | (
+              | 'Setup'
+              | 'Upkeep'
+              | 'Movement'
+              | 'Arkham Encounters'
+              | 'Other World Encounters'
+              | 'Mythos'
+              | 'Final Battle'
+            )
+          | null;
+        reason: 'manual' | 'deck-empty' | 'card-effect' | 'setup';
+        note?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Recoverable history for restore, undo, and table audit.
+   */
+  sessionLog?:
+    | {
+        turnNumber?: number | null;
+        phase?:
+          | (
+              | 'Setup'
+              | 'Upkeep'
+              | 'Movement'
+              | 'Arkham Encounters'
+              | 'Other World Encounters'
+              | 'Mythos'
+              | 'Final Battle'
+            )
+          | null;
+        action:
+          | 'draw-mythos'
+          | 'reveal-card'
+          | 'resolve-card'
+          | 'activate-environment'
+          | 'activate-rumor'
+          | 'pass-rumor'
+          | 'fail-rumor'
+          | 'discard-card'
+          | 'shuffle-deck'
+          | 'undo'
+          | 'note';
+        card?: (string | null) | MythosCard;
+        note?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -215,6 +352,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'mythos-cards';
         value: string | MythosCard;
+      } | null)
+    | ({
+        relationTo: 'game-sessions';
+        value: string | GameSession;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -315,6 +456,63 @@ export interface MythosCardsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "game-sessions_select".
+ */
+export interface GameSessionsSelect<T extends boolean = true> {
+  name?: T;
+  status?: T;
+  playerCount?: T;
+  activeExpansions?: T;
+  turnNumber?: T;
+  currentPhase?: T;
+  firstPlayer?: T;
+  tracks?:
+    | T
+    | {
+        doomCurrent?: T;
+        doomMax?: T;
+        terror?: T;
+        gatesOpen?: T;
+        elderSigns?: T;
+        monstersInArkham?: T;
+        monstersInOutskirts?: T;
+      };
+  mythos?:
+    | T
+    | {
+        drawPile?: T;
+        discardPile?: T;
+        drawHistory?: T;
+        currentDraw?: T;
+        currentDrawRevealed?: T;
+        activeEnvironment?: T;
+        activeRumor?: T;
+        shuffleCount?: T;
+      };
+  shuffleEvents?:
+    | T
+    | {
+        turnNumber?: T;
+        phase?: T;
+        reason?: T;
+        note?: T;
+        id?: T;
+      };
+  sessionLog?:
+    | T
+    | {
+        turnNumber?: T;
+        phase?: T;
+        action?: T;
+        card?: T;
+        note?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

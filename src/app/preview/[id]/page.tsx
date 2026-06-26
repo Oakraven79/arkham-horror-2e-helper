@@ -1,5 +1,3 @@
-import { notFound } from 'next/navigation'
-
 import { RefreshRouteOnSave } from './RefreshRouteOnSave'
 
 import { getPayload } from 'payload'
@@ -9,8 +7,8 @@ import { MythosCardFront } from '@/components/mythosCardFront'
 import { Fragment } from 'react'
 
 interface Props {
-  params: { id: string }
-  searchParams: Record<string, string | string[] | undefined>
+  params: Promise<{ id: string }>
+  searchParams: Promise<Record<string, string | string[] | undefined>>
 }
 
 export default async function DebugPreview({ params }: Props) {

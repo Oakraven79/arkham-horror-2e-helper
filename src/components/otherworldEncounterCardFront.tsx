@@ -25,7 +25,7 @@ export const OtherworldEncounterCardFront = ({
     <div className={cardClass}>
       <div className="otherworldcard-center-panel">
         {textBlocks.map((block, index) => (
-          <div>
+          <div key={`${block.header}-${index}`}>
             <h2>{block.header}</h2>
             <p>
               <ReactMarkdown>{block.desc}</ReactMarkdown>
