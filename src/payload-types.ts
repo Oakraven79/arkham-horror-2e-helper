@@ -70,6 +70,8 @@ export interface Config {
     users: User;
     media: Media;
     'mythos-cards': MythosCard;
+    'other-worlds': OtherWorld;
+    'other-world-encounter-cards': OtherWorldEncounterCard;
     'game-sessions': GameSession;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +82,8 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'mythos-cards': MythosCardsSelect<false> | MythosCardsSelect<true>;
+    'other-worlds': OtherWorldsSelect<false> | OtherWorldsSelect<true>;
+    'other-world-encounter-cards': OtherWorldEncounterCardsSelect<false> | OtherWorldEncounterCardsSelect<true>;
     'game-sessions': GameSessionsSelect<false> | GameSessionsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -195,6 +199,83 @@ export interface MythosCard {
     | 'The Black Goat of the Woods'
     | 'The King in Yellow'
     | 'The Lurker at the Threshold';
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "other-worlds".
+ */
+export interface OtherWorld {
+  id: string;
+  name: string;
+  /**
+   * Stable identifier used by imports and game state, for example "abyss".
+   */
+  key: string;
+  /**
+   * Suggested encounter colours only. This does not restrict which cards can reference this world.
+   */
+  preferredColours?: ('blue' | 'green' | 'red' | 'yellow')[] | null;
+  boxedSet:
+    | 'Base Game'
+    | 'Dunwich Horror'
+    | 'Kingsport Horror'
+    | 'Innsmouth Horror'
+    | 'Miskatonic Horror'
+    | 'Curse of the Dark Pharaoh (original)'
+    | 'Curse of the Dark Pharaoh (Revised Edition)'
+    | 'The Black Goat of the Woods'
+    | 'The King in Yellow'
+    | 'The Lurker at the Threshold'
+    | 'Custom';
+  customSetName?: string | null;
+  art?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "other-world-encounter-cards".
+ */
+export interface OtherWorldEncounterCard {
+  id: string;
+  /**
+   * Stable internal identifier, for example "base-blue-001".
+   */
+  cardCode: string;
+  colour: 'blue' | 'green' | 'red' | 'yellow';
+  /**
+   * The two named destination encounters and the single "Other" fallback printed on the card.
+   */
+  encounters: {
+    isOther?: boolean | null;
+    destination?: (string | null) | OtherWorld;
+    /**
+     * Markdown is supported by the existing card component.
+     */
+    text: string;
+    id?: string | null;
+  }[];
+  boxedSet:
+    | 'Base Game'
+    | 'Dunwich Horror'
+    | 'Kingsport Horror'
+    | 'Innsmouth Horror'
+    | 'Miskatonic Horror'
+    | 'Curse of the Dark Pharaoh (original)'
+    | 'Curse of the Dark Pharaoh (Revised Edition)'
+    | 'The Black Goat of the Woods'
+    | 'The King in Yellow'
+    | 'The Lurker at the Threshold'
+    | 'Custom';
+  customSetName?: string | null;
+  /**
+   * Optional helper notes. These are not printed on the rendered card.
+   */
+  clarifications?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -354,6 +435,14 @@ export interface PayloadLockedDocument {
         value: string | MythosCard;
       } | null)
     | ({
+        relationTo: 'other-worlds';
+        value: string | OtherWorld;
+      } | null)
+    | ({
+        relationTo: 'other-world-encounter-cards';
+        value: string | OtherWorldEncounterCard;
+      } | null)
+    | ({
         relationTo: 'game-sessions';
         value: string | GameSession;
       } | null);
@@ -453,6 +542,43 @@ export interface MythosCardsSelect<T extends boolean = true> {
   monsterMoveWhite?: T;
   monsterMoveBlack?: T;
   boxedset?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "other-worlds_select".
+ */
+export interface OtherWorldsSelect<T extends boolean = true> {
+  name?: T;
+  key?: T;
+  preferredColours?: T;
+  boxedSet?: T;
+  customSetName?: T;
+  art?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "other-world-encounter-cards_select".
+ */
+export interface OtherWorldEncounterCardsSelect<T extends boolean = true> {
+  cardCode?: T;
+  colour?: T;
+  encounters?:
+    | T
+    | {
+        isOther?: T;
+        destination?: T;
+        text?: T;
+        id?: T;
+      };
+  boxedSet?: T;
+  customSetName?: T;
+  clarifications?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
