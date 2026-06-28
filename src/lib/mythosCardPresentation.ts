@@ -35,8 +35,8 @@ function legacyLocationDisplay(card: MythosCard): MythosCardLocationDisplay | un
 
   return {
     text: fixture.cardDisplayText,
-    imageUrl: fixture.image.publicPath,
-    imageAlt: fixture.image.alt,
+    imageUrl: fixture.image?.publicPath,
+    imageAlt: fixture.image?.alt ?? fixture.name,
   }
 }
 

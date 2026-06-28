@@ -1,6 +1,11 @@
 import type { CollectionConfig } from 'payload'
 
 import { arkhamHorror2eBoxes } from '@/components/arkhamConstants'
+import {
+  locationBoards,
+  locationEncounterTypes,
+  locationStabilities,
+} from '@/content/locationTypes'
 import { validateCustomSetName } from '@/lib/otherWorldContent'
 
 const boxedSetOptions = [
@@ -16,7 +21,7 @@ export const Locations: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'key', 'boxedSet', 'updatedAt'],
+    defaultColumns: ['name', 'board', 'neighborhood', 'stability', 'boxedSet'],
   },
   versions: {
     drafts: {
@@ -54,6 +59,77 @@ export const Locations: CollectionConfig = {
       name: 'cardImage',
       type: 'upload',
       relationTo: 'media',
+    },
+    {
+      name: 'board',
+      type: 'select',
+      required: true,
+      options: locationBoards.map((board) => ({ label: board, value: board })),
+    },
+    {
+      name: 'customBoardName',
+      label: 'Custom Board Name',
+      type: 'text',
+      admin: {
+        condition: (_, siblingData) => siblingData?.board === 'Other',
+      },
+    },
+    {
+      name: 'neighborhood',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'stability',
+      type: 'select',
+      required: true,
+      options: locationStabilities.map((stability) => ({
+        label:
+          stability === 'n/a'
+            ? 'Not Applicable'
+            : stability[0].toUpperCase() + stability.slice(1),
+        value: stability,
+      })),
+    },
+    {
+      name: 'aquatic',
+      type: 'checkbox',
+      required: true,
+      defaultValue: false,
+    },
+    {
+      name: 'encounterTypes',
+      type: 'select',
+      hasMany: true,
+      options: locationEncounterTypes.map((encounterType) => ({
+        label: encounterType,
+        value: encounterType,
+      })),
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      admin: {
+        rows: 5,
+      },
+    },
+    {
+      name: 'specialEncounter',
+      type: 'textarea',
+      admin: {
+        rows: 5,
+      },
+    },
+    {
+      name: 'homeInvestigators',
+      type: 'array',
+      fields: [
+        {
+          name: 'name',
+          type: 'text',
+          required: true,
+        },
+      ],
     },
     {
       name: 'boxedSet',

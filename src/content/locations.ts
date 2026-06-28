@@ -1,38 +1,38 @@
-export const starterLocations = [
-  {
-    key: 'the-witch-house',
-    name: 'The Witch House',
+import { generatedLocations } from './locations.generated'
+import type { LocationFixture } from './locationTypes'
+
+const curatedPresentation: Record<
+  string,
+  Pick<LocationFixture, 'image'> & Partial<Pick<LocationFixture, 'cardDisplayText'>>
+> = {
+  'the-witch-house': {
     cardDisplayText: 'The Witch  \nHouse',
     image: {
       alt: 'The Witch House',
       filename: 'old-house.jpg',
       publicPath: '/images/arkhamLocations/old-house.jpg',
     },
-    boxedSet: 'Base Game',
   },
-  {
-    key: 'unvisited-isle',
-    name: 'Unvisited Isle',
-    cardDisplayText: 'Unvisited Isle',
+  'unvisited-isle': {
     image: {
       alt: 'Unvisited Isle',
       filename: 'isle.jpg',
       publicPath: '/images/arkhamLocations/isle.jpg',
     },
-    boxedSet: 'Base Game',
   },
-  {
-    key: 'black-cave',
-    name: 'Black Cave',
-    cardDisplayText: 'Black Cave',
+  'black-cave': {
     image: {
       alt: 'Black Cave',
       filename: 'cave.jpg',
       publicPath: '/images/arkhamLocations/cave.jpg',
     },
-    boxedSet: 'Base Game',
   },
-] as const
+}
+
+export const starterLocations: LocationFixture[] = generatedLocations.map((location) => ({
+  ...location,
+  ...curatedPresentation[location.key],
+}))
 
 export type StarterLocation = (typeof starterLocations)[number]
 

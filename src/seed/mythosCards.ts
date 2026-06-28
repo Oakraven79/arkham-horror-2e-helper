@@ -127,9 +127,15 @@ export async function seedMythosCards(payload: Payload) {
       continue
     }
 
-    const legacyLocation = fixture.locationKey
-      ? (getStarterLocation(fixture.locationKey)?.name ?? 'none')
-      : 'none'
+    const locationName = fixture.locationKey
+      ? getStarterLocation(fixture.locationKey)?.name
+      : null
+    const legacyLocation =
+      locationName === 'The Witch House' ||
+      locationName === 'Unvisited Isle' ||
+      locationName === 'Black Cave'
+        ? locationName
+        : 'none'
 
     await payload.create({
       collection: 'mythos-cards',

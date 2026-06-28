@@ -21,8 +21,8 @@ export function mythosCardExampleProps(cardCode: string): MythosCardFrontProps {
     location: location
       ? {
           text: location.cardDisplayText,
-          imageUrl: location.image.publicPath,
-          imageAlt: location.image.alt,
+          imageUrl: location.image?.publicPath,
+          imageAlt: location.image?.alt ?? location.name,
         }
       : undefined,
     lowerLeftOverride: card.lowerLeftOverride

@@ -182,6 +182,33 @@ export interface Location {
    */
   cardDisplayText: string;
   cardImage?: (string | null) | Media;
+  board: 'Arkham' | 'Dunwich' | 'Kingsport' | 'Innsmouth' | 'Other';
+  customBoardName?: string | null;
+  neighborhood: string;
+  stability: 'stable' | 'unstable' | 'n/a';
+  aquatic: boolean;
+  encounterTypes?:
+    | (
+        | 'Ally'
+        | 'Blessing'
+        | 'Clue'
+        | 'Common Item'
+        | 'Money'
+        | 'Sanity'
+        | 'Skill'
+        | 'Spell'
+        | 'Stamina'
+        | 'Unique Item'
+      )[]
+    | null;
+  description?: string | null;
+  specialEncounter?: string | null;
+  homeInvestigators?:
+    | {
+        name: string;
+        id?: string | null;
+      }[]
+    | null;
   boxedSet:
     | 'Base Game'
     | 'Dunwich Horror'
@@ -620,6 +647,20 @@ export interface LocationsSelect<T extends boolean = true> {
   key?: T;
   cardDisplayText?: T;
   cardImage?: T;
+  board?: T;
+  customBoardName?: T;
+  neighborhood?: T;
+  stability?: T;
+  aquatic?: T;
+  encounterTypes?: T;
+  description?: T;
+  specialEncounter?: T;
+  homeInvestigators?:
+    | T
+    | {
+        name?: T;
+        id?: T;
+      };
   boxedSet?: T;
   customSetName?: T;
   updatedAt?: T;

@@ -16,11 +16,34 @@ describe('Mythos starter content', () => {
       .filter((card) => !getStarterLocation(card.locationKey as string))
 
     expect(unresolved).toEqual([])
-    expect(starterLocations.map((location) => location.name)).toEqual([
-      'The Witch House',
-      'Unvisited Isle',
-      'Black Cave',
-    ])
+    expect(starterLocations).toHaveLength(57)
+    expect(new Set(starterLocations.map((location) => location.key)).size).toBe(57)
+    expect(starterLocations.map((location) => location.name)).toEqual(
+      expect.arrayContaining(['The Witch House', 'Unvisited Isle', 'Black Cave']),
+    )
+  })
+
+  it('maps the complete location catalog to its four boards', () => {
+    const boardCounts = starterLocations.reduce<Record<string, number>>(
+      (counts, location) => ({
+        ...counts,
+        [location.board]: (counts[location.board] ?? 0) + 1,
+      }),
+      {},
+    )
+
+    expect(boardCounts).toEqual({
+      Arkham: 27,
+      Dunwich: 9,
+      Kingsport: 12,
+      Innsmouth: 9,
+    })
+
+    expect(getStarterLocation('hall-school')).toMatchObject({
+      board: 'Kingsport',
+      aquatic: false,
+      homeInvestigators: [],
+    })
   })
 
   it('converts shared content into Storybook presentation props', () => {
