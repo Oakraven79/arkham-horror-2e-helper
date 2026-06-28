@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    locations: Location;
     'mythos-cards': MythosCard;
     'other-worlds': OtherWorld;
     'other-world-encounter-cards': OtherWorldEncounterCard;
@@ -81,6 +82,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    locations: LocationsSelect<false> | LocationsSelect<true>;
     'mythos-cards': MythosCardsSelect<false> | MythosCardsSelect<true>;
     'other-worlds': OtherWorldsSelect<false> | OtherWorldsSelect<true>;
     'other-world-encounter-cards': OtherWorldEncounterCardsSelect<false> | OtherWorldEncounterCardsSelect<true>;
@@ -166,19 +168,69 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "locations".
+ */
+export interface Location {
+  id: string;
+  name: string;
+  /**
+   * Stable identifier used by cards and imports, for example "black-cave".
+   */
+  key: string;
+  /**
+   * Markdown-capable location label rendered on the Mythos card.
+   */
+  cardDisplayText: string;
+  cardImage?: (string | null) | Media;
+  boxedSet:
+    | 'Base Game'
+    | 'Dunwich Horror'
+    | 'Kingsport Horror'
+    | 'Innsmouth Horror'
+    | 'Miskatonic Horror'
+    | 'Curse of the Dark Pharaoh (original)'
+    | 'Curse of the Dark Pharaoh (Revised Edition)'
+    | 'The Black Goat of the Woods'
+    | 'The King in Yellow'
+    | 'The Lurker at the Threshold'
+    | 'Custom';
+  customSetName?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "mythos-cards".
  */
 export interface MythosCard {
   id: string;
   title: string;
+  /**
+   * Stable identifier used by seeds and saved deck instances.
+   */
+  cardCode: string;
+  copyCount: number;
   cardType:
     | 'Headline'
     | 'Environment'
     | 'Environment (Mystic)'
     | 'Environment (Urban)'
     | 'Environment (Weather)'
-    | 'Rumor';
+    | 'Rumor'
+    | 'Special';
   desc?: string | null;
+  /**
+   * Location text and image rendered in the lower-left corner.
+   */
+  location?: (string | null) | Location;
+  lowerLeftOverride?: {
+    text?: string | null;
+    image?: (string | null) | Media;
+  };
+  /**
+   * Legacy field retained until location relationships have been migrated.
+   */
   encounterLocation: 'none' | 'The Witch House' | 'Unvisited Isle' | 'Black Cave';
   altLocationText?: string | null;
   altLocationImg?: string | null;
@@ -342,18 +394,45 @@ export interface GameSession {
      */
     drawHistory?: (string | MythosCard)[] | null;
     /**
+     * Copy-aware draw order. Each physical copy has its own stable instance key.
+     */
+    drawPileInstances?:
+      | {
+          instanceKey: string;
+          card: string | MythosCard;
+          id?: string | null;
+        }[]
+      | null;
+    discardPileInstances?:
+      | {
+          instanceKey: string;
+          card: string | MythosCard;
+          id?: string | null;
+        }[]
+      | null;
+    drawHistoryInstances?:
+      | {
+          instanceKey: string;
+          card: string | MythosCard;
+          id?: string | null;
+        }[]
+      | null;
+    /**
      * The card currently being revealed/resolved this Mythos phase.
      */
     currentDraw?: (string | null) | MythosCard;
+    currentDrawInstanceKey?: string | null;
     currentDrawRevealed?: boolean | null;
     /**
      * Only one Environment card should be active at a time.
      */
     activeEnvironment?: (string | null) | MythosCard;
+    activeEnvironmentInstanceKey?: string | null;
     /**
      * Only one Rumor card should be active at a time.
      */
     activeRumor?: (string | null) | MythosCard;
+    activeRumorInstanceKey?: string | null;
     shuffleCount: number;
   };
   /**
@@ -429,6 +508,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'locations';
+        value: string | Location;
       } | null)
     | ({
         relationTo: 'mythos-cards';
@@ -530,12 +613,36 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "locations_select".
+ */
+export interface LocationsSelect<T extends boolean = true> {
+  name?: T;
+  key?: T;
+  cardDisplayText?: T;
+  cardImage?: T;
+  boxedSet?: T;
+  customSetName?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "mythos-cards_select".
  */
 export interface MythosCardsSelect<T extends boolean = true> {
   title?: T;
+  cardCode?: T;
+  copyCount?: T;
   cardType?: T;
   desc?: T;
+  location?: T;
+  lowerLeftOverride?:
+    | T
+    | {
+        text?: T;
+        image?: T;
+      };
   encounterLocation?: T;
   altLocationText?: T;
   altLocationImg?: T;
@@ -612,10 +719,34 @@ export interface GameSessionsSelect<T extends boolean = true> {
         drawPile?: T;
         discardPile?: T;
         drawHistory?: T;
+        drawPileInstances?:
+          | T
+          | {
+              instanceKey?: T;
+              card?: T;
+              id?: T;
+            };
+        discardPileInstances?:
+          | T
+          | {
+              instanceKey?: T;
+              card?: T;
+              id?: T;
+            };
+        drawHistoryInstances?:
+          | T
+          | {
+              instanceKey?: T;
+              card?: T;
+              id?: T;
+            };
         currentDraw?: T;
+        currentDrawInstanceKey?: T;
         currentDrawRevealed?: T;
         activeEnvironment?: T;
+        activeEnvironmentInstanceKey?: T;
         activeRumor?: T;
+        activeRumorInstanceKey?: T;
         shuffleCount?: T;
       };
   shuffleEvents?:

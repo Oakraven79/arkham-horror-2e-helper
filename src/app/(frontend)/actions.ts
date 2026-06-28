@@ -9,29 +9,22 @@ import {
   clearActiveRumor,
   discardCurrentMythosCard,
   drawMythosCard,
+  createMythosDeckInstances,
   revealCurrentMythosCard,
   type MythosDeckState,
 } from '@/lib/mythosDeckState'
+import {
+  mythosDeckStateForPayload,
+  mythosDeckStateFromSession,
+} from '@/lib/mythosSessionState'
 import config from '@/payload.config'
 import type { GameSession } from '@/payload-types'
 
-type RelationshipValue = string | { id?: string | number } | null | undefined
 type SessionLogAction = NonNullable<GameSession['sessionLog']>[number]['action']
 type ShuffleEventReason = NonNullable<GameSession['shuffleEvents']>[number]['reason']
 
 const GAME_SESSIONS = 'game-sessions' as const
 const MYTHOS_CARDS = 'mythos-cards' as const
-
-function relationshipID(value: RelationshipValue): string | null {
-  if (!value) return null
-  if (typeof value === 'string') return value
-  if (value.id === undefined) return null
-  return String(value.id)
-}
-
-function relationshipIDs(values: RelationshipValue[] | null | undefined): string[] {
-  return (values ?? []).map(relationshipID).filter((id): id is string => Boolean(id))
-}
 
 function shuffle<T>(items: T[]): T[] {
   const shuffled = [...items]
@@ -42,21 +35,6 @@ function shuffle<T>(items: T[]): T[] {
   }
 
   return shuffled
-}
-
-function sessionMythosState(session: GameSession): MythosDeckState {
-  const mythos = session.mythos ?? {}
-
-  return {
-    drawPile: relationshipIDs(mythos.drawPile),
-    discardPile: relationshipIDs(mythos.discardPile),
-    drawHistory: relationshipIDs(mythos.drawHistory),
-    currentDraw: relationshipID(mythos.currentDraw),
-    currentDrawRevealed: mythos.currentDrawRevealed ?? false,
-    activeEnvironment: relationshipID(mythos.activeEnvironment),
-    activeRumor: relationshipID(mythos.activeRumor),
-    shuffleCount: mythos.shuffleCount ?? 0,
-  }
 }
 
 function logEntry(
@@ -113,7 +91,7 @@ async function updateSessionMythos(
     id: sessionID,
     overrideAccess: true,
     data: {
-      mythos: state,
+      mythos: mythosDeckStateForPayload(state),
       sessionLog: [...(session.sessionLog ?? []), logEntry(session, action, card, note)],
       ...extraData,
     },
@@ -131,7 +109,7 @@ export async function drawMythosAction(sessionID: string) {
     overrideAccess: true,
   })
 
-  const state = sessionMythosState(session)
+  const state = mythosDeckStateFromSession(session)
   const result = drawMythosCard(state, shuffle(state.discardPile ?? []))
   const shuffleEvents = result.didShuffle
     ? [
@@ -145,7 +123,7 @@ export async function drawMythosAction(sessionID: string) {
     id: sessionID,
     overrideAccess: true,
     data: {
-      mythos: result.state,
+      mythos: mythosDeckStateForPayload(result.state),
       sessionLog: [
         ...(session.sessionLog ?? []),
         ...(result.didShuffle ? [logEntry(session, 'shuffle-deck', null, 'Deck empty.')] : []),
@@ -166,9 +144,14 @@ export async function revealCurrentDrawAction(sessionID: string) {
     depth: 0,
     overrideAccess: true,
   })
-  const state = revealCurrentMythosCard(sessionMythosState(session))
+  const state = revealCurrentMythosCard(mythosDeckStateFromSession(session))
 
-  await updateSessionMythos(sessionID, state, 'reveal-card', state.currentDraw)
+  await updateSessionMythos(
+    sessionID,
+    state,
+    'reveal-card',
+    state.currentDraw?.cardID,
+  )
 }
 
 export async function discardCurrentDrawAction(sessionID: string) {
@@ -179,8 +162,8 @@ export async function discardCurrentDrawAction(sessionID: string) {
     depth: 0,
     overrideAccess: true,
   })
-  const currentDraw = relationshipID(session.mythos?.currentDraw)
-  const state = discardCurrentMythosCard(sessionMythosState(session))
+  const currentDraw = mythosDeckStateFromSession(session).currentDraw?.cardID
+  const state = discardCurrentMythosCard(mythosDeckStateFromSession(session))
 
   await updateSessionMythos(sessionID, state, 'discard-card', currentDraw)
 }
@@ -193,8 +176,8 @@ export async function activateCurrentEnvironmentAction(sessionID: string) {
     depth: 0,
     overrideAccess: true,
   })
-  const currentDraw = relationshipID(session.mythos?.currentDraw)
-  const state = activateCurrentEnvironment(sessionMythosState(session))
+  const currentDraw = mythosDeckStateFromSession(session).currentDraw?.cardID
+  const state = activateCurrentEnvironment(mythosDeckStateFromSession(session))
 
   await updateSessionMythos(sessionID, state, 'activate-environment', currentDraw)
 }
@@ -207,9 +190,10 @@ export async function activateCurrentRumorAction(sessionID: string) {
     depth: 0,
     overrideAccess: true,
   })
-  const currentDraw = relationshipID(session.mythos?.currentDraw)
-  const hadActiveRumor = Boolean(relationshipID(session.mythos?.activeRumor))
-  const state = activateCurrentRumor(sessionMythosState(session))
+  const sessionState = mythosDeckStateFromSession(session)
+  const currentDraw = sessionState.currentDraw?.cardID
+  const hadActiveRumor = Boolean(sessionState.activeRumor)
+  const state = activateCurrentRumor(sessionState)
 
   await updateSessionMythos(
     sessionID,
@@ -228,8 +212,9 @@ export async function clearActiveRumorAction(sessionID: string) {
     depth: 0,
     overrideAccess: true,
   })
-  const activeRumor = relationshipID(session.mythos?.activeRumor)
-  const state = clearActiveRumor(sessionMythosState(session))
+  const sessionState = mythosDeckStateFromSession(session)
+  const activeRumor = sessionState.activeRumor?.cardID
+  const state = clearActiveRumor(sessionState)
 
   await updateSessionMythos(sessionID, state, 'pass-rumor', activeRumor)
 }
@@ -242,7 +227,7 @@ export async function shuffleDiscardIntoDeckAction(sessionID: string) {
     depth: 0,
     overrideAccess: true,
   })
-  const state = sessionMythosState(session)
+  const state = mythosDeckStateFromSession(session)
   const shuffledDiscard = shuffle(state.discardPile ?? [])
   const nextState = {
     ...state,
@@ -276,7 +261,7 @@ export async function resetMythosDeckAction(sessionID: string) {
   })
 
   const nextState: MythosDeckState = {
-    drawPile: shuffle(cards.docs.map((card) => String(card.id))),
+    drawPile: shuffle(createMythosDeckInstances(cards.docs)),
     discardPile: [],
     drawHistory: [],
     currentDraw: null,

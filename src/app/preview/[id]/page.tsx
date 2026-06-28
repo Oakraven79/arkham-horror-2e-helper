@@ -4,6 +4,7 @@ import { getPayload } from 'payload'
 import config from '../../../payload.config'
 
 import { MythosCardFront } from '@/components/mythosCardFront'
+import { mythosCardFrontProps } from '@/lib/mythosCardPresentation'
 import { Fragment } from 'react'
 
 interface Props {
@@ -22,7 +23,7 @@ export default async function DebugPreview({ params }: Props) {
     collection: 'mythos-cards',
     draft: true,
     id: id,
-    depth: 1,
+    depth: 2,
   })
 
   return (
@@ -31,14 +32,9 @@ export default async function DebugPreview({ params }: Props) {
       <h2>Rendered Card</h2>
 
       <MythosCardFront
-        title={doc.title}
-        cardType={doc.cardType}
-        cardDescription={doc.desc ?? ''}
+        {...mythosCardFrontProps(doc)}
         monsterMoveWhite={doc.monsterMoveWhite?.slice().reverse()}
         monsterMoveBlack={doc.monsterMoveBlack?.slice().reverse()}
-        portalLocation={doc.encounterLocation}
-        portalLocationAltImg={doc.altLocationImg ?? undefined}
-        portalLocationAltText={doc.altLocationText ?? undefined}
       />
     </Fragment>
   )

@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, Field } from 'payload'
 
 import { arkhamHorror2eBoxes } from '@/components/arkhamConstants'
 
@@ -16,6 +16,19 @@ const mythosCardRelationship = {
   type: 'relationship',
   relationTo: 'mythos-cards',
 } as const
+
+const mythosCardInstanceFields: Field[] = [
+  {
+    name: 'instanceKey',
+    type: 'text',
+    required: true,
+  },
+  {
+    name: 'card',
+    ...mythosCardRelationship,
+    required: true,
+  },
+]
 
 export const GameSessions: CollectionConfig = {
   slug: 'game-sessions',
@@ -170,12 +183,38 @@ export const GameSessions: CollectionConfig = {
           },
         },
         {
+          name: 'drawPileInstances',
+          label: 'Draw Pile Instances',
+          type: 'array',
+          fields: mythosCardInstanceFields,
+          admin: {
+            description:
+              'Copy-aware draw order. Each physical copy has its own stable instance key.',
+          },
+        },
+        {
+          name: 'discardPileInstances',
+          label: 'Discard Pile Instances',
+          type: 'array',
+          fields: mythosCardInstanceFields,
+        },
+        {
+          name: 'drawHistoryInstances',
+          label: 'Draw History Instances',
+          type: 'array',
+          fields: mythosCardInstanceFields,
+        },
+        {
           name: 'currentDraw',
           label: 'Current Mythos Draw',
           ...mythosCardRelationship,
           admin: {
             description: 'The card currently being revealed/resolved this Mythos phase.',
           },
+        },
+        {
+          name: 'currentDrawInstanceKey',
+          type: 'text',
         },
         {
           name: 'currentDrawRevealed',
@@ -191,12 +230,20 @@ export const GameSessions: CollectionConfig = {
           },
         },
         {
+          name: 'activeEnvironmentInstanceKey',
+          type: 'text',
+        },
+        {
           name: 'activeRumor',
           label: 'Active Rumor',
           ...mythosCardRelationship,
           admin: {
             description: 'Only one Rumor card should be active at a time.',
           },
+        },
+        {
+          name: 'activeRumorInstanceKey',
+          type: 'text',
         },
         {
           name: 'shuffleCount',

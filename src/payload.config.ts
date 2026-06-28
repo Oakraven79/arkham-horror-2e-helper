@@ -13,6 +13,7 @@ import { MythosCards } from './collections/MythosCards'
 import { GameSessions } from './collections/GameSessions'
 import { OtherWorldEncounterCards } from './collections/OtherWorldEncounterCards'
 import { OtherWorlds } from './collections/OtherWorlds'
+import { Locations } from './collections/Locations'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -31,6 +32,7 @@ export default buildConfig({
   collections: [
     Users,
     Media,
+    Locations,
     MythosCards,
     OtherWorlds,
     OtherWorldEncounterCards,

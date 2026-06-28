@@ -5,11 +5,21 @@ import './card.css'
 import {
   MonsterIcons,
   getMonsterIconPath,
-  EncounterLocation,
-  encounterLocationMap,
 } from './constants'
 
 import { MythosCardType } from './constants'
+
+export interface MythosCardLocationDisplay {
+  imageAlt?: string
+  imageUrl?: string
+  text: string
+}
+
+export interface MythosCardLowerLeftOverride {
+  imageAlt?: string
+  imageUrl?: string
+  text?: string
+}
 
 export interface MythosCardFrontProps {
   /** Card title */
@@ -21,22 +31,18 @@ export interface MythosCardFrontProps {
   /** Monster movement for white and black */
   monsterMoveWhite?: MonsterIcons[]
   monsterMoveBlack?: MonsterIcons[]
-  /** Portal Location */
-  portalLocation?: EncounterLocation
-  /** Portal Alt Text and IMG */
-  portalLocationAltImg?: string
-  portalLocationAltText?: string
+  /** Location display resolved from Payload */
+  location?: MythosCardLocationDisplay
+  /** Special lower-left instructions used by cards without a normal location */
+  lowerLeftOverride?: MythosCardLowerLeftOverride
 }
 
 export interface MythosCardFrontEncounterLocationProps {
-  /** Portal Location */
-  portalLocation?: EncounterLocation
+  location?: MythosCardLocationDisplay
 }
 
 export interface MythosCardFrontEncounterAltLocationProps {
-  /** Portal Location */
-  portalLocationAltImg?: string
-  portalLocationAltText?: string
+  lowerLeftOverride?: MythosCardLowerLeftOverride
 }
 
 export interface MythosCardFrontMonsterMovementProps {
@@ -55,42 +61,48 @@ function getDescSizeClass(description: string) {
 }
 
 const MythosCardFrontEncounterLocation = ({
-  portalLocation,
+  location,
 }: MythosCardFrontEncounterLocationProps) => {
-  const encounterObj = portalLocation ? encounterLocationMap[portalLocation] : null
-
-  if (encounterObj === null || encounterObj?.file === 'null') {
-    return
+  if (!location) {
+    return null
   }
 
   return (
     <div>
       <div className="mythos-portal-location-text">
-        <ReactMarkdown>{encounterObj.display}</ReactMarkdown>
+        <ReactMarkdown>{location.text}</ReactMarkdown>
       </div>
-      <div className="mythos-portal-location">
-        <img src={encounterObj.file} />
-      </div>
+      {location.imageUrl && (
+        <div className="mythos-portal-location">
+          <img src={location.imageUrl} alt={location.imageAlt ?? location.text} />
+        </div>
+      )}
     </div>
   )
 }
 
 const MythosCardFrontEncounterAltLocation = ({
-  portalLocationAltImg,
-  portalLocationAltText,
+  lowerLeftOverride,
 }: MythosCardFrontEncounterAltLocationProps) => {
-  if (!portalLocationAltImg && !portalLocationAltText) {
-    return
+  if (!lowerLeftOverride?.imageUrl && !lowerLeftOverride?.text) {
+    return null
   }
 
   return (
     <div>
-      <div className="mythos-portal-alt-location-text">
-        <ReactMarkdown>{portalLocationAltText}</ReactMarkdown>
-      </div>
-      <div className="mythos-portal-alt-location">
-        <img src={portalLocationAltImg} />
-      </div>
+      {lowerLeftOverride.text && (
+        <div className="mythos-portal-alt-location-text">
+          <ReactMarkdown>{lowerLeftOverride.text}</ReactMarkdown>
+        </div>
+      )}
+      {lowerLeftOverride.imageUrl && (
+        <div className="mythos-portal-alt-location">
+          <img
+            src={lowerLeftOverride.imageUrl}
+            alt={lowerLeftOverride.imageAlt ?? 'Mythos card instruction'}
+          />
+        </div>
+      )}
     </div>
   )
 }
@@ -130,12 +142,9 @@ export const MythosCardFront = ({
   cardDescription,
   monsterMoveWhite,
   monsterMoveBlack,
-  portalLocation,
-  portalLocationAltImg,
-  portalLocationAltText,
+  location,
+  lowerLeftOverride,
 }: MythosCardFrontProps) => {
-  const encounterObj = portalLocation ? encounterLocationMap[portalLocation] : null
-
   const descSizeClass = getDescSizeClass(cardDescription)
 
   const titleSizeClass = (title?.length ?? 1) > 22 ? 'mythoscardtitle-long' : 'mythoscardtitle'
@@ -154,7 +163,7 @@ export const MythosCardFront = ({
     : []
 
   const centeredMonsterMovementBox =
-    !portalLocation && !portalLocationAltImg && !portalLocationAltText
+    !location && !lowerLeftOverride?.imageUrl && !lowerLeftOverride?.text
 
   return (
     <div className="mythoscardfront">
@@ -172,12 +181,11 @@ export const MythosCardFront = ({
         centered={centeredMonsterMovementBox}
       />
 
-      <MythosCardFrontEncounterAltLocation
-        portalLocationAltImg={portalLocationAltImg}
-        portalLocationAltText={portalLocationAltText}
-      />
-
-      <MythosCardFrontEncounterLocation portalLocation={portalLocation} />
+      {lowerLeftOverride ? (
+        <MythosCardFrontEncounterAltLocation lowerLeftOverride={lowerLeftOverride} />
+      ) : (
+        <MythosCardFrontEncounterLocation location={location} />
+      )}
     </div>
   )
 }

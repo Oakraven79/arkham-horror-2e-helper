@@ -2,6 +2,12 @@ import Link from 'next/link'
 import { getPayload } from 'payload'
 
 import { MythosCardFront, type MythosCardFrontProps } from '@/components/mythosCardFront'
+import { createMythosDeckInstances } from '@/lib/mythosDeckState'
+import { mythosCardFrontProps } from '@/lib/mythosCardPresentation'
+import {
+  mythosDeckStateForPayload,
+  mythosDeckStateFromSession,
+} from '@/lib/mythosSessionState'
 import config from '@/payload.config'
 import type { GameSession, MythosCard } from '@/payload-types'
 
@@ -30,10 +36,6 @@ function relationshipID(value: RelationshipValue): string | null {
   return String(value.id)
 }
 
-function relationshipIDs(values: RelationshipValue[] | null | undefined): string[] {
-  return (values ?? []).map(relationshipID).filter((id): id is string => Boolean(id))
-}
-
 function shuffle<T>(items: T[]): T[] {
   const shuffled = [...items]
 
@@ -51,24 +53,14 @@ function isCardDocument(value: RelationshipValue): value is MythosCard {
 
 function cardProps(card: MythosCard | null): MythosCardFrontProps | null {
   if (!card) return null
-
-  return {
-    title: card.title,
-    cardType: card.cardType,
-    cardDescription: card.desc ?? '',
-    monsterMoveWhite: card.monsterMoveWhite ?? undefined,
-    monsterMoveBlack: card.monsterMoveBlack ?? undefined,
-    portalLocation: card.encounterLocation,
-    portalLocationAltImg: card.altLocationImg ?? undefined,
-    portalLocationAltText: card.altLocationText ?? undefined,
-  }
+  return mythosCardFrontProps(card)
 }
 
 async function getAllMythosCards(payload: Awaited<ReturnType<typeof getPayload>>) {
   const cards = await payload.find({
     collection: MYTHOS_CARDS,
     limit: 1000,
-    depth: 0,
+    depth: 2,
     overrideAccess: true,
   })
 
@@ -113,13 +105,16 @@ async function getOrCreateSession(
         monstersInArkham: 0,
         monstersInOutskirts: 0,
       },
-      mythos: {
-        drawPile: shuffle(mythosCards.map((card) => String(card.id))),
+      mythos: mythosDeckStateForPayload({
+        drawPile: shuffle(createMythosDeckInstances(mythosCards)),
         discardPile: [],
         drawHistory: [],
+        currentDraw: null,
         currentDrawRevealed: false,
+        activeEnvironment: null,
+        activeRumor: null,
         shuffleCount: 0,
-      },
+      }),
       sessionLog: [
         {
           turnNumber: 1,
@@ -198,15 +193,18 @@ export default async function HomePage() {
   const mythosCards = await getAllMythosCards(payload)
   const session = await getOrCreateSession(payload, mythosCards)
   const cardsByID = new Map(mythosCards.map((card) => [String(card.id), card]))
-  const mythos = session.mythos ?? {}
+  const mythos = mythosDeckStateFromSession(session)
   const tracks = session.tracks ?? {}
 
-  const drawPile = relationshipIDs(mythos.drawPile)
-  const discardPile = relationshipIDs(mythos.discardPile)
-  const drawHistory = relationshipIDs(mythos.drawHistory)
-  const currentCardDocument = resolveCard(mythos.currentDraw, cardsByID)
-  const activeEnvironmentDocument = resolveCard(mythos.activeEnvironment, cardsByID)
-  const activeRumorDocument = resolveCard(mythos.activeRumor, cardsByID)
+  const drawPile = mythos.drawPile ?? []
+  const discardPile = mythos.discardPile ?? []
+  const drawHistory = mythos.drawHistory ?? []
+  const currentCardDocument = resolveCard(mythos.currentDraw?.cardID, cardsByID)
+  const activeEnvironmentDocument = resolveCard(
+    mythos.activeEnvironment?.cardID,
+    cardsByID,
+  )
+  const activeRumorDocument = resolveCard(mythos.activeRumor?.cardID, cardsByID)
   const currentCard = cardProps(currentCardDocument)
   const activeEnvironment = cardProps(activeEnvironmentDocument)
   const activeRumor = cardProps(activeRumorDocument)
@@ -276,7 +274,7 @@ export default async function HomePage() {
               <MythosDeckSlot
                 sessionID={sessionID}
                 currentCard={currentCard}
-                currentCardID={relationshipID(mythos.currentDraw)}
+                currentCardID={mythos.currentDraw?.cardID ?? null}
                 revealed={Boolean(mythos.currentDrawRevealed)}
                 cardsRemaining={drawPile.length}
               />

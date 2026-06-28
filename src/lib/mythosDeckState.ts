@@ -1,25 +1,44 @@
 export type MythosCardID = string
 
+export interface MythosCardInstance {
+  cardID: MythosCardID
+  instanceKey: string
+}
+
 export interface MythosDeckState {
-  drawPile?: MythosCardID[]
-  discardPile?: MythosCardID[]
-  drawHistory?: MythosCardID[]
-  currentDraw?: MythosCardID | null
+  drawPile?: MythosCardInstance[]
+  discardPile?: MythosCardInstance[]
+  drawHistory?: MythosCardInstance[]
+  currentDraw?: MythosCardInstance | null
   currentDrawRevealed?: boolean
-  activeEnvironment?: MythosCardID | null
-  activeRumor?: MythosCardID | null
+  activeEnvironment?: MythosCardInstance | null
+  activeRumor?: MythosCardInstance | null
   shuffleCount?: number
 }
 
 export interface DrawMythosResult {
   state: MythosDeckState
   drawnCardID: MythosCardID | null
+  drawnInstanceKey: string | null
   didShuffle: boolean
+}
+
+export function createMythosDeckInstances(
+  cards: { copyCount?: number | null; id: string | number }[],
+): MythosCardInstance[] {
+  return cards.flatMap((card) => {
+    const copyCount = Math.max(1, Math.floor(card.copyCount ?? 1))
+
+    return Array.from({ length: copyCount }, (_, index) => ({
+      cardID: String(card.id),
+      instanceKey: `${String(card.id)}:${index + 1}`,
+    }))
+  })
 }
 
 export function drawMythosCard(
   state: MythosDeckState,
-  shuffledDiscardPile?: MythosCardID[],
+  shuffledDiscardPile?: MythosCardInstance[],
 ): DrawMythosResult {
   const drawPile = [...(state.drawPile ?? [])]
   const discardPile = [...(state.discardPile ?? [])]
@@ -34,9 +53,9 @@ export function drawMythosCard(
     didShuffle = true
   }
 
-  const [drawnCardID, ...remainingDrawPile] = nextDrawPile
+  const [drawnCard, ...remainingDrawPile] = nextDrawPile
 
-  if (!drawnCardID) {
+  if (!drawnCard) {
     return {
       state: {
         ...state,
@@ -47,6 +66,7 @@ export function drawMythosCard(
         shuffleCount: state.shuffleCount ?? 0,
       },
       drawnCardID: null,
+      drawnInstanceKey: null,
       didShuffle,
     }
   }
@@ -56,12 +76,13 @@ export function drawMythosCard(
       ...state,
       drawPile: remainingDrawPile,
       discardPile: nextDiscardPile,
-      drawHistory: [...drawHistory, drawnCardID],
-      currentDraw: drawnCardID,
+      drawHistory: [...drawHistory, drawnCard],
+      currentDraw: drawnCard,
       currentDrawRevealed: false,
       shuffleCount: (state.shuffleCount ?? 0) + (didShuffle ? 1 : 0),
     },
-    drawnCardID,
+    drawnCardID: drawnCard.cardID,
+    drawnInstanceKey: drawnCard.instanceKey,
     didShuffle,
   }
 }
