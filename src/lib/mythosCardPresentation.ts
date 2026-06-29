@@ -1,5 +1,6 @@
 import { starterLocations } from '@/content/locations'
 import type {
+  MythosCardGateInstructionDisplay,
   MythosCardLocationDisplay,
   MythosCardLowerLeftOverride,
   MythosCardFrontProps,
@@ -27,9 +28,7 @@ function populatedLocationDisplay(location: Location): MythosCardLocationDisplay
 function legacyLocationDisplay(card: MythosCard): MythosCardLocationDisplay | undefined {
   if (card.encounterLocation === 'none') return undefined
 
-  const fixture = starterLocations.find(
-    (location) => location.name === card.encounterLocation,
-  )
+  const fixture = starterLocations.find((location) => location.name === card.encounterLocation)
 
   if (!fixture) return undefined
 
@@ -41,9 +40,7 @@ function legacyLocationDisplay(card: MythosCard): MythosCardLocationDisplay | un
 }
 
 function lowerLeftOverride(card: MythosCard): MythosCardLowerLeftOverride | undefined {
-  const image = isMedia(card.lowerLeftOverride?.image)
-    ? card.lowerLeftOverride.image
-    : null
+  const image = isMedia(card.lowerLeftOverride?.image) ? card.lowerLeftOverride.image : null
   const text = card.lowerLeftOverride?.text ?? card.altLocationText ?? undefined
   const imageUrl = image?.url ?? card.altLocationImg ?? undefined
 
@@ -56,16 +53,49 @@ function lowerLeftOverride(card: MythosCard): MythosCardLowerLeftOverride | unde
   }
 }
 
+function gateInstruction(
+  card: MythosCard,
+  legacyLocation: MythosCardLocationDisplay | undefined,
+): MythosCardGateInstructionDisplay | undefined {
+  const locations = (card.gateInstruction?.locations ?? [])
+    .filter(isLocation)
+    .map(populatedLocationDisplay)
+  const mode = card.gateInstruction?.mode
+
+  if (
+    !mode &&
+    !card.doomTokens &&
+    !card.terrorIncrease &&
+    !card.reshuffleDeck &&
+    !card.specialInstruction
+  ) {
+    return undefined
+  }
+
+  return {
+    mode: mode ?? (legacyLocation ? 'single' : 'none'),
+    locations: locations.length > 0 ? locations : legacyLocation ? [legacyLocation] : [],
+    burst: card.gateInstruction?.burst ?? false,
+    doomTokens: card.doomTokens ?? undefined,
+    terrorIncrease: card.terrorIncrease ?? undefined,
+    reshuffleDeck: card.reshuffleDeck ?? undefined,
+    specialInstruction: card.specialInstruction ?? undefined,
+  }
+}
+
 export function mythosCardFrontProps(card: MythosCard): MythosCardFrontProps {
+  const location = isLocation(card.location)
+    ? populatedLocationDisplay(card.location)
+    : legacyLocationDisplay(card)
+
   return {
     title: card.title,
     cardType: card.cardType === 'Special' ? undefined : card.cardType,
     cardDescription: card.desc ?? '',
     monsterMoveWhite: card.monsterMoveWhite ?? undefined,
     monsterMoveBlack: card.monsterMoveBlack ?? undefined,
-    location: isLocation(card.location)
-      ? populatedLocationDisplay(card.location)
-      : legacyLocationDisplay(card),
+    location,
+    gateInstruction: gateInstruction(card, location),
     lowerLeftOverride: lowerLeftOverride(card),
   }
 }

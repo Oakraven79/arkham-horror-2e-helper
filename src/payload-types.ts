@@ -247,8 +247,39 @@ export interface MythosCard {
     | 'Rumor'
     | 'Special';
   desc?: string | null;
+  flavorText?: string | null;
+  effectText?: string | null;
+  ongoingEffect?: string | null;
+  passCondition?: string | null;
+  failCondition?: string | null;
   /**
-   * Location text and image rendered in the lower-left corner.
+   * Printed clue placement text. Street areas remain text until board spaces are modeled.
+   */
+  clueText?: string | null;
+  gateInstruction: {
+    mode: 'none' | 'single' | 'choice' | 'all' | 'surge';
+    /**
+     * All printed gate destinations. Choice and all modes may contain multiple locations.
+     */
+    locations?: (string | Location)[] | null;
+    burst?: boolean | null;
+  };
+  /**
+   * Explicit doom-token instruction when the card differs from normal gate resolution.
+   */
+  doomTokens?: number | null;
+  terrorIncrease?: number | null;
+  reshuffleDeck?: boolean | null;
+  specialInstruction?: string | null;
+  rulesNotes?:
+    | {
+        kind: 'clarification' | 'errata' | 'misprint';
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Legacy primary location retained while card rendering migrates to Gate Instruction.
    */
   location?: (string | null) | Location;
   lowerLeftOverride?: {
@@ -677,6 +708,30 @@ export interface MythosCardsSelect<T extends boolean = true> {
   copyCount?: T;
   cardType?: T;
   desc?: T;
+  flavorText?: T;
+  effectText?: T;
+  ongoingEffect?: T;
+  passCondition?: T;
+  failCondition?: T;
+  clueText?: T;
+  gateInstruction?:
+    | T
+    | {
+        mode?: T;
+        locations?: T;
+        burst?: T;
+      };
+  doomTokens?: T;
+  terrorIncrease?: T;
+  reshuffleDeck?: T;
+  specialInstruction?: T;
+  rulesNotes?:
+    | T
+    | {
+        kind?: T;
+        text?: T;
+        id?: T;
+      };
   location?: T;
   lowerLeftOverride?:
     | T

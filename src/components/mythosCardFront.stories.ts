@@ -63,3 +63,15 @@ export const NoCardTypeExample: Story = {
 export const AllMonstersButNoLocationExample: Story = {
   args: mythosCardExampleProps('king-in-yellow-the-next-act-begins'),
 }
+
+export const AlternateGateLocationsExample: Story = {
+  args: mythosCardExampleProps('miskatonic-a-new-dawn'),
+}
+
+export const GateBurstExample: Story = {
+  args: mythosCardExampleProps('kingsport-the-doors-of-sleep'),
+}
+
+export const TwoDoomTokensExample: Story = {
+  args: mythosCardExampleProps('kingsport-cover-up'),
+}

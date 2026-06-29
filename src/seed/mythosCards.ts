@@ -2,7 +2,7 @@ import type { Payload } from 'payload'
 
 import { getStarterLocation } from '@/content/locations'
 import { starterMythosCards, type StarterMythosCard } from '@/content/mythosCards'
-import type { MythosCard } from '@/payload-types'
+import type { Location, MythosCard } from '@/payload-types'
 
 import { ensureSeedMedia } from './media'
 
@@ -10,6 +10,10 @@ const doomCounterAsset = {
   alt: 'Doom counters',
   filename: 'doomCounters.png',
   publicPath: '/images/misc/doomCounters.png',
+}
+
+export interface SeedMythosCardsOptions {
+  dryRun?: boolean
 }
 
 export function normalizeCardTitle(value: string) {
@@ -40,7 +44,119 @@ function relationshipID(value: unknown): string | null {
   return null
 }
 
-export async function seedMythosCards(payload: Payload) {
+function fixtureRulesNotes(fixture: StarterMythosCard) {
+  return fixture.rulesNotes?.map((note) => ({ ...note }))
+}
+
+function fixtureMetadata(fixture: StarterMythosCard, locationsByKey: Map<string, Location>) {
+  const gateLocations = fixture.gateInstruction.locationKeys.map(
+    (key) => locationsByKey.get(key) as Location,
+  )
+  const primaryLocation = fixture.locationKey ? locationsByKey.get(fixture.locationKey) : undefined
+  const locationName = fixture.locationKey ? getStarterLocation(fixture.locationKey)?.name : null
+  const legacyLocation: MythosCard['encounterLocation'] =
+    locationName === 'The Witch House' ||
+    locationName === 'Unvisited Isle' ||
+    locationName === 'Black Cave'
+      ? locationName
+      : 'none'
+
+  return {
+    cardCode: fixture.cardCode,
+    copyCount: fixture.copyCount,
+    cardType: fixture.cardType,
+    flavorText: fixture.flavorText,
+    effectText: fixture.effectText,
+    ongoingEffect: fixture.ongoingEffect,
+    passCondition: fixture.passCondition,
+    failCondition: fixture.failCondition,
+    clueText: fixture.clueText,
+    gateInstruction: {
+      mode: fixture.gateInstruction.mode,
+      locations: gateLocations.map((location) => location.id),
+      burst: fixture.gateInstruction.burst,
+    },
+    doomTokens: fixture.doomTokens,
+    terrorIncrease: fixture.terrorIncrease,
+    reshuffleDeck: fixture.reshuffleDeck ?? false,
+    specialInstruction: fixture.specialInstruction,
+    rulesNotes: fixtureRulesNotes(fixture),
+    location: primaryLocation?.id,
+    encounterLocation: legacyLocation,
+    monsterMoveWhite: fixture.monsterMoveWhite,
+    monsterMoveBlack: fixture.monsterMoveBlack,
+    boxedset: fixture.boxedSet,
+  }
+}
+
+function comparableDocument(card: MythosCard) {
+  const notes = card.rulesNotes?.map((note) => ({
+    kind: note.kind,
+    text: note.text,
+  }))
+  const monsterMoveWhite = card.monsterMoveWhite ?? []
+  const monsterMoveBlack = card.monsterMoveBlack ?? []
+
+  return {
+    cardCode: card.cardCode,
+    copyCount: card.copyCount,
+    cardType: card.cardType,
+    flavorText: card.flavorText ?? undefined,
+    effectText: card.effectText ?? undefined,
+    ongoingEffect: card.ongoingEffect ?? undefined,
+    passCondition: card.passCondition ?? undefined,
+    failCondition: card.failCondition ?? undefined,
+    clueText: card.clueText ?? undefined,
+    gateInstruction: {
+      mode: card.gateInstruction?.mode ?? 'none',
+      locations: (card.gateInstruction?.locations ?? [])
+        .map(relationshipID)
+        .filter((id): id is string => Boolean(id)),
+      burst: card.gateInstruction?.burst ?? false,
+    },
+    doomTokens: card.doomTokens ?? undefined,
+    terrorIncrease: card.terrorIncrease ?? undefined,
+    reshuffleDeck: card.reshuffleDeck ?? false,
+    specialInstruction: card.specialInstruction ?? undefined,
+    rulesNotes: notes && notes.length > 0 ? notes : undefined,
+    location: relationshipID(card.location) ?? undefined,
+    encounterLocation: card.encounterLocation,
+    monsterMoveWhite: monsterMoveWhite.length > 0 ? monsterMoveWhite : undefined,
+    monsterMoveBlack: monsterMoveBlack.length > 0 ? monsterMoveBlack : undefined,
+    boxedset: card.boxedset,
+  }
+}
+
+function comparableFixture(fixture: StarterMythosCard, locationsByKey: Map<string, Location>) {
+  const metadata = fixtureMetadata(fixture, locationsByKey)
+
+  return {
+    ...metadata,
+    gateInstruction: {
+      ...metadata.gateInstruction,
+      locations: metadata.gateInstruction.locations.map(String),
+    },
+    location: metadata.location ? String(metadata.location) : undefined,
+  }
+}
+
+function metadataDifferences(
+  card: MythosCard,
+  fixture: StarterMythosCard,
+  locationsByKey: Map<string, Location>,
+) {
+  const document = comparableDocument(card)
+  const expected = comparableFixture(fixture, locationsByKey)
+
+  return Object.keys(expected).filter(
+    (field) =>
+      JSON.stringify(document[field as keyof typeof document]) !==
+      JSON.stringify(expected[field as keyof typeof expected]),
+  )
+}
+
+export async function seedMythosCards(payload: Payload, options: SeedMythosCardsOptions = {}) {
+  const dryRun = options.dryRun ?? false
   const [existingCards, locations] = await Promise.all([
     payload.find({
       collection: 'mythos-cards',
@@ -58,18 +174,53 @@ export async function seedMythosCards(payload: Payload) {
     }),
   ])
 
-  const cardsByCode = new Map(
-    existingCards.docs
-      .filter((card) => card.cardCode)
-      .map((card) => [card.cardCode as string, card]),
-  )
-  const cardsByIdentity = new Map(
-    existingCards.docs.map((card) => [documentIdentity(card), card]),
-  )
+  const cardsByCode = new Map<string, MythosCard[]>()
+  const cardsByIdentity = new Map<string, MythosCard[]>()
   const locationsByKey = new Map(locations.docs.map((location) => [location.key, location]))
+
+  for (const card of existingCards.docs) {
+    cardsByCode.set(card.cardCode, [...(cardsByCode.get(card.cardCode) ?? []), card])
+    const identity = documentIdentity(card)
+    cardsByIdentity.set(identity, [...(cardsByIdentity.get(identity) ?? []), card])
+  }
+
+  const unresolvedLocations = [
+    ...new Set(
+      starterMythosCards.flatMap((fixture) =>
+        [fixture.locationKey, ...fixture.gateInstruction.locationKeys].filter(
+          (key): key is string => Boolean(key && !locationsByKey.has(key)),
+        ),
+      ),
+    ),
+  ]
+  const matches = starterMythosCards.map((fixture) => {
+    const codeMatches = cardsByCode.get(fixture.cardCode) ?? []
+    const identityMatches = cardsByIdentity.get(fixtureIdentity(fixture)) ?? []
+
+    return {
+      fixture,
+      candidates: codeMatches.length > 0 ? codeMatches : identityMatches,
+    }
+  })
+  const ambiguous = matches
+    .filter((match) => match.candidates.length > 1)
+    .map((match) => match.fixture.title)
+
+  if (!dryRun && unresolvedLocations.length > 0) {
+    throw new Error(
+      `Cannot seed Mythos cards because locations are missing: ${unresolvedLocations.join(', ')}`,
+    )
+  }
+
+  if (!dryRun && ambiguous.length > 0) {
+    throw new Error(`Ambiguous official Mythos card matches: ${ambiguous.join(', ')}`)
+  }
+
   const created: string[] = []
-  const linked: string[] = []
-  const existing: string[] = []
+  const enriched: string[] = []
+  const enrichmentDetails: { fields: string[]; title: string }[] = []
+  const unchanged: string[] = []
+  let mediaCreated = 0
   let doomCounterMediaID: string | null = null
 
   async function getDoomCounterMediaID() {
@@ -77,99 +228,126 @@ export async function seedMythosCards(payload: Payload) {
 
     const result = await ensureSeedMedia(payload, doomCounterAsset)
     doomCounterMediaID = String(result.media.id)
+
+    if (result.created) {
+      mediaCreated += 1
+    }
+
     return doomCounterMediaID
   }
 
-  for (const fixture of starterMythosCards) {
-    if (cardsByCode.has(fixture.cardCode)) {
-      existing.push(fixture.title)
-      continue
+  if (unresolvedLocations.length > 0) {
+    return {
+      ambiguous,
+      created,
+      dryRun,
+      enriched,
+      enrichmentDetails,
+      mediaCreated,
+      physicalCards: starterMythosCards.reduce((total, card) => total + card.copyCount, 0),
+      unchanged,
+      unresolvedLocations,
     }
+  }
 
-    const location = fixture.locationKey ? locationsByKey.get(fixture.locationKey) : null
+  for (const match of matches) {
+    if (match.candidates.length > 1) continue
 
-    if (fixture.locationKey && !location) {
-      throw new Error(
-        `Cannot seed "${fixture.title}" because location "${fixture.locationKey}" is missing.`,
-      )
-    }
+    const { fixture } = match
+    const existingCard = match.candidates[0]
+    const metadata = fixtureMetadata(fixture, locationsByKey)
 
-    const lowerLeftImageID = fixture.lowerLeftOverride?.imagePublicPath
-      ? await getDoomCounterMediaID()
-      : null
-    const matchingCard = cardsByIdentity.get(fixtureIdentity(fixture))
+    if (!existingCard) {
+      created.push(fixture.title)
 
-    if (matchingCard) {
-      await payload.update({
+      if (dryRun) continue
+
+      const lowerLeftImageID = fixture.lowerLeftOverride?.imagePublicPath
+        ? await getDoomCounterMediaID()
+        : null
+
+      await payload.create({
         collection: 'mythos-cards',
-        id: matchingCard.id,
         data: {
-          cardCode: fixture.cardCode,
-          copyCount: matchingCard.copyCount ?? fixture.copyCount,
-          ...(location && !relationshipID(matchingCard.location)
-            ? { location: location.id }
-            : {}),
-          ...(fixture.lowerLeftOverride && !matchingCard.lowerLeftOverride
+          title: fixture.title,
+          desc: fixture.description,
+          ...metadata,
+          lowerLeftOverride: fixture.lowerLeftOverride
             ? {
-                lowerLeftOverride: {
-                  text: fixture.lowerLeftOverride.text,
-                  image: lowerLeftImageID,
-                },
+                text: fixture.lowerLeftOverride.text,
+                image: lowerLeftImageID,
               }
-            : {}),
-          _status: matchingCard._status,
+            : undefined,
+          altLocationText: fixture.lowerLeftOverride?.text,
+          altLocationImg: fixture.lowerLeftOverride?.imagePublicPath,
+          _status: 'published',
         },
-        draft: matchingCard._status === 'draft',
+        draft: false,
         overrideAccess: true,
       })
-
-      linked.push(fixture.title)
       continue
     }
 
-    const locationName = fixture.locationKey
-      ? getStarterLocation(fixture.locationKey)?.name
-      : null
-    const legacyLocation =
-      locationName === 'The Witch House' ||
-      locationName === 'Unvisited Isle' ||
-      locationName === 'Black Cave'
-        ? locationName
-        : 'none'
+    const changedMetadata = metadataDifferences(existingCard, fixture, locationsByKey)
+    const needsMetadata = changedMetadata.length > 0
+    const needsDescription = !existingCard.desc && Boolean(fixture.description)
+    const needsLowerLeft =
+      Boolean(fixture.lowerLeftOverride) &&
+      !existingCard.lowerLeftOverride?.text &&
+      !relationshipID(existingCard.lowerLeftOverride?.image)
 
-    await payload.create({
-      collection: 'mythos-cards',
-      data: {
-        title: fixture.title,
-        cardCode: fixture.cardCode,
-        copyCount: fixture.copyCount,
-        cardType: fixture.cardType,
-        desc: fixture.description,
-        location: location?.id,
-        lowerLeftOverride: fixture.lowerLeftOverride
-          ? {
-              text: fixture.lowerLeftOverride.text,
-              image: lowerLeftImageID,
-            }
-          : undefined,
-        encounterLocation: legacyLocation,
-        altLocationText: fixture.lowerLeftOverride?.text,
-        altLocationImg: fixture.lowerLeftOverride?.imagePublicPath,
-        monsterMoveWhite: fixture.monsterMoveWhite,
-        monsterMoveBlack: fixture.monsterMoveBlack,
-        boxedset: fixture.boxedSet,
-        _status: 'published',
-      },
-      draft: false,
-      overrideAccess: true,
+    if (!needsMetadata && !needsDescription && !needsLowerLeft) {
+      unchanged.push(fixture.title)
+      continue
+    }
+
+    enriched.push(fixture.title)
+    enrichmentDetails.push({
+      title: fixture.title,
+      fields: [
+        ...changedMetadata,
+        ...(needsDescription ? ['desc'] : []),
+        ...(needsLowerLeft ? ['lowerLeftOverride'] : []),
+      ],
     })
 
-    created.push(fixture.title)
+    if (dryRun) continue
+
+    const lowerLeftImageID =
+      needsLowerLeft && fixture.lowerLeftOverride?.imagePublicPath
+        ? await getDoomCounterMediaID()
+        : null
+
+    await payload.update({
+      collection: 'mythos-cards',
+      id: existingCard.id,
+      data: {
+        ...metadata,
+        ...(needsDescription ? { desc: fixture.description } : {}),
+        ...(needsLowerLeft
+          ? {
+              lowerLeftOverride: {
+                text: fixture.lowerLeftOverride?.text,
+                image: lowerLeftImageID,
+              },
+            }
+          : {}),
+        _status: existingCard._status,
+      },
+      draft: existingCard._status === 'draft',
+      overrideAccess: true,
+    })
   }
 
   return {
+    ambiguous,
     created,
-    existing,
-    linked,
+    dryRun,
+    enriched,
+    enrichmentDetails,
+    mediaCreated,
+    physicalCards: starterMythosCards.reduce((total, card) => total + card.copyCount, 0),
+    unchanged,
+    unresolvedLocations,
   }
 }

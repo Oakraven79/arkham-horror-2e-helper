@@ -56,11 +56,150 @@ export const MythosCards: CollectionConfig = {
       },
     },
     {
+      name: 'flavorText',
+      label: 'Flavor Text',
+      type: 'textarea',
+      admin: {
+        rows: 4,
+      },
+    },
+    {
+      name: 'effectText',
+      label: 'Primary Effect',
+      type: 'textarea',
+      admin: {
+        rows: 8,
+      },
+    },
+    {
+      name: 'ongoingEffect',
+      label: 'Ongoing Effect',
+      type: 'textarea',
+      admin: {
+        rows: 8,
+      },
+    },
+    {
+      name: 'passCondition',
+      label: 'Pass Condition',
+      type: 'textarea',
+      admin: {
+        rows: 6,
+      },
+    },
+    {
+      name: 'failCondition',
+      label: 'Fail Condition',
+      type: 'textarea',
+      admin: {
+        rows: 6,
+      },
+    },
+    {
+      name: 'clueText',
+      label: 'Clue Placement',
+      type: 'textarea',
+      admin: {
+        description:
+          'Printed clue placement text. Street areas remain text until board spaces are modeled.',
+        rows: 3,
+      },
+    },
+    {
+      name: 'gateInstruction',
+      label: 'Gate Instruction',
+      type: 'group',
+      fields: [
+        {
+          name: 'mode',
+          type: 'select',
+          required: true,
+          defaultValue: 'none',
+          options: [
+            { label: 'No Gate', value: 'none' },
+            { label: 'Open One Gate', value: 'single' },
+            { label: 'Choose One Location', value: 'choice' },
+            { label: 'Open All Listed Gates', value: 'all' },
+            { label: 'Monster Surge', value: 'surge' },
+          ],
+        },
+        {
+          name: 'locations',
+          type: 'relationship',
+          relationTo: 'locations',
+          hasMany: true,
+          admin: {
+            description:
+              'All printed gate destinations. Choice and all modes may contain multiple locations.',
+          },
+        },
+        {
+          name: 'burst',
+          label: 'Gate Burst',
+          type: 'checkbox',
+          defaultValue: false,
+        },
+      ],
+    },
+    {
+      name: 'doomTokens',
+      label: 'Doom Tokens',
+      type: 'number',
+      min: 0,
+      admin: {
+        description:
+          'Explicit doom-token instruction when the card differs from normal gate resolution.',
+      },
+    },
+    {
+      name: 'terrorIncrease',
+      label: 'Terror Increase',
+      type: 'number',
+      min: 0,
+    },
+    {
+      name: 'reshuffleDeck',
+      label: 'Reshuffle Mythos Deck',
+      type: 'checkbox',
+      defaultValue: false,
+    },
+    {
+      name: 'specialInstruction',
+      label: 'Special Resolution',
+      type: 'textarea',
+      admin: {
+        rows: 4,
+      },
+    },
+    {
+      name: 'rulesNotes',
+      label: 'Rules Notes',
+      type: 'array',
+      fields: [
+        {
+          name: 'kind',
+          type: 'select',
+          required: true,
+          options: [
+            { label: 'Clarification', value: 'clarification' },
+            { label: 'Errata', value: 'errata' },
+            { label: 'Misprint', value: 'misprint' },
+          ],
+        },
+        {
+          name: 'text',
+          type: 'textarea',
+          required: true,
+        },
+      ],
+    },
+    {
       name: 'location',
       type: 'relationship',
       relationTo: 'locations',
       admin: {
-        description: 'Location text and image rendered in the lower-left corner.',
+        description:
+          'Legacy primary location retained while card rendering migrates to Gate Instruction.',
       },
     },
     {

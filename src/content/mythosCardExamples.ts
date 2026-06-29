@@ -11,6 +11,11 @@ export function mythosCardExampleProps(cardCode: string): MythosCardFrontProps {
   }
 
   const location = card.locationKey ? getStarterLocation(card.locationKey) : null
+  const gateLocations = card.gateInstruction.locationKeys
+    .map(getStarterLocation)
+    .filter((gateLocation): gateLocation is NonNullable<ReturnType<typeof getStarterLocation>> =>
+      Boolean(gateLocation),
+    )
 
   return {
     title: card.title,
@@ -25,6 +30,19 @@ export function mythosCardExampleProps(cardCode: string): MythosCardFrontProps {
           imageAlt: location.image?.alt ?? location.name,
         }
       : undefined,
+    gateInstruction: {
+      mode: card.gateInstruction.mode,
+      burst: card.gateInstruction.burst,
+      locations: gateLocations.map((gateLocation) => ({
+        text: gateLocation.cardDisplayText,
+        imageUrl: gateLocation.image?.publicPath,
+        imageAlt: gateLocation.image?.alt ?? gateLocation.name,
+      })),
+      doomTokens: card.doomTokens,
+      terrorIncrease: card.terrorIncrease,
+      reshuffleDeck: card.reshuffleDeck,
+      specialInstruction: card.specialInstruction,
+    },
     lowerLeftOverride: card.lowerLeftOverride
       ? {
           text: card.lowerLeftOverride.text,

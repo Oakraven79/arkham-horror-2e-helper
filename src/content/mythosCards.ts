@@ -1,24 +1,9 @@
-import type { MonsterIcons, MythosCardType } from '@/components/constants'
+import { generatedMythosCards } from './mythosCards.generated'
+import type { StarterMythosCard } from './mythosCardTypes'
 
-export type StarterMythosBoxedSet = 'Base Game' | 'The King in Yellow'
+export type { StarterMythosCard } from './mythosCardTypes'
 
-export interface StarterMythosCard {
-  boxedSet: StarterMythosBoxedSet
-  cardCode: string
-  cardType: MythosCardType
-  copyCount: number
-  description: string
-  locationKey?: string
-  lowerLeftOverride?: {
-    imagePublicPath?: string
-    text?: string
-  }
-  monsterMoveBlack?: MonsterIcons[]
-  monsterMoveWhite?: MonsterIcons[]
-  title: string
-}
-
-export const starterMythosCards: StarterMythosCard[] = [
+const curatedMythosCards = [
   {
     cardCode: 'base-fourth-of-july-parade',
     title: 'Fourth Of July Parade!',
@@ -200,6 +185,29 @@ The first player gains 1 Clue token.`,
     monsterMoveBlack: ['leftLean', 'triangle', 'star', 'cross', 'circle'],
   },
 ]
+
+const curatedPresentation = new Map(
+  curatedMythosCards.map((card) => [
+    card.cardCode,
+    {
+      description: card.description,
+      title: card.title,
+      ...('lowerLeftOverride' in card ? { lowerLeftOverride: card.lowerLeftOverride } : {}),
+    },
+  ]),
+)
+
+export const starterMythosCards: StarterMythosCard[] = generatedMythosCards.map((card) => ({
+  ...card,
+  gateInstruction: {
+    ...card.gateInstruction,
+    locationKeys: [...card.gateInstruction.locationKeys],
+  },
+  ...(card.monsterMoveWhite ? { monsterMoveWhite: [...card.monsterMoveWhite] } : {}),
+  ...(card.monsterMoveBlack ? { monsterMoveBlack: [...card.monsterMoveBlack] } : {}),
+  ...(card.rulesNotes ? { rulesNotes: card.rulesNotes.map((note) => ({ ...note })) } : {}),
+  ...curatedPresentation.get(card.cardCode),
+}))
 
 export function getStarterMythosCard(cardCode: string) {
   return starterMythosCards.find((card) => card.cardCode === cardCode)

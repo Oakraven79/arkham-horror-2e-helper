@@ -2,18 +2,22 @@ import { describe, expect, it } from 'vitest'
 
 import { getStarterLocation, starterLocations } from '@/content/locations'
 import { mythosCardExampleProps } from '@/content/mythosCardExamples'
-import { starterMythosCards } from '@/content/mythosCards'
+import { getStarterMythosCard, starterMythosCards } from '@/content/mythosCards'
 
 describe('Mythos starter content', () => {
-  it('contains nine uniquely coded real card examples', () => {
-    expect(starterMythosCards).toHaveLength(9)
-    expect(new Set(starterMythosCards.map((card) => card.cardCode)).size).toBe(9)
+  it('contains the complete uniquely coded Mythos catalog', () => {
+    expect(starterMythosCards).toHaveLength(287)
+    expect(starterMythosCards.reduce((total, card) => total + card.copyCount, 0)).toBe(294)
+    expect(new Set(starterMythosCards.map((card) => card.cardCode)).size).toBe(287)
   })
 
-  it('resolves every referenced location fixture', () => {
+  it('resolves every primary and alternate gate location fixture', () => {
     const unresolved = starterMythosCards
-      .filter((card) => card.locationKey)
-      .filter((card) => !getStarterLocation(card.locationKey as string))
+      .flatMap((card) => [
+        ...(card.locationKey ? [card.locationKey] : []),
+        ...card.gateInstruction.locationKeys,
+      ])
+      .filter((key) => !getStarterLocation(key))
 
     expect(unresolved).toEqual([])
     expect(starterLocations).toHaveLength(57)
@@ -21,6 +25,40 @@ describe('Mythos starter content', () => {
     expect(starterLocations.map((location) => location.name)).toEqual(
       expect.arrayContaining(['The Witch House', 'Unvisited Isle', 'Black Cave']),
     )
+  })
+
+  it('preserves the reviewed import decisions and gate semantics', () => {
+    const gateModeCounts = starterMythosCards.reduce<Record<string, number>>(
+      (counts, card) => ({
+        ...counts,
+        [card.gateInstruction.mode]: (counts[card.gateInstruction.mode] ?? 0) + 1,
+      }),
+      {},
+    )
+    const darkPharaohCards = starterMythosCards.filter(
+      (card) => card.boxedSet === 'Curse of the Dark Pharaoh (Revised Edition)',
+    )
+    const nextActCards = starterMythosCards.filter((card) =>
+      card.title.startsWith('The Next Act Begins'),
+    )
+
+    expect(gateModeCounts).toEqual({
+      none: 18,
+      single: 222,
+      choice: 36,
+      all: 4,
+      surge: 7,
+    })
+    expect(darkPharaohCards).toHaveLength(18)
+    expect(
+      starterMythosCards.find((card) => card.title === 'The Doors of Sleep')?.gateInstruction.burst,
+    ).toBe(true)
+    expect(
+      getStarterMythosCard('king-in-yellow-new-miskatonic-u-curriculum')?.gateInstruction
+        .locationKeys,
+    ).toEqual(['the-witch-house'])
+    expect(nextActCards).toHaveLength(2)
+    expect(nextActCards.map((card) => card.copyCount)).toEqual([3, 3])
   })
 
   it('maps the complete location catalog to its four boards', () => {
@@ -51,6 +89,10 @@ describe('Mythos starter content', () => {
       text: 'The Witch  \nHouse',
       imageUrl: '/images/arkhamLocations/old-house.jpg',
       imageAlt: 'The Witch House',
+    })
+    expect(mythosCardExampleProps('base-fourth-of-july-parade').gateInstruction).toMatchObject({
+      mode: 'single',
+      locations: [{ text: 'The Witch  \nHouse' }],
     })
     expect(mythosCardExampleProps('base-the-story-continues').cardType).toBeUndefined()
     expect(
