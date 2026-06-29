@@ -1,7 +1,6 @@
 import type { Payload } from 'payload'
 
 import { officialBoxedSets } from '@/content/boxedSets'
-import { getStarterLocation } from '@/content/locations'
 import { starterMythosCards, type StarterMythosCard } from '@/content/mythosCards'
 import { officialBoxedSetName, relationshipID, requireBoxedSet } from '@/lib/boxedSetContent'
 import type { BoxedSet, Location, MythosCard } from '@/payload-types'
@@ -52,14 +51,6 @@ function fixtureMetadata(
   const gateLocations = fixture.gateInstruction.locationKeys.map(
     (key) => locationsByKey.get(key) as Location,
   )
-  const primaryLocation = fixture.locationKey ? locationsByKey.get(fixture.locationKey) : undefined
-  const locationName = fixture.locationKey ? getStarterLocation(fixture.locationKey)?.name : null
-  const legacyLocation: MythosCard['encounterLocation'] =
-    locationName === 'The Witch House' ||
-    locationName === 'Unvisited Isle' ||
-    locationName === 'Black Cave'
-      ? locationName
-      : 'none'
 
   return {
     cardCode: fixture.cardCode,
@@ -81,8 +72,6 @@ function fixtureMetadata(
     reshuffleDeck: fixture.reshuffleDeck ?? false,
     specialInstruction: fixture.specialInstruction,
     rulesNotes: fixtureRulesNotes(fixture),
-    location: primaryLocation?.id,
-    encounterLocation: legacyLocation,
     monsterMoveWhite: fixture.monsterMoveWhite,
     monsterMoveBlack: fixture.monsterMoveBlack,
     boxedset: officialBoxedSetName(fixture.sourceSetKey) as MythosCard['boxedset'],
@@ -120,8 +109,6 @@ function comparableDocument(card: MythosCard) {
     reshuffleDeck: card.reshuffleDeck ?? false,
     specialInstruction: card.specialInstruction ?? undefined,
     rulesNotes: notes && notes.length > 0 ? notes : undefined,
-    location: relationshipID(card.location) ?? undefined,
-    encounterLocation: card.encounterLocation,
     monsterMoveWhite: monsterMoveWhite.length > 0 ? monsterMoveWhite : undefined,
     monsterMoveBlack: monsterMoveBlack.length > 0 ? monsterMoveBlack : undefined,
     boxedset: card.boxedset,
@@ -142,7 +129,6 @@ function comparableFixture(
       ...metadata.gateInstruction,
       locations: metadata.gateInstruction.locations.map(String),
     },
-    location: metadata.location ? String(metadata.location) : undefined,
     sourceSet: String(sourceSet.id),
   }
 }
@@ -209,9 +195,7 @@ export async function seedMythosCards(payload: Payload, options: SeedMythosCards
   const unresolvedLocations = [
     ...new Set(
       starterMythosCards.flatMap((fixture) =>
-        [fixture.locationKey, ...fixture.gateInstruction.locationKeys].filter(
-          (key): key is string => Boolean(key && !locationsByKey.has(key)),
-        ),
+        fixture.gateInstruction.locationKeys.filter((key) => !locationsByKey.has(key)),
       ),
     ),
   ]
@@ -301,8 +285,6 @@ export async function seedMythosCards(payload: Payload, options: SeedMythosCards
                 image: lowerLeftImageID,
               }
             : undefined,
-          altLocationText: fixture.lowerLeftOverride?.text,
-          altLocationImg: fixture.lowerLeftOverride?.imagePublicPath,
           _status: 'published',
         },
         draft: false,

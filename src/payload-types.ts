@@ -393,20 +393,10 @@ export interface MythosCard {
         id?: string | null;
       }[]
     | null;
-  /**
-   * Legacy primary location retained while card rendering migrates to Gate Instruction.
-   */
-  location?: (string | null) | Location;
   lowerLeftOverride?: {
     text?: string | null;
     image?: (string | null) | Media;
   };
-  /**
-   * Legacy field retained until location relationships have been migrated.
-   */
-  encounterLocation: 'none' | 'The Witch House' | 'Unvisited Isle' | 'Black Cave';
-  altLocationText?: string | null;
-  altLocationImg?: string | null;
   monsterMoveWhite?:
     | ('cross' | 'crescentMoon' | 'hexagon' | 'leftLean' | 'star' | 'triangle' | 'circle' | 'square' | 'diamond')[]
     | null;
@@ -940,16 +930,12 @@ export interface MythosCardsSelect<T extends boolean = true> {
         text?: T;
         id?: T;
       };
-  location?: T;
   lowerLeftOverride?:
     | T
     | {
         text?: T;
         image?: T;
       };
-  encounterLocation?: T;
-  altLocationText?: T;
-  altLocationImg?: T;
   monsterMoveWhite?: T;
   monsterMoveBlack?: T;
   boxedset?: T;

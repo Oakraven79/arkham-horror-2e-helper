@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { mythosCardTypesList, monsterIcons } from '@/components/constants'
-import { encounterLocations, arkhamHorror2eBoxes } from '@/components/arkhamConstants'
+import { arkhamHorror2eBoxes } from '@/components/arkhamConstants'
 
 export const MythosCards: CollectionConfig = {
   slug: 'mythos-cards',
@@ -194,15 +194,6 @@ export const MythosCards: CollectionConfig = {
       ],
     },
     {
-      name: 'location',
-      type: 'relationship',
-      relationTo: 'locations',
-      admin: {
-        description:
-          'Legacy primary location retained while card rendering migrates to Gate Instruction.',
-      },
-    },
-    {
       name: 'lowerLeftOverride',
       label: 'Special Lower-Left Panel',
       type: 'group',
@@ -221,34 +212,6 @@ export const MythosCards: CollectionConfig = {
         },
       ],
     },
-    {
-      name: 'encounterLocation',
-      label: 'Legacy Encounter Location',
-      type: 'select',
-      options: encounterLocations.map((t) => ({ label: t.location, value: t.location })),
-      required: true,
-      admin: {
-        hidden: true,
-        description: 'Legacy field retained until location relationships have been migrated.',
-      },
-    },
-    {
-      name: 'altLocationText',
-      label: 'Alternate Location Text',
-      type: 'text',
-      admin: {
-        hidden: true,
-      },
-    },
-    {
-      name: 'altLocationImg',
-      label: 'Alternate Location Image location',
-      type: 'text',
-      admin: {
-        hidden: true,
-      },
-    },
-
     {
       name: 'monsterMoveWhite',
       label: 'Monster Move White',

@@ -16,7 +16,6 @@
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
-    "migrate:mythos-locations": "cross-env NODE_OPTIONS=--no-deprecation payload run src/scripts/migrateMythosLocations.ts",
     "migrate:mythos-instances": "cross-env NODE_OPTIONS=--no-deprecation payload run src/scripts/migrateMythosDeckInstances.ts",
     "migrate:boxed-sets": "cross-env NODE_OPTIONS=--no-deprecation payload run src/scripts/migrateBoxedSets.ts",
     "seed": "pnpm run seed:boxed-sets && pnpm run seed:locations && pnpm run seed:other-worlds && pnpm run seed:ancient-ones && pnpm run seed:mythos-cards",

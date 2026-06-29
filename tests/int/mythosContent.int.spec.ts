@@ -13,10 +13,7 @@ describe('Mythos starter content', () => {
 
   it('resolves every primary and alternate gate location fixture', () => {
     const unresolved = starterMythosCards
-      .flatMap((card) => [
-        ...(card.locationKey ? [card.locationKey] : []),
-        ...card.gateInstruction.locationKeys,
-      ])
+      .flatMap((card) => card.gateInstruction.locationKeys)
       .filter((key) => !getStarterLocation(key))
 
     expect(unresolved).toEqual([])
@@ -85,14 +82,15 @@ describe('Mythos starter content', () => {
   })
 
   it('converts shared content into Storybook presentation props', () => {
-    expect(mythosCardExampleProps('base-fourth-of-july-parade').location).toEqual({
-      text: 'The Witch  \nHouse',
-      imageUrl: '/images/arkhamLocations/old-house.jpg',
-      imageAlt: 'The Witch House',
-    })
     expect(mythosCardExampleProps('base-fourth-of-july-parade').gateInstruction).toMatchObject({
       mode: 'single',
-      locations: [{ text: 'The Witch  \nHouse' }],
+      locations: [
+        {
+          text: 'The Witch  \nHouse',
+          imageUrl: '/images/arkhamLocations/old-house.jpg',
+          imageAlt: 'The Witch House',
+        },
+      ],
     })
     expect(mythosCardExampleProps('base-fourth-of-july-parade').boxedSet).toEqual({
       name: 'Base Game',

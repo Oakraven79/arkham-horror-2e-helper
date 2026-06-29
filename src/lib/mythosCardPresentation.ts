@@ -1,4 +1,3 @@
-import { starterLocations } from '@/content/locations'
 import type {
   MythosCardGateInstructionDisplay,
   MythosCardLocationDisplay,
@@ -8,7 +7,7 @@ import type {
 import type { Location, Media, MythosCard } from '@/payload-types'
 import { isBoxedSet, isMedia as isBoxedSetMedia } from '@/lib/boxedSetContent'
 
-function isLocation(value: MythosCard['location']): value is Location {
+function isLocation(value: unknown): value is Location {
   return Boolean(value && typeof value === 'object' && 'cardDisplayText' in value)
 }
 
@@ -26,24 +25,10 @@ function populatedLocationDisplay(location: Location): MythosCardLocationDisplay
   }
 }
 
-function legacyLocationDisplay(card: MythosCard): MythosCardLocationDisplay | undefined {
-  if (card.encounterLocation === 'none') return undefined
-
-  const fixture = starterLocations.find((location) => location.name === card.encounterLocation)
-
-  if (!fixture) return undefined
-
-  return {
-    text: fixture.cardDisplayText,
-    imageUrl: fixture.image?.publicPath,
-    imageAlt: fixture.image?.alt ?? fixture.name,
-  }
-}
-
 function lowerLeftOverride(card: MythosCard): MythosCardLowerLeftOverride | undefined {
   const image = isMedia(card.lowerLeftOverride?.image) ? card.lowerLeftOverride.image : null
-  const text = card.lowerLeftOverride?.text ?? card.altLocationText ?? undefined
-  const imageUrl = image?.url ?? card.altLocationImg ?? undefined
+  const text = card.lowerLeftOverride?.text ?? undefined
+  const imageUrl = image?.url ?? undefined
 
   if (!text && !imageUrl) return undefined
 
@@ -54,10 +39,7 @@ function lowerLeftOverride(card: MythosCard): MythosCardLowerLeftOverride | unde
   }
 }
 
-function gateInstruction(
-  card: MythosCard,
-  legacyLocation: MythosCardLocationDisplay | undefined,
-): MythosCardGateInstructionDisplay | undefined {
+function gateInstruction(card: MythosCard): MythosCardGateInstructionDisplay | undefined {
   const locations = (card.gateInstruction?.locations ?? [])
     .filter(isLocation)
     .map(populatedLocationDisplay)
@@ -74,8 +56,8 @@ function gateInstruction(
   }
 
   return {
-    mode: mode ?? (legacyLocation ? 'single' : 'none'),
-    locations: locations.length > 0 ? locations : legacyLocation ? [legacyLocation] : [],
+    mode: mode ?? 'none',
+    locations,
     burst: card.gateInstruction?.burst ?? false,
     doomTokens: card.doomTokens ?? undefined,
     terrorIncrease: card.terrorIncrease ?? undefined,
@@ -85,10 +67,6 @@ function gateInstruction(
 }
 
 export function mythosCardFrontProps(card: MythosCard): MythosCardFrontProps {
-  const location = isLocation(card.location)
-    ? populatedLocationDisplay(card.location)
-    : legacyLocationDisplay(card)
-
   return {
     title: card.title,
     cardType: card.cardType === 'Special' ? undefined : card.cardType,
@@ -107,8 +85,7 @@ export function mythosCardFrontProps(card: MythosCard): MythosCardFrontProps {
       : undefined,
     monsterMoveWhite: card.monsterMoveWhite ?? undefined,
     monsterMoveBlack: card.monsterMoveBlack ?? undefined,
-    location,
-    gateInstruction: gateInstruction(card, location),
+    gateInstruction: gateInstruction(card),
     lowerLeftOverride: lowerLeftOverride(card),
   }
 }

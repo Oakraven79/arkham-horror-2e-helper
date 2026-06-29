@@ -232,7 +232,6 @@ const generated = source
         locationKeys: locations,
         burst: Boolean(record.details?.gate_burst) || forcedGateBursts.has(title),
       },
-      ...(locations[0] ? { locationKey: locations[0] } : {}),
       ...(Number.isNaN(doomTokens) ? {} : { doomTokens }),
       ...(record.special_type === 'Two terror level increases' ? { terrorIncrease: 2 } : {}),
       ...(record.special_type === 'Reshuffle deck' ? { reshuffleDeck: true } : {}),

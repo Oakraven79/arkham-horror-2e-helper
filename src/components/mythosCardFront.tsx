@@ -41,8 +41,6 @@ export interface MythosCardFrontProps {
   /** Monster movement for white and black */
   monsterMoveWhite?: MonsterIcons[]
   monsterMoveBlack?: MonsterIcons[]
-  /** Location display resolved from Payload */
-  location?: MythosCardLocationDisplay
   /** Structured gate and special resolution rendered in the lower-left corner */
   gateInstruction?: MythosCardGateInstructionDisplay
   /** Special lower-left instructions used by cards without a normal location */
@@ -212,7 +210,6 @@ export const MythosCardFront = ({
   boxedSet,
   monsterMoveWhite,
   monsterMoveBlack,
-  location,
   gateInstruction,
   lowerLeftOverride,
 }: MythosCardFrontProps) => {
@@ -234,7 +231,7 @@ export const MythosCardFront = ({
     : []
 
   const centeredMonsterMovementBox =
-    !location && !gateInstruction && !lowerLeftOverride?.imageUrl && !lowerLeftOverride?.text
+    !gateInstruction && !lowerLeftOverride?.imageUrl && !lowerLeftOverride?.text
 
   return (
     <div className="mythoscardfront">
@@ -257,9 +254,7 @@ export const MythosCardFront = ({
         <MythosCardFrontEncounterAltLocation lowerLeftOverride={lowerLeftOverride} />
       ) : gateInstruction ? (
         <MythosCardFrontGateInstruction gateInstruction={gateInstruction} />
-      ) : (
-        <MythosCardFrontEncounterLocation location={location} />
-      )}
+      ) : null}
     </div>
   )
 }

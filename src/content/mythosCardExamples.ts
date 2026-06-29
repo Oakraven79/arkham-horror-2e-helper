@@ -11,7 +11,6 @@ export function mythosCardExampleProps(cardCode: string): MythosCardFrontProps {
     throw new Error(`Unknown starter Mythos card: ${cardCode}`)
   }
 
-  const location = card.locationKey ? getStarterLocation(card.locationKey) : null
   const boxedSet = getOfficialBoxedSet(card.sourceSetKey)
   const gateLocations = card.gateInstruction.locationKeys
     .map(getStarterLocation)
@@ -31,13 +30,6 @@ export function mythosCardExampleProps(cardCode: string): MythosCardFrontProps {
       : undefined,
     monsterMoveWhite: card.monsterMoveWhite,
     monsterMoveBlack: card.monsterMoveBlack,
-    location: location
-      ? {
-          text: location.cardDisplayText,
-          imageUrl: location.image?.publicPath,
-          imageAlt: location.image?.alt ?? location.name,
-        }
-      : undefined,
     gateInstruction: {
       mode: card.gateInstruction.mode,
       burst: card.gateInstruction.burst,

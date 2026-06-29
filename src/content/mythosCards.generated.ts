@@ -17,7 +17,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -42,7 +41,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -67,7 +65,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -99,7 +96,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "graveyard",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -123,7 +119,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -147,7 +142,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "science-building",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -173,7 +167,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "black-cave",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -198,7 +191,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -223,7 +215,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-unnamable",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -249,7 +240,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -274,7 +264,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "black-cave",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -300,7 +289,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -326,7 +314,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -356,7 +343,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-unnamable",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -382,7 +368,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "black-cave",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -408,7 +393,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -432,7 +416,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -456,7 +439,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -481,7 +463,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "graveyard",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -505,7 +486,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "black-cave",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -535,7 +515,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -559,7 +538,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -584,7 +562,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-unnamable",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -608,7 +585,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -636,7 +612,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -662,7 +637,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "diamond",
       "square",
@@ -688,7 +662,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -713,7 +686,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "historical-society",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -737,7 +709,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "historical-society",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -761,7 +732,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "graveyard",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -793,7 +763,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "black-cave",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -818,7 +787,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -843,7 +811,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -869,7 +836,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -894,7 +860,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "hibbs-roadhouse",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -918,7 +883,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-unnamable",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -944,7 +908,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-unnamable",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -968,7 +931,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -994,7 +956,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -1018,7 +979,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -1043,7 +1003,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "silver-twilight-lodge",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -1068,7 +1027,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -1093,7 +1051,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "hibbs-roadhouse",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -1117,7 +1074,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -1142,7 +1098,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -1168,7 +1123,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "graveyard",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -1193,7 +1147,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -1217,7 +1170,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "graveyard",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -1242,7 +1194,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -1267,7 +1218,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -1293,7 +1243,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -1319,7 +1268,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -1345,7 +1293,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "black-cave",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -1375,7 +1322,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -1407,7 +1353,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -1431,7 +1376,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -1456,7 +1400,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -1481,7 +1424,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "graveyard",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -1507,7 +1449,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -1532,7 +1473,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -1565,7 +1505,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "science-building",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -1609,7 +1548,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -1641,7 +1579,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "silver-twilight-lodge",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -1666,7 +1603,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-unnamable",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -1691,7 +1627,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -1716,7 +1651,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -1742,7 +1676,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -1769,7 +1702,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -1794,7 +1726,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "historical-society",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -1819,7 +1750,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "graveyard",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -1844,7 +1774,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "hibbs-roadhouse",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -1878,7 +1807,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -1904,7 +1832,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -1929,7 +1856,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -2001,7 +1927,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -2027,7 +1952,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "science-building",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -2077,7 +2001,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -2102,7 +2025,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "silver-twilight-lodge",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -2134,7 +2056,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-unnamable",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -2160,7 +2081,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "black-cave",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -2186,7 +2106,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "devils-hopyard",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -2211,7 +2130,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -2236,7 +2154,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -2261,7 +2178,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -2285,7 +2201,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -2309,7 +2224,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "devils-hopyard",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -2335,7 +2249,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -2359,7 +2272,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -2383,7 +2295,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -2407,7 +2318,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -2433,7 +2343,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "whateley-farm",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -2457,7 +2366,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "gardners-place",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -2483,7 +2391,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -2508,7 +2415,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "gardners-place",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -2533,7 +2439,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -2558,7 +2463,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -2583,7 +2487,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -2608,7 +2511,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -2636,7 +2538,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "gardners-place",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -2662,7 +2563,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -2686,7 +2586,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "gardners-place",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -2714,7 +2613,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -2740,7 +2638,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "black-cave",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -2764,7 +2661,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "gardners-place",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -2788,7 +2684,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -2814,7 +2709,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -2840,7 +2734,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "cold-spring-glen",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -2866,7 +2759,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "cold-spring-glen",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -2890,7 +2782,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -2916,7 +2807,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "graveyard",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -2942,7 +2832,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -2967,7 +2856,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "the-unnamable",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -2992,7 +2880,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "gardners-place",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -3017,7 +2904,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -3043,7 +2929,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -3069,7 +2954,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "whateley-farm",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -3094,7 +2978,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "gardners-place",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -3118,7 +3001,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -3144,7 +3026,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -3170,7 +3051,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "yha-nthlei",
     "description": "While this card is in play, Clue tokens do not appear on the board when mythos cards are resolved.\n\n### Clue Appears At:\nNo Clue"
   },
   {
@@ -3188,7 +3068,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -3213,7 +3092,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -3237,7 +3115,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -3262,7 +3139,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "yha-nthlei",
     "description": "A massive conspiracy sets back the investigation. Discard all Clue tokens from the board.\n\n### Clue Appears At:\nNo Clue"
   },
   {
@@ -3280,7 +3156,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -3304,7 +3179,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -3329,7 +3203,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -3353,7 +3226,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -3379,7 +3251,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -3405,7 +3276,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "marsh-refinery",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -3431,7 +3301,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "marsh-refinery",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -3457,7 +3326,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "marsh-refinery",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -3483,7 +3351,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -3507,7 +3374,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -3533,7 +3399,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "marsh-refinery",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -3589,7 +3454,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -3613,7 +3477,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -3638,7 +3501,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -3664,7 +3526,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -3689,7 +3550,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "marsh-refinery",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -3740,7 +3600,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "marsh-refinery",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -3796,7 +3655,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -3821,7 +3679,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -3845,7 +3702,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "crescentMoon",
       "diamond",
@@ -3876,7 +3732,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -3902,7 +3757,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -3927,7 +3781,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -3952,7 +3805,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -3976,7 +3828,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -4000,7 +3851,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "marsh-refinery",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -4024,7 +3874,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "silver-twilight-lodge",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -4049,7 +3898,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "black-cave",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -4074,7 +3922,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -4130,7 +3977,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "the-unnamable",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -4156,7 +4002,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "historical-society",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -4180,7 +4025,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "graveyard",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -4206,7 +4050,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "hibbs-roadhouse",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -4230,7 +4073,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -4256,7 +4098,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "graveyard",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -4313,7 +4154,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -4392,7 +4232,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -4416,7 +4255,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -4441,7 +4279,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -4465,7 +4302,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "black-cave",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -4491,7 +4327,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -4516,7 +4351,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -4542,7 +4376,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "science-building",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -4574,7 +4407,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-unnamable",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -4599,7 +4431,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -4625,7 +4456,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -4654,7 +4484,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "cold-spring-glen",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -4681,7 +4510,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -4707,7 +4535,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "gardners-place",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -4734,7 +4561,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -4759,7 +4585,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -4784,7 +4609,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -4811,7 +4635,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -4836,7 +4659,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "gardners-place",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -4861,7 +4683,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "gardners-place",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -4934,7 +4755,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "whateley-farm",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -4960,7 +4780,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -4985,7 +4804,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "marsh-refinery",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -5012,7 +4830,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -5039,7 +4856,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "devils-hopyard",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -5066,7 +4882,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -5093,7 +4908,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -5120,7 +4934,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -5146,7 +4959,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -5172,7 +4984,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -5197,7 +5008,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -5222,7 +5032,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -5247,7 +5056,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "marsh-refinery",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -5273,7 +5081,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -5299,7 +5106,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "marsh-refinery",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -5326,7 +5132,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -5353,7 +5158,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "wizards-hill",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -5379,7 +5183,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -5458,7 +5261,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -5485,7 +5287,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -5514,7 +5315,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "marsh-refinery",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -5541,7 +5341,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "yha-nthlei",
     "description": "While this card is in play, investigators in a street area receive -1 on all Combat checks and gain 1 Sanity each time they pass a Combat check.\n\n### Clue Appears At:\nNo clues"
   },
   {
@@ -5560,7 +5359,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "esoteric-order-of-dagon",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -5609,7 +5407,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "gardners-place",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -5634,7 +5431,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "devil-reef",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -5659,7 +5455,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "hibbs-roadhouse",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -5686,7 +5481,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -5713,7 +5507,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "graveyard",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -5769,7 +5562,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -5793,7 +5585,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "graveyard",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -5817,7 +5608,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "historical-society",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -5843,7 +5633,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-unnamable",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -5868,7 +5657,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -5892,7 +5680,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -5917,7 +5704,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -5971,7 +5757,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "crescentMoon",
       "diamond",
@@ -6002,7 +5787,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "black-cave",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -6027,7 +5811,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -6051,7 +5834,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "black-cave",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -6130,7 +5912,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "science-building",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -6156,7 +5937,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "the-unnamable",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -6182,7 +5962,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "silver-twilight-lodge",
     "monsterMoveWhite": [
       "circle",
       "cross",
@@ -6213,7 +5992,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -6237,7 +6015,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -6262,7 +6039,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "graveyard",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -6288,7 +6064,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-unnamable",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -6314,7 +6089,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -6355,7 +6129,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "graveyard",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -6380,7 +6153,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -6407,7 +6179,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -6432,7 +6203,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -6457,7 +6227,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -6482,7 +6251,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -6509,7 +6277,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-unnamable",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -6536,7 +6303,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -6562,7 +6328,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -6643,7 +6408,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -6699,7 +6463,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -6726,7 +6489,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "black-cave",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -6752,7 +6514,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "black-cave",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -6778,7 +6539,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -6832,7 +6592,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -6857,7 +6616,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "graveyard",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -6883,7 +6641,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "graveyard",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -6908,7 +6665,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -6933,7 +6689,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "crescentMoon",
       "diamond",
@@ -6964,7 +6719,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -6990,7 +6744,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -7017,7 +6770,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "circle",
       "cross",
@@ -7048,7 +6800,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "woods",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -7073,7 +6824,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -7097,7 +6847,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "historical-society",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -7121,7 +6870,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "black-cave",
     "monsterMoveWhite": [
       "crescentMoon"
     ],
@@ -7145,7 +6893,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "silver-twilight-lodge",
     "monsterMoveWhite": [
       "diamond",
       "square"
@@ -7170,7 +6917,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "black-cave",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -7195,7 +6941,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "the-witch-house",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -7221,7 +6966,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "cross"
     ],
@@ -7246,7 +6990,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "unvisited-isle",
     "monsterMoveWhite": [
       "circle",
       "cross",
@@ -7278,7 +7021,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "independence-square",
     "monsterMoveWhite": [
       "crescentMoon",
       "diamond",
@@ -7310,7 +7052,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "the-unnamable",
     "monsterMoveWhite": [
       "hexagon"
     ],
@@ -7338,7 +7079,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "hibbs-roadhouse",
     "monsterMoveWhite": [
       "leftLean",
       "star",
@@ -7364,7 +7104,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": false
     },
-    "locationKey": "science-building",
     "monsterMoveWhite": [
       "circle"
     ],
@@ -7389,7 +7128,6 @@ export const generatedMythosCards: readonly StarterMythosCard[] = [
       ],
       "burst": true
     },
-    "locationKey": "the-unnamable",
     "monsterMoveWhite": [
       "cross"
     ],

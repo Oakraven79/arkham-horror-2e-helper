@@ -9,7 +9,6 @@ const curatedMythosCards = [
     title: 'Fourth Of July Parade!',
     cardType: 'Headline',
     copyCount: 1,
-    locationKey: 'the-witch-house',
     description: `Investigators cannot move into or out of the Merchant District street until the end of the next turn. Leave this card in play until then to indicate this.
 
 ### Close:
@@ -25,7 +24,6 @@ Black Cave`,
     title: 'The Chill of the Grave',
     cardType: 'Environment (Mystic)',
     copyCount: 1,
-    locationKey: 'unvisited-isle',
     description: `All *Undead* Monsters have their toughness increased by 1.
 
 ### Clue Appears at:
@@ -38,7 +36,6 @@ Science Building`,
     title: 'New Miskatonic U. Curriculum',
     cardType: 'Environment (Urban)',
     copyCount: 1,
-    locationKey: 'unvisited-isle',
     description: `"The King in Yellow" has, amidst heavy
 controversy, been added to the literary
 curriculum at the University. Its teaching
@@ -59,7 +56,6 @@ Black Cave`,
     title: 'Two Sunsets?',
     cardType: 'Environment (Weather)',
     copyCount: 1,
-    locationKey: 'black-cave',
     description: `A blurring effect in the atmosphere, which
 scientists believe may be caused by foreign
 weapons testing, has caused there to seem
@@ -78,7 +74,6 @@ Hibb's Roadhouse`,
     title: 'Disturbing the Dead',
     cardType: 'Rumor',
     copyCount: 1,
-    locationKey: 'black-cave',
     description: `**Ongoing Effect:** Roll a die at the end of every **Mythos Phase** while this is in play (Beginning the turn after it entered play). On a 1 or 2, increase the terror level by 1.
 
 **Pass:** If a player discards 2 gate trophies during the **Arkham Encounter Phase** while in the Rivertown Streets, return this card to the box. Each player draws 1 Spell.
@@ -95,7 +90,6 @@ Rivertown Streets`,
     title: 'The Terrible Experiment',
     cardType: 'Rumor',
     copyCount: 1,
-    locationKey: 'unvisited-isle',
     description: `When this card enters play, place 5 monsters from
 the cup on it. Any player may choose to fight one
 or more of these monsters while in the Miskatonic

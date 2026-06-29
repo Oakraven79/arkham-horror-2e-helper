@@ -19,7 +19,6 @@ export interface StarterMythosCard {
     locationKeys: string[]
     mode: MythosGateMode
   }
-  locationKey?: string
   lowerLeftOverride?: {
     imagePublicPath?: string
     text?: string
