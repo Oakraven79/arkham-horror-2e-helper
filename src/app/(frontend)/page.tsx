@@ -183,7 +183,7 @@ function CardSlot({
   actionLabel?: string
 }) {
   return (
-    <section className="active-card-slot">
+    <section className="table-card-slot">
       <div className="slot-heading">
         <h2>{title}</h2>
         {action && actionLabel && (
@@ -195,12 +195,42 @@ function CardSlot({
         )}
       </div>
       {card ? (
-        <div className="active-card-frame">
+        <div className="table-card-frame">
           <MythosCardFront {...card} />
         </div>
       ) : (
         <div className="empty-card-slot">{emptyText}</div>
       )}
+    </section>
+  )
+}
+
+function ActiveEffect({
+  title,
+  card,
+}: {
+  title: string
+  card: MythosCard | null
+}) {
+  const details = card
+    ? [
+        { label: 'Effect', text: card.effectText },
+        { label: 'Ongoing', text: card.ongoingEffect },
+        { label: 'Pass', text: card.passCondition },
+        { label: 'Fail', text: card.failCondition },
+      ].filter((detail): detail is { label: string; text: string } => Boolean(detail.text))
+    : []
+
+  return (
+    <section className="active-effect">
+      <p>{title}</p>
+      <h3>{card?.title ?? 'None active'}</h3>
+      {details.map((detail) => (
+        <div className="active-effect-detail" key={detail.label}>
+          <strong>{detail.label}</strong>
+          <span>{detail.text}</span>
+        </div>
+      ))}
     </section>
   )
 }
@@ -256,6 +286,14 @@ export default async function HomePage() {
             <strong>{tracks.elderSigns ?? 0}</strong>
           </div>
           <div>
+            <span>Monsters</span>
+            <strong>{tracks.monstersInArkham ?? 0}</strong>
+          </div>
+          <div>
+            <span>Outskirts</span>
+            <strong>{tracks.monstersInOutskirts ?? 0}</strong>
+          </div>
+          <div>
             <span>Draw Pile</span>
             <strong>{drawPile.length}</strong>
           </div>
@@ -270,35 +308,46 @@ export default async function HomePage() {
         </section>
       ) : (
         <section className="table-layout">
-          <aside className="phase-rail" aria-label="Turn phase">
-            {[
-              'Upkeep',
-              'Movement',
-              'Arkham Encounters',
-              'Other World Encounters',
-              'Mythos',
-            ].map((phase) => (
-              <div
-                className={phase === session.currentPhase ? 'phase-step active' : 'phase-step'}
-                key={phase}
-              >
-                {phase}
-              </div>
-            ))}
-          </aside>
-
-          <section className="mythos-stage" aria-label="Mythos deck">
-            <div className="deck-area">
-              <MythosDeckSlot
-                sessionID={sessionID}
-                currentCard={currentCard}
-                currentCardID={mythos.currentDraw?.cardID ?? null}
-                revealed={Boolean(mythos.currentDrawRevealed)}
-                cardsRemaining={drawPile.length}
-              />
+          <nav className="phase-ribbon" aria-label="Turn phase">
+            <div className="turn-context">
+              <span>Turn</span>
+              <strong>{session.turnNumber}</strong>
             </div>
+            <div className="phase-sequence">
+              {[
+                'Upkeep',
+                'Movement',
+                'Arkham Encounters',
+                'Other World Encounters',
+                'Mythos',
+              ].map((phase) => (
+                <div
+                  className={phase === session.currentPhase ? 'phase-step active' : 'phase-step'}
+                  key={phase}
+                >
+                  {phase}
+                </div>
+              ))}
+            </div>
+          </nav>
 
-            <div className="persistent-cards">
+          <div className="table-workspace">
+            <section className="card-lineup" aria-label="Mythos cards in play">
+              <section className="table-card-slot">
+                <div className="slot-heading">
+                  <h2>Current Mythos</h2>
+                </div>
+                <div className="deck-area">
+                  <MythosDeckSlot
+                    sessionID={sessionID}
+                    currentCard={currentCard}
+                    currentCardID={mythos.currentDraw?.cardID ?? null}
+                    revealed={Boolean(mythos.currentDrawRevealed)}
+                    cardsRemaining={drawPile.length}
+                  />
+                </div>
+              </section>
+
               <CardSlot
                 title="Active Environment"
                 card={activeEnvironment}
@@ -315,77 +364,83 @@ export default async function HomePage() {
                 }
                 actionLabel="Clear"
               />
-            </div>
-          </section>
-
-          <aside className="resolver-panel" aria-label="Mythos resolver">
-            <section>
-              <p className="eyebrow">Current Draw</p>
-              <h2>{currentCardDocument?.title ?? 'Deck ready'}</h2>
-              <p className="resolver-copy">
-                {currentCardDocument
-                  ? mythos.currentDrawRevealed
-                    ? currentCardType || 'Mythos card'
-                    : 'Face down'
-                  : 'Draw the next Mythos card when the Mythos phase begins.'}
-              </p>
             </section>
 
-            <section className="resolver-actions">
-              {currentCardDocument && (
-                <>
-                  <form action={discardCurrentDrawAction.bind(null, sessionID)}>
-                    <button type="submit">Discard after resolving</button>
-                  </form>
-                  {String(currentCardType).startsWith('Environment') && (
-                    <form action={activateCurrentEnvironmentAction.bind(null, sessionID)}>
-                      <button type="submit">Set as Environment</button>
+            <aside className="resolver-panel" aria-label="Mythos resolver">
+              <section>
+                <p className="eyebrow">Current Draw</p>
+                <h2>{currentCardDocument?.title ?? 'Deck ready'}</h2>
+                <p className="resolver-copy">
+                  {currentCardDocument
+                    ? mythos.currentDrawRevealed
+                      ? currentCardType || 'Mythos card'
+                      : 'Face down'
+                    : 'Draw the next Mythos card when the Mythos phase begins.'}
+                </p>
+              </section>
+
+              <section className="resolver-actions">
+                {currentCardDocument && (
+                  <>
+                    <form action={discardCurrentDrawAction.bind(null, sessionID)}>
+                      <button type="submit">Discard after resolving</button>
                     </form>
-                  )}
-                  {currentCardType === 'Rumor' && (
-                    <form action={activateCurrentRumorAction.bind(null, sessionID)}>
-                      <button type="submit">
-                        {activeRumorDocument ? 'Ignore new Rumor' : 'Set as Rumor'}
-                      </button>
-                    </form>
-                  )}
-                </>
-              )}
-              <form action={shuffleDiscardIntoDeckAction.bind(null, sessionID)}>
-                <button disabled={discardPile.length === 0} type="submit">
-                  Shuffle discard into deck
-                </button>
-              </form>
-              <form action={resetMythosDeckAction.bind(null, sessionID)}>
-                <button type="submit">Reset Mythos deck</button>
-              </form>
-            </section>
+                    {String(currentCardType).startsWith('Environment') && (
+                      <form action={activateCurrentEnvironmentAction.bind(null, sessionID)}>
+                        <button type="submit">Set as Environment</button>
+                      </form>
+                    )}
+                    {currentCardType === 'Rumor' && (
+                      <form action={activateCurrentRumorAction.bind(null, sessionID)}>
+                        <button type="submit">
+                          {activeRumorDocument ? 'Ignore new Rumor' : 'Set as Rumor'}
+                        </button>
+                      </form>
+                    )}
+                  </>
+                )}
+                <form action={shuffleDiscardIntoDeckAction.bind(null, sessionID)}>
+                  <button disabled={discardPile.length === 0} type="submit">
+                    Shuffle discard into deck
+                  </button>
+                </form>
+                <form action={resetMythosDeckAction.bind(null, sessionID)}>
+                  <button type="submit">Reset Mythos deck</button>
+                </form>
+              </section>
 
-            <section className="session-piles">
-              <div>
-                <span>Discard</span>
-                <strong>{discardPile.length}</strong>
-              </div>
-              <div>
-                <span>Drawn</span>
-                <strong>{drawHistory.length}</strong>
-              </div>
-              <div>
-                <span>Shuffles</span>
-                <strong>{mythos.shuffleCount ?? 0}</strong>
-              </div>
-            </section>
+              <section className="session-piles">
+                <div>
+                  <span>Discard</span>
+                  <strong>{discardPile.length}</strong>
+                </div>
+                <div>
+                  <span>Drawn</span>
+                  <strong>{drawHistory.length}</strong>
+                </div>
+                <div>
+                  <span>Shuffles</span>
+                  <strong>{mythos.shuffleCount ?? 0}</strong>
+                </div>
+              </section>
 
-            <section className="resolver-steps">
-              <h2>Mythos Steps</h2>
-              <ol>
-                <li>Open gate or resolve monster surge.</li>
-                <li>Place the clue token.</li>
-                <li>Move monsters using the card icons.</li>
-                <li>Resolve Headline, Environment, or Rumor text.</li>
-              </ol>
-            </section>
-          </aside>
+              <section className="active-effects">
+                <h2>Active Effects</h2>
+                <ActiveEffect title="Environment" card={activeEnvironmentDocument} />
+                <ActiveEffect title="Rumor" card={activeRumorDocument} />
+              </section>
+
+              <section className="resolver-steps">
+                <h2>Mythos Steps</h2>
+                <ol>
+                  <li>Open gate or resolve monster surge.</li>
+                  <li>Place the clue token.</li>
+                  <li>Move monsters using the card icons.</li>
+                  <li>Resolve Headline, Environment, or Rumor text.</li>
+                </ol>
+              </section>
+            </aside>
+          </div>
         </section>
       )}
     </main>
