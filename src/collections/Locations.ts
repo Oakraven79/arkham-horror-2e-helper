@@ -21,7 +21,7 @@ export const Locations: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'board', 'neighborhood', 'stability', 'boxedSet'],
+    defaultColumns: ['name', 'board', 'neighborhood', 'stability', 'sourceSet'],
   },
   versions: {
     drafts: {
@@ -138,12 +138,27 @@ export const Locations: CollectionConfig = {
       required: true,
       defaultValue: 'Base Game',
       options: boxedSetOptions,
+      admin: {
+        hidden: true,
+      },
+    },
+    {
+      name: 'sourceSet',
+      label: 'Boxed Set',
+      type: 'relationship',
+      relationTo: 'boxed-sets',
+      required: true,
+      index: true,
+      admin: {
+        description: 'Set provenance and card icon.',
+      },
     },
     {
       name: 'customSetName',
       label: 'Custom Set Name',
       type: 'text',
       admin: {
+        hidden: true,
         condition: (_, siblingData) => siblingData?.boxedSet === 'Custom',
       },
       validate: validateCustomSetName,

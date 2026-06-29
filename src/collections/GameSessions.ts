@@ -69,6 +69,20 @@ export const GameSessions: CollectionConfig = {
       hasMany: true,
       options: arkhamHorror2eBoxes.map((box) => ({ label: box.name, value: box.name })),
       defaultValue: ['Base Game'],
+      admin: {
+        hidden: true,
+      },
+    },
+    {
+      name: 'enabledSets',
+      label: 'Active Expansions',
+      type: 'relationship',
+      relationTo: 'boxed-sets',
+      hasMany: true,
+      required: true,
+      admin: {
+        description: 'Sets enabled for this saved game.',
+      },
     },
     {
       name: 'turnNumber',

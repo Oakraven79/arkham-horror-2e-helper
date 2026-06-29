@@ -6,28 +6,28 @@ const locationSourcePath = path.resolve('wireframes/Source data/locations.json')
 const outputPath = path.resolve('src/content/mythosCards.generated.ts')
 
 const expansionMap = {
-  '': 'Base Game',
-  'Arkham Horror': 'Base Game',
-  'Curse of the Dark Pharaoh': 'Curse of the Dark Pharaoh (Revised Edition)',
-  'Dunwich Horror': 'Dunwich Horror',
-  'Innsmouth Horror': 'Innsmouth Horror',
-  'Kingsport Horror': 'Kingsport Horror',
-  'Miskatonic Horror': 'Miskatonic Horror',
-  'The Black Goat of the Woods': 'The Black Goat of the Woods',
-  'The King in Yellow': 'The King in Yellow',
-  'The Lurker at the Threshold': 'The Lurker at the Threshold',
+  '': 'base-game',
+  'Arkham Horror': 'base-game',
+  'Curse of the Dark Pharaoh': 'curse-dark-pharaoh-revised',
+  'Dunwich Horror': 'dunwich-horror',
+  'Innsmouth Horror': 'innsmouth-horror',
+  'Kingsport Horror': 'kingsport-horror',
+  'Miskatonic Horror': 'miskatonic-horror',
+  'The Black Goat of the Woods': 'black-goat',
+  'The King in Yellow': 'king-in-yellow',
+  'The Lurker at the Threshold': 'lurker-at-the-threshold',
 }
 
 const expansionCodeMap = {
-  'Base Game': 'base',
-  'Dunwich Horror': 'dunwich',
-  'Kingsport Horror': 'kingsport',
-  'Innsmouth Horror': 'innsmouth',
-  'Miskatonic Horror': 'miskatonic',
-  'Curse of the Dark Pharaoh (Revised Edition)': 'dark-pharaoh-revised',
-  'The Black Goat of the Woods': 'black-goat',
-  'The King in Yellow': 'king-in-yellow',
-  'The Lurker at the Threshold': 'lurker',
+  'base-game': 'base',
+  'dunwich-horror': 'dunwich',
+  'kingsport-horror': 'kingsport',
+  'innsmouth-horror': 'innsmouth',
+  'miskatonic-horror': 'miskatonic',
+  'curse-dark-pharaoh-revised': 'dark-pharaoh-revised',
+  'black-goat': 'black-goat',
+  'king-in-yellow': 'king-in-yellow',
+  'lurker-at-the-threshold': 'lurker',
 }
 
 const expansionOrder = new Map(
@@ -99,7 +99,7 @@ function cardTitle(record) {
     .trim()
 }
 
-function boxedSet(record) {
+function sourceSetKey(record) {
   const sourceExpansion = String(record.expansion || record.details?.edition || '')
   const mapped = expansionMap[sourceExpansion]
 
@@ -206,7 +206,7 @@ const validLocationKeys = new Set(locationSource.map((record) => slugify(record.
 const generated = source
   .map((record) => {
     const title = cardTitle(record)
-    const set = boxedSet(record)
+    const set = sourceSetKey(record)
     const locations = gateLocations(record, validLocationKeys)
     const effectText = optionalText(record.details?.mythos_ability)
     const ongoingEffect = optionalText(record.details?.ongoing_effect)
@@ -219,7 +219,7 @@ const generated = source
       title,
       cardCode: `${expansionCodeMap[set]}-${slugify(title)}`,
       cardType: cardType(record),
-      boxedSet: set,
+      sourceSetKey: set,
       copyCount: physicalCopyCount(record),
       ...(flavorText ? { flavorText } : {}),
       ...(effectText ? { effectText } : {}),
@@ -255,7 +255,7 @@ const generated = source
   })
   .sort(
     (left, right) =>
-      expansionOrder.get(left.boxedSet) - expansionOrder.get(right.boxedSet) ||
+      expansionOrder.get(left.sourceSetKey) - expansionOrder.get(right.sourceSetKey) ||
       left.title.localeCompare(right.title),
   )
 

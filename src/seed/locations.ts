@@ -1,7 +1,8 @@
 import type { Payload } from 'payload'
 
 import { starterLocations, type StarterLocation } from '@/content/locations'
-import type { Location } from '@/payload-types'
+import { officialBoxedSetName, relationshipID, requireBoxedSet } from '@/lib/boxedSetContent'
+import type { BoxedSet, Location } from '@/payload-types'
 
 import { ensureSeedMedia } from './media'
 
@@ -14,6 +15,7 @@ function comparableLocation(location: Location) {
     name: location.name,
     key: location.key,
     boxedSet: location.boxedSet,
+    sourceSet: relationshipID(location.sourceSet) ?? undefined,
     board: location.board,
     neighborhood: location.neighborhood,
     stability: location.stability,
@@ -25,11 +27,12 @@ function comparableLocation(location: Location) {
   }
 }
 
-function fixtureMetadata(location: StarterLocation) {
+function fixtureMetadata(location: StarterLocation, sourceSet: BoxedSet) {
   return {
     name: location.name,
     key: location.key,
-    boxedSet: location.boxedSet,
+    boxedSet: officialBoxedSetName(location.sourceSetKey) as Location['boxedSet'],
+    sourceSet: sourceSet.id,
     board: location.board,
     neighborhood: location.neighborhood,
     stability: location.stability,
@@ -41,32 +44,43 @@ function fixtureMetadata(location: StarterLocation) {
   }
 }
 
-function fixtureComparable(location: StarterLocation) {
+function fixtureComparable(location: StarterLocation, sourceSet: BoxedSet) {
   return {
-    ...fixtureMetadata(location),
+    ...fixtureMetadata(location, sourceSet),
+    sourceSet: String(sourceSet.id),
     homeInvestigators: [...location.homeInvestigators],
   }
 }
 
-function metadataMatches(existing: Location, fixture: StarterLocation) {
+function metadataMatches(existing: Location, fixture: StarterLocation, sourceSet: BoxedSet) {
   return (
     JSON.stringify(comparableLocation(existing)) ===
-    JSON.stringify(fixtureComparable(fixture))
+    JSON.stringify(fixtureComparable(fixture, sourceSet))
   )
 }
 
-export async function seedLocations(
-  payload: Payload,
-  options: SeedLocationsOptions = {},
-) {
+export async function seedLocations(payload: Payload, options: SeedLocationsOptions = {}) {
   const dryRun = options.dryRun ?? false
-  const existing = await payload.find({
-    collection: 'locations',
-    depth: 0,
-    draft: true,
-    limit: 1000,
-    overrideAccess: true,
-  })
+  const [existing, boxedSetResult] = await Promise.all([
+    payload.find({
+      collection: 'locations',
+      depth: 0,
+      draft: true,
+      limit: 1000,
+      overrideAccess: true,
+    }),
+    payload.find({
+      collection: 'boxed-sets',
+      depth: 0,
+      draft: true,
+      limit: 1000,
+      overrideAccess: true,
+    }),
+  ])
+  const boxedSetsByKey = new Map(boxedSetResult.docs.map((boxedSet) => [boxedSet.key, boxedSet]))
+  const boxedSetsByID = new Map(
+    boxedSetResult.docs.map((boxedSet) => [String(boxedSet.id), boxedSet]),
+  )
   const byKey = new Map<string, Location[]>()
   const byName = new Map<string, Location[]>()
 
@@ -78,13 +92,19 @@ export async function seedLocations(
   const matches = starterLocations.map((fixture) => {
     const allKeyMatches = byKey.get(fixture.key) ?? []
     const customKeyConflict = allKeyMatches.some(
-      (location) => location.boxedSet === 'Custom',
+      (location) =>
+        boxedSetsByID.get(relationshipID(location.sourceSet) ?? '')?.category === 'custom' ||
+        location.boxedSet === 'Custom',
     )
     const keyMatches = allKeyMatches.filter(
-      (location) => location.boxedSet !== 'Custom',
+      (location) =>
+        boxedSetsByID.get(relationshipID(location.sourceSet) ?? '')?.category !== 'custom' &&
+        location.boxedSet !== 'Custom',
     )
     const nameMatches = (byName.get(fixture.name) ?? []).filter(
-      (location) => location.boxedSet !== 'Custom',
+      (location) =>
+        boxedSetsByID.get(relationshipID(location.sourceSet) ?? '')?.category !== 'custom' &&
+        location.boxedSet !== 'Custom',
     )
     const candidates = keyMatches.length > 0 ? keyMatches : nameMatches
 
@@ -115,15 +135,14 @@ export async function seedLocations(
 
     const { fixture } = match
     const existingLocation = match.candidates[0]
+    const sourceSet = requireBoxedSet(boxedSetsByKey, fixture.sourceSetKey)
 
     if (!existingLocation) {
       created.push(fixture.name)
 
       if (dryRun) continue
 
-      const mediaResult = fixture.image
-        ? await ensureSeedMedia(payload, fixture.image)
-        : null
+      const mediaResult = fixture.image ? await ensureSeedMedia(payload, fixture.image) : null
 
       if (mediaResult?.created) {
         mediaCreated += 1
@@ -132,7 +151,7 @@ export async function seedLocations(
       await payload.create({
         collection: 'locations',
         data: {
-          ...fixtureMetadata(fixture),
+          ...fixtureMetadata(fixture, sourceSet),
           cardDisplayText: fixture.cardDisplayText,
           cardImage: mediaResult?.media.id,
           _status: 'published',
@@ -145,7 +164,7 @@ export async function seedLocations(
 
     const needsDisplayText = !existingLocation.cardDisplayText
     const needsImage = Boolean(fixture.image && !existingLocation.cardImage)
-    const needsMetadata = !metadataMatches(existingLocation, fixture)
+    const needsMetadata = !metadataMatches(existingLocation, fixture, sourceSet)
 
     if (!needsDisplayText && !needsImage && !needsMetadata) {
       unchanged.push(fixture.name)
@@ -157,9 +176,7 @@ export async function seedLocations(
     if (dryRun) continue
 
     const mediaResult =
-      needsImage && fixture.image
-        ? await ensureSeedMedia(payload, fixture.image)
-        : null
+      needsImage && fixture.image ? await ensureSeedMedia(payload, fixture.image) : null
 
     if (mediaResult?.created) {
       mediaCreated += 1
@@ -169,7 +186,7 @@ export async function seedLocations(
       collection: 'locations',
       id: existingLocation.id,
       data: {
-        ...fixtureMetadata(fixture),
+        ...fixtureMetadata(fixture, sourceSet),
         ...(needsDisplayText ? { cardDisplayText: fixture.cardDisplayText } : {}),
         ...(mediaResult ? { cardImage: mediaResult.media.id } : {}),
         _status: existingLocation._status,

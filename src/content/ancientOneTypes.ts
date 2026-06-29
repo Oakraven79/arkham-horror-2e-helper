@@ -1,3 +1,5 @@
+import type { OfficialBoxedSetKey } from './boxedSetTypes'
+
 export const ancientOneCombatRatingTypes = ['fixed', 'variable', 'infinite'] as const
 
 export const ancientOneDefenses = [
@@ -14,15 +16,7 @@ export type AncientOneCombatRatingType = (typeof ancientOneCombatRatingTypes)[nu
 export type AncientOneDefense = (typeof ancientOneDefenses)[number]
 export type AncientOneRulesNoteKind = (typeof ancientOneRulesNoteKinds)[number]
 
-export type StarterAncientOneBoxedSet =
-  | 'Base Game'
-  | 'Dunwich Horror'
-  | 'Kingsport Horror'
-  | 'Innsmouth Horror'
-  | 'Promotional'
-
 export interface StarterAncientOne {
-  boxedSet: StarterAncientOneBoxedSet
   key: string
   lore: string
   name: string
@@ -32,6 +26,10 @@ export interface StarterAncientOne {
     text: string
   }[]
   sheets: StarterAncientOneSheet[]
+  sourceSetKey: Extract<
+    OfficialBoxedSetKey,
+    'base-game' | 'dunwich-horror' | 'kingsport-horror' | 'innsmouth-horror' | 'promotional'
+  >
 }
 
 export interface StarterAncientOneSheet {

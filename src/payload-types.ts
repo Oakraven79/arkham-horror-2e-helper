@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    'boxed-sets': BoxedSet;
     'ancient-ones': AncientOne;
     locations: Location;
     'mythos-cards': MythosCard;
@@ -83,6 +84,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    'boxed-sets': BoxedSetsSelect<false> | BoxedSetsSelect<true>;
     'ancient-ones': AncientOnesSelect<false> | AncientOnesSelect<true>;
     locations: LocationsSelect<false> | LocationsSelect<true>;
     'mythos-cards': MythosCardsSelect<false> | MythosCardsSelect<true>;
@@ -155,7 +157,7 @@ export interface User {
  */
 export interface Media {
   id: string;
-  alt: string;
+  alt?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -167,6 +169,40 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "boxed-sets".
+ */
+export interface BoxedSet {
+  id: string;
+  name: string;
+  /**
+   * Stable identifier used by fixtures and saved games, for example "dunwich-horror".
+   */
+  key: string;
+  category: 'core' | 'large-expansion' | 'small-expansion' | 'promotional' | 'custom';
+  /**
+   * Short fallback shown on cards when no icon has been uploaded.
+   */
+  abbreviation: string;
+  /**
+   * Transparent PNG, WebP, or SVG mark used to identify this set on cards.
+   */
+  icon?: (string | null) | Media;
+  sortOrder: number;
+  /**
+   * Alternate source names accepted by import and migration tools.
+   */
+  aliases?:
+    | {
+        name: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -192,6 +228,10 @@ export interface AncientOne {
     | 'The Lurker at the Threshold'
     | 'Promotional'
     | 'Custom';
+  /**
+   * Set provenance and card icon.
+   */
+  sourceSet: string | BoxedSet;
   customSetName?: string | null;
   /**
    * Optional source lore. Gameplay instructions belong to a playable sheet.
@@ -292,6 +332,10 @@ export interface Location {
     | 'The King in Yellow'
     | 'The Lurker at the Threshold'
     | 'Custom';
+  /**
+   * Set provenance and card icon.
+   */
+  sourceSet: string | BoxedSet;
   customSetName?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -380,6 +424,10 @@ export interface MythosCard {
     | 'The Black Goat of the Woods'
     | 'The King in Yellow'
     | 'The Lurker at the Threshold';
+  /**
+   * Set provenance and card icon.
+   */
+  sourceSet: string | BoxedSet;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -411,6 +459,10 @@ export interface OtherWorld {
     | 'The King in Yellow'
     | 'The Lurker at the Threshold'
     | 'Custom';
+  /**
+   * Set provenance and card icon.
+   */
+  sourceSet: string | BoxedSet;
   customSetName?: string | null;
   art?: (string | null) | Media;
   updatedAt: string;
@@ -452,6 +504,10 @@ export interface OtherWorldEncounterCard {
     | 'The King in Yellow'
     | 'The Lurker at the Threshold'
     | 'Custom';
+  /**
+   * Set provenance and card icon.
+   */
+  sourceSet: string | BoxedSet;
   customSetName?: string | null;
   /**
    * Optional helper notes. These are not printed on the rendered card.
@@ -484,6 +540,10 @@ export interface GameSession {
         | 'The Lurker at the Threshold'
       )[]
     | null;
+  /**
+   * Sets enabled for this saved game.
+   */
+  enabledSets: (string | BoxedSet)[];
   turnNumber: number;
   currentPhase:
     | 'Setup'
@@ -639,6 +699,10 @@ export interface PayloadLockedDocument {
         value: string | Media;
       } | null)
     | ({
+        relationTo: 'boxed-sets';
+        value: string | BoxedSet;
+      } | null)
+    | ({
         relationTo: 'ancient-ones';
         value: string | AncientOne;
       } | null)
@@ -746,12 +810,34 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "boxed-sets_select".
+ */
+export interface BoxedSetsSelect<T extends boolean = true> {
+  name?: T;
+  key?: T;
+  category?: T;
+  abbreviation?: T;
+  icon?: T;
+  sortOrder?: T;
+  aliases?:
+    | T
+    | {
+        name?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ancient-ones_select".
  */
 export interface AncientOnesSelect<T extends boolean = true> {
   name?: T;
   key?: T;
   boxedSet?: T;
+  sourceSet?: T;
   customSetName?: T;
   lore?: T;
   sheets?:
@@ -814,6 +900,7 @@ export interface LocationsSelect<T extends boolean = true> {
         id?: T;
       };
   boxedSet?: T;
+  sourceSet?: T;
   customSetName?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -866,6 +953,7 @@ export interface MythosCardsSelect<T extends boolean = true> {
   monsterMoveWhite?: T;
   monsterMoveBlack?: T;
   boxedset?: T;
+  sourceSet?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -879,6 +967,7 @@ export interface OtherWorldsSelect<T extends boolean = true> {
   key?: T;
   preferredColours?: T;
   boxedSet?: T;
+  sourceSet?: T;
   customSetName?: T;
   art?: T;
   updatedAt?: T;
@@ -901,6 +990,7 @@ export interface OtherWorldEncounterCardsSelect<T extends boolean = true> {
         id?: T;
       };
   boxedSet?: T;
+  sourceSet?: T;
   customSetName?: T;
   clarifications?: T;
   updatedAt?: T;
@@ -916,6 +1006,7 @@ export interface GameSessionsSelect<T extends boolean = true> {
   status?: T;
   playerCount?: T;
   activeExpansions?: T;
+  enabledSets?: T;
   turnNumber?: T;
   currentPhase?: T;
   firstPlayer?: T;

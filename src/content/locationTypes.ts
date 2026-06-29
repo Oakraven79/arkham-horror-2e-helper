@@ -1,3 +1,5 @@
+import type { OfficialBoxedSetKey } from './boxedSetTypes'
+
 export const locationBoards = ['Arkham', 'Dunwich', 'Kingsport', 'Innsmouth', 'Other'] as const
 export const locationStabilities = ['stable', 'unstable', 'n/a'] as const
 export const locationEncounterTypes = [
@@ -17,16 +19,9 @@ export type LocationBoard = (typeof locationBoards)[number]
 export type LocationStability = (typeof locationStabilities)[number]
 export type LocationEncounterType = (typeof locationEncounterTypes)[number]
 
-export type LocationFixtureBoxedSet =
-  | 'Base Game'
-  | 'Dunwich Horror'
-  | 'Kingsport Horror'
-  | 'Innsmouth Horror'
-
 export interface LocationFixture {
   aquatic: boolean
   board: Exclude<LocationBoard, 'Other'>
-  boxedSet: LocationFixtureBoxedSet
   cardDisplayText: string
   description?: string
   encounterTypes: LocationEncounterType[]
@@ -40,5 +35,9 @@ export interface LocationFixture {
   name: string
   neighborhood: string
   specialEncounter?: string
+  sourceSetKey: Extract<
+    OfficialBoxedSetKey,
+    'base-game' | 'dunwich-horror' | 'kingsport-horror' | 'innsmouth-horror'
+  >
   stability: LocationStability
 }

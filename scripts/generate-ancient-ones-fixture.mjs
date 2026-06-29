@@ -5,16 +5,16 @@ const sourcePath = path.resolve('wireframes/Source data/ancient_ones.json')
 const outputPath = path.resolve('src/content/ancientOnes.generated.ts')
 
 const expansionMap = {
-  'Arkham Horror': 'Base Game',
-  'Dunwich Horror': 'Dunwich Horror',
-  'Innsmouth Horror': 'Innsmouth Horror',
-  'Kingsport Horror': 'Kingsport Horror',
-  'Promotional offer': 'Promotional',
+  'Arkham Horror': 'base-game',
+  'Dunwich Horror': 'dunwich-horror',
+  'Innsmouth Horror': 'innsmouth-horror',
+  'Kingsport Horror': 'kingsport-horror',
+  'Promotional offer': 'promotional',
 }
 
 const expansionOrder = new Map(
-  ['Base Game', 'Dunwich Horror', 'Kingsport Horror', 'Innsmouth Horror', 'Promotional'].map(
-    (boxedSet, index) => [boxedSet, index],
+  ['base-game', 'dunwich-horror', 'kingsport-horror', 'innsmouth-horror', 'promotional'].map(
+    (sourceSetKey, index) => [sourceSetKey, index],
   ),
 )
 
@@ -144,9 +144,9 @@ function rulesNotes(record) {
 const source = JSON.parse(await readFile(sourcePath, 'utf8'))
 const generated = source
   .map((record) => {
-    const boxedSet = expansionMap[record.expansion]
+    const sourceSetKey = expansionMap[record.expansion]
 
-    if (!boxedSet) {
+    if (!sourceSetKey) {
       throw new Error(`Unknown Ancient One expansion "${record.expansion}" for ${record.name}`)
     }
 
@@ -184,7 +184,7 @@ const generated = source
     return {
       name: record.name,
       key: slugify(record.name),
-      boxedSet,
+      sourceSetKey,
       lore: record.details.mythos_source.trim(),
       sheets,
       ...(rulesNotes(record) ? { rulesNotes: rulesNotes(record) } : {}),
@@ -192,7 +192,7 @@ const generated = source
   })
   .sort(
     (left, right) =>
-      expansionOrder.get(left.boxedSet) - expansionOrder.get(right.boxedSet) ||
+      expansionOrder.get(left.sourceSetKey) - expansionOrder.get(right.sourceSetKey) ||
       left.name.localeCompare(right.name),
   )
 

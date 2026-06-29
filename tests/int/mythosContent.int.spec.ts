@@ -36,7 +36,7 @@ describe('Mythos starter content', () => {
       {},
     )
     const darkPharaohCards = starterMythosCards.filter(
-      (card) => card.boxedSet === 'Curse of the Dark Pharaoh (Revised Edition)',
+      (card) => card.sourceSetKey === 'curse-dark-pharaoh-revised',
     )
     const nextActCards = starterMythosCards.filter((card) =>
       card.title.startsWith('The Next Act Begins'),
@@ -93,6 +93,10 @@ describe('Mythos starter content', () => {
     expect(mythosCardExampleProps('base-fourth-of-july-parade').gateInstruction).toMatchObject({
       mode: 'single',
       locations: [{ text: 'The Witch  \nHouse' }],
+    })
+    expect(mythosCardExampleProps('base-fourth-of-july-parade').boxedSet).toEqual({
+      name: 'Base Game',
+      abbreviation: 'AH',
     })
     expect(mythosCardExampleProps('base-the-story-continues').cardType).toBeUndefined()
     expect(

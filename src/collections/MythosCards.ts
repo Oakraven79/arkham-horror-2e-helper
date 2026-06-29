@@ -275,6 +275,20 @@ export const MythosCards: CollectionConfig = {
       options: arkhamHorror2eBoxes.map((t) => ({ label: t.name, value: t.name })),
       required: true,
       defaultValue: 'Base Game',
+      admin: {
+        hidden: true,
+      },
+    },
+    {
+      name: 'sourceSet',
+      label: 'Boxed Set',
+      type: 'relationship',
+      relationTo: 'boxed-sets',
+      required: true,
+      index: true,
+      admin: {
+        description: 'Set provenance and card icon.',
+      },
     },
   ],
 }

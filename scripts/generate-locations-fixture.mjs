@@ -5,10 +5,10 @@ const sourcePath = path.resolve('wireframes/Source data/locations.json')
 const outputPath = path.resolve('src/content/locations.generated.ts')
 
 const expansionMap = {
-  'Arkham Horror': { board: 'Arkham', boxedSet: 'Base Game' },
-  'Dunwich Horror': { board: 'Dunwich', boxedSet: 'Dunwich Horror' },
-  'Kingsport Horror': { board: 'Kingsport', boxedSet: 'Kingsport Horror' },
-  'Innsmouth Horror': { board: 'Innsmouth', boxedSet: 'Innsmouth Horror' },
+  'Arkham Horror': { board: 'Arkham', sourceSetKey: 'base-game' },
+  'Dunwich Horror': { board: 'Dunwich', sourceSetKey: 'dunwich-horror' },
+  'Kingsport Horror': { board: 'Kingsport', sourceSetKey: 'kingsport-horror' },
+  'Innsmouth Horror': { board: 'Innsmouth', sourceSetKey: 'innsmouth-horror' },
 }
 
 const boardOrder = new Map(
@@ -51,16 +51,14 @@ const normalized = source
       name: record.name,
       key: slugify(record.name),
       cardDisplayText: record.name,
-      boxedSet: expansion.boxedSet,
+      sourceSetKey: expansion.sourceSetKey,
       board: details.city || expansion.board,
       neighborhood: record.neighborhood,
       stability,
       aquatic: details.aquatic ?? false,
       encounterTypes: record.encounter_types,
       ...(details.description ? { description: details.description } : {}),
-      ...(details.special_encounter
-        ? { specialEncounter: details.special_encounter }
-        : {}),
+      ...(details.special_encounter ? { specialEncounter: details.special_encounter } : {}),
       homeInvestigators: details.home_investigators ?? [],
     }
   })

@@ -1,26 +1,11 @@
 import type { Payload } from 'payload'
 
 import { starterAncientOnes, type StarterAncientOne } from '@/content/ancientOnes'
-import type { AncientOne } from '@/payload-types'
+import { officialBoxedSetName, relationshipID, requireBoxedSet } from '@/lib/boxedSetContent'
+import type { AncientOne, BoxedSet } from '@/payload-types'
 
 export interface SeedAncientOnesOptions {
   dryRun?: boolean
-}
-
-function relationshipID(value: unknown): string | null {
-  if (typeof value === 'string' || typeof value === 'number') {
-    return String(value)
-  }
-
-  if (value && typeof value === 'object' && 'id' in value) {
-    const id = value.id
-
-    if (typeof id === 'string' || typeof id === 'number') {
-      return String(id)
-    }
-  }
-
-  return null
 }
 
 function fixtureSheets(fixture: StarterAncientOne, existing?: AncientOne) {
@@ -53,22 +38,24 @@ function fixtureSheets(fixture: StarterAncientOne, existing?: AncientOne) {
   })
 }
 
-function fixtureMetadata(fixture: StarterAncientOne, existing?: AncientOne) {
+function fixtureMetadata(fixture: StarterAncientOne, sourceSet: BoxedSet, existing?: AncientOne) {
   return {
     name: fixture.name,
     key: fixture.key,
-    boxedSet: fixture.boxedSet,
+    boxedSet: officialBoxedSetName(fixture.sourceSetKey) as AncientOne['boxedSet'],
+    sourceSet: sourceSet.id,
     lore: fixture.lore,
     sheets: fixtureSheets(fixture, existing),
     rulesNotes: fixture.rulesNotes?.map((note) => ({ ...note })),
   }
 }
 
-function comparableFixture(fixture: StarterAncientOne) {
+function comparableFixture(fixture: StarterAncientOne, sourceSet: BoxedSet) {
   return {
     name: fixture.name,
     key: fixture.key,
-    boxedSet: fixture.boxedSet,
+    boxedSet: officialBoxedSetName(fixture.sourceSetKey) as AncientOne['boxedSet'],
+    sourceSet: String(sourceSet.id),
     lore: fixture.lore,
     sheets: fixture.sheets.map((sheet) => ({
       key: sheet.key,
@@ -103,6 +90,7 @@ function comparableDocument(document: AncientOne) {
     name: document.name,
     key: document.key,
     boxedSet: document.boxedSet,
+    sourceSet: relationshipID(document.sourceSet) ?? undefined,
     lore: document.lore ?? '',
     sheets: document.sheets.map((sheet) => {
       const defenses = sheet.defenses ?? []
@@ -130,19 +118,35 @@ function comparableDocument(document: AncientOne) {
   }
 }
 
-function metadataMatches(document: AncientOne, fixture: StarterAncientOne) {
-  return JSON.stringify(comparableDocument(document)) === JSON.stringify(comparableFixture(fixture))
+function metadataMatches(document: AncientOne, fixture: StarterAncientOne, sourceSet: BoxedSet) {
+  return (
+    JSON.stringify(comparableDocument(document)) ===
+    JSON.stringify(comparableFixture(fixture, sourceSet))
+  )
 }
 
 export async function seedAncientOnes(payload: Payload, options: SeedAncientOnesOptions = {}) {
   const dryRun = options.dryRun ?? false
-  const existing = await payload.find({
-    collection: 'ancient-ones',
-    depth: 0,
-    draft: true,
-    limit: 100,
-    overrideAccess: true,
-  })
+  const [existing, boxedSetResult] = await Promise.all([
+    payload.find({
+      collection: 'ancient-ones',
+      depth: 0,
+      draft: true,
+      limit: 100,
+      overrideAccess: true,
+    }),
+    payload.find({
+      collection: 'boxed-sets',
+      depth: 0,
+      draft: true,
+      limit: 1000,
+      overrideAccess: true,
+    }),
+  ])
+  const boxedSetsByKey = new Map(boxedSetResult.docs.map((boxedSet) => [boxedSet.key, boxedSet]))
+  const boxedSetsByID = new Map(
+    boxedSetResult.docs.map((boxedSet) => [String(boxedSet.id), boxedSet]),
+  )
   const byKey = new Map<string, AncientOne[]>()
   const byName = new Map<string, AncientOne[]>()
 
@@ -153,10 +157,20 @@ export async function seedAncientOnes(payload: Payload, options: SeedAncientOnes
 
   const matches = starterAncientOnes.map((fixture) => {
     const allKeyMatches = byKey.get(fixture.key) ?? []
-    const customKeyConflict = allKeyMatches.some((ancientOne) => ancientOne.boxedSet === 'Custom')
-    const keyMatches = allKeyMatches.filter((ancientOne) => ancientOne.boxedSet !== 'Custom')
+    const customKeyConflict = allKeyMatches.some(
+      (ancientOne) =>
+        boxedSetsByID.get(relationshipID(ancientOne.sourceSet) ?? '')?.category === 'custom' ||
+        ancientOne.boxedSet === 'Custom',
+    )
+    const keyMatches = allKeyMatches.filter(
+      (ancientOne) =>
+        boxedSetsByID.get(relationshipID(ancientOne.sourceSet) ?? '')?.category !== 'custom' &&
+        ancientOne.boxedSet !== 'Custom',
+    )
     const nameMatches = (byName.get(fixture.name) ?? []).filter(
-      (ancientOne) => ancientOne.boxedSet !== 'Custom',
+      (ancientOne) =>
+        boxedSetsByID.get(relationshipID(ancientOne.sourceSet) ?? '')?.category !== 'custom' &&
+        ancientOne.boxedSet !== 'Custom',
     )
 
     return {
@@ -182,6 +196,7 @@ export async function seedAncientOnes(payload: Payload, options: SeedAncientOnes
 
     const { fixture } = match
     const existingAncientOne = match.candidates[0]
+    const sourceSet = requireBoxedSet(boxedSetsByKey, fixture.sourceSetKey)
 
     if (!existingAncientOne) {
       created.push(fixture.name)
@@ -191,7 +206,7 @@ export async function seedAncientOnes(payload: Payload, options: SeedAncientOnes
       await payload.create({
         collection: 'ancient-ones',
         data: {
-          ...fixtureMetadata(fixture),
+          ...fixtureMetadata(fixture, sourceSet),
           _status: 'published',
         },
         draft: false,
@@ -200,7 +215,7 @@ export async function seedAncientOnes(payload: Payload, options: SeedAncientOnes
       continue
     }
 
-    if (metadataMatches(existingAncientOne, fixture)) {
+    if (metadataMatches(existingAncientOne, fixture, sourceSet)) {
       unchanged.push(fixture.name)
       continue
     }
@@ -213,7 +228,7 @@ export async function seedAncientOnes(payload: Payload, options: SeedAncientOnes
       collection: 'ancient-ones',
       id: existingAncientOne.id,
       data: {
-        ...fixtureMetadata(fixture, existingAncientOne),
+        ...fixtureMetadata(fixture, sourceSet, existingAncientOne),
         _status: existingAncientOne._status,
       },
       draft: existingAncientOne._status === 'draft',

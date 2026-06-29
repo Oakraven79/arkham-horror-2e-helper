@@ -2,6 +2,7 @@ import ReactMarkdown from 'react-markdown'
 
 import './card.css'
 
+import { BoxedSetMark, type BoxedSetDisplay } from './boxedSetMark'
 import { MonsterIcons, getMonsterIconPath } from './constants'
 
 import { MythosCardType } from './constants'
@@ -35,6 +36,8 @@ export interface MythosCardFrontProps {
   cardType?: MythosCardType
   /** Mythos description */
   cardDescription: string
+  /** Boxed-set icon or abbreviation */
+  boxedSet?: BoxedSetDisplay
   /** Monster movement for white and black */
   monsterMoveWhite?: MonsterIcons[]
   monsterMoveBlack?: MonsterIcons[]
@@ -206,6 +209,7 @@ export const MythosCardFront = ({
   title,
   cardType,
   cardDescription,
+  boxedSet,
   monsterMoveWhite,
   monsterMoveBlack,
   location,
@@ -234,6 +238,7 @@ export const MythosCardFront = ({
 
   return (
     <div className="mythoscardfront">
+      <BoxedSetMark boxedSet={boxedSet} />
       <div className="mythoscardheaderbox">
         <div className={titleSizeClass}>{title}</div>
         <div className={cardTypeSizeClass}>{cardType}</div>

@@ -86,6 +86,23 @@ async function getOrCreateSession(
 
   if (existing.docs[0]) return existing.docs[0]
 
+  const baseSet = await payload.find({
+    collection: 'boxed-sets',
+    where: {
+      key: {
+        equals: 'base-game',
+      },
+    },
+    limit: 1,
+    depth: 0,
+    overrideAccess: true,
+  })
+  const baseSetID = baseSet.docs[0]?.id
+
+  if (!baseSetID) {
+    throw new Error('The Base Game boxed set must be seeded before creating a session.')
+  }
+
   const created = await payload.create({
     collection: GAME_SESSIONS,
     overrideAccess: true,
@@ -94,6 +111,7 @@ async function getOrCreateSession(
       status: 'active',
       playerCount: 4,
       activeExpansions: ['Base Game'],
+      enabledSets: [baseSetID],
       turnNumber: 1,
       currentPhase: 'Mythos',
       tracks: {

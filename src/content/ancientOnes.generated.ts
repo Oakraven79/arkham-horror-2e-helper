@@ -5,7 +5,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Azathoth",
     "key": "azathoth",
-    "boxedSet": "Base Game",
+    "sourceSetKey": "base-game",
     "lore": "Azathoth first appears in Azathoth (1922), written by H.P. Lovecraft.",
     "sheets": [
       {
@@ -29,7 +29,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Cthulhu",
     "key": "cthulhu",
-    "boxedSet": "Base Game",
+    "sourceSetKey": "base-game",
     "lore": "Cthulhu was introduced in The Call of Cthulhu (1926), written by H.P. Lovecraft.",
     "sheets": [
       {
@@ -75,7 +75,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Hastur",
     "key": "hastur",
-    "boxedSet": "Base Game",
+    "sourceSetKey": "base-game",
     "lore": "The name Hastur first appeared in Haita the Shepherd (1893), written by Ambrose Bierce, where he was a benevolent god of shepherds. Robert W. Chambers appropriated the name for use in his anthology The King in Yellow (1895). The first Mythos story to use the name was The Whisperer in Darkness (1930), written by H.P. Lovecraft.",
     "sheets": [
       {
@@ -121,7 +121,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Ithaqua",
     "key": "ithaqua",
-    "boxedSet": "Base Game",
+    "sourceSetKey": "base-game",
     "lore": "Ithaqua first appeared in The Thing that Walked on the Wind (1933), written by August Derleth.",
     "sheets": [
       {
@@ -153,7 +153,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Nyarlathotep",
     "key": "nyarlathotep",
-    "boxedSet": "Base Game",
+    "sourceSetKey": "base-game",
     "lore": "Nyarlathotep is first mentioned in the prose poem Nyarlathotep (1920), written by H.P. Lovecraft. The first piece of fiction to feature him is The Rats in the Walls (1924), also written by H.P. Lovecraft.",
     "sheets": [
       {
@@ -187,7 +187,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Shub-Niggurath",
     "key": "shub-niggurath",
-    "boxedSet": "Base Game",
+    "sourceSetKey": "base-game",
     "lore": "Shub-Niggurath first appeared in The Last Test (1927), written by H.P. Lovecraft and Adolphe de Castro. It was also mentioned in The Thing on the Doorstep (1937), written by H.P. Lovecraft.",
     "sheets": [
       {
@@ -215,7 +215,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Yig",
     "key": "yig",
-    "boxedSet": "Base Game",
+    "sourceSetKey": "base-game",
     "lore": "Yig first appears in The Curse of Yig (1928), written by H.P. Lovecraft and Zealia Bishop.",
     "sheets": [
       {
@@ -259,7 +259,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Yog-Sothoth",
     "key": "yog-sothoth",
-    "boxedSet": "Base Game",
+    "sourceSetKey": "base-game",
     "lore": "The name Yog-Sothoth first appears in The Case of Charles Dexter Ward (1927), written by H.P. Lovecraft. Actual details of his attributes appear in The Dunwich Horror (1928), also written by H.P. Lovecraft.",
     "sheets": [
       {
@@ -293,7 +293,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Abhoth",
     "key": "abhoth",
-    "boxedSet": "Dunwich Horror",
+    "sourceSetKey": "dunwich-horror",
     "lore": "Abhoth first appears in The Seven Geases (1934), written by Clark Ashton Smith.",
     "sheets": [
       {
@@ -320,7 +320,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Glaaki",
     "key": "glaaki",
-    "boxedSet": "Dunwich Horror",
+    "sourceSetKey": "dunwich-horror",
     "lore": "Glaaki first appeared in The Inhabitant of the Lake (1964), written by Ramsey Campbell.",
     "sheets": [
       {
@@ -347,7 +347,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Shudde M'ell",
     "key": "shudde-mell",
-    "boxedSet": "Dunwich Horror",
+    "sourceSetKey": "dunwich-horror",
     "lore": "Shudde M'ell first appeared in Cement Surroundings (1969), written by Brian Lumley.",
     "sheets": [
       {
@@ -375,7 +375,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Tsathoggua",
     "key": "tsathoggua",
-    "boxedSet": "Dunwich Horror",
+    "sourceSetKey": "dunwich-horror",
     "lore": "Tsathoggua was first mentioned in H.P. Lovecraft's The Whisperer in the Darkness (1931) and again in The Shadow Out of Time (1936), although he was invented and first described in Clark Ashton Smith's short story The Tale of Satampra Zeiros (1931). Published only a few month's apart, Smith's story was actually written a year earlier. Tsathoggua is a primary deity in Smith's Hyperborean Cycle.",
     "sheets": [
       {
@@ -401,7 +401,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Atlach-Nacha",
     "key": "atlach-nacha",
-    "boxedSet": "Kingsport Horror",
+    "sourceSetKey": "kingsport-horror",
     "lore": "Atlach-Nacha first appears in The Seven Geases (1934), written by Clark Ashton Smith.",
     "sheets": [
       {
@@ -429,7 +429,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Eihort",
     "key": "eihort",
-    "boxedSet": "Kingsport Horror",
+    "sourceSetKey": "kingsport-horror",
     "lore": "Eihort first appeared in Before the Storm (1980), written by Ramsey Campbell.",
     "sheets": [
       {
@@ -457,7 +457,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Y'Golonac",
     "key": "ygolonac",
-    "boxedSet": "Kingsport Horror",
+    "sourceSetKey": "kingsport-horror",
     "lore": "Y'Golonac first appeared in Cold Print (1969), written by Ramsey Campbell.",
     "sheets": [
       {
@@ -490,7 +490,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Yibb-Tstll",
     "key": "yibb-tstll",
-    "boxedSet": "Kingsport Horror",
+    "sourceSetKey": "kingsport-horror",
     "lore": "Yibb-Tstll first appeared in Cement Surroundings (1969), written by Brian Lumley.",
     "sheets": [
       {
@@ -517,7 +517,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Bokrug",
     "key": "bokrug",
-    "boxedSet": "Innsmouth Horror",
+    "sourceSetKey": "innsmouth-horror",
     "lore": "Bokrug first appeared in the story The Doom That Came to Sarnath (1919), written by H.P. Lovecraft. Bokrug was a god worshiped by the beings of the city of Ib. The beings of Ib were killed by the men that founded the city Sarnath. 1,000 years after the massacre Bokrug helped the ghosts of the Beings of Ib take their revenge on Sarnath.",
     "sheets": [
       {
@@ -551,7 +551,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Chaugnar Faugn",
     "key": "chaugnar-faugn",
-    "boxedSet": "Innsmouth Horror",
+    "sourceSetKey": "innsmouth-horror",
     "lore": "Chaugnar Faugn first appears in The Horror from the Hills (1931), written by Frank B. Long.",
     "sheets": [
       {
@@ -578,7 +578,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Cthugha",
     "key": "cthugha",
-    "boxedSet": "Innsmouth Horror",
+    "sourceSetKey": "innsmouth-horror",
     "lore": "Cthugha first appears in The House on Curwen Street (1944), written by August Derleth.",
     "sheets": [
       {
@@ -605,7 +605,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Ghatanothoa",
     "key": "ghatanothoa",
-    "boxedSet": "Innsmouth Horror",
+    "sourceSetKey": "innsmouth-horror",
     "lore": "Ghatanothoa first appeared in Out of the Aeons (1933), written by H.P. Lovecraft and Hazel Heald.",
     "sheets": [
       {
@@ -630,7 +630,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Nyogtha",
     "key": "nyogtha",
-    "boxedSet": "Innsmouth Horror",
+    "sourceSetKey": "innsmouth-horror",
     "lore": "Nyogtha first appeared in The Salem Horror (1937), written by Henry Kuttner.",
     "sheets": [
       {
@@ -655,7 +655,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Quachil Uttaus",
     "key": "quachil-uttaus",
-    "boxedSet": "Innsmouth Horror",
+    "sourceSetKey": "innsmouth-horror",
     "lore": "Quachil Uttaus first appeared in The Treader of the Dust (1935), written by Clark Ashton Smith.",
     "sheets": [
       {
@@ -690,7 +690,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Rhan-Tegoth",
     "key": "rhan-tegoth",
-    "boxedSet": "Innsmouth Horror",
+    "sourceSetKey": "innsmouth-horror",
     "lore": "Rhan-Tegoth first appeared in The Horror in the Museum (1932), ghost-written by H.P. Lovecraft for Hazel Heald.",
     "sheets": [
       {
@@ -724,7 +724,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Zhar",
     "key": "zhar",
-    "boxedSet": "Innsmouth Horror",
+    "sourceSetKey": "innsmouth-horror",
     "lore": "Zhar first appears in Lair of the Star Spawn (1932), written by August Derleth and Mark Schorer.",
     "sheets": [
       {
@@ -752,7 +752,7 @@ export const generatedAncientOnes: readonly StarterAncientOne[] = [
   {
     "name": "Daoloth",
     "key": "daoloth",
-    "boxedSet": "Promotional",
+    "sourceSetKey": "promotional",
     "lore": "Daoloth first appeared in The Render of the Veils (1964), written by Ramsey Campbell.",
     "sheets": [
       {

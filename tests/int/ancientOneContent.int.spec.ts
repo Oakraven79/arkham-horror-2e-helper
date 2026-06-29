@@ -36,7 +36,7 @@ describe('Ancient One starter content', () => {
   })
 
   it('normalizes expansions, combat ratings, defenses, and rules notes', () => {
-    expect(getStarterAncientOne('daoloth')?.boxedSet).toBe('Promotional')
+    expect(getStarterAncientOne('daoloth')?.sourceSetKey).toBe('promotional')
     expect(getStarterAncientOne('azathoth')?.sheets[0].combatRating).toEqual({
       display: '-\u221e',
       type: 'infinite',

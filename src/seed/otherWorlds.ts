@@ -1,5 +1,8 @@
 import type { Payload } from 'payload'
 
+import { officialBoxedSetName, requireBoxedSet } from '@/lib/boxedSetContent'
+import type { OtherWorld } from '@/payload-types'
+
 export const starterOtherWorlds = [
   {
     key: 'abyss',
@@ -30,18 +33,29 @@ export function getMissingStarterOtherWorlds(existingKeys: Iterable<string>) {
 }
 
 export async function seedOtherWorlds(payload: Payload) {
-  const existing = await payload.find({
-    collection: 'other-worlds',
-    depth: 0,
-    draft: true,
-    limit: starterOtherWorlds.length,
-    overrideAccess: true,
-    where: {
-      key: {
-        in: starterOtherWorlds.map((world) => world.key),
+  const [existing, boxedSetResult] = await Promise.all([
+    payload.find({
+      collection: 'other-worlds',
+      depth: 0,
+      draft: true,
+      limit: starterOtherWorlds.length,
+      overrideAccess: true,
+      where: {
+        key: {
+          in: starterOtherWorlds.map((world) => world.key),
+        },
       },
-    },
-  })
+    }),
+    payload.find({
+      collection: 'boxed-sets',
+      depth: 0,
+      draft: true,
+      limit: 1000,
+      overrideAccess: true,
+    }),
+  ])
+  const boxedSetsByKey = new Map(boxedSetResult.docs.map((boxedSet) => [boxedSet.key, boxedSet]))
+  const baseGame = requireBoxedSet(boxedSetsByKey, 'base-game')
 
   const missing = getMissingStarterOtherWorlds(existing.docs.map((world) => world.key))
 
@@ -50,7 +64,8 @@ export async function seedOtherWorlds(payload: Payload) {
       collection: 'other-worlds',
       data: {
         ...world,
-        boxedSet: 'Base Game',
+        boxedSet: officialBoxedSetName('base-game') as OtherWorld['boxedSet'],
+        sourceSet: baseGame.id,
         _status: 'published',
       },
       draft: false,

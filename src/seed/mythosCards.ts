@@ -1,8 +1,10 @@
 import type { Payload } from 'payload'
 
+import { officialBoxedSets } from '@/content/boxedSets'
 import { getStarterLocation } from '@/content/locations'
 import { starterMythosCards, type StarterMythosCard } from '@/content/mythosCards'
-import type { Location, MythosCard } from '@/payload-types'
+import { officialBoxedSetName, relationshipID, requireBoxedSet } from '@/lib/boxedSetContent'
+import type { BoxedSet, Location, MythosCard } from '@/payload-types'
 
 import { ensureSeedMedia } from './media'
 
@@ -20,35 +22,33 @@ export function normalizeCardTitle(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, '')
 }
 
-function fixtureIdentity(card: Pick<StarterMythosCard, 'boxedSet' | 'title'>) {
-  return `${card.boxedSet}:${normalizeCardTitle(card.title)}`
+function fixtureIdentity(card: Pick<StarterMythosCard, 'sourceSetKey' | 'title'>) {
+  return `${card.sourceSetKey}:${normalizeCardTitle(card.title)}`
 }
 
-function documentIdentity(card: Pick<MythosCard, 'boxedset' | 'title'>) {
-  return `${card.boxedset}:${normalizeCardTitle(card.title)}`
-}
+function documentIdentity(
+  card: Pick<MythosCard, 'boxedset' | 'sourceSet' | 'title'>,
+  boxedSetsByID: Map<string, BoxedSet>,
+  boxedSetKeysByName: Map<string, string>,
+) {
+  const sourceSetID = relationshipID(card.sourceSet)
+  const sourceSetKey =
+    boxedSetsByID.get(sourceSetID ?? '')?.key ??
+    boxedSetKeysByName.get(card.boxedset) ??
+    card.boxedset
 
-function relationshipID(value: unknown): string | null {
-  if (typeof value === 'string' || typeof value === 'number') {
-    return String(value)
-  }
-
-  if (value && typeof value === 'object' && 'id' in value) {
-    const id = value.id
-
-    if (typeof id === 'string' || typeof id === 'number') {
-      return String(id)
-    }
-  }
-
-  return null
+  return `${sourceSetKey}:${normalizeCardTitle(card.title)}`
 }
 
 function fixtureRulesNotes(fixture: StarterMythosCard) {
   return fixture.rulesNotes?.map((note) => ({ ...note }))
 }
 
-function fixtureMetadata(fixture: StarterMythosCard, locationsByKey: Map<string, Location>) {
+function fixtureMetadata(
+  fixture: StarterMythosCard,
+  locationsByKey: Map<string, Location>,
+  sourceSet: BoxedSet,
+) {
   const gateLocations = fixture.gateInstruction.locationKeys.map(
     (key) => locationsByKey.get(key) as Location,
   )
@@ -85,7 +85,8 @@ function fixtureMetadata(fixture: StarterMythosCard, locationsByKey: Map<string,
     encounterLocation: legacyLocation,
     monsterMoveWhite: fixture.monsterMoveWhite,
     monsterMoveBlack: fixture.monsterMoveBlack,
-    boxedset: fixture.boxedSet,
+    boxedset: officialBoxedSetName(fixture.sourceSetKey) as MythosCard['boxedset'],
+    sourceSet: sourceSet.id,
   }
 }
 
@@ -124,11 +125,16 @@ function comparableDocument(card: MythosCard) {
     monsterMoveWhite: monsterMoveWhite.length > 0 ? monsterMoveWhite : undefined,
     monsterMoveBlack: monsterMoveBlack.length > 0 ? monsterMoveBlack : undefined,
     boxedset: card.boxedset,
+    sourceSet: relationshipID(card.sourceSet) ?? undefined,
   }
 }
 
-function comparableFixture(fixture: StarterMythosCard, locationsByKey: Map<string, Location>) {
-  const metadata = fixtureMetadata(fixture, locationsByKey)
+function comparableFixture(
+  fixture: StarterMythosCard,
+  locationsByKey: Map<string, Location>,
+  sourceSet: BoxedSet,
+) {
+  const metadata = fixtureMetadata(fixture, locationsByKey, sourceSet)
 
   return {
     ...metadata,
@@ -137,6 +143,7 @@ function comparableFixture(fixture: StarterMythosCard, locationsByKey: Map<strin
       locations: metadata.gateInstruction.locations.map(String),
     },
     location: metadata.location ? String(metadata.location) : undefined,
+    sourceSet: String(sourceSet.id),
   }
 }
 
@@ -144,9 +151,10 @@ function metadataDifferences(
   card: MythosCard,
   fixture: StarterMythosCard,
   locationsByKey: Map<string, Location>,
+  sourceSet: BoxedSet,
 ) {
   const document = comparableDocument(card)
-  const expected = comparableFixture(fixture, locationsByKey)
+  const expected = comparableFixture(fixture, locationsByKey, sourceSet)
 
   return Object.keys(expected).filter(
     (field) =>
@@ -157,7 +165,7 @@ function metadataDifferences(
 
 export async function seedMythosCards(payload: Payload, options: SeedMythosCardsOptions = {}) {
   const dryRun = options.dryRun ?? false
-  const [existingCards, locations] = await Promise.all([
+  const [existingCards, locations, boxedSetResult] = await Promise.all([
     payload.find({
       collection: 'mythos-cards',
       depth: 0,
@@ -172,15 +180,29 @@ export async function seedMythosCards(payload: Payload, options: SeedMythosCards
       limit: 1000,
       overrideAccess: true,
     }),
+    payload.find({
+      collection: 'boxed-sets',
+      depth: 0,
+      draft: true,
+      limit: 1000,
+      overrideAccess: true,
+    }),
   ])
 
   const cardsByCode = new Map<string, MythosCard[]>()
   const cardsByIdentity = new Map<string, MythosCard[]>()
   const locationsByKey = new Map(locations.docs.map((location) => [location.key, location]))
+  const boxedSetsByKey = new Map(boxedSetResult.docs.map((boxedSet) => [boxedSet.key, boxedSet]))
+  const boxedSetsByID = new Map(
+    boxedSetResult.docs.map((boxedSet) => [String(boxedSet.id), boxedSet]),
+  )
+  const boxedSetKeysByName = new Map(
+    officialBoxedSets.map((boxedSet) => [boxedSet.name, boxedSet.key]),
+  )
 
   for (const card of existingCards.docs) {
     cardsByCode.set(card.cardCode, [...(cardsByCode.get(card.cardCode) ?? []), card])
-    const identity = documentIdentity(card)
+    const identity = documentIdentity(card, boxedSetsByID, boxedSetKeysByName)
     cardsByIdentity.set(identity, [...(cardsByIdentity.get(identity) ?? []), card])
   }
 
@@ -255,7 +277,8 @@ export async function seedMythosCards(payload: Payload, options: SeedMythosCards
 
     const { fixture } = match
     const existingCard = match.candidates[0]
-    const metadata = fixtureMetadata(fixture, locationsByKey)
+    const sourceSet = requireBoxedSet(boxedSetsByKey, fixture.sourceSetKey)
+    const metadata = fixtureMetadata(fixture, locationsByKey, sourceSet)
 
     if (!existingCard) {
       created.push(fixture.title)
@@ -288,7 +311,7 @@ export async function seedMythosCards(payload: Payload, options: SeedMythosCards
       continue
     }
 
-    const changedMetadata = metadataDifferences(existingCard, fixture, locationsByKey)
+    const changedMetadata = metadataDifferences(existingCard, fixture, locationsByKey, sourceSet)
     const needsMetadata = changedMetadata.length > 0
     const needsDescription = !existingCard.desc && Boolean(fixture.description)
     const needsLowerLeft =

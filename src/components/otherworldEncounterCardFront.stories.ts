@@ -16,8 +16,14 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+const baseGameBoxedSet = {
+  name: 'Base Game',
+  abbreviation: 'AH',
+}
+
 export const BlueOtherWorld: Story = {
   args: {
+    boxedSet: baseGameBoxedSet,
     colour: 'blue',
     textBlocks: [
       {
@@ -42,6 +48,7 @@ export const BlueOtherWorld: Story = {
 
 export const GreenOtherWorld: Story = {
   args: {
+    boxedSet: baseGameBoxedSet,
     colour: 'green',
     textBlocks: [
       {
@@ -59,6 +66,7 @@ export const GreenOtherWorld: Story = {
 
 export const RedOtherWorld: Story = {
   args: {
+    boxedSet: baseGameBoxedSet,
     colour: 'red',
     textBlocks: [
       {
@@ -79,6 +87,7 @@ export const RedOtherWorld: Story = {
 
 export const YellowOtherWorld: Story = {
   args: {
+    boxedSet: baseGameBoxedSet,
     colour: 'yellow',
     textBlocks: [
       {

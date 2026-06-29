@@ -1,5 +1,6 @@
 import type { MythosCardFrontProps } from '@/components/mythosCardFront'
 
+import { getOfficialBoxedSet } from './boxedSets'
 import { getStarterLocation } from './locations'
 import { getStarterMythosCard } from './mythosCards'
 
@@ -11,6 +12,7 @@ export function mythosCardExampleProps(cardCode: string): MythosCardFrontProps {
   }
 
   const location = card.locationKey ? getStarterLocation(card.locationKey) : null
+  const boxedSet = getOfficialBoxedSet(card.sourceSetKey)
   const gateLocations = card.gateInstruction.locationKeys
     .map(getStarterLocation)
     .filter((gateLocation): gateLocation is NonNullable<ReturnType<typeof getStarterLocation>> =>
@@ -21,6 +23,12 @@ export function mythosCardExampleProps(cardCode: string): MythosCardFrontProps {
     title: card.title,
     cardType: card.cardType === 'Special' ? undefined : card.cardType,
     cardDescription: card.description,
+    boxedSet: boxedSet
+      ? {
+          name: boxedSet.name,
+          abbreviation: boxedSet.abbreviation,
+        }
+      : undefined,
     monsterMoveWhite: card.monsterMoveWhite,
     monsterMoveBlack: card.monsterMoveBlack,
     location: location

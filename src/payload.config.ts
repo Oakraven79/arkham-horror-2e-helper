@@ -9,6 +9,7 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { BoxedSets } from './collections/BoxedSets'
 import { AncientOnes } from './collections/AncientOnes'
 import { MythosCards } from './collections/MythosCards'
 import { GameSessions } from './collections/GameSessions'
@@ -33,6 +34,7 @@ export default buildConfig({
   collections: [
     Users,
     Media,
+    BoxedSets,
     AncientOnes,
     Locations,
     MythosCards,

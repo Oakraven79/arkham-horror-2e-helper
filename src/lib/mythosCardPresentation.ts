@@ -6,6 +6,7 @@ import type {
   MythosCardFrontProps,
 } from '@/components/mythosCardFront'
 import type { Location, Media, MythosCard } from '@/payload-types'
+import { isBoxedSet, isMedia as isBoxedSetMedia } from '@/lib/boxedSetContent'
 
 function isLocation(value: MythosCard['location']): value is Location {
   return Boolean(value && typeof value === 'object' && 'cardDisplayText' in value)
@@ -92,6 +93,18 @@ export function mythosCardFrontProps(card: MythosCard): MythosCardFrontProps {
     title: card.title,
     cardType: card.cardType === 'Special' ? undefined : card.cardType,
     cardDescription: card.desc ?? '',
+    boxedSet: isBoxedSet(card.sourceSet)
+      ? {
+          name: card.sourceSet.name,
+          abbreviation: card.sourceSet.abbreviation,
+          iconUrl: isBoxedSetMedia(card.sourceSet.icon)
+            ? (card.sourceSet.icon.url ?? undefined)
+            : undefined,
+          iconAlt: isBoxedSetMedia(card.sourceSet.icon)
+            ? (card.sourceSet.icon.alt ?? undefined)
+            : undefined,
+        }
+      : undefined,
     monsterMoveWhite: card.monsterMoveWhite ?? undefined,
     monsterMoveBlack: card.monsterMoveBlack ?? undefined,
     location,

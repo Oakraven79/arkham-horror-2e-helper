@@ -1,21 +1,10 @@
 import type { MonsterIcons, MythosCardType } from '@/components/constants'
-
-export type StarterMythosBoxedSet =
-  | 'Base Game'
-  | 'Dunwich Horror'
-  | 'Kingsport Horror'
-  | 'Innsmouth Horror'
-  | 'Miskatonic Horror'
-  | 'Curse of the Dark Pharaoh (Revised Edition)'
-  | 'The Black Goat of the Woods'
-  | 'The King in Yellow'
-  | 'The Lurker at the Threshold'
+import type { OfficialBoxedSetKey } from './boxedSetTypes'
 
 export type MythosGateMode = 'none' | 'single' | 'choice' | 'all' | 'surge'
 export type MythosRulesNoteKind = 'clarification' | 'errata' | 'misprint'
 
 export interface StarterMythosCard {
-  boxedSet: StarterMythosBoxedSet
   cardCode: string
   cardType: MythosCardType
   clueText?: string
@@ -45,6 +34,7 @@ export interface StarterMythosCard {
     text: string
   }[]
   specialInstruction?: string
+  sourceSetKey: Exclude<OfficialBoxedSetKey, 'curse-dark-pharaoh-original' | 'promotional'>
   terrorIncrease?: number
   title: string
 }

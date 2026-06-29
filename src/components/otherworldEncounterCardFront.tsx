@@ -2,6 +2,8 @@ import ReactMarkdown from 'react-markdown'
 
 import './card.css'
 
+import { BoxedSetMark, type BoxedSetDisplay } from './boxedSetMark'
+
 export type CardColor = 'red' | 'blue' | 'green' | 'yellow'
 
 export interface TextBlocks {
@@ -10,12 +12,14 @@ export interface TextBlocks {
 }
 
 export interface OtherworldEncounterCardFrontProps {
+  boxedSet?: BoxedSetDisplay
   /** Card text blocks (header + desc) */
   textBlocks: TextBlocks[]
   colour: CardColor
 }
 
 export const OtherworldEncounterCardFront = ({
+  boxedSet,
   textBlocks,
   colour,
 }: OtherworldEncounterCardFrontProps) => {
@@ -23,6 +27,7 @@ export const OtherworldEncounterCardFront = ({
 
   return (
     <div className={cardClass}>
+      <BoxedSetMark boxedSet={boxedSet} />
       <div className="otherworldcard-center-panel">
         {textBlocks.map((block, index) => (
           <div key={`${block.header}-${index}`}>

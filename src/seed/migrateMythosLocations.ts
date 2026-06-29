@@ -1,5 +1,6 @@
 import type { Payload } from 'payload'
 
+import { officialBoxedSets } from '@/content/boxedSets'
 import { starterMythosCards } from '@/content/mythosCards'
 
 import { ensureSeedMedia } from './media'
@@ -28,7 +29,7 @@ function relationshipID(value: unknown): string | null {
 }
 
 export async function migrateMythosLocations(payload: Payload, apply: boolean) {
-  const [cards, locations] = await Promise.all([
+  const [cards, locations, boxedSets] = await Promise.all([
     payload.find({
       collection: 'mythos-cards',
       depth: 0,
@@ -43,12 +44,25 @@ export async function migrateMythosLocations(payload: Payload, apply: boolean) {
       limit: 1000,
       overrideAccess: true,
     }),
+    payload.find({
+      collection: 'boxed-sets',
+      depth: 0,
+      draft: true,
+      limit: 1000,
+      overrideAccess: true,
+    }),
   ])
 
   const locationsByName = new Map(locations.docs.map((location) => [location.name, location]))
+  const boxedSetKeysByID = new Map(
+    boxedSets.docs.map((boxedSet) => [String(boxedSet.id), boxedSet.key]),
+  )
+  const boxedSetKeysByName = new Map(
+    officialBoxedSets.map((boxedSet) => [boxedSet.name, boxedSet.key]),
+  )
   const fixturesByIdentity = new Map(
     starterMythosCards.map((fixture) => [
-      `${fixture.boxedSet}:${normalizeCardTitle(fixture.title)}`,
+      `${fixture.sourceSetKey}:${normalizeCardTitle(fixture.title)}`,
       fixture,
     ]),
   )
@@ -59,9 +73,11 @@ export async function migrateMythosLocations(payload: Payload, apply: boolean) {
   for (const card of cards.docs) {
     const data: Record<string, unknown> = {}
     const fields: string[] = []
-    const fixture = fixturesByIdentity.get(
-      `${card.boxedset}:${normalizeCardTitle(card.title)}`,
-    )
+    const sourceSetKey =
+      boxedSetKeysByID.get(relationshipID(card.sourceSet) ?? '') ??
+      boxedSetKeysByName.get(card.boxedset) ??
+      card.boxedset
+    const fixture = fixturesByIdentity.get(`${sourceSetKey}:${normalizeCardTitle(card.title)}`)
 
     if (!card.cardCode && fixture) {
       data.cardCode = fixture.cardCode
