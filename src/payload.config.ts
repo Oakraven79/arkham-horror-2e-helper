@@ -9,6 +9,7 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { AncientOnes } from './collections/AncientOnes'
 import { MythosCards } from './collections/MythosCards'
 import { GameSessions } from './collections/GameSessions'
 import { OtherWorldEncounterCards } from './collections/OtherWorldEncounterCards'
@@ -32,6 +33,7 @@ export default buildConfig({
   collections: [
     Users,
     Media,
+    AncientOnes,
     Locations,
     MythosCards,
     OtherWorlds,

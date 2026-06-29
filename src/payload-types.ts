@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    'ancient-ones': AncientOne;
     locations: Location;
     'mythos-cards': MythosCard;
     'other-worlds': OtherWorld;
@@ -82,6 +83,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    'ancient-ones': AncientOnesSelect<false> | AncientOnesSelect<true>;
     locations: LocationsSelect<false> | LocationsSelect<true>;
     'mythos-cards': MythosCardsSelect<false> | MythosCardsSelect<true>;
     'other-worlds': OtherWorldsSelect<false> | OtherWorldsSelect<true>;
@@ -165,6 +167,75 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ancient-ones".
+ */
+export interface AncientOne {
+  id: string;
+  name: string;
+  /**
+   * Stable identifier used by imports and saved games, for example "cthulhu".
+   */
+  key: string;
+  boxedSet:
+    | 'Base Game'
+    | 'Dunwich Horror'
+    | 'Kingsport Horror'
+    | 'Innsmouth Horror'
+    | 'Miskatonic Horror'
+    | 'Curse of the Dark Pharaoh (original)'
+    | 'Curse of the Dark Pharaoh (Revised Edition)'
+    | 'The Black Goat of the Woods'
+    | 'The King in Yellow'
+    | 'The Lurker at the Threshold'
+    | 'Promotional'
+    | 'Custom';
+  customSetName?: string | null;
+  /**
+   * Optional source lore. Gameplay instructions belong to a playable sheet.
+   */
+  lore?: string | null;
+  sheets: {
+    /**
+     * Stable variant key such as "standard", "original", or "arkham-nights".
+     */
+    key: string;
+    label: string;
+    isDefault: boolean;
+    doomTrack: number;
+    combatRating: {
+      display: string;
+      type: 'fixed' | 'variable' | 'infinite';
+      modifier?: number | null;
+    };
+    defenses?:
+      | ('physical-resistance' | 'physical-immunity' | 'magical-resistance' | 'magical-immunity' | 'special')[]
+      | null;
+    defenseText: string;
+    worshippers: string;
+    powerName: string;
+    power: string;
+    startOfBattle?: string | null;
+    attack: string;
+    sheetImage?: (string | null) | Media;
+    id?: string | null;
+  }[];
+  rulesNotes?:
+    | {
+        kind: 'clarification' | 'errata' | 'reference';
+        text: string;
+        /**
+         * Optional variant key when this note applies to only one playable sheet.
+         */
+        sheetKey?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -568,6 +639,10 @@ export interface PayloadLockedDocument {
         value: string | Media;
       } | null)
     | ({
+        relationTo: 'ancient-ones';
+        value: string | AncientOne;
+      } | null)
+    | ({
         relationTo: 'locations';
         value: string | Location;
       } | null)
@@ -668,6 +743,52 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ancient-ones_select".
+ */
+export interface AncientOnesSelect<T extends boolean = true> {
+  name?: T;
+  key?: T;
+  boxedSet?: T;
+  customSetName?: T;
+  lore?: T;
+  sheets?:
+    | T
+    | {
+        key?: T;
+        label?: T;
+        isDefault?: T;
+        doomTrack?: T;
+        combatRating?:
+          | T
+          | {
+              display?: T;
+              type?: T;
+              modifier?: T;
+            };
+        defenses?: T;
+        defenseText?: T;
+        worshippers?: T;
+        powerName?: T;
+        power?: T;
+        startOfBattle?: T;
+        attack?: T;
+        sheetImage?: T;
+        id?: T;
+      };
+  rulesNotes?:
+    | T
+    | {
+        kind?: T;
+        text?: T;
+        sheetKey?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
