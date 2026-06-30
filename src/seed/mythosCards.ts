@@ -2,16 +2,15 @@ import type { Payload } from 'payload'
 
 import { officialBoxedSets } from '@/content/boxedSets'
 import { starterMythosCards, type StarterMythosCard } from '@/content/mythosCards'
+import {
+  doomCounterAsset,
+  GAME_DATA_FIXTURE_NAMESPACE,
+  GAME_DATA_FIXTURE_VERSION,
+} from '@/fixtures/gameData'
 import { officialBoxedSetName, relationshipID, requireBoxedSet } from '@/lib/boxedSetContent'
 import type { BoxedSet, Location, MythosCard } from '@/payload-types'
 
 import { ensureSeedMedia } from './media'
-
-const doomCounterAsset = {
-  alt: 'Doom counters',
-  filename: 'doomCounters.png',
-  publicPath: '/images/misc/doomCounters.png',
-}
 
 export interface SeedMythosCardsOptions {
   dryRun?: boolean
@@ -76,6 +75,8 @@ function fixtureMetadata(
     monsterMoveBlack: fixture.monsterMoveBlack,
     boxedset: officialBoxedSetName(fixture.sourceSetKey) as MythosCard['boxedset'],
     sourceSet: sourceSet.id,
+    fixtureNamespace: GAME_DATA_FIXTURE_NAMESPACE,
+    fixtureVersion: GAME_DATA_FIXTURE_VERSION,
   }
 }
 
@@ -113,6 +114,8 @@ function comparableDocument(card: MythosCard) {
     monsterMoveBlack: monsterMoveBlack.length > 0 ? monsterMoveBlack : undefined,
     boxedset: card.boxedset,
     sourceSet: relationshipID(card.sourceSet) ?? undefined,
+    fixtureNamespace: card.fixtureNamespace ?? undefined,
+    fixtureVersion: card.fixtureVersion ?? undefined,
   }
 }
 

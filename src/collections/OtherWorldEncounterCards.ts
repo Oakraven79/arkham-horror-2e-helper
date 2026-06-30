@@ -6,6 +6,7 @@ import {
   validateCustomSetName,
   validateOtherWorldEncounterRows,
 } from '@/lib/otherWorldContent'
+import { gameDataFixtureFields } from './fields/gameDataFixtureFields'
 
 const boxedSetOptions = [
   ...arkhamHorror2eBoxes.map((box) => ({ label: box.name, value: box.name })),
@@ -128,5 +129,6 @@ export const OtherWorldEncounterCards: CollectionConfig = {
         description: 'Optional helper notes. These are not printed on the rendered card.',
       },
     },
+    ...gameDataFixtureFields,
   ],
 }

@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { boxedSetCategories } from '@/content/boxedSetTypes'
+import { gameDataFixtureFields } from './fields/gameDataFixtureFields'
 
 const categoryLabels = {
   core: 'Core Game',
@@ -92,5 +93,6 @@ export const BoxedSets: CollectionConfig = {
         description: 'Alternate source names accepted by import and migration tools.',
       },
     },
+    ...gameDataFixtureFields,
   ],
 }

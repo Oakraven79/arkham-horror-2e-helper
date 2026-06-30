@@ -1,30 +1,22 @@
 import type { Payload } from 'payload'
 
-import { officialBoxedSetName, requireBoxedSet } from '@/lib/boxedSetContent'
-import type { OtherWorld } from '@/payload-types'
+import { starterOtherWorlds, type OtherWorldFixture } from '@/content/otherWorlds'
+import {
+  GAME_DATA_FIXTURE_NAMESPACE,
+  GAME_DATA_FIXTURE_VERSION,
+} from '@/fixtures/gameData'
+import {
+  officialBoxedSetName,
+  relationshipID,
+  requireBoxedSet,
+} from '@/lib/boxedSetContent'
+import type { BoxedSet, OtherWorld } from '@/payload-types'
 
-export const starterOtherWorlds = [
-  {
-    key: 'abyss',
-    name: 'Abyss',
-  },
-  {
-    key: 'celano',
-    name: 'Celano',
-  },
-  {
-    key: 'the-dreamlands',
-    name: 'The Dreamlands',
-  },
-  {
-    key: 'city-of-the-great-race',
-    name: 'City Of The Great Race',
-  },
-  {
-    key: 'rlyeh',
-    name: "R'lyeh",
-  },
-] as const
+export { starterOtherWorlds } from '@/content/otherWorlds'
+
+export interface SeedOtherWorldsOptions {
+  dryRun?: boolean
+}
 
 export function getMissingStarterOtherWorlds(existingKeys: Iterable<string>) {
   const existing = new Set(existingKeys)
@@ -32,19 +24,42 @@ export function getMissingStarterOtherWorlds(existingKeys: Iterable<string>) {
   return starterOtherWorlds.filter((world) => !existing.has(world.key))
 }
 
-export async function seedOtherWorlds(payload: Payload) {
+function fixtureMetadata(fixture: OtherWorldFixture, sourceSet: BoxedSet) {
+  return {
+    name: fixture.name,
+    key: fixture.key,
+    preferredColours: [...fixture.preferredColours],
+    boxedSet: officialBoxedSetName(fixture.sourceSetKey) as OtherWorld['boxedSet'],
+    sourceSet: sourceSet.id,
+    fixtureNamespace: GAME_DATA_FIXTURE_NAMESPACE,
+    fixtureVersion: GAME_DATA_FIXTURE_VERSION,
+  }
+}
+
+function comparableDocument(world: OtherWorld) {
+  return {
+    name: world.name,
+    key: world.key,
+    preferredColours: [...(world.preferredColours ?? [])],
+    boxedSet: world.boxedSet,
+    sourceSet: relationshipID(world.sourceSet) ?? undefined,
+    fixtureNamespace: world.fixtureNamespace ?? undefined,
+    fixtureVersion: world.fixtureVersion ?? undefined,
+  }
+}
+
+export async function seedOtherWorlds(
+  payload: Payload,
+  options: SeedOtherWorldsOptions = {},
+) {
+  const dryRun = options.dryRun ?? false
   const [existing, boxedSetResult] = await Promise.all([
     payload.find({
       collection: 'other-worlds',
       depth: 0,
       draft: true,
-      limit: starterOtherWorlds.length,
+      limit: 1000,
       overrideAccess: true,
-      where: {
-        key: {
-          in: starterOtherWorlds.map((world) => world.key),
-        },
-      },
     }),
     payload.find({
       collection: 'boxed-sets',
@@ -55,26 +70,85 @@ export async function seedOtherWorlds(payload: Payload) {
     }),
   ])
   const boxedSetsByKey = new Map(boxedSetResult.docs.map((boxedSet) => [boxedSet.key, boxedSet]))
-  const baseGame = requireBoxedSet(boxedSetsByKey, 'base-game')
+  const boxedSetsByID = new Map(
+    boxedSetResult.docs.map((boxedSet) => [String(boxedSet.id), boxedSet]),
+  )
+  const worldsByKey = new Map(existing.docs.map((world) => [world.key, world]))
+  const created: string[] = []
+  const enriched: string[] = []
+  const unchanged: string[] = []
+  const conflicts: string[] = []
 
-  const missing = getMissingStarterOtherWorlds(existing.docs.map((world) => world.key))
+  for (const fixture of starterOtherWorlds) {
+    const world = worldsByKey.get(fixture.key)
+    const sourceSet = requireBoxedSet(boxedSetsByKey, fixture.sourceSetKey)
 
-  for (const world of missing) {
-    await payload.create({
-      collection: 'other-worlds',
-      data: {
-        ...world,
-        boxedSet: officialBoxedSetName('base-game') as OtherWorld['boxedSet'],
-        sourceSet: baseGame.id,
-        _status: 'published',
-      },
-      draft: false,
-      overrideAccess: true,
-    })
+    if (
+      world &&
+      world.fixtureNamespace !== GAME_DATA_FIXTURE_NAMESPACE &&
+      (world.boxedSet === 'Custom' ||
+        boxedSetsByID.get(relationshipID(world.sourceSet) ?? '')?.category === 'custom')
+    ) {
+      conflicts.push(fixture.key)
+      continue
+    }
+
+    const metadata = fixtureMetadata(fixture, sourceSet)
+
+    if (!world) {
+      created.push(fixture.name)
+
+      if (!dryRun) {
+        await payload.create({
+          collection: 'other-worlds',
+          data: {
+            ...metadata,
+            _status: 'published',
+          },
+          draft: false,
+          overrideAccess: true,
+        })
+      }
+
+      continue
+    }
+
+    const expected = {
+      ...metadata,
+      sourceSet: String(sourceSet.id),
+    }
+
+    if (JSON.stringify(comparableDocument(world)) === JSON.stringify(expected)) {
+      unchanged.push(fixture.name)
+      continue
+    }
+
+    enriched.push(fixture.name)
+
+    if (!dryRun) {
+      await payload.update({
+        collection: 'other-worlds',
+        id: world.id,
+        data: {
+          ...metadata,
+          _status: world._status,
+        },
+        draft: world._status === 'draft',
+        overrideAccess: true,
+      })
+    }
+  }
+
+  if (!dryRun && conflicts.length > 0) {
+    throw new Error(`Custom Other World key conflicts: ${conflicts.join(', ')}`)
   }
 
   return {
-    created: missing.map((world) => world.name),
-    existing: existing.docs.map((world) => world.name),
+    conflicts,
+    created,
+    dryRun,
+    enriched,
+    existing: unchanged,
+    unchanged,
   }
 }

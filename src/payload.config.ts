@@ -16,6 +16,8 @@ import { GameSessions } from './collections/GameSessions'
 import { OtherWorldEncounterCards } from './collections/OtherWorldEncounterCards'
 import { OtherWorlds } from './collections/OtherWorlds'
 import { Locations } from './collections/Locations'
+import { FixtureInstallations } from './collections/FixtureInstallations'
+import { gameDataEndpoints } from './endpoints/gameData'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -23,6 +25,15 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     user: Users.slug,
+    components: {
+      afterNavLinks: ['/components/admin/GameDataNavLink'],
+      views: {
+        gameData: {
+          Component: '/components/admin/GameDataView',
+          path: '/game-data',
+        },
+      },
+    },
     importMap: {
       baseDir: path.resolve(dirname),
     },
@@ -41,8 +52,10 @@ export default buildConfig({
     OtherWorlds,
     OtherWorldEncounterCards,
     GameSessions,
+    FixtureInstallations,
   ],
   editor: lexicalEditor(),
+  endpoints: gameDataEndpoints,
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

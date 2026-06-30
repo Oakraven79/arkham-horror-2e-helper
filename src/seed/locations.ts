@@ -1,6 +1,10 @@
 import type { Payload } from 'payload'
 
 import { starterLocations, type StarterLocation } from '@/content/locations'
+import {
+  GAME_DATA_FIXTURE_NAMESPACE,
+  GAME_DATA_FIXTURE_VERSION,
+} from '@/fixtures/gameData'
 import { officialBoxedSetName, relationshipID, requireBoxedSet } from '@/lib/boxedSetContent'
 import type { BoxedSet, Location } from '@/payload-types'
 
@@ -24,6 +28,8 @@ function comparableLocation(location: Location) {
     description: location.description ?? undefined,
     specialEncounter: location.specialEncounter ?? undefined,
     homeInvestigators: (location.homeInvestigators ?? []).map((entry) => entry.name),
+    fixtureNamespace: location.fixtureNamespace ?? undefined,
+    fixtureVersion: location.fixtureVersion ?? undefined,
   }
 }
 
@@ -41,6 +47,8 @@ function fixtureMetadata(location: StarterLocation, sourceSet: BoxedSet) {
     description: location.description,
     specialEncounter: location.specialEncounter,
     homeInvestigators: location.homeInvestigators.map((name) => ({ name })),
+    fixtureNamespace: GAME_DATA_FIXTURE_NAMESPACE,
+    fixtureVersion: GAME_DATA_FIXTURE_VERSION,
   }
 }
 

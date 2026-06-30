@@ -29,6 +29,7 @@ export interface LocationFixture {
   image?: {
     alt: string
     filename: string
+    fixtureKey: string
     publicPath: string
   }
   key: string

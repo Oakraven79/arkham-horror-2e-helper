@@ -10,6 +10,7 @@ const curatedPresentation: Record<
     image: {
       alt: 'The Witch House',
       filename: 'old-house.jpg',
+      fixtureKey: 'location-the-witch-house',
       publicPath: '/images/arkhamLocations/old-house.jpg',
     },
   },
@@ -17,6 +18,7 @@ const curatedPresentation: Record<
     image: {
       alt: 'Unvisited Isle',
       filename: 'isle.jpg',
+      fixtureKey: 'location-unvisited-isle',
       publicPath: '/images/arkhamLocations/isle.jpg',
     },
   },
@@ -24,6 +26,7 @@ const curatedPresentation: Record<
     image: {
       alt: 'Black Cave',
       filename: 'cave.jpg',
+      fixtureKey: 'location-black-cave',
       publicPath: '/images/arkhamLocations/cave.jpg',
     },
   },

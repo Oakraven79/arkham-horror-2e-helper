@@ -175,12 +175,14 @@ function CardSlot({
   emptyText,
   action,
   actionLabel,
+  effectCard,
 }: {
   title: string
   card: MythosCardFrontProps | null
   emptyText: string
   action?: () => Promise<void>
   actionLabel?: string
+  effectCard?: MythosCard | null
 }) {
   return (
     <section className="table-card-slot">
@@ -200,6 +202,11 @@ function CardSlot({
         </div>
       ) : (
         <div className="empty-card-slot">{emptyText}</div>
+      )}
+      {effectCard && (
+        <div className="slot-effects">
+          <ActiveEffect title={`${title.replace('Active ', '')} Effect`} card={effectCard} />
+        </div>
       )}
     </section>
   )
@@ -352,11 +359,13 @@ export default async function HomePage() {
                 title="Active Environment"
                 card={activeEnvironment}
                 emptyText="No Environment is active."
+                effectCard={activeEnvironmentDocument}
               />
               <CardSlot
                 title="Active Rumor"
                 card={activeRumor}
                 emptyText="No Rumor is active."
+                effectCard={activeRumorDocument}
                 action={
                   activeRumorDocument
                     ? clearActiveRumorAction.bind(null, sessionID)
@@ -422,12 +431,6 @@ export default async function HomePage() {
                   <span>Shuffles</span>
                   <strong>{mythos.shuffleCount ?? 0}</strong>
                 </div>
-              </section>
-
-              <section className="active-effects">
-                <h2>Active Effects</h2>
-                <ActiveEffect title="Environment" card={activeEnvironmentDocument} />
-                <ActiveEffect title="Rumor" card={activeRumorDocument} />
               </section>
 
               <section className="resolver-steps">

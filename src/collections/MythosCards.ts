@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { mythosCardTypesList, monsterIcons } from '@/components/constants'
 import { arkhamHorror2eBoxes } from '@/components/arkhamConstants'
+import { gameDataFixtureFields } from './fields/gameDataFixtureFields'
 
 export const MythosCards: CollectionConfig = {
   slug: 'mythos-cards',
@@ -253,5 +254,6 @@ export const MythosCards: CollectionConfig = {
         description: 'Set provenance and card icon.',
       },
     },
+    ...gameDataFixtureFields,
   ],
 }

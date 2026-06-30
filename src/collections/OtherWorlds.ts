@@ -5,6 +5,7 @@ import {
   otherWorldEncounterColours,
   validateCustomSetName,
 } from '@/lib/otherWorldContent'
+import { gameDataFixtureFields } from './fields/gameDataFixtureFields'
 
 const boxedSetOptions = [
   ...arkhamHorror2eBoxes.map((box) => ({ label: box.name, value: box.name })),
@@ -95,5 +96,6 @@ export const OtherWorlds: CollectionConfig = {
       type: 'upload',
       relationTo: 'media',
     },
+    ...gameDataFixtureFields,
   ],
 }

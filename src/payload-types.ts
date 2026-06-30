@@ -76,6 +76,7 @@ export interface Config {
     'other-worlds': OtherWorld;
     'other-world-encounter-cards': OtherWorldEncounterCard;
     'game-sessions': GameSession;
+    'fixture-installations': FixtureInstallation;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -91,6 +92,7 @@ export interface Config {
     'other-worlds': OtherWorldsSelect<false> | OtherWorldsSelect<true>;
     'other-world-encounter-cards': OtherWorldEncounterCardsSelect<false> | OtherWorldEncounterCardsSelect<true>;
     'game-sessions': GameSessionsSelect<false> | GameSessionsSelect<true>;
+    'fixture-installations': FixtureInstallationsSelect<false> | FixtureInstallationsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -157,7 +159,10 @@ export interface User {
  */
 export interface Media {
   id: string;
+  assetKey?: string | null;
   alt?: string | null;
+  fixtureNamespace?: string | null;
+  fixtureVersion?: number | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -200,6 +205,8 @@ export interface BoxedSet {
         id?: string | null;
       }[]
     | null;
+  fixtureNamespace?: string | null;
+  fixtureVersion?: number | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -337,6 +344,8 @@ export interface Location {
    */
   sourceSet: string | BoxedSet;
   customSetName?: string | null;
+  fixtureNamespace?: string | null;
+  fixtureVersion?: number | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -418,6 +427,8 @@ export interface MythosCard {
    * Set provenance and card icon.
    */
   sourceSet: string | BoxedSet;
+  fixtureNamespace?: string | null;
+  fixtureVersion?: number | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -455,6 +466,8 @@ export interface OtherWorld {
   sourceSet: string | BoxedSet;
   customSetName?: string | null;
   art?: (string | null) | Media;
+  fixtureNamespace?: string | null;
+  fixtureVersion?: number | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -503,6 +516,8 @@ export interface OtherWorldEncounterCard {
    * Optional helper notes. These are not printed on the rendered card.
    */
   clarifications?: string | null;
+  fixtureNamespace?: string | null;
+  fixtureVersion?: number | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -675,6 +690,32 @@ export interface GameSession {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fixture-installations".
+ */
+export interface FixtureInstallation {
+  id: string;
+  namespace: string;
+  fixtureVersion: number;
+  checksum: string;
+  status: 'running' | 'succeeded' | 'failed';
+  initiatedBy?: (string | null) | User;
+  startedAt: string;
+  completedAt?: string | null;
+  summary?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  error?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -715,6 +756,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'game-sessions';
         value: string | GameSession;
+      } | null)
+    | ({
+        relationTo: 'fixture-installations';
+        value: string | FixtureInstallation;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -785,7 +830,10 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
+  assetKey?: T;
   alt?: T;
+  fixtureNamespace?: T;
+  fixtureVersion?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -815,6 +863,8 @@ export interface BoxedSetsSelect<T extends boolean = true> {
         name?: T;
         id?: T;
       };
+  fixtureNamespace?: T;
+  fixtureVersion?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -892,6 +942,8 @@ export interface LocationsSelect<T extends boolean = true> {
   boxedSet?: T;
   sourceSet?: T;
   customSetName?: T;
+  fixtureNamespace?: T;
+  fixtureVersion?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -940,6 +992,8 @@ export interface MythosCardsSelect<T extends boolean = true> {
   monsterMoveBlack?: T;
   boxedset?: T;
   sourceSet?: T;
+  fixtureNamespace?: T;
+  fixtureVersion?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -956,6 +1010,8 @@ export interface OtherWorldsSelect<T extends boolean = true> {
   sourceSet?: T;
   customSetName?: T;
   art?: T;
+  fixtureNamespace?: T;
+  fixtureVersion?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -979,6 +1035,8 @@ export interface OtherWorldEncounterCardsSelect<T extends boolean = true> {
   sourceSet?: T;
   customSetName?: T;
   clarifications?: T;
+  fixtureNamespace?: T;
+  fixtureVersion?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1062,6 +1120,23 @@ export interface GameSessionsSelect<T extends boolean = true> {
         note?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fixture-installations_select".
+ */
+export interface FixtureInstallationsSelect<T extends boolean = true> {
+  namespace?: T;
+  fixtureVersion?: T;
+  checksum?: T;
+  status?: T;
+  initiatedBy?: T;
+  startedAt?: T;
+  completedAt?: T;
+  summary?: T;
+  error?: T;
   updatedAt?: T;
   createdAt?: T;
 }
