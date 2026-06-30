@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { getPayload } from 'payload'
 
 import { MythosCardFront, type MythosCardFrontProps } from '@/components/mythosCardFront'
+import { gamePhaseGuides } from '@/content/gamePhaseGuides'
+import { turnPhases, type GamePhase } from '@/lib/gamePhaseState'
 import { createMythosDeckInstances } from '@/lib/mythosDeckState'
 import { mythosCardFrontProps } from '@/lib/mythosCardPresentation'
 import {
@@ -9,14 +11,23 @@ import {
   mythosDeckStateFromSession,
 } from '@/lib/mythosSessionState'
 import config from '@/payload.config'
-import type { GameSession, MythosCard } from '@/payload-types'
+import type {
+  AncientOne,
+  GameSession,
+  Location,
+  MythosCard,
+  OtherWorld,
+} from '@/payload-types'
 
 import {
   activateCurrentEnvironmentAction,
   activateCurrentRumorAction,
+  advancePhaseAction,
   clearActiveRumorAction,
   discardCurrentDrawAction,
+  previousPhaseAction,
   resetMythosDeckAction,
+  selectAncientOneAction,
   shuffleDiscardIntoDeckAction,
 } from './actions'
 import { MythosDeckSlot } from './MythosDeckSlot'
@@ -25,11 +36,12 @@ import './styles.css'
 export const dynamic = 'force-dynamic'
 
 type RelationshipValue = string | MythosCard | null | undefined
+type AncientOneSheet = AncientOne['sheets'][number]
 
 const GAME_SESSIONS = 'game-sessions' as const
 const MYTHOS_CARDS = 'mythos-cards' as const
 
-function relationshipID(value: RelationshipValue): string | null {
+function relationshipID(value: string | { id?: string | number } | null | undefined) {
   if (!value) return null
   if (typeof value === 'string') return value
   if (value.id === undefined) return null
@@ -67,6 +79,38 @@ async function getAllMythosCards(payload: Awaited<ReturnType<typeof getPayload>>
   return cards.docs
 }
 
+async function getReferenceData(payload: Awaited<ReturnType<typeof getPayload>>) {
+  const [ancientOnes, locations, otherWorlds] = await Promise.all([
+    payload.find({
+      collection: 'ancient-ones',
+      limit: 100,
+      sort: 'name',
+      depth: 1,
+      overrideAccess: true,
+    }),
+    payload.find({
+      collection: 'locations',
+      limit: 500,
+      sort: 'name',
+      depth: 0,
+      overrideAccess: true,
+    }),
+    payload.find({
+      collection: 'other-worlds',
+      limit: 100,
+      sort: 'name',
+      depth: 0,
+      overrideAccess: true,
+    }),
+  ])
+
+  return {
+    ancientOnes: ancientOnes.docs,
+    locations: locations.docs,
+    otherWorlds: otherWorlds.docs,
+  }
+}
+
 async function getOrCreateSession(
   payload: Awaited<ReturnType<typeof getPayload>>,
   mythosCards: MythosCard[],
@@ -80,7 +124,7 @@ async function getOrCreateSession(
     },
     sort: '-updatedAt',
     limit: 1,
-    depth: 1,
+    depth: 2,
     overrideAccess: true,
   })
 
@@ -113,7 +157,7 @@ async function getOrCreateSession(
       activeExpansions: ['Base Game'],
       enabledSets: [baseSetID],
       turnNumber: 1,
-      currentPhase: 'Mythos',
+      currentPhase: 'Setup',
       tracks: {
         doomCurrent: 0,
         doomMax: 10,
@@ -155,7 +199,7 @@ async function getOrCreateSession(
   return payload.findByID({
     collection: GAME_SESSIONS,
     id: created.id,
-    depth: 1,
+    depth: 2,
     overrideAccess: true,
   })
 }
@@ -167,6 +211,32 @@ function resolveCard(value: RelationshipValue, cardsByID: Map<string, MythosCard
   if (!id) return null
 
   return cardsByID.get(id) ?? null
+}
+
+function selectedAncientOne(
+  session: GameSession,
+  ancientOnesByID: Map<string, AncientOne>,
+): AncientOne | null {
+  if (session.activeAncientOne && typeof session.activeAncientOne === 'object') {
+    return session.activeAncientOne
+  }
+
+  const id = relationshipID(session.activeAncientOne)
+  return id ? ancientOnesByID.get(id) ?? null : null
+}
+
+function selectedAncientOneSheet(
+  ancientOne: AncientOne | null,
+  sheetKey: string | null | undefined,
+): AncientOneSheet | null {
+  if (!ancientOne) return null
+
+  return (
+    ancientOne.sheets.find((sheet) => sheet.key === sheetKey) ??
+    ancientOne.sheets.find((sheet) => sheet.isDefault) ??
+    ancientOne.sheets[0] ??
+    null
+  )
 }
 
 function CardSlot({
@@ -212,13 +282,7 @@ function CardSlot({
   )
 }
 
-function ActiveEffect({
-  title,
-  card,
-}: {
-  title: string
-  card: MythosCard | null
-}) {
+function ActiveEffect({ title, card }: { title: string; card: MythosCard | null }) {
   const details = card
     ? [
         { label: 'Effect', text: card.effectText },
@@ -242,14 +306,285 @@ function ActiveEffect({
   )
 }
 
+function AncientOneSetup({
+  ancientOnes,
+  activeAncientOne,
+  activeSheet,
+  sessionID,
+}: {
+  ancientOnes: AncientOne[]
+  activeAncientOne: AncientOne | null
+  activeSheet: AncientOneSheet | null
+  sessionID: string
+}) {
+  const currentSelection =
+    activeAncientOne && activeSheet ? `${activeAncientOne.id}::${activeSheet.key}` : ''
+
+  return (
+    <section className="setup-workspace">
+      <div className="setup-copy">
+        <p className="eyebrow">Game Setup</p>
+        <h2>Choose the Ancient One</h2>
+        <p>
+          The selected playable sheet sets the doom-track length for this saved game.
+        </p>
+      </div>
+
+      {ancientOnes.length > 0 ? (
+        <form
+          action={selectAncientOneAction.bind(null, sessionID)}
+          className="ancient-one-selector"
+        >
+          <label htmlFor="ancient-one-selection">Ancient One and sheet</label>
+          <div>
+            <select
+              defaultValue={currentSelection}
+              id="ancient-one-selection"
+              name="ancientOneSelection"
+              required
+            >
+              <option disabled value="">
+                Select an Ancient One
+              </option>
+              {ancientOnes.flatMap((ancientOne) =>
+                ancientOne.sheets.map((sheet) => (
+                  <option
+                    key={`${ancientOne.id}-${sheet.key}`}
+                    value={`${ancientOne.id}::${sheet.key}`}
+                  >
+                    {ancientOne.name} - {sheet.label} ({sheet.doomTrack} doom)
+                  </option>
+                )),
+              )}
+            </select>
+            <button type="submit">
+              {activeAncientOne ? 'Update selection' : 'Set Ancient One'}
+            </button>
+          </div>
+        </form>
+      ) : (
+        <div className="setup-empty-state">
+          <p>No Ancient Ones are available.</p>
+          <Link href="/admin/collections/ancient-ones">Open Ancient Ones</Link>
+        </div>
+      )}
+
+      {activeAncientOne && activeSheet && (
+        <section className="ancient-one-sheet-summary">
+          <div>
+            <span>Ancient One</span>
+            <strong>{activeAncientOne.name}</strong>
+          </div>
+          <div>
+            <span>Sheet</span>
+            <strong>{activeSheet.label}</strong>
+          </div>
+          <div>
+            <span>Doom track</span>
+            <strong>{activeSheet.doomTrack}</strong>
+          </div>
+          <div>
+            <span>{activeSheet.powerName}</span>
+            <strong>{activeSheet.power}</strong>
+          </div>
+        </section>
+      )}
+    </section>
+  )
+}
+
+function EncounterDeckPlaceholder({
+  kind,
+  locations,
+  otherWorlds,
+}: {
+  kind: 'arkham' | 'other-world'
+  locations: Location[]
+  otherWorlds: OtherWorld[]
+}) {
+  const isArkham = kind === 'arkham'
+
+  return (
+    <div className="encounter-draw-area">
+      <label htmlFor={`${kind}-encounter-target`}>
+        {isArkham ? 'Encounter location' : 'Other World'}
+      </label>
+      <select defaultValue="" id={`${kind}-encounter-target`}>
+        <option disabled value="">
+          {isArkham ? 'Select a location' : 'Select an Other World'}
+        </option>
+        {(isArkham ? locations : otherWorlds).map((destination) => (
+          <option key={destination.id} value={destination.id}>
+            {destination.name}
+          </option>
+        ))}
+      </select>
+      <button
+        aria-label={
+          isArkham
+            ? 'Arkham encounter deck placeholder'
+            : 'Other World encounter deck placeholder'
+        }
+        className={`encounter-deck-placeholder ${kind}`}
+        disabled
+        type="button"
+      >
+        <span className="encounter-deck-mark" aria-hidden="true">
+          {isArkham ? 'AH' : 'OW'}
+        </span>
+        <span>{isArkham ? 'Arkham Encounter' : 'Other World Encounter'}</span>
+        <strong>Draw card</strong>
+      </button>
+    </div>
+  )
+}
+
+function PhaseGuide({
+  activeAncientOne,
+  activeSheet,
+  locations,
+  otherWorlds,
+  phase,
+}: {
+  activeAncientOne: AncientOne | null
+  activeSheet: AncientOneSheet | null
+  locations: Location[]
+  otherWorlds: OtherWorld[]
+  phase: GamePhase
+}) {
+  const guide = gamePhaseGuides[phase]
+  const encounterKind =
+    phase === 'Arkham Encounters'
+      ? 'arkham'
+      : phase === 'Other World Encounters'
+        ? 'other-world'
+        : null
+
+  return (
+    <section className="phase-guide">
+      <p className="eyebrow">Current Phase</p>
+      <h2>{guide.title}</h2>
+      <p className="phase-summary">{guide.summary}</p>
+
+      {encounterKind && (
+        <EncounterDeckPlaceholder
+          kind={encounterKind}
+          locations={locations}
+          otherWorlds={otherWorlds}
+        />
+      )}
+
+      <ol className="phase-checklist">
+        {guide.steps.map((step) => (
+          <li key={step}>
+            <span aria-hidden="true" />
+            {step}
+          </li>
+        ))}
+      </ol>
+
+      {activeAncientOne && activeSheet && (
+        <section className="ancient-one-power">
+          <p>{activeAncientOne.name}</p>
+          <h3>{activeSheet.powerName}</h3>
+          <span>{activeSheet.power}</span>
+        </section>
+      )}
+    </section>
+  )
+}
+
+function PhaseNavigation({
+  activeAncientOne,
+  phase,
+  sessionID,
+  turnNumber,
+}: {
+  activeAncientOne: AncientOne | null
+  phase: GamePhase
+  sessionID: string
+  turnNumber: number
+}) {
+  const activeIndex = turnPhases.findIndex((candidate) => candidate === phase)
+  const nextLabel =
+    phase === 'Setup'
+      ? 'Begin game'
+      : phase === 'Mythos'
+        ? 'Complete turn'
+        : phase === 'Final Battle'
+          ? 'Final battle'
+          : 'Next phase'
+
+  return (
+    <nav className="phase-ribbon" aria-label="Turn phase">
+      <form action={previousPhaseAction.bind(null, sessionID)}>
+        <button
+          className="phase-navigation-button previous"
+          disabled={phase === 'Setup'}
+          type="submit"
+        >
+          <span aria-hidden="true">&larr;</span>
+          Previous
+        </button>
+      </form>
+      <div className="phase-context">
+        <div className="turn-context">
+          <span>{phase === 'Setup' ? 'Setup' : 'Turn'}</span>
+          {phase !== 'Setup' && <strong>{turnNumber}</strong>}
+        </div>
+        <div className="phase-sequence">
+          {turnPhases.map((candidate, index) => (
+            <div
+              className={[
+                'phase-step',
+                candidate === phase ? 'active' : '',
+                activeIndex >= 0 && index < activeIndex ? 'complete' : '',
+              ]
+                .filter(Boolean)
+                .join(' ')}
+              key={candidate}
+            >
+              {candidate}
+            </div>
+          ))}
+        </div>
+      </div>
+      <form action={advancePhaseAction.bind(null, sessionID)}>
+        <button
+          className="phase-navigation-button next"
+          disabled={!activeAncientOne || phase === 'Final Battle'}
+          type="submit"
+        >
+          {nextLabel}
+          <span aria-hidden="true">&rarr;</span>
+        </button>
+      </form>
+    </nav>
+  )
+}
+
 export default async function HomePage() {
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
-  const mythosCards = await getAllMythosCards(payload)
+  const [mythosCards, referenceData] = await Promise.all([
+    getAllMythosCards(payload),
+    getReferenceData(payload),
+  ])
   const session = await getOrCreateSession(payload, mythosCards)
   const cardsByID = new Map(mythosCards.map((card) => [String(card.id), card]))
+  const ancientOnesByID = new Map(
+    referenceData.ancientOnes.map((ancientOne) => [String(ancientOne.id), ancientOne]),
+  )
   const mythos = mythosDeckStateFromSession(session)
   const tracks = session.tracks ?? {}
+  const activeAncientOne = selectedAncientOne(session, ancientOnesByID)
+  const activeSheet = selectedAncientOneSheet(
+    activeAncientOne,
+    session.ancientOneSheetKey,
+  )
+  const currentPhase: GamePhase = activeAncientOne
+    ? (session.currentPhase as GamePhase)
+    : 'Setup'
 
   const drawPile = mythos.drawPile ?? []
   const discardPile = mythos.discardPile ?? []
@@ -269,17 +604,20 @@ export default async function HomePage() {
   return (
     <main className="mythos-table">
       <header className="table-topbar">
-        <div>
+        <div className="session-title">
           <p className="eyebrow">Arkham Horror Helper</p>
           <h1>{session.name}</h1>
         </div>
+        <section className="ancient-one-status" aria-label="Active Ancient One">
+          <span>Ancient One</span>
+          <strong>{activeAncientOne?.name ?? 'Not selected'}</strong>
+          <small>
+            {activeSheet
+              ? `${activeSheet.powerName} | Doom ${tracks.doomCurrent ?? 0}/${tracks.doomMax ?? activeSheet.doomTrack}`
+              : 'Choose during setup'}
+          </small>
+        </section>
         <div className="table-counters" aria-label="Session counters">
-          <div>
-            <span>Doom</span>
-            <strong>
-              {tracks.doomCurrent ?? 0}/{tracks.doomMax ?? 10}
-            </strong>
-          </div>
           <div>
             <span>Terror</span>
             <strong>{tracks.terror ?? 0}/10</strong>
@@ -307,38 +645,23 @@ export default async function HomePage() {
         </div>
       </header>
 
-      {mythosCards.length === 0 ? (
-        <section className="empty-library">
-          <h2>No Mythos cards yet</h2>
-          <p>Create Mythos cards in Payload, then return here to build the deck.</p>
-          <Link href="/admin/collections/mythos-cards">Open Mythos cards</Link>
-        </section>
-      ) : (
-        <section className="table-layout">
-          <nav className="phase-ribbon" aria-label="Turn phase">
-            <div className="turn-context">
-              <span>Turn</span>
-              <strong>{session.turnNumber}</strong>
-            </div>
-            <div className="phase-sequence">
-              {[
-                'Upkeep',
-                'Movement',
-                'Arkham Encounters',
-                'Other World Encounters',
-                'Mythos',
-              ].map((phase) => (
-                <div
-                  className={phase === session.currentPhase ? 'phase-step active' : 'phase-step'}
-                  key={phase}
-                >
-                  {phase}
-                </div>
-              ))}
-            </div>
-          </nav>
+      <section className="table-layout">
+        <PhaseNavigation
+          activeAncientOne={activeAncientOne}
+          phase={currentPhase}
+          sessionID={sessionID}
+          turnNumber={session.turnNumber}
+        />
 
-          <div className="table-workspace">
+        {currentPhase === 'Setup' ? (
+          <AncientOneSetup
+            ancientOnes={referenceData.ancientOnes}
+            activeAncientOne={activeAncientOne}
+            activeSheet={activeSheet}
+            sessionID={sessionID}
+          />
+        ) : currentPhase === 'Mythos' ? (
+          <>
             <section className="card-lineup" aria-label="Mythos cards in play">
               <section className="table-card-slot">
                 <div className="slot-heading">
@@ -384,7 +707,9 @@ export default async function HomePage() {
                     ? mythos.currentDrawRevealed
                       ? currentCardType || 'Mythos card'
                       : 'Face down'
-                    : 'Draw the next Mythos card when the Mythos phase begins.'}
+                    : mythosCards.length
+                      ? 'Draw the next Mythos card.'
+                      : 'No Mythos cards are available.'}
                 </p>
               </section>
 
@@ -436,16 +761,45 @@ export default async function HomePage() {
               <section className="resolver-steps">
                 <h2>Mythos Steps</h2>
                 <ol>
-                  <li>Open gate or resolve monster surge.</li>
-                  <li>Place the clue token.</li>
-                  <li>Move monsters using the card icons.</li>
-                  <li>Resolve Headline, Environment, or Rumor text.</li>
+                  {gamePhaseGuides.Mythos.steps.map((step) => (
+                    <li key={step}>{step}</li>
+                  ))}
                 </ol>
               </section>
             </aside>
+          </>
+        ) : (
+          <div className="phase-workspace">
+            <PhaseGuide
+              activeAncientOne={activeAncientOne}
+              activeSheet={activeSheet}
+              locations={referenceData.locations}
+              otherWorlds={referenceData.otherWorlds}
+              phase={currentPhase}
+            />
+            <div className="persistent-card-lineup" aria-label="Active Mythos effects">
+              <CardSlot
+                title="Active Environment"
+                card={activeEnvironment}
+                emptyText="No Environment is active."
+                effectCard={activeEnvironmentDocument}
+              />
+              <CardSlot
+                title="Active Rumor"
+                card={activeRumor}
+                emptyText="No Rumor is active."
+                effectCard={activeRumorDocument}
+                action={
+                  activeRumorDocument
+                    ? clearActiveRumorAction.bind(null, sessionID)
+                    : undefined
+                }
+                actionLabel="Clear"
+              />
+            </div>
           </div>
-        </section>
-      )}
+        )}
+      </section>
     </main>
   )
 }

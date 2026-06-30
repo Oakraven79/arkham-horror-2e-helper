@@ -17,8 +17,15 @@ import {
   mythosDeckStateForPayload,
   mythosDeckStateFromSession,
 } from '@/lib/mythosSessionState'
+import {
+  nextGamePhase,
+  previousGamePhase,
+  transitionFor,
+  type GamePhase,
+  type GamePhasePointer,
+} from '@/lib/gamePhaseState'
 import config from '@/payload.config'
-import type { GameSession } from '@/payload-types'
+import type { AncientOne, GameSession } from '@/payload-types'
 
 type SessionLogAction = NonNullable<GameSession['sessionLog']>[number]['action']
 type ShuffleEventReason = NonNullable<GameSession['shuffleEvents']>[number]['reason']
@@ -68,6 +75,179 @@ function shuffleEvent(
 async function getPayloadClient() {
   const payloadConfig = await config
   return getPayload({ config: payloadConfig })
+}
+
+function phasePointer(session: GameSession): GamePhasePointer {
+  return {
+    currentPhase: session.currentPhase as GamePhase,
+    turnNumber: session.turnNumber,
+  }
+}
+
+function relationshipID(value: AncientOne | string | null | undefined) {
+  if (!value) return null
+  return typeof value === 'string' ? value : String(value.id)
+}
+
+export async function selectAncientOneAction(sessionID: string, formData: FormData) {
+  const selection = formData.get('ancientOneSelection')
+
+  if (typeof selection !== 'string') {
+    throw new Error('Select an Ancient One before beginning the game.')
+  }
+
+  const [ancientOneID, sheetKey] = selection.split('::')
+
+  if (!ancientOneID || !sheetKey) {
+    throw new Error('The selected Ancient One sheet is invalid.')
+  }
+
+  const payload = await getPayloadClient()
+  const [session, ancientOne] = await Promise.all([
+    payload.findByID({
+      collection: GAME_SESSIONS,
+      id: sessionID,
+      depth: 0,
+      overrideAccess: true,
+    }),
+    payload.findByID({
+      collection: 'ancient-ones',
+      id: ancientOneID,
+      depth: 0,
+      overrideAccess: true,
+    }),
+  ])
+  const sheet = ancientOne.sheets.find((candidate) => candidate.key === sheetKey)
+
+  if (!sheet) {
+    throw new Error('The selected Ancient One sheet could not be found.')
+  }
+
+  if (relationshipID(session.activeAncientOne) && session.currentPhase !== 'Setup') {
+    throw new Error('The Ancient One is locked after setup.')
+  }
+
+  await payload.update({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    overrideAccess: true,
+    data: {
+      activeAncientOne: ancientOne.id,
+      ancientOneSheetKey: sheet.key,
+      currentPhase: 'Setup',
+      tracks: {
+        ...session.tracks,
+        doomCurrent: 0,
+        doomMax: sheet.doomTrack,
+      },
+      sessionLog: [
+        ...(session.sessionLog ?? []),
+        logEntry(
+          { ...session, currentPhase: 'Setup' },
+          'select-ancient-one',
+          null,
+          `${ancientOne.name} - ${sheet.label} selected with a ${sheet.doomTrack}-space doom track.`,
+        ),
+      ],
+    },
+  })
+
+  revalidatePath('/')
+}
+
+export async function advancePhaseAction(sessionID: string) {
+  const payload = await getPayloadClient()
+  const session = await payload.findByID({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  if (!relationshipID(session.activeAncientOne)) {
+    return
+  }
+
+  const current = phasePointer(session)
+  const next = nextGamePhase(current)
+
+  if (next.currentPhase === current.currentPhase && next.turnNumber === current.turnNumber) {
+    return
+  }
+
+  const transition = transitionFor(current, next)
+
+  await payload.update({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    overrideAccess: true,
+    data: {
+      currentPhase: next.currentPhase,
+      turnNumber: next.turnNumber,
+      phaseHistory: [...(session.phaseHistory ?? []), transition],
+      sessionLog: [
+        ...(session.sessionLog ?? []),
+        logEntry(
+          session,
+          'advance-phase',
+          null,
+          `Advanced to ${next.currentPhase}, turn ${next.turnNumber}.`,
+        ),
+      ],
+    },
+  })
+
+  revalidatePath('/')
+}
+
+export async function previousPhaseAction(sessionID: string) {
+  const payload = await getPayloadClient()
+  const session = await payload.findByID({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
+  const current = phasePointer(session)
+  const history = session.phaseHistory ?? []
+  const latest = history.at(-1)
+  const canReverseLatest =
+    latest?.toPhase === current.currentPhase && latest.toTurn === current.turnNumber
+  const previous = canReverseLatest
+    ? {
+        currentPhase: latest.fromPhase as GamePhase,
+        turnNumber: latest.fromTurn,
+      }
+    : previousGamePhase(current)
+
+  if (
+    previous.currentPhase === current.currentPhase &&
+    previous.turnNumber === current.turnNumber
+  ) {
+    return
+  }
+
+  await payload.update({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    overrideAccess: true,
+    data: {
+      currentPhase: previous.currentPhase,
+      turnNumber: previous.turnNumber,
+      phaseHistory: canReverseLatest ? history.slice(0, -1) : history,
+      sessionLog: [
+        ...(session.sessionLog ?? []),
+        logEntry(
+          session,
+          'previous-phase',
+          null,
+          `Returned to ${previous.currentPhase}, turn ${previous.turnNumber}.`,
+        ),
+      ],
+    },
+  })
+
+  revalidatePath('/')
 }
 
 async function updateSessionMythos(

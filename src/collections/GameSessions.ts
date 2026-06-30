@@ -1,16 +1,9 @@
 import type { CollectionConfig, Field } from 'payload'
 
 import { arkhamHorror2eBoxes } from '@/components/arkhamConstants'
+import { gamePhases } from '@/lib/gamePhaseState'
 
-const phaseOptions = [
-  'Setup',
-  'Upkeep',
-  'Movement',
-  'Arkham Encounters',
-  'Other World Encounters',
-  'Mythos',
-  'Final Battle',
-] as const
+const phaseOptions = gamePhases
 
 const mythosCardRelationship = {
   type: 'relationship',
@@ -92,11 +85,62 @@ export const GameSessions: CollectionConfig = {
       min: 1,
     },
     {
+      name: 'activeAncientOne',
+      label: 'Active Ancient One',
+      type: 'relationship',
+      relationTo: 'ancient-ones',
+      admin: {
+        description: 'Selected during setup and used to determine the session doom track.',
+      },
+    },
+    {
+      name: 'ancientOneSheetKey',
+      label: 'Ancient One Sheet',
+      type: 'text',
+      admin: {
+        description: 'The playable sheet variant selected for this session.',
+      },
+    },
+    {
       name: 'currentPhase',
       type: 'select',
       required: true,
       defaultValue: 'Setup',
       options: phaseOptions.map((phase) => ({ label: phase, value: phase })),
+    },
+    {
+      name: 'phaseHistory',
+      type: 'array',
+      admin: {
+        description:
+          'Phase transitions used to restore the previous table phase without undoing game actions.',
+      },
+      fields: [
+        {
+          name: 'fromTurn',
+          type: 'number',
+          required: true,
+          min: 1,
+        },
+        {
+          name: 'fromPhase',
+          type: 'select',
+          required: true,
+          options: phaseOptions.map((phase) => ({ label: phase, value: phase })),
+        },
+        {
+          name: 'toTurn',
+          type: 'number',
+          required: true,
+          min: 1,
+        },
+        {
+          name: 'toPhase',
+          type: 'select',
+          required: true,
+          options: phaseOptions.map((phase) => ({ label: phase, value: phase })),
+        },
+      ],
     },
     {
       name: 'firstPlayer',
@@ -325,6 +369,9 @@ export const GameSessions: CollectionConfig = {
           type: 'select',
           required: true,
           options: [
+            { label: 'Select Ancient One', value: 'select-ancient-one' },
+            { label: 'Advance Phase', value: 'advance-phase' },
+            { label: 'Previous Phase', value: 'previous-phase' },
             { label: 'Draw Mythos', value: 'draw-mythos' },
             { label: 'Reveal Card', value: 'reveal-card' },
             { label: 'Resolve Card', value: 'resolve-card' },

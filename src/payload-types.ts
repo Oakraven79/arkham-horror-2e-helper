@@ -550,6 +550,14 @@ export interface GameSession {
    */
   enabledSets: (string | BoxedSet)[];
   turnNumber: number;
+  /**
+   * Selected during setup and used to determine the session doom track.
+   */
+  activeAncientOne?: (string | null) | AncientOne;
+  /**
+   * The playable sheet variant selected for this session.
+   */
+  ancientOneSheetKey?: string | null;
   currentPhase:
     | 'Setup'
     | 'Upkeep'
@@ -558,6 +566,32 @@ export interface GameSession {
     | 'Other World Encounters'
     | 'Mythos'
     | 'Final Battle';
+  /**
+   * Phase transitions used to restore the previous table phase without undoing game actions.
+   */
+  phaseHistory?:
+    | {
+        fromTurn: number;
+        fromPhase:
+          | 'Setup'
+          | 'Upkeep'
+          | 'Movement'
+          | 'Arkham Encounters'
+          | 'Other World Encounters'
+          | 'Mythos'
+          | 'Final Battle';
+        toTurn: number;
+        toPhase:
+          | 'Setup'
+          | 'Upkeep'
+          | 'Movement'
+          | 'Arkham Encounters'
+          | 'Other World Encounters'
+          | 'Mythos'
+          | 'Final Battle';
+        id?: string | null;
+      }[]
+    | null;
   /**
    * Player or investigator currently holding the first player marker.
    */
@@ -669,6 +703,9 @@ export interface GameSession {
             )
           | null;
         action:
+          | 'select-ancient-one'
+          | 'advance-phase'
+          | 'previous-phase'
           | 'draw-mythos'
           | 'reveal-card'
           | 'resolve-card'
@@ -1052,7 +1089,18 @@ export interface GameSessionsSelect<T extends boolean = true> {
   activeExpansions?: T;
   enabledSets?: T;
   turnNumber?: T;
+  activeAncientOne?: T;
+  ancientOneSheetKey?: T;
   currentPhase?: T;
+  phaseHistory?:
+    | T
+    | {
+        fromTurn?: T;
+        fromPhase?: T;
+        toTurn?: T;
+        toPhase?: T;
+        id?: T;
+      };
   firstPlayer?: T;
   tracks?:
     | T
