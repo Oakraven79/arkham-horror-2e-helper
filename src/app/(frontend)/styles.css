@@ -632,6 +632,125 @@ button {
   margin-top: 24px;
 }
 
+.expansion-selector {
+  margin-top: 24px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 20px;
+}
+
+.setup-section-heading {
+  display: flex;
+  gap: 18px;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.setup-section-heading h3 {
+  margin: 2px 0 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 20px;
+}
+
+.setup-section-heading button {
+  min-height: 40px;
+  border: 1px solid rgba(232, 207, 146, 0.45);
+  border-radius: 6px;
+  background: linear-gradient(180deg, #efe0b4, #c6a34b);
+  color: #17130d;
+  cursor: pointer;
+  font-weight: 900;
+  padding: 7px 16px;
+}
+
+.boxed-set-groups {
+  display: grid;
+  gap: 0;
+  margin-top: 14px;
+}
+
+.boxed-set-group {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  border-top: 1px solid rgba(232, 207, 146, 0.14);
+  padding: 10px 0;
+}
+
+.boxed-set-group h4 {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.boxed-set-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 5px 16px;
+}
+
+.boxed-set-option {
+  display: grid;
+  grid-template-columns: 18px 30px minmax(0, 1fr);
+  gap: 9px;
+  align-items: center;
+  min-height: 38px;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.boxed-set-option input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--gold);
+}
+
+.boxed-set-option input[type='checkbox']:disabled {
+  opacity: 0.65;
+}
+
+.setup-boxed-set-mark {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(232, 207, 146, 0.35);
+  border-radius: 50%;
+  background: #e5e1d3;
+  color: #171512;
+  font-family: Arial, sans-serif;
+  font-size: 8px;
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+}
+
+.setup-boxed-set-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.boxed-set-option strong {
+  display: block;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.boxed-set-option small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
 .ancient-one-selector label,
 .setup-form-field label,
 .encounter-draw-area label {
@@ -1395,6 +1514,11 @@ button {
   .session-setup,
   .encounter-draw-area {
     grid-template-columns: 1fr;
+  }
+
+  .boxed-set-group {
+    grid-template-columns: 1fr;
+    gap: 7px;
   }
 
   .session-setup > form:last-child {

@@ -9,7 +9,8 @@ import {
   calculateMonsterSurgeCount,
   gameLimitWarnings,
 } from '@/lib/investigatorRules'
-import { createGameSession } from '@/lib/gameSessions'
+import { relationshipID, relationshipIDs, sourceSetWhere } from '@/lib/gameSessionContent'
+import { createGameSession, repairLegacySessionEnabledSets } from '@/lib/gameSessions'
 import { mythosCardFrontProps } from '@/lib/mythosCardPresentation'
 import { mythosDeckStateFromSession } from '@/lib/mythosSessionState'
 import config from '@/payload.config'
@@ -36,6 +37,7 @@ import {
   selectAncientOneAction,
   shuffleDiscardIntoDeckAction,
   startNewSessionAction,
+  updateEnabledSetsAction,
 } from './actions'
 import { GameRulesContext } from './GameRulesContext'
 import { InvestigatorCountInput } from './InvestigatorCountInput'
@@ -49,12 +51,12 @@ type AncientOneSheet = AncientOne['sheets'][number]
 
 const MYTHOS_CARDS = 'mythos-cards' as const
 const EXPANSION_CITY_KEYS = new Set(['dunwich-horror', 'kingsport-horror', 'innsmouth-horror'])
-
-function relationshipID(value: string | { id?: string | number } | null | undefined) {
-  if (!value) return null
-  if (typeof value === 'string') return value
-  if (value.id === undefined) return null
-  return String(value.id)
+const BOXED_SET_CATEGORY_LABELS: Record<BoxedSet['category'], string> = {
+  core: 'Core Game',
+  'large-expansion': 'Large Expansions',
+  'small-expansion': 'Small Expansions',
+  promotional: 'Promotional',
+  custom: 'Custom Sets',
 }
 
 function formatSessionTimestamp(value: string) {
@@ -74,9 +76,13 @@ function cardProps(card: MythosCard | null): MythosCardFrontProps | null {
   return mythosCardFrontProps(card)
 }
 
-async function getAllMythosCards(payload: Awaited<ReturnType<typeof getPayload>>) {
+async function getAllMythosCards(
+  payload: Awaited<ReturnType<typeof getPayload>>,
+  enabledSetIDs: string[],
+) {
   const cards = await payload.find({
     collection: MYTHOS_CARDS,
+    where: sourceSetWhere(enabledSetIDs),
     limit: 1000,
     depth: 2,
     overrideAccess: true,
@@ -85,10 +91,15 @@ async function getAllMythosCards(payload: Awaited<ReturnType<typeof getPayload>>
   return cards.docs
 }
 
-async function getReferenceData(payload: Awaited<ReturnType<typeof getPayload>>) {
+async function getReferenceData(
+  payload: Awaited<ReturnType<typeof getPayload>>,
+  enabledSetIDs: string[],
+) {
+  const where = sourceSetWhere(enabledSetIDs)
   const [ancientOnes, locations, otherWorlds] = await Promise.all([
     payload.find({
       collection: 'ancient-ones',
+      where,
       limit: 100,
       sort: 'name',
       depth: 1,
@@ -96,6 +107,7 @@ async function getReferenceData(payload: Awaited<ReturnType<typeof getPayload>>)
     }),
     payload.find({
       collection: 'locations',
+      where,
       limit: 500,
       sort: 'name',
       depth: 0,
@@ -103,6 +115,7 @@ async function getReferenceData(payload: Awaited<ReturnType<typeof getPayload>>)
     }),
     payload.find({
       collection: 'other-worlds',
+      where,
       limit: 100,
       sort: 'name',
       depth: 0,
@@ -264,6 +277,7 @@ function ActiveEffect({ title, card }: { title: string; card: MythosCard | null 
 
 function AncientOneSetup({
   ancientOnes,
+  boxedSets,
   activeAncientOne,
   activeSheet,
   investigatorCount,
@@ -272,6 +286,7 @@ function AncientOneSetup({
   sessionID,
 }: {
   ancientOnes: AncientOne[]
+  boxedSets: BoxedSet[]
   activeAncientOne: AncientOne | null
   activeSheet: AncientOneSheet | null
   investigatorCount: number
@@ -281,6 +296,14 @@ function AncientOneSetup({
 }) {
   const currentSelection =
     activeAncientOne && activeSheet ? `${activeAncientOne.id}::${activeSheet.key}` : ''
+  const enabledSetIDs = new Set(relationshipIDs(currentSession.enabledSets))
+  const boxedSetsByCategory = Object.entries(BOXED_SET_CATEGORY_LABELS).map(
+    ([category, label]) => ({
+      category: category as BoxedSet['category'],
+      label,
+      sets: boxedSets.filter((boxedSet) => boxedSet.category === category),
+    }),
+  )
 
   return (
     <section className="setup-workspace">
@@ -337,6 +360,66 @@ function AncientOneSetup({
           </button>
         </form>
       </section>
+
+      <form action={updateEnabledSetsAction.bind(null, sessionID)} className="expansion-selector">
+        <div className="setup-section-heading">
+          <div>
+            <p className="eyebrow">Game Content</p>
+            <h3>Sets in play</h3>
+          </div>
+          <button type="submit">Apply sets</button>
+        </div>
+        <div className="boxed-set-groups">
+          {boxedSetsByCategory.map(
+            (group) =>
+              group.sets.length > 0 && (
+                <div
+                  aria-labelledby={`boxed-set-group-${group.category}`}
+                  className="boxed-set-group"
+                  key={group.category}
+                  role="group"
+                >
+                  <h4 id={`boxed-set-group-${group.category}`}>{group.label}</h4>
+                  <div className="boxed-set-options">
+                    {group.sets.map((boxedSet) => {
+                      const isBaseGame = boxedSet.key === 'base-game'
+                      const icon =
+                        boxedSet.icon && typeof boxedSet.icon === 'object' ? boxedSet.icon : null
+
+                      return (
+                        <label className="boxed-set-option" key={boxedSet.id}>
+                          {isBaseGame && (
+                            <input name="enabledSet" type="hidden" value={boxedSet.id} />
+                          )}
+                          <input
+                            defaultChecked={isBaseGame || enabledSetIDs.has(String(boxedSet.id))}
+                            disabled={isBaseGame}
+                            name="enabledSet"
+                            type="checkbox"
+                            value={boxedSet.id}
+                          />
+                          <span className="setup-boxed-set-mark" aria-hidden="true">
+                            {icon?.url ? (
+                              // Payload media may be local or externally hosted.
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img src={icon.url} alt="" />
+                            ) : (
+                              boxedSet.abbreviation
+                            )}
+                          </span>
+                          <span>
+                            <strong>{boxedSet.name}</strong>
+                            {isBaseGame && <small>Required</small>}
+                          </span>
+                        </label>
+                      )
+                    })}
+                  </div>
+                </div>
+              ),
+          )}
+        </div>
+      </form>
 
       {ancientOnes.length > 0 ? (
         <form
@@ -553,18 +636,27 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     : requestedSearchParams.session
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
-  const [mythosCards, referenceData] = await Promise.all([
-    getAllMythosCards(payload),
-    getReferenceData(payload),
+  const loadedSession = await getOrCreateSession(payload, requestedSessionID)
+  const session = await repairLegacySessionEnabledSets(payload, loadedSession)
+  const enabledSetIDs = relationshipIDs(session.enabledSets)
+  const [mythosCards, referenceData, boxedSetResult, savedSessionResult] = await Promise.all([
+    getAllMythosCards(payload, enabledSetIDs),
+    getReferenceData(payload, enabledSetIDs),
+    payload.find({
+      collection: 'boxed-sets',
+      sort: 'sortOrder',
+      limit: 100,
+      depth: 1,
+      overrideAccess: true,
+    }),
+    payload.find({
+      collection: 'game-sessions',
+      sort: '-updatedAt',
+      limit: 50,
+      depth: 0,
+      overrideAccess: true,
+    }),
   ])
-  const session = await getOrCreateSession(payload, requestedSessionID)
-  const savedSessionResult = await payload.find({
-    collection: 'game-sessions',
-    sort: '-updatedAt',
-    limit: 50,
-    depth: 0,
-    overrideAccess: true,
-  })
   const savedSessions = savedSessionResult.docs.filter(
     (savedSession) => savedSession.status === 'active' || savedSession.status === 'paused',
   )
@@ -672,6 +764,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         {currentPhase === 'Setup' ? (
           <AncientOneSetup
             ancientOnes={referenceData.ancientOnes}
+            boxedSets={boxedSetResult.docs}
             activeAncientOne={activeAncientOne}
             activeSheet={activeSheet}
             investigatorCount={session.playerCount}

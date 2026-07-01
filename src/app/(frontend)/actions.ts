@@ -11,7 +11,6 @@ import {
   clearActiveRumor,
   discardCurrentMythosCard,
   drawMythosCard,
-  createMythosDeckInstances,
   revealCurrentMythosCard,
   type MythosDeckState,
 } from '@/lib/mythosDeckState'
@@ -23,9 +22,18 @@ import {
   type GamePhase,
   type GamePhasePointer,
 } from '@/lib/gamePhaseState'
+import {
+  assertSetsCanChange,
+  freshMythosDeckState,
+  normalizeEnabledSetSelection,
+  relationshipID,
+  relationshipIDs,
+  sameSetSelection,
+  sourceSetWhere,
+} from '@/lib/gameSessionContent'
 import { createGameSession, pauseActiveGameSessions } from '@/lib/gameSessions'
 import config from '@/payload.config'
-import type { AncientOne, GameSession } from '@/payload-types'
+import type { GameSession } from '@/payload-types'
 
 type SessionLogAction = NonNullable<GameSession['sessionLog']>[number]['action']
 type ShuffleEventReason = NonNullable<GameSession['shuffleEvents']>[number]['reason']
@@ -150,16 +158,93 @@ export async function resumeSessionAction(formData: FormData) {
   redirect(`/?session=${sessionID}`)
 }
 
+export async function updateEnabledSetsAction(sessionID: string, formData: FormData) {
+  const requestedSetIDs = formData
+    .getAll('enabledSet')
+    .filter((value): value is string => typeof value === 'string')
+  const payload = await getPayloadClient()
+  const [session, boxedSetResult] = await Promise.all([
+    payload.findByID({
+      collection: GAME_SESSIONS,
+      id: sessionID,
+      depth: 0,
+      overrideAccess: true,
+    }),
+    payload.find({
+      collection: 'boxed-sets',
+      limit: 100,
+      sort: 'sortOrder',
+      depth: 0,
+      overrideAccess: true,
+    }),
+  ])
+
+  assertSetsCanChange(session)
+
+  const enabledSetIDs = normalizeEnabledSetSelection(requestedSetIDs, boxedSetResult.docs)
+  const currentSetIDs = relationshipIDs(session.enabledSets)
+
+  if (sameSetSelection(currentSetIDs, enabledSetIDs)) {
+    revalidatePath('/')
+    return
+  }
+
+  const cards = await payload.find({
+    collection: MYTHOS_CARDS,
+    where: sourceSetWhere(enabledSetIDs),
+    limit: 1000,
+    depth: 0,
+    overrideAccess: true,
+  })
+  const activeAncientOneID = relationshipID(session.activeAncientOne)
+  const activeAncientOne = activeAncientOneID
+    ? await payload.findByID({
+        collection: 'ancient-ones',
+        id: activeAncientOneID,
+        depth: 0,
+        overrideAccess: true,
+      })
+    : null
+  const keepAncientOne = Boolean(
+    activeAncientOne && enabledSetIDs.includes(relationshipID(activeAncientOne.sourceSet) ?? ''),
+  )
+  const enabledSetNames = boxedSetResult.docs
+    .filter((boxedSet) => enabledSetIDs.includes(String(boxedSet.id)))
+    .map((boxedSet) => boxedSet.name)
+  const note = `Sets in play changed to ${enabledSetNames.join(', ')}. The Mythos deck was rebuilt and shuffled.`
+
+  await payload.update({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    overrideAccess: true,
+    data: {
+      enabledSets: enabledSetIDs,
+      activeExpansions: [],
+      activeAncientOne: keepAncientOne ? activeAncientOneID : null,
+      ancientOneSheetKey: keepAncientOne ? session.ancientOneSheetKey : null,
+      tracks: {
+        ...session.tracks,
+        ...(keepAncientOne
+          ? {}
+          : {
+              doomCurrent: 0,
+              doomMax: 10,
+            }),
+      },
+      mythos: mythosDeckStateForPayload(freshMythosDeckState(cards.docs)),
+      sessionLog: [...(session.sessionLog ?? []), logEntry(session, 'shuffle-deck', null, note)],
+      shuffleEvents: [...(session.shuffleEvents ?? []), shuffleEvent(session, 'setup', note)],
+    },
+  })
+
+  revalidatePath('/')
+}
+
 function phasePointer(session: GameSession): GamePhasePointer {
   return {
     currentPhase: session.currentPhase as GamePhase,
     turnNumber: session.turnNumber,
   }
-}
-
-function relationshipID(value: AncientOne | string | null | undefined) {
-  if (!value) return null
-  return typeof value === 'string' ? value : String(value.id)
 }
 
 export async function selectAncientOneAction(sessionID: string, formData: FormData) {
@@ -203,8 +288,12 @@ export async function selectAncientOneAction(sessionID: string, formData: FormDa
     throw new Error('The selected Ancient One sheet could not be found.')
   }
 
-  if (relationshipID(session.activeAncientOne) && session.currentPhase !== 'Setup') {
+  if (session.currentPhase !== 'Setup') {
     throw new Error('The Ancient One is locked after setup.')
+  }
+
+  if (!relationshipIDs(session.enabledSets).includes(relationshipID(ancientOne.sourceSet) ?? '')) {
+    throw new Error('The selected Ancient One is not from a set enabled for this session.')
   }
 
   await payload.update({
@@ -528,29 +617,26 @@ export async function shuffleDiscardIntoDeckAction(sessionID: string) {
 
 export async function resetMythosDeckAction(sessionID: string) {
   const payload = await getPayloadClient()
+  const session = await payload.findByID({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
   const cards = await payload.find({
     collection: MYTHOS_CARDS,
+    where: sourceSetWhere(relationshipIDs(session.enabledSets)),
     limit: 1000,
     depth: 0,
     overrideAccess: true,
   })
-
-  const nextState: MythosDeckState = {
-    drawPile: shuffle(createMythosDeckInstances(cards.docs)),
-    discardPile: [],
-    drawHistory: [],
-    currentDraw: null,
-    currentDrawRevealed: false,
-    activeEnvironment: null,
-    activeRumor: null,
-    shuffleCount: 0,
-  }
+  const nextState = freshMythosDeckState(cards.docs)
 
   await updateSessionMythos(
     sessionID,
     nextState,
     'shuffle-deck',
     null,
-    'Mythos deck reset from all available Mythos cards.',
+    'Mythos deck reset from the sets enabled for this session.',
   )
 }

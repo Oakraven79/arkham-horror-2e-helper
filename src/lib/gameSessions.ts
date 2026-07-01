@@ -2,19 +2,15 @@ import type { Payload } from 'payload'
 
 import type { GameSession } from '@/payload-types'
 
-import { createMythosDeckInstances } from './mythosDeckState'
+import {
+  BASE_GAME_SET_KEY,
+  freshMythosDeckState,
+  relationshipID,
+  relationshipIDs,
+  sameSetSelection,
+  sourceSetWhere,
+} from './gameSessionContent'
 import { mythosDeckStateForPayload } from './mythosSessionState'
-
-function shuffle<T>(items: T[]): T[] {
-  const shuffled = [...items]
-
-  for (let i = shuffled.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
-  }
-
-  return shuffled
-}
 
 export async function pauseActiveGameSessions(payload: Payload, exceptSessionID?: string) {
   const activeSessions = await payload.find({
@@ -49,30 +45,30 @@ export async function createGameSession(
   payload: Payload,
   name = 'Arkham Horror Session',
 ): Promise<GameSession> {
-  const [cards, baseSet] = await Promise.all([
-    payload.find({
-      collection: 'mythos-cards',
-      limit: 1000,
-      depth: 0,
-      overrideAccess: true,
-    }),
-    payload.find({
-      collection: 'boxed-sets',
-      where: {
-        key: {
-          equals: 'base-game',
-        },
+  const baseSet = await payload.find({
+    collection: 'boxed-sets',
+    where: {
+      key: {
+        equals: BASE_GAME_SET_KEY,
       },
-      limit: 1,
-      depth: 0,
-      overrideAccess: true,
-    }),
-  ])
+    },
+    limit: 1,
+    depth: 0,
+    overrideAccess: true,
+  })
   const baseSetID = baseSet.docs[0]?.id
 
   if (!baseSetID) {
     throw new Error('The Base Game boxed set must be seeded before creating a session.')
   }
+
+  const cards = await payload.find({
+    collection: 'mythos-cards',
+    where: sourceSetWhere([String(baseSetID)]),
+    limit: 1000,
+    depth: 0,
+    overrideAccess: true,
+  })
 
   const created = await payload.create({
     collection: 'game-sessions',
@@ -81,7 +77,6 @@ export async function createGameSession(
       name,
       status: 'active',
       playerCount: 4,
-      activeExpansions: ['Base Game'],
       enabledSets: [baseSetID],
       turnNumber: 1,
       currentPhase: 'Setup',
@@ -94,16 +89,7 @@ export async function createGameSession(
         monstersInArkham: 0,
         monstersInOutskirts: 0,
       },
-      mythos: mythosDeckStateForPayload({
-        drawPile: shuffle(createMythosDeckInstances(cards.docs)),
-        discardPile: [],
-        drawHistory: [],
-        currentDraw: null,
-        currentDrawRevealed: false,
-        activeEnvironment: null,
-        activeRumor: null,
-        shuffleCount: 0,
-      }),
+      mythos: mythosDeckStateForPayload(freshMythosDeckState(cards.docs)),
       sessionLog: [
         {
           turnNumber: 1,
@@ -126,6 +112,89 @@ export async function createGameSession(
   return payload.findByID({
     collection: 'game-sessions',
     id: created.id,
+    depth: 2,
+    overrideAccess: true,
+  })
+}
+
+function storedMythosCardIDs(session: GameSession) {
+  const mythos = session.mythos
+  const relationshipValues = [
+    ...(mythos.drawPile ?? []),
+    ...(mythos.discardPile ?? []),
+    ...(mythos.drawHistory ?? []),
+    mythos.currentDraw,
+    mythos.activeEnvironment,
+    mythos.activeRumor,
+  ]
+  const instanceValues = [
+    ...(mythos.drawPileInstances ?? []),
+    ...(mythos.discardPileInstances ?? []),
+    ...(mythos.drawHistoryInstances ?? []),
+  ].map((instance) => instance.card)
+
+  return [
+    ...new Set(
+      [...relationshipValues, ...instanceValues]
+        .map(relationshipID)
+        .filter((id): id is string => Boolean(id)),
+    ),
+  ]
+}
+
+export async function repairLegacySessionEnabledSets(payload: Payload, session: GameSession) {
+  if (!session.activeExpansions?.length) return session
+
+  const cardIDs = storedMythosCardIDs(session)
+
+  if (cardIDs.length === 0) {
+    await payload.update({
+      collection: 'game-sessions',
+      id: session.id,
+      data: {
+        activeExpansions: [],
+      },
+      overrideAccess: true,
+    })
+
+    return {
+      ...session,
+      activeExpansions: [],
+    }
+  }
+
+  const cards = await payload.find({
+    collection: 'mythos-cards',
+    where: {
+      id: {
+        in: cardIDs,
+      },
+    },
+    limit: Math.max(cardIDs.length, 1),
+    depth: 0,
+    overrideAccess: true,
+  })
+  const currentSetIDs = relationshipIDs(session.enabledSets)
+  const representedSetIDs = relationshipIDs(cards.docs.map((card) => card.sourceSet))
+  const repairedSetIDs = [...new Set([...currentSetIDs, ...representedSetIDs])]
+
+  await payload.update({
+    collection: 'game-sessions',
+    id: session.id,
+    data: {
+      ...(sameSetSelection(currentSetIDs, repairedSetIDs)
+        ? {}
+        : {
+            enabledSets: repairedSetIDs,
+          }),
+      activeExpansions: [],
+    },
+    overrideAccess: true,
+  })
+
+  return payload.findByID({
+    collection: 'game-sessions',
+    id: session.id,
     depth: 2,
     overrideAccess: true,
   })
