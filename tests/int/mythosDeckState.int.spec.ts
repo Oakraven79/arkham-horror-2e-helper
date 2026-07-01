@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import {
   activateCurrentEnvironment,
   activateCurrentRumor,
+  clearActiveEnvironment,
   clearActiveRumor,
   createMythosDeckInstances,
   discardCurrentMythosCard,
@@ -11,10 +12,7 @@ import {
   type MythosCardInstance,
   type MythosDeckState,
 } from '@/lib/mythosDeckState'
-import {
-  mythosDeckStateForPayload,
-  mythosDeckStateFromSession,
-} from '@/lib/mythosSessionState'
+import { mythosDeckStateForPayload, mythosDeckStateFromSession } from '@/lib/mythosSessionState'
 import type { GameSession } from '@/payload-types'
 
 function instance(cardID: string, copyNumber = 1): MythosCardInstance {
@@ -110,6 +108,7 @@ describe('mythos deck state', () => {
     })
 
     const withEnvironment = activateCurrentEnvironment(revealed)
+    const withClearedEnvironment = clearActiveEnvironment(withEnvironment)
     const withIgnoredRumor = activateCurrentRumor({
       ...withEnvironment,
       currentDraw: instance('rumor-new'),
@@ -119,6 +118,11 @@ describe('mythos deck state', () => {
     expect(revealed.currentDrawRevealed).toBe(true)
     expect(withEnvironment.activeEnvironment).toEqual(instance('environment-new'))
     expect(withEnvironment.discardPile).toEqual([instance('environment-old')])
+    expect(withClearedEnvironment.activeEnvironment).toBeNull()
+    expect(withClearedEnvironment.discardPile).toEqual([
+      instance('environment-old'),
+      instance('environment-new'),
+    ])
     expect(withIgnoredRumor.activeRumor).toEqual(instance('rumor-active'))
     expect(withIgnoredRumor.discardPile).toEqual([
       instance('environment-old'),

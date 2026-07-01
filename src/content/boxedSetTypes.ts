@@ -36,6 +36,7 @@ export type OfficialBoxedSetName =
 
 export interface BoxedSetFixture {
   abbreviation: string
+  addsExpansionBoard: boolean
   aliases: string[]
   category: Exclude<BoxedSetCategory, 'custom'>
   key: OfficialBoxedSetKey

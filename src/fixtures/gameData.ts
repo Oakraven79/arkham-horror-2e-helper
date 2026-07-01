@@ -8,7 +8,7 @@ import type { SeedMediaAsset } from '@/seed/media'
 import { generatedGameDataMedia } from './gameDataMedia.generated'
 
 export const GAME_DATA_FIXTURE_NAMESPACE = 'arkham-horror-2e'
-export const GAME_DATA_FIXTURE_VERSION = 1
+export const GAME_DATA_FIXTURE_VERSION = 2
 
 export const gameDataFixtureMedia: SeedMediaAsset[] = generatedGameDataMedia.assets.map(
   (asset) => ({ ...asset }),

@@ -246,6 +246,7 @@ export async function migrateBoxedSetRelationships(payload: Payload, apply: bool
           key: customKey(customName),
           category: 'custom',
           abbreviation: abbreviation(customName),
+          addsExpansionBoard: false,
           sortOrder: 1000,
           aliases: [],
           _status: 'published',

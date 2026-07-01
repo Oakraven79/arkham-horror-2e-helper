@@ -2,10 +2,7 @@ import type { Payload } from 'payload'
 
 import { officialBoxedSets } from '@/content/boxedSets'
 import type { BoxedSetFixture } from '@/content/boxedSetTypes'
-import {
-  GAME_DATA_FIXTURE_NAMESPACE,
-  GAME_DATA_FIXTURE_VERSION,
-} from '@/fixtures/gameData'
+import { GAME_DATA_FIXTURE_NAMESPACE, GAME_DATA_FIXTURE_VERSION } from '@/fixtures/gameData'
 import type { BoxedSet } from '@/payload-types'
 
 export interface SeedBoxedSetsOptions {
@@ -18,6 +15,7 @@ function comparableDocument(boxedSet: BoxedSet) {
     key: boxedSet.key,
     category: boxedSet.category,
     abbreviation: boxedSet.abbreviation,
+    addsExpansionBoard: boxedSet.addsExpansionBoard,
     sortOrder: boxedSet.sortOrder,
     aliases: (boxedSet.aliases ?? []).map((alias) => alias.name),
     fixtureNamespace: boxedSet.fixtureNamespace ?? undefined,
@@ -31,6 +29,7 @@ function fixtureMetadata(boxedSet: BoxedSetFixture) {
     key: boxedSet.key,
     category: boxedSet.category,
     abbreviation: boxedSet.abbreviation,
+    addsExpansionBoard: boxedSet.addsExpansionBoard,
     sortOrder: boxedSet.sortOrder,
     aliases: boxedSet.aliases.map((name) => ({ name })),
     fixtureNamespace: GAME_DATA_FIXTURE_NAMESPACE,

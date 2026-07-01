@@ -135,6 +135,16 @@ export function activateCurrentRumor(state: MythosDeckState): MythosDeckState {
   }
 }
 
+export function clearActiveEnvironment(state: MythosDeckState): MythosDeckState {
+  if (!state.activeEnvironment) return state
+
+  return {
+    ...state,
+    discardPile: [...(state.discardPile ?? []), state.activeEnvironment],
+    activeEnvironment: null,
+  }
+}
+
 export function clearActiveRumor(state: MythosDeckState): MythosDeckState {
   if (!state.activeRumor) return state
 

@@ -65,6 +65,17 @@ export const BoxedSets: CollectionConfig = {
       },
     },
     {
+      name: 'addsExpansionBoard',
+      label: 'Adds an Expansion City Board',
+      type: 'checkbox',
+      required: true,
+      defaultValue: false,
+      admin: {
+        description:
+          'Counts toward the multiple-board investigator adjustment. Use for city boards such as Dunwich, Kingsport, and Innsmouth.',
+      },
+    },
+    {
       name: 'icon',
       type: 'upload',
       relationTo: 'media',

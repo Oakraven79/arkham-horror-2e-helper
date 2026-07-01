@@ -50,6 +50,7 @@ export const GameSessions: CollectionConfig = {
     },
     {
       name: 'playerCount',
+      label: 'Investigator Count',
       type: 'number',
       required: true,
       defaultValue: 4,
@@ -376,6 +377,7 @@ export const GameSessions: CollectionConfig = {
             { label: 'Reveal Card', value: 'reveal-card' },
             { label: 'Resolve Card', value: 'resolve-card' },
             { label: 'Activate Environment', value: 'activate-environment' },
+            { label: 'Clear Environment', value: 'clear-environment' },
             { label: 'Activate Rumor', value: 'activate-rumor' },
             { label: 'Pass Rumor', value: 'pass-rumor' },
             { label: 'Fail Rumor', value: 'fail-rumor' },

@@ -12,6 +12,7 @@ export const gamePhaseGuides: Record<GamePhase, GamePhaseGuide> = {
     summary: 'Choose the Ancient One and prepare the decks before the first turn.',
     steps: [
       'Choose the Ancient One and playable sheet.',
+      'Set the number of investigators and review the resulting table limits.',
       'Prepare investigators, decks, clues, monsters, and gates.',
       'Draw and resolve the initial non-Rumor Mythos card.',
     ],

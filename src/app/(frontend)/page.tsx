@@ -4,15 +4,19 @@ import { getPayload } from 'payload'
 import { MythosCardFront, type MythosCardFrontProps } from '@/components/mythosCardFront'
 import { gamePhaseGuides } from '@/content/gamePhaseGuides'
 import { turnPhases, type GamePhase } from '@/lib/gamePhaseState'
-import { createMythosDeckInstances } from '@/lib/mythosDeckState'
-import { mythosCardFrontProps } from '@/lib/mythosCardPresentation'
 import {
-  mythosDeckStateForPayload,
-  mythosDeckStateFromSession,
-} from '@/lib/mythosSessionState'
+  calculateInvestigatorRules,
+  calculateMonsterSurgeCount,
+  gameLimitWarnings,
+  type InvestigatorRules,
+} from '@/lib/investigatorRules'
+import { createGameSession } from '@/lib/gameSessions'
+import { mythosCardFrontProps } from '@/lib/mythosCardPresentation'
+import { mythosDeckStateFromSession } from '@/lib/mythosSessionState'
 import config from '@/payload.config'
 import type {
   AncientOne,
+  BoxedSet,
   GameSession,
   Location,
   MythosCard,
@@ -23,13 +27,18 @@ import {
   activateCurrentEnvironmentAction,
   activateCurrentRumorAction,
   advancePhaseAction,
+  clearActiveEnvironmentAction,
   clearActiveRumorAction,
   discardCurrentDrawAction,
   previousPhaseAction,
+  renameSessionAction,
   resetMythosDeckAction,
+  resumeSessionAction,
   selectAncientOneAction,
   shuffleDiscardIntoDeckAction,
+  startNewSessionAction,
 } from './actions'
+import { InvestigatorCountInput } from './InvestigatorCountInput'
 import { MythosDeckSlot } from './MythosDeckSlot'
 import './styles.css'
 
@@ -38,8 +47,8 @@ export const dynamic = 'force-dynamic'
 type RelationshipValue = string | MythosCard | null | undefined
 type AncientOneSheet = AncientOne['sheets'][number]
 
-const GAME_SESSIONS = 'game-sessions' as const
 const MYTHOS_CARDS = 'mythos-cards' as const
+const EXPANSION_CITY_KEYS = new Set(['dunwich-horror', 'kingsport-horror', 'innsmouth-horror'])
 
 function relationshipID(value: string | { id?: string | number } | null | undefined) {
   if (!value) return null
@@ -48,15 +57,12 @@ function relationshipID(value: string | { id?: string | number } | null | undefi
   return String(value.id)
 }
 
-function shuffle<T>(items: T[]): T[] {
-  const shuffled = [...items]
-
-  for (let i = shuffled.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
-  }
-
-  return shuffled
+function formatSessionTimestamp(value: string) {
+  return new Intl.DateTimeFormat('en-AU', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+    timeZone: 'Australia/Melbourne',
+  }).format(new Date(value))
 }
 
 function isCardDocument(value: RelationshipValue): value is MythosCard {
@@ -113,10 +119,23 @@ async function getReferenceData(payload: Awaited<ReturnType<typeof getPayload>>)
 
 async function getOrCreateSession(
   payload: Awaited<ReturnType<typeof getPayload>>,
-  mythosCards: MythosCard[],
+  requestedSessionID?: string,
 ): Promise<GameSession> {
+  if (requestedSessionID) {
+    try {
+      return await payload.findByID({
+        collection: 'game-sessions',
+        id: requestedSessionID,
+        depth: 2,
+        overrideAccess: true,
+      })
+    } catch {
+      // Fall back to the current active session when a saved URL is stale.
+    }
+  }
+
   const existing = await payload.find({
-    collection: GAME_SESSIONS,
+    collection: 'game-sessions',
     where: {
       status: {
         equals: 'active',
@@ -130,78 +149,7 @@ async function getOrCreateSession(
 
   if (existing.docs[0]) return existing.docs[0]
 
-  const baseSet = await payload.find({
-    collection: 'boxed-sets',
-    where: {
-      key: {
-        equals: 'base-game',
-      },
-    },
-    limit: 1,
-    depth: 0,
-    overrideAccess: true,
-  })
-  const baseSetID = baseSet.docs[0]?.id
-
-  if (!baseSetID) {
-    throw new Error('The Base Game boxed set must be seeded before creating a session.')
-  }
-
-  const created = await payload.create({
-    collection: GAME_SESSIONS,
-    overrideAccess: true,
-    data: {
-      name: 'Arkham Horror Session',
-      status: 'active',
-      playerCount: 4,
-      activeExpansions: ['Base Game'],
-      enabledSets: [baseSetID],
-      turnNumber: 1,
-      currentPhase: 'Setup',
-      tracks: {
-        doomCurrent: 0,
-        doomMax: 10,
-        terror: 0,
-        gatesOpen: 0,
-        elderSigns: 0,
-        monstersInArkham: 0,
-        monstersInOutskirts: 0,
-      },
-      mythos: mythosDeckStateForPayload({
-        drawPile: shuffle(createMythosDeckInstances(mythosCards)),
-        discardPile: [],
-        drawHistory: [],
-        currentDraw: null,
-        currentDrawRevealed: false,
-        activeEnvironment: null,
-        activeRumor: null,
-        shuffleCount: 0,
-      }),
-      sessionLog: [
-        {
-          turnNumber: 1,
-          phase: 'Setup',
-          action: 'shuffle-deck',
-          note: 'Session created with a shuffled Mythos draw pile.',
-        },
-      ],
-      shuffleEvents: [
-        {
-          turnNumber: 1,
-          phase: 'Setup',
-          reason: 'setup',
-          note: 'Initial Mythos deck shuffle.',
-        },
-      ],
-    },
-  })
-
-  return payload.findByID({
-    collection: GAME_SESSIONS,
-    id: created.id,
-    depth: 2,
-    overrideAccess: true,
-  })
+  return createGameSession(payload)
 }
 
 function resolveCard(value: RelationshipValue, cardsByID: Map<string, MythosCard>) {
@@ -222,7 +170,7 @@ function selectedAncientOne(
   }
 
   const id = relationshipID(session.activeAncientOne)
-  return id ? ancientOnesByID.get(id) ?? null : null
+  return id ? (ancientOnesByID.get(id) ?? null) : null
 }
 
 function selectedAncientOneSheet(
@@ -237,6 +185,14 @@ function selectedAncientOneSheet(
     ancientOne.sheets[0] ??
     null
   )
+}
+
+function isBoxedSetDocument(value: BoxedSet | string): value is BoxedSet {
+  return typeof value === 'object' && value !== null && 'key' in value
+}
+
+function addsExpansionBoard(boxedSet: BoxedSet) {
+  return Boolean(boxedSet.addsExpansionBoard || EXPANSION_CITY_KEYS.has(boxedSet.key))
 }
 
 function CardSlot({
@@ -310,11 +266,23 @@ function AncientOneSetup({
   ancientOnes,
   activeAncientOne,
   activeSheet,
+  activeBoardNames,
+  hasRelationships,
+  investigatorCount,
+  investigatorRules,
+  currentSession,
+  savedSessions,
   sessionID,
 }: {
   ancientOnes: AncientOne[]
   activeAncientOne: AncientOne | null
   activeSheet: AncientOneSheet | null
+  activeBoardNames: string[]
+  hasRelationships: boolean
+  investigatorCount: number
+  investigatorRules: InvestigatorRules
+  currentSession: GameSession
+  savedSessions: GameSession[]
   sessionID: string
 }) {
   const currentSelection =
@@ -324,42 +292,92 @@ function AncientOneSetup({
     <section className="setup-workspace">
       <div className="setup-copy">
         <p className="eyebrow">Game Setup</p>
-        <h2>Choose the Ancient One</h2>
-        <p>
-          The selected playable sheet sets the doom-track length for this saved game.
-        </p>
+        <h2>Prepare the game</h2>
+        <p>Choose the Ancient One sheet and number of investigators before the first turn.</p>
       </div>
+
+      <section className="session-setup">
+        <div className="current-session-details">
+          <p className="eyebrow">Saved Games</p>
+          <h3>{currentSession.name}</h3>
+          <time dateTime={currentSession.createdAt}>
+            Started {formatSessionTimestamp(currentSession.createdAt)}
+          </time>
+          <form action={renameSessionAction.bind(null, sessionID)} className="session-name-form">
+            <label htmlFor="current-session-name">Session name</label>
+            <input
+              defaultValue={currentSession.name}
+              id="current-session-name"
+              maxLength={80}
+              name="sessionName"
+              required
+              type="text"
+            />
+            <button type="submit">Save</button>
+          </form>
+        </div>
+        <form action={resumeSessionAction} className="resume-session-form">
+          <label htmlFor="saved-session">Resume session</label>
+          <select defaultValue={sessionID} id="saved-session" name="sessionID">
+            {savedSessions.map((savedSession) => (
+              <option key={savedSession.id} value={savedSession.id}>
+                {savedSession.name} - {formatSessionTimestamp(savedSession.createdAt)} - Turn{' '}
+                {savedSession.turnNumber}, {savedSession.currentPhase} ({savedSession.status})
+              </option>
+            ))}
+          </select>
+          <button type="submit">Resume</button>
+        </form>
+        <form action={startNewSessionAction} className="new-session-form">
+          <label htmlFor="new-session-name">New session name</label>
+          <input
+            id="new-session-name"
+            maxLength={80}
+            name="sessionName"
+            placeholder="Friday night in Arkham"
+            required
+            type="text"
+          />
+          <button className="new-session-button" type="submit">
+            Start session
+          </button>
+        </form>
+      </section>
 
       {ancientOnes.length > 0 ? (
         <form
           action={selectAncientOneAction.bind(null, sessionID)}
           className="ancient-one-selector"
         >
-          <label htmlFor="ancient-one-selection">Ancient One and sheet</label>
-          <div>
-            <select
-              defaultValue={currentSelection}
-              id="ancient-one-selection"
-              name="ancientOneSelection"
-              required
-            >
-              <option disabled value="">
-                Select an Ancient One
-              </option>
-              {ancientOnes.flatMap((ancientOne) =>
-                ancientOne.sheets.map((sheet) => (
-                  <option
-                    key={`${ancientOne.id}-${sheet.key}`}
-                    value={`${ancientOne.id}::${sheet.key}`}
-                  >
-                    {ancientOne.name} - {sheet.label} ({sheet.doomTrack} doom)
-                  </option>
-                )),
-              )}
-            </select>
-            <button type="submit">
-              {activeAncientOne ? 'Update selection' : 'Set Ancient One'}
-            </button>
+          <div className="setup-form-fields">
+            <div className="setup-form-field ancient-one-field">
+              <label htmlFor="ancient-one-selection">Ancient One and sheet</label>
+              <select
+                defaultValue={currentSelection}
+                id="ancient-one-selection"
+                name="ancientOneSelection"
+                required
+              >
+                <option disabled value="">
+                  Select an Ancient One
+                </option>
+                {ancientOnes.flatMap((ancientOne) =>
+                  ancientOne.sheets.map((sheet) => (
+                    <option
+                      key={`${ancientOne.id}-${sheet.key}`}
+                      value={`${ancientOne.id}::${sheet.key}`}
+                    >
+                      {ancientOne.name} - {sheet.label} ({sheet.doomTrack} doom)
+                    </option>
+                  )),
+                )}
+              </select>
+            </div>
+            <div className="setup-form-field investigator-count-field">
+              <label>Investigators</label>
+              <InvestigatorCountInput initialValue={investigatorCount} />
+            </div>
+            <button type="submit">Save setup</button>
           </div>
         </form>
       ) : (
@@ -368,6 +386,68 @@ function AncientOneSetup({
           <Link href="/admin/collections/ancient-ones">Open Ancient Ones</Link>
         </div>
       )}
+
+      <section className="setup-rules">
+        <div className="setup-rules-heading">
+          <div>
+            <p className="eyebrow">Investigator Rules</p>
+            <h3>Table limits</h3>
+          </div>
+          {activeBoardNames.length > 0 && <p>Expansion boards: {activeBoardNames.join(', ')}</p>}
+        </div>
+        {investigatorRules.expansionBoardAdjustment > 0 && (
+          <div className="setup-adjustment-note">
+            {investigatorRules.actualInvestigatorCount} investigators count as{' '}
+            {investigatorRules.effectiveInvestigatorCount} for board-pressure limits.
+          </div>
+        )}
+        <div className="setup-rule-values">
+          <div>
+            <span>Investigators</span>
+            <strong>{investigatorRules.actualInvestigatorCount}</strong>
+          </div>
+          {investigatorRules.expansionBoardAdjustment > 0 && (
+            <div>
+              <span>Effective count</span>
+              <strong>{investigatorRules.effectiveInvestigatorCount}</strong>
+            </div>
+          )}
+          <div>
+            <span>Monster limit</span>
+            <strong>{investigatorRules.monsterLimit}</strong>
+          </div>
+          <div>
+            <span>Outskirts</span>
+            <strong>{investigatorRules.outskirtsCapacity}</strong>
+          </div>
+          <div>
+            <span>Gate awakening</span>
+            <strong>{investigatorRules.gateAwakeningThreshold}</strong>
+          </div>
+          <div>
+            <span>New gate monsters</span>
+            <strong>{investigatorRules.newGateMonsterCount}</strong>
+          </div>
+          <div>
+            <span>Surge minimum</span>
+            <strong>{investigatorRules.monsterSurgeMinimum}</strong>
+          </div>
+          <div>
+            <span>Successes per doom</span>
+            <strong>{investigatorRules.finalBattleSuccessesPerDoom}</strong>
+          </div>
+          <div>
+            <span>Gate trophies</span>
+            <strong>{investigatorRules.closeGateTrophiesRequired}</strong>
+          </div>
+          {hasRelationships && (
+            <div>
+              <span>Relationship cards</span>
+              <strong>{investigatorRules.relationshipCardCount}</strong>
+            </div>
+          )}
+        </div>
+      </section>
 
       {activeAncientOne && activeSheet && (
         <section className="ancient-one-sheet-summary">
@@ -421,9 +501,7 @@ function EncounterDeckPlaceholder({
       </select>
       <button
         aria-label={
-          isArkham
-            ? 'Arkham encounter deck placeholder'
-            : 'Other World encounter deck placeholder'
+          isArkham ? 'Arkham encounter deck placeholder' : 'Other World encounter deck placeholder'
         }
         className={`encounter-deck-placeholder ${kind}`}
         disabled
@@ -563,37 +641,65 @@ function PhaseNavigation({
   )
 }
 
-export default async function HomePage() {
+interface HomePageProps {
+  searchParams: Promise<{
+    session?: string | string[]
+  }>
+}
+
+export default async function HomePage({ searchParams }: HomePageProps) {
+  const requestedSearchParams = await searchParams
+  const requestedSessionID = Array.isArray(requestedSearchParams.session)
+    ? requestedSearchParams.session[0]
+    : requestedSearchParams.session
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
   const [mythosCards, referenceData] = await Promise.all([
     getAllMythosCards(payload),
     getReferenceData(payload),
   ])
-  const session = await getOrCreateSession(payload, mythosCards)
+  const session = await getOrCreateSession(payload, requestedSessionID)
+  const savedSessionResult = await payload.find({
+    collection: 'game-sessions',
+    sort: '-updatedAt',
+    limit: 50,
+    depth: 0,
+    overrideAccess: true,
+  })
+  const savedSessions = savedSessionResult.docs.filter(
+    (savedSession) => savedSession.status === 'active' || savedSession.status === 'paused',
+  )
   const cardsByID = new Map(mythosCards.map((card) => [String(card.id), card]))
   const ancientOnesByID = new Map(
     referenceData.ancientOnes.map((ancientOne) => [String(ancientOne.id), ancientOne]),
   )
   const mythos = mythosDeckStateFromSession(session)
   const tracks = session.tracks ?? {}
+  const enabledSets = session.enabledSets.filter(isBoxedSetDocument)
+  const enabledSetKeys = new Set(enabledSets.map((boxedSet) => boxedSet.key))
+  const expansionBoards = enabledSets.filter(addsExpansionBoard)
+  const investigatorRules = calculateInvestigatorRules({
+    investigatorCount: session.playerCount,
+    expansionBoardCount: expansionBoards.length,
+    hasDunwich: enabledSetKeys.has('dunwich-horror'),
+    hasInnsmouth: enabledSetKeys.has('innsmouth-horror'),
+  })
+  const limitWarnings = gameLimitWarnings(investigatorRules, {
+    gatesOpen: tracks.gatesOpen ?? 0,
+    monstersInArkham: tracks.monstersInArkham ?? 0,
+    monstersInOutskirts: tracks.monstersInOutskirts ?? 0,
+    terror: tracks.terror ?? 0,
+  })
+  const monsterSurgeCount = calculateMonsterSurgeCount(tracks.gatesOpen ?? 0, session.playerCount)
   const activeAncientOne = selectedAncientOne(session, ancientOnesByID)
-  const activeSheet = selectedAncientOneSheet(
-    activeAncientOne,
-    session.ancientOneSheetKey,
-  )
-  const currentPhase: GamePhase = activeAncientOne
-    ? (session.currentPhase as GamePhase)
-    : 'Setup'
+  const activeSheet = selectedAncientOneSheet(activeAncientOne, session.ancientOneSheetKey)
+  const currentPhase: GamePhase = activeAncientOne ? (session.currentPhase as GamePhase) : 'Setup'
 
   const drawPile = mythos.drawPile ?? []
   const discardPile = mythos.discardPile ?? []
   const drawHistory = mythos.drawHistory ?? []
   const currentCardDocument = resolveCard(mythos.currentDraw?.cardID, cardsByID)
-  const activeEnvironmentDocument = resolveCard(
-    mythos.activeEnvironment?.cardID,
-    cardsByID,
-  )
+  const activeEnvironmentDocument = resolveCard(mythos.activeEnvironment?.cardID, cardsByID)
   const activeRumorDocument = resolveCard(mythos.activeRumor?.cardID, cardsByID)
   const currentCard = cardProps(currentCardDocument)
   const activeEnvironment = cardProps(activeEnvironmentDocument)
@@ -619,24 +725,37 @@ export default async function HomePage() {
         </section>
         <div className="table-counters" aria-label="Session counters">
           <div>
+            <span>Investigators</span>
+            <strong>{session.playerCount}</strong>
+          </div>
+          <div>
             <span>Terror</span>
             <strong>{tracks.terror ?? 0}/10</strong>
           </div>
           <div>
             <span>Gates</span>
-            <strong>{tracks.gatesOpen ?? 0}</strong>
+            <strong>
+              {tracks.gatesOpen ?? 0}/{investigatorRules.gateAwakeningThreshold}
+            </strong>
           </div>
           <div>
             <span>Elder Signs</span>
             <strong>{tracks.elderSigns ?? 0}</strong>
           </div>
           <div>
-            <span>Monsters</span>
-            <strong>{tracks.monstersInArkham ?? 0}</strong>
+            <span>{(tracks.terror ?? 0) >= 10 ? 'Monsters to Wake' : 'Monsters'}</span>
+            <strong>
+              {tracks.monstersInArkham ?? 0}/
+              {(tracks.terror ?? 0) >= 10
+                ? investigatorRules.terrorTenAwakeningMonsterCount
+                : investigatorRules.monsterLimit}
+            </strong>
           </div>
           <div>
             <span>Outskirts</span>
-            <strong>{tracks.monstersInOutskirts ?? 0}</strong>
+            <strong>
+              {tracks.monstersInOutskirts ?? 0}/{investigatorRules.outskirtsCapacity}
+            </strong>
           </div>
           <div>
             <span>Draw Pile</span>
@@ -653,11 +772,27 @@ export default async function HomePage() {
           turnNumber={session.turnNumber}
         />
 
+        {currentPhase !== 'Setup' && limitWarnings.length > 0 && (
+          <section className="limit-warnings" aria-label="Game limit warnings">
+            {limitWarnings.map((warning) => (
+              <div className={warning.level} key={warning.text}>
+                {warning.text}
+              </div>
+            ))}
+          </section>
+        )}
+
         {currentPhase === 'Setup' ? (
           <AncientOneSetup
             ancientOnes={referenceData.ancientOnes}
             activeAncientOne={activeAncientOne}
             activeSheet={activeSheet}
+            activeBoardNames={expansionBoards.map((boxedSet) => boxedSet.name)}
+            hasRelationships={enabledSetKeys.has('lurker-at-the-threshold')}
+            investigatorCount={session.playerCount}
+            investigatorRules={investigatorRules}
+            currentSession={session}
+            savedSessions={savedSessions}
             sessionID={sessionID}
           />
         ) : currentPhase === 'Mythos' ? (
@@ -683,6 +818,12 @@ export default async function HomePage() {
                 card={activeEnvironment}
                 emptyText="No Environment is active."
                 effectCard={activeEnvironmentDocument}
+                action={
+                  activeEnvironmentDocument
+                    ? clearActiveEnvironmentAction.bind(null, sessionID)
+                    : undefined
+                }
+                actionLabel="Clear"
               />
               <CardSlot
                 title="Active Rumor"
@@ -690,9 +831,7 @@ export default async function HomePage() {
                 emptyText="No Rumor is active."
                 effectCard={activeRumorDocument}
                 action={
-                  activeRumorDocument
-                    ? clearActiveRumorAction.bind(null, sessionID)
-                    : undefined
+                  activeRumorDocument ? clearActiveRumorAction.bind(null, sessionID) : undefined
                 }
                 actionLabel="Clear"
               />
@@ -711,6 +850,27 @@ export default async function HomePage() {
                       ? 'Draw the next Mythos card.'
                       : 'No Mythos cards are available.'}
                 </p>
+                <div className="mythos-count-rules">
+                  <div>
+                    <span>New gate</span>
+                    <strong>{investigatorRules.newGateMonsterCount} monsters</strong>
+                  </div>
+                  <div>
+                    <span>Surge now</span>
+                    <strong>{monsterSurgeCount} monsters</strong>
+                  </div>
+                  <div>
+                    <span>Monster room</span>
+                    <strong>
+                      {(tracks.terror ?? 0) >= 10
+                        ? 'No limit'
+                        : Math.max(
+                            0,
+                            investigatorRules.monsterLimit - (tracks.monstersInArkham ?? 0),
+                          )}
+                    </strong>
+                  </div>
+                </div>
               </section>
 
               <section className="resolver-actions">
@@ -783,6 +943,12 @@ export default async function HomePage() {
                 card={activeEnvironment}
                 emptyText="No Environment is active."
                 effectCard={activeEnvironmentDocument}
+                action={
+                  activeEnvironmentDocument
+                    ? clearActiveEnvironmentAction.bind(null, sessionID)
+                    : undefined
+                }
+                actionLabel="Clear"
               />
               <CardSlot
                 title="Active Rumor"
@@ -790,9 +956,7 @@ export default async function HomePage() {
                 emptyText="No Rumor is active."
                 effectCard={activeRumorDocument}
                 action={
-                  activeRumorDocument
-                    ? clearActiveRumorAction.bind(null, sessionID)
-                    : undefined
+                  activeRumorDocument ? clearActiveRumorAction.bind(null, sessionID) : undefined
                 }
                 actionLabel="Clear"
               />

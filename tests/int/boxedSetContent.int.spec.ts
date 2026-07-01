@@ -34,4 +34,12 @@ describe('Boxed Set starter content', () => {
       category: 'promotional',
     })
   })
+
+  it('marks only expansion sets that add a city board', () => {
+    expect(
+      officialBoxedSets
+        .filter((boxedSet) => boxedSet.addsExpansionBoard)
+        .map((boxedSet) => boxedSet.key),
+    ).toEqual(['dunwich-horror', 'kingsport-horror', 'innsmouth-horror'])
+  })
 })

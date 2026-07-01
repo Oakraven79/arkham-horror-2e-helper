@@ -1,11 +1,13 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 
 import {
   activateCurrentEnvironment,
   activateCurrentRumor,
+  clearActiveEnvironment,
   clearActiveRumor,
   discardCurrentMythosCard,
   drawMythosCard,
@@ -13,10 +15,7 @@ import {
   revealCurrentMythosCard,
   type MythosDeckState,
 } from '@/lib/mythosDeckState'
-import {
-  mythosDeckStateForPayload,
-  mythosDeckStateFromSession,
-} from '@/lib/mythosSessionState'
+import { mythosDeckStateForPayload, mythosDeckStateFromSession } from '@/lib/mythosSessionState'
 import {
   nextGamePhase,
   previousGamePhase,
@@ -24,6 +23,7 @@ import {
   type GamePhase,
   type GamePhasePointer,
 } from '@/lib/gamePhaseState'
+import { createGameSession, pauseActiveGameSessions } from '@/lib/gameSessions'
 import config from '@/payload.config'
 import type { AncientOne, GameSession } from '@/payload-types'
 
@@ -77,6 +77,79 @@ async function getPayloadClient() {
   return getPayload({ config: payloadConfig })
 }
 
+function sessionNameFrom(formData: FormData) {
+  const value = formData.get('sessionName')
+
+  if (typeof value !== 'string' || !value.trim()) {
+    throw new Error('Enter a name for the session.')
+  }
+
+  const name = value.trim()
+
+  if (name.length > 80) {
+    throw new Error('Session names must be 80 characters or fewer.')
+  }
+
+  return name
+}
+
+export async function startNewSessionAction(formData: FormData) {
+  const payload = await getPayloadClient()
+  const sessionName = sessionNameFrom(formData)
+  await pauseActiveGameSessions(payload)
+
+  const session = await createGameSession(payload, sessionName)
+
+  redirect(`/?session=${session.id}`)
+}
+
+export async function renameSessionAction(sessionID: string, formData: FormData) {
+  const payload = await getPayloadClient()
+
+  await payload.update({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    data: {
+      name: sessionNameFrom(formData),
+    },
+    overrideAccess: true,
+  })
+
+  revalidatePath('/')
+}
+
+export async function resumeSessionAction(formData: FormData) {
+  const sessionID = formData.get('sessionID')
+
+  if (typeof sessionID !== 'string' || !sessionID) {
+    throw new Error('Select a saved session to resume.')
+  }
+
+  const payload = await getPayloadClient()
+  const session = await payload.findByID({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  if (session.status === 'complete' || session.status === 'abandoned') {
+    throw new Error('Only active or paused sessions can be resumed.')
+  }
+
+  await pauseActiveGameSessions(payload, sessionID)
+  await payload.update({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    data: {
+      status: 'active',
+    },
+    overrideAccess: true,
+  })
+
+  redirect(`/?session=${sessionID}`)
+}
+
 function phasePointer(session: GameSession): GamePhasePointer {
   return {
     currentPhase: session.currentPhase as GamePhase,
@@ -91,9 +164,16 @@ function relationshipID(value: AncientOne | string | null | undefined) {
 
 export async function selectAncientOneAction(sessionID: string, formData: FormData) {
   const selection = formData.get('ancientOneSelection')
+  const investigatorCountValue = formData.get('investigatorCount')
 
   if (typeof selection !== 'string') {
     throw new Error('Select an Ancient One before beginning the game.')
+  }
+
+  const investigatorCount = Number(investigatorCountValue)
+
+  if (!Number.isInteger(investigatorCount) || investigatorCount < 1 || investigatorCount > 8) {
+    throw new Error('Investigator count must be between 1 and 8.')
   }
 
   const [ancientOneID, sheetKey] = selection.split('::')
@@ -135,6 +215,7 @@ export async function selectAncientOneAction(sessionID: string, formData: FormDa
       activeAncientOne: ancientOne.id,
       ancientOneSheetKey: sheet.key,
       currentPhase: 'Setup',
+      playerCount: investigatorCount,
       tracks: {
         ...session.tracks,
         doomCurrent: 0,
@@ -146,7 +227,7 @@ export async function selectAncientOneAction(sessionID: string, formData: FormDa
           { ...session, currentPhase: 'Setup' },
           'select-ancient-one',
           null,
-          `${ancientOne.name} - ${sheet.label} selected with a ${sheet.doomTrack}-space doom track.`,
+          `${ancientOne.name} - ${sheet.label} selected with ${investigatorCount} investigators and a ${sheet.doomTrack}-space doom track.`,
         ),
       ],
     },
@@ -326,12 +407,7 @@ export async function revealCurrentDrawAction(sessionID: string) {
   })
   const state = revealCurrentMythosCard(mythosDeckStateFromSession(session))
 
-  await updateSessionMythos(
-    sessionID,
-    state,
-    'reveal-card',
-    state.currentDraw?.cardID,
-  )
+  await updateSessionMythos(sessionID, state, 'reveal-card', state.currentDraw?.cardID)
 }
 
 export async function discardCurrentDrawAction(sessionID: string) {
@@ -360,6 +436,21 @@ export async function activateCurrentEnvironmentAction(sessionID: string) {
   const state = activateCurrentEnvironment(mythosDeckStateFromSession(session))
 
   await updateSessionMythos(sessionID, state, 'activate-environment', currentDraw)
+}
+
+export async function clearActiveEnvironmentAction(sessionID: string) {
+  const payload = await getPayloadClient()
+  const session = await payload.findByID({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
+  const sessionState = mythosDeckStateFromSession(session)
+  const activeEnvironment = sessionState.activeEnvironment?.cardID
+  const state = clearActiveEnvironment(sessionState)
+
+  await updateSessionMythos(sessionID, state, 'clear-environment', activeEnvironment)
 }
 
 export async function activateCurrentRumorAction(sessionID: string) {
@@ -425,7 +516,11 @@ export async function shuffleDiscardIntoDeckAction(sessionID: string) {
     {
       shuffleEvents: [
         ...(session.shuffleEvents ?? []),
-        shuffleEvent(session, 'manual', 'Discard pile manually shuffled into the Mythos draw pile.'),
+        shuffleEvent(
+          session,
+          'manual',
+          'Discard pile manually shuffled into the Mythos draw pile.',
+        ),
       ],
     },
   )

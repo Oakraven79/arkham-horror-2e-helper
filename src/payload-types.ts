@@ -192,6 +192,10 @@ export interface BoxedSet {
    */
   abbreviation: string;
   /**
+   * Counts toward the multiple-board investigator adjustment. Use for city boards such as Dunwich, Kingsport, and Innsmouth.
+   */
+  addsExpansionBoard: boolean;
+  /**
    * Transparent PNG, WebP, or SVG mark used to identify this set on cards.
    */
   icon?: (string | null) | Media;
@@ -710,6 +714,7 @@ export interface GameSession {
           | 'reveal-card'
           | 'resolve-card'
           | 'activate-environment'
+          | 'clear-environment'
           | 'activate-rumor'
           | 'pass-rumor'
           | 'fail-rumor'
@@ -892,6 +897,7 @@ export interface BoxedSetsSelect<T extends boolean = true> {
   key?: T;
   category?: T;
   abbreviation?: T;
+  addsExpansionBoard?: T;
   icon?: T;
   sortOrder?: T;
   aliases?:
