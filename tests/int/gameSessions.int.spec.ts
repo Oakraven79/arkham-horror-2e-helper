@@ -1,7 +1,13 @@
 import type { Payload } from 'payload'
 import { describe, expect, it } from 'vitest'
 
-import { exitGameSession, pauseActiveGameSessions, resumeGameSession } from '@/lib/gameSessions'
+import {
+  deleteGameSession,
+  exitGameSession,
+  pauseActiveGameSessions,
+  repairLegacyOpeningHeadline,
+  resumeGameSession,
+} from '@/lib/gameSessions'
 import type { GameSession } from '@/payload-types'
 
 function savedSession(overrides: Partial<GameSession> = {}) {
@@ -15,6 +21,7 @@ function savedSession(overrides: Partial<GameSession> = {}) {
     activeAncientOne: 'ancient-one',
     ancientOneSheetKey: 'standard',
     currentPhase: 'Mythos',
+    openingHeadlineResolved: false,
     tracks: {
       doomCurrent: 4,
       doomMax: 11,
@@ -45,8 +52,13 @@ function savedSession(overrides: Partial<GameSession> = {}) {
 }
 
 function payloadDouble(session: GameSession, activeSessions: GameSession[] = []) {
+  const deletions: Array<Record<string, unknown>> = []
   const updates: Array<Record<string, unknown>> = []
   const payload = {
+    delete: async (args: Record<string, unknown>) => {
+      deletions.push(args)
+      return session
+    },
     findByID: async () => session,
     find: async () => ({ docs: activeSessions }),
     update: async (args: Record<string, unknown>) => {
@@ -58,7 +70,7 @@ function payloadDouble(session: GameSession, activeSessions: GameSession[] = [])
     },
   } as unknown as Payload
 
-  return { payload, updates }
+  return { deletions, payload, updates }
 }
 
 describe('game session lifecycle', () => {
@@ -129,5 +141,46 @@ describe('game session lifecycle', () => {
         status: 'paused',
       },
     })
+  })
+
+  it('deletes only the selected session', async () => {
+    const session = savedSession()
+    const { deletions, payload } = payloadDouble(session)
+
+    await deleteGameSession(payload, session.id)
+
+    expect(deletions).toEqual([
+      {
+        collection: 'game-sessions',
+        id: 'session-one',
+        overrideAccess: true,
+      },
+    ])
+  })
+
+  it('marks legacy games beyond setup as having completed the opening Headline', async () => {
+    const session = savedSession()
+    const { payload, updates } = payloadDouble(session)
+
+    const repaired = await repairLegacyOpeningHeadline(payload, session)
+
+    expect(repaired.openingHeadlineResolved).toBe(true)
+    expect(updates).toHaveLength(1)
+    expect(updates[0]).toMatchObject({
+      id: 'session-one',
+      data: {
+        openingHeadlineResolved: true,
+      },
+    })
+  })
+
+  it('does not mark an unfinished Setup session as complete', async () => {
+    const session = savedSession({ currentPhase: 'Setup' })
+    const { payload, updates } = payloadDouble(session)
+
+    const repaired = await repairLegacyOpeningHeadline(payload, session)
+
+    expect(repaired.openingHeadlineResolved).toBe(false)
+    expect(updates).toHaveLength(0)
   })
 })

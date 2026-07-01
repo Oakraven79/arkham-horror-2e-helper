@@ -106,6 +106,14 @@ export async function exitGameSession(payload: Payload, sessionID: string) {
   })
 }
 
+export function deleteGameSession(payload: Payload, sessionID: string) {
+  return payload.delete({
+    collection: 'game-sessions',
+    id: sessionID,
+    overrideAccess: true,
+  })
+}
+
 export async function createGameSession(
   payload: Payload,
   name = 'Arkham Horror Session',
@@ -145,6 +153,7 @@ export async function createGameSession(
       enabledSets: [baseSetID],
       turnNumber: 1,
       currentPhase: 'Setup',
+      openingHeadlineResolved: false,
       tracks: {
         doomCurrent: 0,
         doomMax: 10,
@@ -269,4 +278,28 @@ export async function repairLegacySessionEnabledSets(payload: Payload, session: 
     depth: 2,
     overrideAccess: true,
   })
+}
+
+export async function repairLegacyOpeningHeadline(payload: Payload, session: GameSession) {
+  if (
+    session.openingHeadlineResolved ||
+    session.currentPhase === 'Setup' ||
+    session.currentPhase === 'Opening Mythos'
+  ) {
+    return session
+  }
+
+  await payload.update({
+    collection: 'game-sessions',
+    id: session.id,
+    data: {
+      openingHeadlineResolved: true,
+    },
+    overrideAccess: true,
+  })
+
+  return {
+    ...session,
+    openingHeadlineResolved: true,
+  }
 }

@@ -14,6 +14,8 @@ interface MythosDeckSlotProps {
   currentCardID?: string | null
   revealed: boolean
   cardsRemaining: number
+  drawDisabled?: boolean
+  drawLabel?: string
 }
 
 export function MythosDeckSlot({
@@ -22,6 +24,8 @@ export function MythosDeckSlot({
   currentCardID,
   revealed,
   cardsRemaining,
+  drawDisabled = false,
+  drawLabel = 'Draw Mythos',
 }: MythosDeckSlotProps) {
   const [isPending, startTransition] = useTransition()
   const [isRevealed, setIsRevealed] = useState(revealed)
@@ -34,7 +38,7 @@ export function MythosDeckSlot({
     return (
       <button
         className="mythos-table-deck-button"
-        disabled={isPending || cardsRemaining === 0}
+        disabled={isPending || drawDisabled || cardsRemaining === 0}
         type="button"
         onClick={() => startTransition(() => drawMythosAction(sessionID))}
       >
@@ -42,7 +46,7 @@ export function MythosDeckSlot({
           <MythosCardBack />
         </span>
         <span className="mythos-table-deck-label">
-          {cardsRemaining === 0 ? 'No Mythos cards in draw pile' : 'Draw Mythos'}
+          {cardsRemaining === 0 ? 'No Mythos cards in draw pile' : drawLabel}
         </span>
       </button>
     )
@@ -64,4 +68,3 @@ export function MythosDeckSlot({
     </div>
   )
 }
-

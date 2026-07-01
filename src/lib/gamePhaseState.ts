@@ -6,7 +6,9 @@ export const turnPhases = [
   'Mythos',
 ] as const
 
-export const gamePhases = ['Setup', ...turnPhases, 'Final Battle'] as const
+export const openingMythosPhase = 'Opening Mythos' as const
+
+export const gamePhases = ['Setup', openingMythosPhase, ...turnPhases, 'Final Battle'] as const
 
 export type GamePhase = (typeof gamePhases)[number]
 export type TurnPhase = (typeof turnPhases)[number]
@@ -25,6 +27,13 @@ export interface GamePhaseTransition {
 
 export function nextGamePhase(state: GamePhasePointer): GamePhasePointer {
   if (state.currentPhase === 'Setup') {
+    return {
+      currentPhase: openingMythosPhase,
+      turnNumber: Math.max(1, state.turnNumber),
+    }
+  }
+
+  if (state.currentPhase === openingMythosPhase) {
     return {
       currentPhase: 'Upkeep',
       turnNumber: Math.max(1, state.turnNumber),
@@ -55,6 +64,13 @@ export function previousGamePhase(state: GamePhasePointer): GamePhasePointer {
     return state
   }
 
+  if (state.currentPhase === openingMythosPhase) {
+    return {
+      currentPhase: 'Setup',
+      turnNumber: 1,
+    }
+  }
+
   if (state.currentPhase === 'Final Battle') {
     return {
       currentPhase: 'Mythos',
@@ -67,7 +83,7 @@ export function previousGamePhase(state: GamePhasePointer): GamePhasePointer {
   if (phaseIndex === 0) {
     if (state.turnNumber === 1) {
       return {
-        currentPhase: 'Setup',
+        currentPhase: openingMythosPhase,
         turnNumber: 1,
       }
     }

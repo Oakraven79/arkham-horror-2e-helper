@@ -17,6 +17,7 @@ import {
 import { mythosDeckStateForPayload, mythosDeckStateFromSession } from '@/lib/mythosSessionState'
 import {
   nextGamePhase,
+  openingMythosPhase,
   previousGamePhase,
   transitionFor,
   type GamePhase,
@@ -33,10 +34,12 @@ import {
 } from '@/lib/gameSessionContent'
 import {
   createGameSession,
+  deleteGameSession,
   exitGameSession,
   pauseActiveGameSessions,
   resumeGameSession,
 } from '@/lib/gameSessions'
+import { isHeadlineCardType } from '@/lib/openingMythos'
 import config from '@/payload.config'
 import type { GameSession } from '@/payload-types'
 
@@ -153,6 +156,13 @@ export async function exitGameAction(sessionID: string) {
   redirect('/sessions')
 }
 
+export async function deleteSessionAction(sessionID: string) {
+  const payload = await getPayloadClient()
+  await deleteGameSession(payload, sessionID)
+
+  revalidatePath('/sessions')
+}
+
 export async function updateEnabledSetsAction(sessionID: string, formData: FormData) {
   const requestedSetIDs = formData
     .getAll('enabledSet')
@@ -215,6 +225,7 @@ export async function updateEnabledSetsAction(sessionID: string, formData: FormD
     data: {
       enabledSets: enabledSetIDs,
       activeExpansions: [],
+      openingHeadlineResolved: false,
       activeAncientOne: keepAncientOne ? activeAncientOneID : null,
       ancientOneSheetKey: keepAncientOne ? session.ancientOneSheetKey : null,
       tracks: {
@@ -330,6 +341,10 @@ export async function advancePhaseAction(sessionID: string) {
   })
 
   if (!relationshipID(session.activeAncientOne)) {
+    return
+  }
+
+  if (session.currentPhase === openingMythosPhase && !session.openingHeadlineResolved) {
     return
   }
 
@@ -454,6 +469,13 @@ export async function drawMythosAction(sessionID: string) {
     overrideAccess: true,
   })
 
+  if (
+    (session.currentPhase !== 'Mythos' && session.currentPhase !== openingMythosPhase) ||
+    (session.currentPhase === openingMythosPhase && session.openingHeadlineResolved)
+  ) {
+    return
+  }
+
   const state = mythosDeckStateFromSession(session)
   const result = drawMythosCard(state, shuffle(state.discardPile ?? []))
   const shuffleEvents = result.didShuffle
@@ -506,6 +528,133 @@ export async function discardCurrentDrawAction(sessionID: string) {
   const state = discardCurrentMythosCard(mythosDeckStateFromSession(session))
 
   await updateSessionMythos(sessionID, state, 'discard-card', currentDraw)
+}
+
+export async function skipOpeningMythosCardAction(sessionID: string) {
+  const payload = await getPayloadClient()
+  const session = await payload.findByID({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
+  const sessionState = mythosDeckStateFromSession(session)
+  const currentDraw = sessionState.currentDraw
+
+  if (
+    session.currentPhase !== openingMythosPhase ||
+    !currentDraw ||
+    !sessionState.currentDrawRevealed
+  ) {
+    throw new Error('Reveal an opening Mythos card before skipping it.')
+  }
+
+  const card = await payload.findByID({
+    collection: MYTHOS_CARDS,
+    id: currentDraw.cardID,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  if (isHeadlineCardType(card.cardType)) {
+    throw new Error('The opening Headline must be resolved.')
+  }
+
+  const skippedState = discardCurrentMythosCard(sessionState)
+  const result = drawMythosCard(skippedState, shuffle(skippedState.discardPile ?? []))
+  const skipNote = `Opening ${card.cardType} skipped while searching for a Headline.`
+
+  await payload.update({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    overrideAccess: true,
+    data: {
+      mythos: mythosDeckStateForPayload(result.state),
+      sessionLog: [
+        ...(session.sessionLog ?? []),
+        logEntry(session, 'discard-card', currentDraw.cardID, skipNote),
+        ...(result.didShuffle ? [logEntry(session, 'shuffle-deck', null, 'Deck empty.')] : []),
+        logEntry(session, 'draw-mythos', result.drawnCardID, 'Next opening Mythos card drawn.'),
+      ],
+      shuffleEvents: result.didShuffle
+        ? [
+            ...(session.shuffleEvents ?? []),
+            shuffleEvent(
+              session,
+              'deck-empty',
+              'Discard pile shuffled into the opening Mythos draw pile.',
+            ),
+          ]
+        : session.shuffleEvents,
+    },
+  })
+
+  revalidatePath('/')
+}
+
+export async function resolveOpeningHeadlineAction(sessionID: string) {
+  const payload = await getPayloadClient()
+  const session = await payload.findByID({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
+  const sessionState = mythosDeckStateFromSession(session)
+  const currentDraw = sessionState.currentDraw
+
+  if (
+    session.currentPhase !== openingMythosPhase ||
+    !currentDraw ||
+    !sessionState.currentDrawRevealed
+  ) {
+    throw new Error('Reveal the opening Headline before completing setup.')
+  }
+
+  const card = await payload.findByID({
+    collection: MYTHOS_CARDS,
+    id: currentDraw.cardID,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  if (!isHeadlineCardType(card.cardType)) {
+    throw new Error('Only a Headline can complete the opening Mythos step.')
+  }
+
+  const current = phasePointer(session)
+  const next = nextGamePhase(current)
+  const transition = transitionFor(current, next)
+
+  await payload.update({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    overrideAccess: true,
+    data: {
+      mythos: mythosDeckStateForPayload(discardCurrentMythosCard(sessionState)),
+      openingHeadlineResolved: true,
+      currentPhase: next.currentPhase,
+      turnNumber: next.turnNumber,
+      phaseHistory: [...(session.phaseHistory ?? []), transition],
+      sessionLog: [
+        ...(session.sessionLog ?? []),
+        logEntry(
+          session,
+          'resolve-card',
+          currentDraw.cardID,
+          'Opening Headline resolved and discarded.',
+        ),
+        logEntry(
+          session,
+          'advance-phase',
+          null,
+          `Opening Mythos complete. Advanced to ${next.currentPhase}, turn ${next.turnNumber}.`,
+        ),
+      ],
+    },
+  })
+
+  revalidatePath('/')
 }
 
 export async function activateCurrentEnvironmentAction(sessionID: string) {

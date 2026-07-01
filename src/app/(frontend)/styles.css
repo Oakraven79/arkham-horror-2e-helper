@@ -216,6 +216,10 @@ button {
   gap: 6px;
 }
 
+.phase-sequence.opening {
+  grid-template-columns: 1fr;
+}
+
 .phase-step {
   border-radius: 6px;
   color: var(--muted);
@@ -829,15 +833,6 @@ button {
   appearance: none;
 }
 
-.mythos-count-rules span {
-  display: block;
-  margin-bottom: 3px;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
 .setup-empty-state {
   margin-top: 22px;
 }
@@ -992,26 +987,6 @@ button {
 .resolver-copy {
   color: var(--muted);
   margin: 8px 0 0;
-}
-
-.mythos-count-rules {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px;
-  margin-top: 12px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  background: var(--line);
-}
-
-.mythos-count-rules > div {
-  background: rgba(10, 10, 9, 0.72);
-  padding: 7px 8px;
-}
-
-.mythos-count-rules strong {
-  font-size: 13px;
 }
 
 .limit-warnings {
@@ -1451,6 +1426,47 @@ button {
   padding: 8px 14px;
 }
 
+.saved-session-actions,
+.session-delete-confirmation {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.saved-session-actions {
+  justify-content: flex-end;
+}
+
+.request-session-delete,
+.cancel-session-delete,
+.confirm-session-delete {
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 8px 11px;
+  white-space: nowrap;
+}
+
+.request-session-delete,
+.cancel-session-delete {
+  background: rgba(10, 10, 9, 0.72);
+  color: var(--ink);
+}
+
+.confirm-session-delete {
+  border-color: rgba(190, 77, 69, 0.8);
+  background: #7d2323;
+  color: #fff5eb;
+}
+
+.confirm-session-delete:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
 .create-session-panel {
   align-self: start;
   border-left: 1px solid var(--line);
@@ -1583,11 +1599,6 @@ button {
     margin-top: 0;
   }
 
-  .mythos-count-rules {
-    grid-column: 3;
-    margin-top: 0;
-  }
-
   .mythos-primary-action {
     grid-column: 1;
     margin-top: 0;
@@ -1599,7 +1610,7 @@ button {
   }
 
   .mythos-deck-actions {
-    grid-column: 1;
+    grid-column: 3;
     margin-top: 0;
   }
 
@@ -1650,7 +1661,6 @@ button {
 
   .mythos-resolver > header,
   .mythos-step-list,
-  .mythos-count-rules,
   .mythos-primary-action,
   .mythos-pile-summary,
   .mythos-deck-actions {
@@ -1659,7 +1669,6 @@ button {
   }
 
   .mythos-step-list,
-  .mythos-count-rules,
   .mythos-pile-summary,
   .mythos-deck-actions {
     margin-top: 10px;
@@ -1674,7 +1683,7 @@ button {
     grid-column: 1 / -1;
   }
 
-  .saved-session-row > form {
+  .saved-session-actions {
     grid-column: 2;
     grid-row: 1;
   }
@@ -1799,12 +1808,21 @@ button {
 
   .saved-session-facts,
   .session-set-marks,
-  .saved-session-row > form {
+  .saved-session-actions {
     grid-column: 1;
     grid-row: auto;
   }
 
-  .resume-session-button {
+  .saved-session-actions {
+    justify-content: stretch;
+  }
+
+  .saved-session-actions > form {
+    flex: 1;
+  }
+
+  .resume-session-button,
+  .saved-session-actions > form {
     width: 100%;
   }
 

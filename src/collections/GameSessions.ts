@@ -110,6 +110,16 @@ export const GameSessions: CollectionConfig = {
       options: phaseOptions.map((phase) => ({ label: phase, value: phase })),
     },
     {
+      name: 'openingHeadlineResolved',
+      label: 'Opening Headline Resolved',
+      type: 'checkbox',
+      required: true,
+      defaultValue: false,
+      admin: {
+        description: 'Tracks completion of the opening Mythos draw before the first Upkeep phase.',
+      },
+    },
+    {
       name: 'phaseHistory',
       type: 'array',
       admin: {

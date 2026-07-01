@@ -564,12 +564,17 @@ export interface GameSession {
   ancientOneSheetKey?: string | null;
   currentPhase:
     | 'Setup'
+    | 'Opening Mythos'
     | 'Upkeep'
     | 'Movement'
     | 'Arkham Encounters'
     | 'Other World Encounters'
     | 'Mythos'
     | 'Final Battle';
+  /**
+   * Tracks completion of the opening Mythos draw before the first Upkeep phase.
+   */
+  openingHeadlineResolved: boolean;
   /**
    * Phase transitions used to restore the previous table phase without undoing game actions.
    */
@@ -578,6 +583,7 @@ export interface GameSession {
         fromTurn: number;
         fromPhase:
           | 'Setup'
+          | 'Opening Mythos'
           | 'Upkeep'
           | 'Movement'
           | 'Arkham Encounters'
@@ -587,6 +593,7 @@ export interface GameSession {
         toTurn: number;
         toPhase:
           | 'Setup'
+          | 'Opening Mythos'
           | 'Upkeep'
           | 'Movement'
           | 'Arkham Encounters'
@@ -676,6 +683,7 @@ export interface GameSession {
         phase?:
           | (
               | 'Setup'
+              | 'Opening Mythos'
               | 'Upkeep'
               | 'Movement'
               | 'Arkham Encounters'
@@ -698,6 +706,7 @@ export interface GameSession {
         phase?:
           | (
               | 'Setup'
+              | 'Opening Mythos'
               | 'Upkeep'
               | 'Movement'
               | 'Arkham Encounters'
@@ -1101,6 +1110,7 @@ export interface GameSessionsSelect<T extends boolean = true> {
   activeAncientOne?: T;
   ancientOneSheetKey?: T;
   currentPhase?: T;
+  openingHeadlineResolved?: T;
   phaseHistory?:
     | T
     | {

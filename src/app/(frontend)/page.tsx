@@ -4,16 +4,13 @@ import { getPayload } from 'payload'
 
 import { MythosCardFront, type MythosCardFrontProps } from '@/components/mythosCardFront'
 import { gamePhaseGuides } from '@/content/gamePhaseGuides'
-import { turnPhases, type GamePhase } from '@/lib/gamePhaseState'
-import {
-  calculateInvestigatorRules,
-  calculateMonsterSurgeCount,
-  gameLimitWarnings,
-} from '@/lib/investigatorRules'
+import { openingMythosPhase, turnPhases, type GamePhase } from '@/lib/gamePhaseState'
+import { calculateInvestigatorRules, gameLimitWarnings } from '@/lib/investigatorRules'
 import { relationshipID, relationshipIDs, sourceSetWhere } from '@/lib/gameSessionContent'
-import { repairLegacySessionEnabledSets } from '@/lib/gameSessions'
+import { repairLegacyOpeningHeadline, repairLegacySessionEnabledSets } from '@/lib/gameSessions'
 import { mythosCardFrontProps } from '@/lib/mythosCardPresentation'
 import { mythosDeckStateFromSession } from '@/lib/mythosSessionState'
+import { isHeadlineCardType } from '@/lib/openingMythos'
 import config from '@/payload.config'
 import type {
   AncientOne,
@@ -35,8 +32,10 @@ import {
   previousPhaseAction,
   renameSessionAction,
   resetMythosDeckAction,
+  resolveOpeningHeadlineAction,
   selectAncientOneAction,
   shuffleDiscardIntoDeckAction,
+  skipOpeningMythosCardAction,
   updateEnabledSetsAction,
 } from './actions'
 import { GameRulesContext } from './GameRulesContext'
@@ -529,24 +528,32 @@ function PhaseGuide({
 
 function PhaseNavigation({
   activeAncientOne,
+  openingHeadlineResolved,
   phase,
   sessionID,
   turnNumber,
 }: {
   activeAncientOne: AncientOne | null
+  openingHeadlineResolved: boolean
   phase: GamePhase
   sessionID: string
   turnNumber: number
 }) {
+  const isOpeningMythos = phase === openingMythosPhase
+  const isSetupFlow = phase === 'Setup' || isOpeningMythos
   const activeIndex = turnPhases.findIndex((candidate) => candidate === phase)
   const nextLabel =
     phase === 'Setup'
-      ? 'Begin game'
-      : phase === 'Mythos'
-        ? 'Complete turn'
-        : phase === 'Final Battle'
-          ? 'Final battle'
-          : 'Next phase'
+      ? 'Opening Mythos'
+      : isOpeningMythos
+        ? openingHeadlineResolved
+          ? 'Begin turn'
+          : 'Resolve headline'
+        : phase === 'Mythos'
+          ? 'Complete turn'
+          : phase === 'Final Battle'
+            ? 'Final battle'
+            : 'Next phase'
 
   return (
     <nav className="phase-ribbon" aria-label="Turn phase">
@@ -562,30 +569,38 @@ function PhaseNavigation({
       </form>
       <div className="phase-context">
         <div className="turn-context">
-          <span>{phase === 'Setup' ? 'Setup' : 'Turn'}</span>
-          {phase !== 'Setup' && <strong>{turnNumber}</strong>}
+          <span>{isSetupFlow ? 'Setup' : 'Turn'}</span>
+          {!isSetupFlow && <strong>{turnNumber}</strong>}
         </div>
-        <div className="phase-sequence">
-          {turnPhases.map((candidate, index) => (
-            <div
-              className={[
-                'phase-step',
-                candidate === phase ? 'active' : '',
-                activeIndex >= 0 && index < activeIndex ? 'complete' : '',
-              ]
-                .filter(Boolean)
-                .join(' ')}
-              key={candidate}
-            >
-              {candidate}
-            </div>
-          ))}
+        <div className={`phase-sequence${isOpeningMythos ? ' opening' : ''}`}>
+          {isOpeningMythos ? (
+            <div className="phase-step active">Opening Mythos</div>
+          ) : (
+            turnPhases.map((candidate, index) => (
+              <div
+                className={[
+                  'phase-step',
+                  candidate === phase ? 'active' : '',
+                  activeIndex >= 0 && index < activeIndex ? 'complete' : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+                key={candidate}
+              >
+                {candidate}
+              </div>
+            ))
+          )}
         </div>
       </div>
       <form action={advancePhaseAction.bind(null, sessionID)}>
         <button
           className="phase-navigation-button next"
-          disabled={!activeAncientOne || phase === 'Final Battle'}
+          disabled={
+            !activeAncientOne ||
+            phase === 'Final Battle' ||
+            (isOpeningMythos && !openingHeadlineResolved)
+          }
           type="submit"
         >
           {nextLabel}
@@ -615,7 +630,8 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     redirect('/sessions')
   }
 
-  const session = await repairLegacySessionEnabledSets(payload, loadedSession)
+  const sessionWithSets = await repairLegacySessionEnabledSets(payload, loadedSession)
+  const session = await repairLegacyOpeningHeadline(payload, sessionWithSets)
   const enabledSetIDs = relationshipIDs(session.enabledSets)
   const [mythosCards, referenceData, boxedSetResult] = await Promise.all([
     getAllMythosCards(payload, enabledSetIDs),
@@ -649,10 +665,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     monstersInOutskirts: tracks.monstersInOutskirts ?? 0,
     terror: tracks.terror ?? 0,
   })
-  const monsterSurgeCount = calculateMonsterSurgeCount(tracks.gatesOpen ?? 0, session.playerCount)
   const activeAncientOne = selectedAncientOne(session, ancientOnesByID)
   const activeSheet = selectedAncientOneSheet(activeAncientOne, session.ancientOneSheetKey)
   const currentPhase: GamePhase = activeAncientOne ? (session.currentPhase as GamePhase) : 'Setup'
+  const isOpeningMythos = currentPhase === openingMythosPhase
 
   const drawPile = mythos.drawPile ?? []
   const discardPile = mythos.discardPile ?? []
@@ -707,6 +723,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       <section className="table-layout">
         <PhaseNavigation
           activeAncientOne={activeAncientOne}
+          openingHeadlineResolved={session.openingHeadlineResolved}
           phase={currentPhase}
           sessionID={sessionID}
           turnNumber={session.turnNumber}
@@ -742,75 +759,61 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             currentSession={session}
             sessionID={sessionID}
           />
-        ) : currentPhase === 'Mythos' ? (
+        ) : currentPhase === 'Mythos' || isOpeningMythos ? (
           <div className="mythos-workspace">
             <aside className="mythos-resolver" aria-label="Mythos resolver">
               <header>
-                <p className="eyebrow">Mythos Resolver</p>
+                <p className="eyebrow">
+                  {isOpeningMythos ? 'Setup: Opening Mythos' : 'Mythos Resolver'}
+                </p>
                 <h2>
                   {currentCardDocument
                     ? mythos.currentDrawRevealed
                       ? currentCardDocument.title
                       : 'Card drawn'
-                    : 'Deck ready'}
+                    : isOpeningMythos && session.openingHeadlineResolved
+                      ? 'Opening complete'
+                      : 'Deck ready'}
                 </h2>
                 <p className="resolver-copy">
                   {currentCardDocument
                     ? mythos.currentDrawRevealed
-                      ? currentCardType || 'Mythos card'
+                      ? isOpeningMythos && !isHeadlineCardType(currentCardType)
+                        ? `${currentCardType || 'Mythos card'}: skip this card and draw again.`
+                        : currentCardType || 'Mythos card'
                       : 'Flip the card to reveal it.'
-                    : mythosCards.length
-                      ? 'Draw the next Mythos card.'
-                      : 'No Mythos cards are available.'}
+                    : isOpeningMythos && session.openingHeadlineResolved
+                      ? 'The first turn can begin.'
+                      : isOpeningMythos
+                        ? 'Draw until a Headline appears. Skip Rumors and Environments.'
+                        : mythosCards.length
+                          ? 'Draw the next Mythos card.'
+                          : 'No Mythos cards are available.'}
                 </p>
               </header>
 
               <ol className="mythos-step-list">
-                {gamePhaseGuides.Mythos.steps.map((step) => (
+                {(isOpeningMythos
+                  ? gamePhaseGuides[openingMythosPhase].steps
+                  : gamePhaseGuides.Mythos.steps
+                ).map((step) => (
                   <li key={step}>{step}</li>
                 ))}
               </ol>
 
-              <div className="mythos-count-rules">
-                <div>
-                  <span>New gate</span>
-                  <strong>{investigatorRules.newGateMonsterCount}</strong>
-                </div>
-                <div>
-                  <span>Surge</span>
-                  <strong>{monsterSurgeCount}</strong>
-                </div>
-                <div>
-                  <span>Arkham room</span>
-                  <strong>
-                    {(tracks.terror ?? 0) >= 10
-                      ? 'None'
-                      : Math.max(
-                          0,
-                          investigatorRules.monsterLimit - (tracks.monstersInArkham ?? 0),
-                        )}
-                  </strong>
-                </div>
-                <div>
-                  <span>Outskirts room</span>
-                  <strong>
-                    {Math.max(
-                      0,
-                      investigatorRules.outskirtsCapacity - (tracks.monstersInOutskirts ?? 0),
-                    )}
-                  </strong>
-                </div>
-                <div>
-                  <span>Gate pressure</span>
-                  <strong>
-                    {tracks.gatesOpen ?? 0}/{investigatorRules.gateAwakeningThreshold}
-                  </strong>
-                </div>
-              </div>
-
               {currentCardDocument && mythos.currentDrawRevealed && (
                 <section className="mythos-primary-action">
-                  {String(currentCardType).startsWith('Environment') ? (
+                  {isOpeningMythos ? (
+                    isHeadlineCardType(currentCardType) ? (
+                      <form action={resolveOpeningHeadlineAction.bind(null, sessionID)}>
+                        <button type="submit">Opening Headline resolved</button>
+                      </form>
+                    ) : (
+                      <form action={skipOpeningMythosCardAction.bind(null, sessionID)}>
+                        <button type="submit">Skip card and draw again</button>
+                      </form>
+                    )
+                  ) : String(currentCardType).startsWith('Environment') ? (
                     <form action={activateCurrentEnvironmentAction.bind(null, sessionID)}>
                       <button type="submit">Set as Environment</button>
                     </form>
@@ -867,6 +870,8 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                     currentCardID={mythos.currentDraw?.cardID ?? null}
                     revealed={Boolean(mythos.currentDrawRevealed)}
                     cardsRemaining={drawPile.length}
+                    drawDisabled={isOpeningMythos && session.openingHeadlineResolved}
+                    drawLabel={isOpeningMythos ? 'Draw opening Mythos' : 'Draw Mythos'}
                   />
                 </div>
               </section>

@@ -1,26 +1,25 @@
 import { describe, expect, it } from 'vitest'
 
-import {
-  nextGamePhase,
-  previousGamePhase,
-  transitionFor,
-} from '@/lib/gamePhaseState'
+import { nextGamePhase, previousGamePhase, transitionFor } from '@/lib/gamePhaseState'
 
 describe('game phase state', () => {
   it('moves through the five table phases in order', () => {
-    const upkeep = nextGamePhase({ currentPhase: 'Setup', turnNumber: 1 })
+    const openingMythos = nextGamePhase({ currentPhase: 'Setup', turnNumber: 1 })
+    const upkeep = nextGamePhase(openingMythos)
     const movement = nextGamePhase(upkeep)
     const arkham = nextGamePhase(movement)
     const otherWorld = nextGamePhase(arkham)
     const mythos = nextGamePhase(otherWorld)
 
     expect([
+      openingMythos.currentPhase,
       upkeep.currentPhase,
       movement.currentPhase,
       arkham.currentPhase,
       otherWorld.currentPhase,
       mythos.currentPhase,
     ]).toEqual([
+      'Opening Mythos',
       'Upkeep',
       'Movement',
       'Arkham Encounters',
@@ -39,8 +38,12 @@ describe('game phase state', () => {
     })
   })
 
-  it('returns from first-turn Upkeep to Setup', () => {
+  it('returns from first-turn Upkeep through opening Mythos to Setup', () => {
     expect(previousGamePhase({ currentPhase: 'Upkeep', turnNumber: 1 })).toEqual({
+      currentPhase: 'Opening Mythos',
+      turnNumber: 1,
+    })
+    expect(previousGamePhase({ currentPhase: 'Opening Mythos', turnNumber: 1 })).toEqual({
       currentPhase: 'Setup',
       turnNumber: 1,
     })

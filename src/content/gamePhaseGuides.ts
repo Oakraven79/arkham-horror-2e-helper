@@ -14,7 +14,18 @@ export const gamePhaseGuides: Record<GamePhase, GamePhaseGuide> = {
       'Choose the Ancient One and playable sheet.',
       'Set the number of investigators and review the resulting table limits.',
       'Prepare investigators, decks, clues, monsters, and gates.',
-      'Draw and resolve the initial non-Rumor Mythos card.',
+      'Continue to Opening Mythos before the first turn.',
+    ],
+  },
+  'Opening Mythos': {
+    title: 'Opening Mythos',
+    summary: 'Draw until a Headline appears, then resolve it before the first turn.',
+    steps: [
+      'Draw and reveal the top Mythos card.',
+      'Discard Rumors and Environments without resolving them, then draw again.',
+      'For the first Headline, open its gate and spawn monsters.',
+      'Place its clue and move monsters.',
+      'Resolve the Headline ability, discard it, and begin turn one.',
     ],
   },
   Upkeep: {

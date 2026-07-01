@@ -4,7 +4,8 @@ import { getPayload } from 'payload'
 import config from '@/payload.config'
 import type { AncientOne, BoxedSet, GameSession } from '@/payload-types'
 
-import { resumeSessionAction, startNewSessionAction } from '../actions'
+import { deleteSessionAction, resumeSessionAction, startNewSessionAction } from '../actions'
+import { DeleteSessionControl } from './DeleteSessionControl'
 
 export const dynamic = 'force-dynamic'
 
@@ -97,12 +98,18 @@ function SavedSessionRow({ session }: { session: SessionSummary }) {
 
       <SessionSetMarks sets={sets} />
 
-      <form action={resumeSessionAction}>
-        <input name="sessionID" type="hidden" value={session.id} />
-        <button className="resume-session-button" type="submit">
-          {session.status === 'active' ? 'Continue' : 'Resume'}
-        </button>
-      </form>
+      <div className="saved-session-actions">
+        <form action={resumeSessionAction}>
+          <input name="sessionID" type="hidden" value={session.id} />
+          <button className="resume-session-button" type="submit">
+            {session.status === 'active' ? 'Continue' : 'Resume'}
+          </button>
+        </form>
+        <DeleteSessionControl
+          action={deleteSessionAction.bind(null, session.id)}
+          sessionName={session.name}
+        />
+      </div>
     </article>
   )
 }
