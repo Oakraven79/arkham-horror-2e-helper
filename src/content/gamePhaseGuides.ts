@@ -59,12 +59,13 @@ export const gamePhaseGuides: Record<GamePhase, GamePhaseGuide> = {
   },
   'Other World Encounters': {
     title: 'Other World Encounters',
-    summary: 'Resolve one matching encounter for each investigator in an Other World.',
+    summary: 'Flip cards until every investigator in an Other World has resolved an encounter.',
     steps: [
-      'Choose the Other World and one of its encounter colours.',
-      'Draw until a card of that colour is found.',
-      'Resolve the named destination entry, or the Other entry when it is not listed.',
+      'Flip the top Other World encounter card.',
+      'Resolve an applicable named entry, or the Other entry when appropriate.',
+      'Flip again to discard the current card and reveal the next encounter.',
       'Return encounter-only monsters to the cup after resolution.',
+      'Complete the phase after every Other World encounter is resolved.',
     ],
   },
   Mythos: {

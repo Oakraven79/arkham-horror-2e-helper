@@ -45,6 +45,7 @@ function encounterCard(encounters: OtherWorldEncounterCard['encounters']): Other
   return {
     id: 'blue-001',
     cardCode: 'blue-001',
+    copyCount: 1,
     colour: 'blue',
     encounters,
     boxedSet: 'Base Game',

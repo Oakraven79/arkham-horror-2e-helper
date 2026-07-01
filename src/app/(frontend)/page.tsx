@@ -3,13 +3,20 @@ import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 
 import { MythosCardFront, type MythosCardFrontProps } from '@/components/mythosCardFront'
+import type { OtherworldEncounterCardFrontProps } from '@/components/otherworldEncounterCardFront'
 import { gamePhaseGuides } from '@/content/gamePhaseGuides'
 import { openingMythosPhase, turnPhases, type GamePhase } from '@/lib/gamePhaseState'
 import { calculateInvestigatorRules, gameLimitWarnings } from '@/lib/investigatorRules'
 import { relationshipID, relationshipIDs, sourceSetWhere } from '@/lib/gameSessionContent'
-import { repairLegacyOpeningHeadline, repairLegacySessionEnabledSets } from '@/lib/gameSessions'
+import {
+  repairLegacyOpeningHeadline,
+  repairLegacyOtherWorldEncounterDeck,
+  repairLegacySessionEnabledSets,
+} from '@/lib/gameSessions'
 import { mythosCardFrontProps } from '@/lib/mythosCardPresentation'
 import { mythosDeckStateFromSession } from '@/lib/mythosSessionState'
+import { otherWorldEncounterCardFrontProps } from '@/lib/otherWorldEncounterCardPresentation'
+import { otherWorldEncounterDeckStateFromSession } from '@/lib/otherWorldEncounterSessionState'
 import { isHeadlineCardType } from '@/lib/openingMythos'
 import config from '@/payload.config'
 import type {
@@ -18,7 +25,7 @@ import type {
   GameSession,
   Location,
   MythosCard,
-  OtherWorld,
+  OtherWorldEncounterCard,
 } from '@/payload-types'
 
 import {
@@ -32,15 +39,18 @@ import {
   previousPhaseAction,
   renameSessionAction,
   resetMythosDeckAction,
+  resetOtherWorldEncounterDeckAction,
   resolveOpeningHeadlineAction,
   selectAncientOneAction,
   shuffleDiscardIntoDeckAction,
+  shuffleOtherWorldEncounterDiscardAction,
   skipOpeningMythosCardAction,
   updateEnabledSetsAction,
 } from './actions'
 import { GameRulesContext } from './GameRulesContext'
 import { InvestigatorCountInput } from './InvestigatorCountInput'
 import { MythosDeckSlot } from './MythosDeckSlot'
+import { OtherWorldEncounterDeckSlot } from './OtherWorldEncounterDeckSlot'
 import './styles.css'
 
 export const dynamic = 'force-dynamic'
@@ -49,6 +59,7 @@ type RelationshipValue = string | MythosCard | null | undefined
 type AncientOneSheet = AncientOne['sheets'][number]
 
 const MYTHOS_CARDS = 'mythos-cards' as const
+const OTHER_WORLD_ENCOUNTER_CARDS = 'other-world-encounter-cards' as const
 const EXPANSION_CITY_KEYS = new Set(['dunwich-horror', 'kingsport-horror', 'innsmouth-horror'])
 const BOXED_SET_CATEGORY_LABELS: Record<BoxedSet['category'], string> = {
   core: 'Core Game',
@@ -75,6 +86,13 @@ function cardProps(card: MythosCard | null): MythosCardFrontProps | null {
   return mythosCardFrontProps(card)
 }
 
+function otherWorldEncounterCardProps(
+  card: OtherWorldEncounterCard | null,
+): OtherworldEncounterCardFrontProps | null {
+  if (!card) return null
+  return otherWorldEncounterCardFrontProps(card)
+}
+
 async function getAllMythosCards(
   payload: Awaited<ReturnType<typeof getPayload>>,
   enabledSetIDs: string[],
@@ -90,12 +108,27 @@ async function getAllMythosCards(
   return cards.docs
 }
 
+async function getAllOtherWorldEncounterCards(
+  payload: Awaited<ReturnType<typeof getPayload>>,
+  enabledSetIDs: string[],
+) {
+  const cards = await payload.find({
+    collection: OTHER_WORLD_ENCOUNTER_CARDS,
+    where: sourceSetWhere(enabledSetIDs),
+    limit: 1000,
+    depth: 2,
+    overrideAccess: true,
+  })
+
+  return cards.docs
+}
+
 async function getReferenceData(
   payload: Awaited<ReturnType<typeof getPayload>>,
   enabledSetIDs: string[],
 ) {
   const where = sourceSetWhere(enabledSetIDs)
-  const [ancientOnes, locations, otherWorlds] = await Promise.all([
+  const [ancientOnes, locations] = await Promise.all([
     payload.find({
       collection: 'ancient-ones',
       where,
@@ -112,20 +145,11 @@ async function getReferenceData(
       depth: 0,
       overrideAccess: true,
     }),
-    payload.find({
-      collection: 'other-worlds',
-      where,
-      limit: 100,
-      sort: 'name',
-      depth: 0,
-      overrideAccess: true,
-    }),
   ])
 
   return {
     ancientOnes: ancientOnes.docs,
     locations: locations.docs,
-    otherWorlds: otherWorlds.docs,
   }
 }
 
@@ -439,66 +463,38 @@ function AncientOneSetup({
   )
 }
 
-function EncounterDeckPlaceholder({
-  kind,
-  locations,
-  otherWorlds,
-}: {
-  kind: 'arkham' | 'other-world'
-  locations: Location[]
-  otherWorlds: OtherWorld[]
-}) {
-  const isArkham = kind === 'arkham'
-
+function ArkhamEncounterDeckPlaceholder({ locations }: { locations: Location[] }) {
   return (
     <div className="encounter-draw-area">
-      <label htmlFor={`${kind}-encounter-target`}>
-        {isArkham ? 'Encounter location' : 'Other World'}
-      </label>
-      <select defaultValue="" id={`${kind}-encounter-target`}>
+      <label htmlFor="arkham-encounter-target">Encounter location</label>
+      <select defaultValue="" id="arkham-encounter-target">
         <option disabled value="">
-          {isArkham ? 'Select a location' : 'Select an Other World'}
+          Select a location
         </option>
-        {(isArkham ? locations : otherWorlds).map((destination) => (
+        {locations.map((destination) => (
           <option key={destination.id} value={destination.id}>
             {destination.name}
           </option>
         ))}
       </select>
       <button
-        aria-label={
-          isArkham ? 'Arkham encounter deck placeholder' : 'Other World encounter deck placeholder'
-        }
-        className={`encounter-deck-placeholder ${kind}`}
+        aria-label="Arkham encounter deck placeholder"
+        className="encounter-deck-placeholder arkham"
         disabled
         type="button"
       >
         <span className="encounter-deck-mark" aria-hidden="true">
-          {isArkham ? 'AH' : 'OW'}
+          AH
         </span>
-        <span>{isArkham ? 'Arkham Encounter' : 'Other World Encounter'}</span>
+        <span>Arkham Encounter</span>
         <strong>Draw card</strong>
       </button>
     </div>
   )
 }
 
-function PhaseGuide({
-  locations,
-  otherWorlds,
-  phase,
-}: {
-  locations: Location[]
-  otherWorlds: OtherWorld[]
-  phase: GamePhase
-}) {
+function PhaseGuide({ locations, phase }: { locations: Location[]; phase: GamePhase }) {
   const guide = gamePhaseGuides[phase]
-  const encounterKind =
-    phase === 'Arkham Encounters'
-      ? 'arkham'
-      : phase === 'Other World Encounters'
-        ? 'other-world'
-        : null
 
   return (
     <section className="phase-guide">
@@ -506,13 +502,7 @@ function PhaseGuide({
       <h2>{guide.title}</h2>
       <p className="phase-summary">{guide.summary}</p>
 
-      {encounterKind && (
-        <EncounterDeckPlaceholder
-          kind={encounterKind}
-          locations={locations}
-          otherWorlds={otherWorlds}
-        />
-      )}
+      {phase === 'Arkham Encounters' && <ArkhamEncounterDeckPlaceholder locations={locations} />}
 
       <ol className="phase-checklist">
         {guide.steps.map((step) => (
@@ -551,9 +541,11 @@ function PhaseNavigation({
           : 'Resolve headline'
         : phase === 'Mythos'
           ? 'Complete turn'
-          : phase === 'Final Battle'
-            ? 'Final battle'
-            : 'Next phase'
+          : phase === 'Other World Encounters'
+            ? 'Encounters complete'
+            : phase === 'Final Battle'
+              ? 'Final battle'
+              : 'Next phase'
 
   return (
     <nav className="phase-ribbon" aria-label="Turn phase">
@@ -631,10 +623,12 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   }
 
   const sessionWithSets = await repairLegacySessionEnabledSets(payload, loadedSession)
-  const session = await repairLegacyOpeningHeadline(payload, sessionWithSets)
+  const sessionWithOpening = await repairLegacyOpeningHeadline(payload, sessionWithSets)
+  const session = await repairLegacyOtherWorldEncounterDeck(payload, sessionWithOpening)
   const enabledSetIDs = relationshipIDs(session.enabledSets)
-  const [mythosCards, referenceData, boxedSetResult] = await Promise.all([
+  const [mythosCards, otherWorldEncounterCards, referenceData, boxedSetResult] = await Promise.all([
     getAllMythosCards(payload, enabledSetIDs),
+    getAllOtherWorldEncounterCards(payload, enabledSetIDs),
     getReferenceData(payload, enabledSetIDs),
     payload.find({
       collection: 'boxed-sets',
@@ -645,10 +639,14 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     }),
   ])
   const cardsByID = new Map(mythosCards.map((card) => [String(card.id), card]))
+  const otherWorldEncounterCardsByID = new Map(
+    otherWorldEncounterCards.map((card) => [String(card.id), card]),
+  )
   const ancientOnesByID = new Map(
     referenceData.ancientOnes.map((ancientOne) => [String(ancientOne.id), ancientOne]),
   )
   const mythos = mythosDeckStateFromSession(session)
+  const otherWorldEncounterDeck = otherWorldEncounterDeckStateFromSession(session)
   const tracks = session.tracks ?? {}
   const enabledSets = session.enabledSets.filter(isBoxedSetDocument)
   const enabledSetKeys = new Set(enabledSets.map((boxedSet) => boxedSet.key))
@@ -680,6 +678,18 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const activeEnvironment = cardProps(activeEnvironmentDocument)
   const activeRumor = cardProps(activeRumorDocument)
   const currentCardType = currentCardDocument?.cardType ?? ''
+  const currentOtherWorldEncounterDocument =
+    otherWorldEncounterCardsByID.get(otherWorldEncounterDeck.currentDraw?.cardID ?? '') ?? null
+  const currentOtherWorldEncounter = otherWorldEncounterCardProps(
+    currentOtherWorldEncounterDocument,
+  )
+  const otherWorldDrawPile = otherWorldEncounterDeck.drawPile ?? []
+  const otherWorldDiscardPile = otherWorldEncounterDeck.discardPile ?? []
+  const otherWorldDrawHistory = otherWorldEncounterDeck.drawHistory ?? []
+  const otherWorldAvailableCards =
+    otherWorldDrawPile.length +
+    otherWorldDiscardPile.length +
+    (otherWorldEncounterDeck.currentDraw ? 1 : 0)
   const sessionID = String(session.id)
 
   return (
@@ -900,13 +910,108 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               />
             </section>
           </div>
+        ) : currentPhase === 'Other World Encounters' ? (
+          <div className="mythos-workspace other-world-workspace">
+            <aside className="mythos-resolver" aria-label="Other World encounter resolver">
+              <header>
+                <p className="eyebrow">Other World Encounters</p>
+                <h2>
+                  {currentOtherWorldEncounterDocument
+                    ? `${currentOtherWorldEncounterDocument.colour} encounter`
+                    : 'Deck ready'}
+                </h2>
+                <p className="resolver-copy">
+                  {currentOtherWorldEncounterDocument
+                    ? 'Click the card to discard it and flip the next encounter.'
+                    : otherWorldAvailableCards > 0
+                      ? 'Flip cards until every investigator in an Other World has resolved an encounter.'
+                      : 'No encounter cards are available for the active sets.'}
+                </p>
+              </header>
+
+              <ol className="mythos-step-list">
+                {gamePhaseGuides['Other World Encounters'].steps.map((step) => (
+                  <li key={step}>{step}</li>
+                ))}
+              </ol>
+
+              <div className="mythos-pile-summary">
+                <span>
+                  Draw <strong>{otherWorldDrawPile.length}</strong>
+                </span>
+                <span>
+                  Discard <strong>{otherWorldDiscardPile.length}</strong>
+                </span>
+                <span>
+                  Flipped <strong>{otherWorldDrawHistory.length}</strong>
+                </span>
+                <span>
+                  Shuffles <strong>{otherWorldEncounterDeck.shuffleCount ?? 0}</strong>
+                </span>
+              </div>
+
+              <details className="mythos-deck-actions">
+                <summary>Deck actions</summary>
+                <div>
+                  <form action={shuffleOtherWorldEncounterDiscardAction.bind(null, sessionID)}>
+                    <button disabled={otherWorldDiscardPile.length === 0} type="submit">
+                      Shuffle discard into deck
+                    </button>
+                  </form>
+                  <form action={resetOtherWorldEncounterDeckAction.bind(null, sessionID)}>
+                    <button type="submit">Reset encounter deck</button>
+                  </form>
+                </div>
+              </details>
+            </aside>
+
+            <section
+              className="card-lineup mythos-card-lineup"
+              aria-label="Other World encounter and active effects"
+            >
+              <section className="table-card-slot">
+                <div className="slot-heading">
+                  <h2>Current Encounter</h2>
+                </div>
+                <div className="deck-area">
+                  <OtherWorldEncounterDeckSlot
+                    availableCards={otherWorldAvailableCards}
+                    currentCard={currentOtherWorldEncounter}
+                    currentCardInstanceKey={
+                      otherWorldEncounterDeck.currentDraw?.instanceKey ?? null
+                    }
+                    sessionID={sessionID}
+                  />
+                </div>
+              </section>
+
+              <CardSlot
+                title="Active Environment"
+                card={activeEnvironment}
+                emptyText="No Environment is active."
+                effectCard={activeEnvironmentDocument}
+                action={
+                  activeEnvironmentDocument
+                    ? clearActiveEnvironmentAction.bind(null, sessionID)
+                    : undefined
+                }
+                actionLabel="Clear"
+              />
+              <CardSlot
+                title="Active Rumor"
+                card={activeRumor}
+                emptyText="No Rumor is active."
+                effectCard={activeRumorDocument}
+                action={
+                  activeRumorDocument ? clearActiveRumorAction.bind(null, sessionID) : undefined
+                }
+                actionLabel="Clear"
+              />
+            </section>
+          </div>
         ) : (
           <div className="phase-workspace">
-            <PhaseGuide
-              locations={referenceData.locations}
-              otherWorlds={referenceData.otherWorlds}
-              phase={currentPhase}
-            />
+            <PhaseGuide locations={referenceData.locations} phase={currentPhase} />
             <div className="persistent-card-lineup" aria-label="Active Mythos effects">
               <CardSlot
                 title="Active Environment"

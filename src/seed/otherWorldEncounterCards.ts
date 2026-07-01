@@ -4,20 +4,9 @@ import {
   starterOtherWorldEncounterCards,
   type OtherWorldEncounterCardFixture,
 } from '@/content/otherWorldEncounterCards'
-import {
-  GAME_DATA_FIXTURE_NAMESPACE,
-  GAME_DATA_FIXTURE_VERSION,
-} from '@/fixtures/gameData'
-import {
-  officialBoxedSetName,
-  relationshipID,
-  requireBoxedSet,
-} from '@/lib/boxedSetContent'
-import type {
-  BoxedSet,
-  OtherWorld,
-  OtherWorldEncounterCard,
-} from '@/payload-types'
+import { GAME_DATA_FIXTURE_NAMESPACE, GAME_DATA_FIXTURE_VERSION } from '@/fixtures/gameData'
+import { officialBoxedSetName, relationshipID, requireBoxedSet } from '@/lib/boxedSetContent'
+import type { BoxedSet, OtherWorld, OtherWorldEncounterCard } from '@/payload-types'
 
 export interface SeedOtherWorldEncounterCardsOptions {
   dryRun?: boolean
@@ -30,6 +19,7 @@ function fixtureMetadata(
 ) {
   return {
     cardCode: fixture.cardCode,
+    copyCount: fixture.copyCount ?? 1,
     colour: fixture.colour,
     encounters: fixture.encounters.map((encounter) => ({
       isOther: encounter.isOther ?? false,
@@ -38,9 +28,7 @@ function fixtureMetadata(
         : undefined,
       text: encounter.text,
     })),
-    boxedSet: officialBoxedSetName(
-      fixture.sourceSetKey,
-    ) as OtherWorldEncounterCard['boxedSet'],
+    boxedSet: officialBoxedSetName(fixture.sourceSetKey) as OtherWorldEncounterCard['boxedSet'],
     sourceSet: sourceSet.id,
     clarifications: fixture.clarifications,
     fixtureNamespace: GAME_DATA_FIXTURE_NAMESPACE,
@@ -61,6 +49,7 @@ function requireOtherWorld(worldsByKey: Map<string, OtherWorld>, key: string) {
 function comparableDocument(card: OtherWorldEncounterCard) {
   return {
     cardCode: card.cardCode,
+    copyCount: card.copyCount,
     colour: card.colour,
     encounters: card.encounters.map((encounter) => ({
       isOther: encounter.isOther ?? false,

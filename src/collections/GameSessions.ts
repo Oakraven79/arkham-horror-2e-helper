@@ -23,6 +23,24 @@ const mythosCardInstanceFields: Field[] = [
   },
 ]
 
+const otherWorldEncounterCardRelationship = {
+  type: 'relationship',
+  relationTo: 'other-world-encounter-cards',
+} as const
+
+const otherWorldEncounterCardInstanceFields: Field[] = [
+  {
+    name: 'instanceKey',
+    type: 'text',
+    required: true,
+  },
+  {
+    name: 'card',
+    ...otherWorldEncounterCardRelationship,
+    required: true,
+  },
+]
+
 export const GameSessions: CollectionConfig = {
   slug: 'game-sessions',
   admin: {
@@ -324,6 +342,57 @@ export const GameSessions: CollectionConfig = {
       ],
     },
     {
+      name: 'otherWorldEncounters',
+      label: 'Other World Encounter Deck',
+      type: 'group',
+      admin: {
+        description:
+          'Saved copy-aware deck state. Flipping the next card discards the currently displayed card.',
+      },
+      fields: [
+        {
+          name: 'initialized',
+          type: 'checkbox',
+          required: true,
+          defaultValue: false,
+        },
+        {
+          name: 'drawPileInstances',
+          label: 'Draw Pile',
+          type: 'array',
+          fields: otherWorldEncounterCardInstanceFields,
+        },
+        {
+          name: 'discardPileInstances',
+          label: 'Discard Pile',
+          type: 'array',
+          fields: otherWorldEncounterCardInstanceFields,
+        },
+        {
+          name: 'drawHistoryInstances',
+          label: 'Draw History',
+          type: 'array',
+          fields: otherWorldEncounterCardInstanceFields,
+        },
+        {
+          name: 'currentDraw',
+          label: 'Current Encounter Card',
+          ...otherWorldEncounterCardRelationship,
+        },
+        {
+          name: 'currentDrawInstanceKey',
+          type: 'text',
+        },
+        {
+          name: 'shuffleCount',
+          type: 'number',
+          required: true,
+          defaultValue: 0,
+          min: 0,
+        },
+      ],
+    },
+    {
       name: 'shuffleEvents',
       type: 'array',
       admin: {
@@ -387,6 +456,14 @@ export const GameSessions: CollectionConfig = {
             { label: 'Advance Phase', value: 'advance-phase' },
             { label: 'Previous Phase', value: 'previous-phase' },
             { label: 'Draw Mythos', value: 'draw-mythos' },
+            {
+              label: 'Draw Other World Encounter',
+              value: 'draw-other-world-encounter',
+            },
+            {
+              label: 'Discard Other World Encounter',
+              value: 'discard-other-world-encounter',
+            },
             { label: 'Reveal Card', value: 'reveal-card' },
             { label: 'Resolve Card', value: 'resolve-card' },
             { label: 'Activate Environment', value: 'activate-environment' },
@@ -403,6 +480,11 @@ export const GameSessions: CollectionConfig = {
         {
           name: 'card',
           ...mythosCardRelationship,
+        },
+        {
+          name: 'otherWorldEncounterCard',
+          label: 'Other World Encounter Card',
+          ...otherWorldEncounterCardRelationship,
         },
         {
           name: 'note',

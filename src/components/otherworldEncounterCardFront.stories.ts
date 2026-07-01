@@ -45,6 +45,7 @@ function encounterCardArgs(cardCode: string) {
   const card: OtherWorldEncounterCard = {
     id: fixture.cardCode,
     cardCode: fixture.cardCode,
+    copyCount: fixture.copyCount ?? 1,
     colour: fixture.colour,
     encounters: fixture.encounters.map((encounter) => {
       if (encounter.isOther) {

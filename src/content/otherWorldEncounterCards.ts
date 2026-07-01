@@ -3,6 +3,7 @@ import type { OfficialBoxedSetKey } from './boxedSetTypes'
 export interface OtherWorldEncounterCardFixture {
   cardCode: string
   clarifications?: string
+  copyCount?: number
   colour: 'blue' | 'green' | 'red' | 'yellow'
   encounters: (
     | {

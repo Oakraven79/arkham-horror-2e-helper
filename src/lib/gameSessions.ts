@@ -11,6 +11,11 @@ import {
   sourceSetWhere,
 } from './gameSessionContent'
 import { mythosDeckStateForPayload } from './mythosSessionState'
+import { freshOtherWorldEncounterDeckState } from './otherWorldEncounterDeckState'
+import {
+  otherWorldEncounterDeckStateForPayload,
+  otherWorldEncounterDeckStateFromSession,
+} from './otherWorldEncounterSessionState'
 
 function lifecycleLogEntry(
   session: GameSession,
@@ -135,13 +140,22 @@ export async function createGameSession(
     throw new Error('The Base Game boxed set must be seeded before creating a session.')
   }
 
-  const cards = await payload.find({
-    collection: 'mythos-cards',
-    where: sourceSetWhere([String(baseSetID)]),
-    limit: 1000,
-    depth: 0,
-    overrideAccess: true,
-  })
+  const [mythosCards, otherWorldEncounterCards] = await Promise.all([
+    payload.find({
+      collection: 'mythos-cards',
+      where: sourceSetWhere([String(baseSetID)]),
+      limit: 1000,
+      depth: 0,
+      overrideAccess: true,
+    }),
+    payload.find({
+      collection: 'other-world-encounter-cards',
+      where: sourceSetWhere([String(baseSetID)]),
+      limit: 1000,
+      depth: 0,
+      overrideAccess: true,
+    }),
+  ])
 
   const created = await payload.create({
     collection: 'game-sessions',
@@ -163,7 +177,10 @@ export async function createGameSession(
         monstersInArkham: 0,
         monstersInOutskirts: 0,
       },
-      mythos: mythosDeckStateForPayload(freshMythosDeckState(cards.docs)),
+      mythos: mythosDeckStateForPayload(freshMythosDeckState(mythosCards.docs)),
+      otherWorldEncounters: otherWorldEncounterDeckStateForPayload(
+        freshOtherWorldEncounterDeckState(otherWorldEncounterCards.docs),
+      ),
       sessionLog: [
         {
           turnNumber: 1,
@@ -175,7 +192,7 @@ export async function createGameSession(
           turnNumber: 1,
           phase: 'Setup',
           action: 'shuffle-deck',
-          note: 'Session created with a shuffled Mythos draw pile.',
+          note: 'Session created with shuffled Mythos and Other World encounter decks.',
         },
       ],
       shuffleEvents: [
@@ -192,6 +209,38 @@ export async function createGameSession(
   return payload.findByID({
     collection: 'game-sessions',
     id: created.id,
+    depth: 2,
+    overrideAccess: true,
+  })
+}
+
+export async function repairLegacyOtherWorldEncounterDeck(payload: Payload, session: GameSession) {
+  const currentState = otherWorldEncounterDeckStateFromSession(session)
+
+  if (currentState.initialized) return session
+
+  const cards = await payload.find({
+    collection: 'other-world-encounter-cards',
+    where: sourceSetWhere(relationshipIDs(session.enabledSets)),
+    limit: 1000,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  await payload.update({
+    collection: 'game-sessions',
+    id: session.id,
+    data: {
+      otherWorldEncounters: otherWorldEncounterDeckStateForPayload(
+        freshOtherWorldEncounterDeckState(cards.docs),
+      ),
+    },
+    overrideAccess: true,
+  })
+
+  return payload.findByID({
+    collection: 'game-sessions',
+    id: session.id,
     depth: 2,
     overrideAccess: true,
   })

@@ -40,6 +40,16 @@ import {
   resumeGameSession,
 } from '@/lib/gameSessions'
 import { isHeadlineCardType } from '@/lib/openingMythos'
+import {
+  discardCurrentOtherWorldEncounterCard,
+  flipNextOtherWorldEncounterCard,
+  freshOtherWorldEncounterDeckState,
+  type OtherWorldEncounterDeckState,
+} from '@/lib/otherWorldEncounterDeckState'
+import {
+  otherWorldEncounterDeckStateForPayload,
+  otherWorldEncounterDeckStateFromSession,
+} from '@/lib/otherWorldEncounterSessionState'
 import config from '@/payload.config'
 import type { GameSession } from '@/payload-types'
 
@@ -48,6 +58,7 @@ type ShuffleEventReason = NonNullable<GameSession['shuffleEvents']>[number]['rea
 
 const GAME_SESSIONS = 'game-sessions' as const
 const MYTHOS_CARDS = 'mythos-cards' as const
+const OTHER_WORLD_ENCOUNTER_CARDS = 'other-world-encounter-cards' as const
 
 function shuffle<T>(items: T[]): T[] {
   const shuffled = [...items]
@@ -71,6 +82,21 @@ function logEntry(
     phase: session.currentPhase,
     action,
     ...(card ? { card } : {}),
+    ...(note ? { note } : {}),
+  }
+}
+
+function otherWorldEncounterLogEntry(
+  session: GameSession,
+  action: 'discard-other-world-encounter' | 'draw-other-world-encounter',
+  card?: string | null,
+  note?: string,
+): NonNullable<GameSession['sessionLog']>[number] {
+  return {
+    turnNumber: session.turnNumber,
+    phase: session.currentPhase,
+    action,
+    ...(card ? { otherWorldEncounterCard: card } : {}),
     ...(note ? { note } : {}),
   }
 }
@@ -194,13 +220,22 @@ export async function updateEnabledSetsAction(sessionID: string, formData: FormD
     return
   }
 
-  const cards = await payload.find({
-    collection: MYTHOS_CARDS,
-    where: sourceSetWhere(enabledSetIDs),
-    limit: 1000,
-    depth: 0,
-    overrideAccess: true,
-  })
+  const [cards, otherWorldEncounterCards] = await Promise.all([
+    payload.find({
+      collection: MYTHOS_CARDS,
+      where: sourceSetWhere(enabledSetIDs),
+      limit: 1000,
+      depth: 0,
+      overrideAccess: true,
+    }),
+    payload.find({
+      collection: OTHER_WORLD_ENCOUNTER_CARDS,
+      where: sourceSetWhere(enabledSetIDs),
+      limit: 1000,
+      depth: 0,
+      overrideAccess: true,
+    }),
+  ])
   const activeAncientOneID = relationshipID(session.activeAncientOne)
   const activeAncientOne = activeAncientOneID
     ? await payload.findByID({
@@ -216,7 +251,7 @@ export async function updateEnabledSetsAction(sessionID: string, formData: FormD
   const enabledSetNames = boxedSetResult.docs
     .filter((boxedSet) => enabledSetIDs.includes(String(boxedSet.id)))
     .map((boxedSet) => boxedSet.name)
-  const note = `Sets in play changed to ${enabledSetNames.join(', ')}. The Mythos deck was rebuilt and shuffled.`
+  const note = `Sets in play changed to ${enabledSetNames.join(', ')}. The Mythos and Other World encounter decks were rebuilt and shuffled.`
 
   await payload.update({
     collection: GAME_SESSIONS,
@@ -238,6 +273,9 @@ export async function updateEnabledSetsAction(sessionID: string, formData: FormD
             }),
       },
       mythos: mythosDeckStateForPayload(freshMythosDeckState(cards.docs)),
+      otherWorldEncounters: otherWorldEncounterDeckStateForPayload(
+        freshOtherWorldEncounterDeckState(otherWorldEncounterCards.docs),
+      ),
       sessionLog: [...(session.sessionLog ?? []), logEntry(session, 'shuffle-deck', null, note)],
       shuffleEvents: [...(session.shuffleEvents ?? []), shuffleEvent(session, 'setup', note)],
     },
@@ -356,6 +394,22 @@ export async function advancePhaseAction(sessionID: string) {
   }
 
   const transition = transitionFor(current, next)
+  const completingOtherWorldEncounters = session.currentPhase === 'Other World Encounters'
+  const otherWorldState = completingOtherWorldEncounters
+    ? otherWorldEncounterDeckStateFromSession(session)
+    : null
+  const displayedOtherWorldCard = otherWorldState?.currentDraw?.cardID ?? null
+  const completionLogEntries: NonNullable<GameSession['sessionLog']> =
+    completingOtherWorldEncounters && displayedOtherWorldCard
+      ? [
+          otherWorldEncounterLogEntry(
+            session,
+            'discard-other-world-encounter',
+            displayedOtherWorldCard,
+            'Displayed encounter card discarded when the phase completed.',
+          ),
+        ]
+      : []
 
   await payload.update({
     collection: GAME_SESSIONS,
@@ -365,8 +419,16 @@ export async function advancePhaseAction(sessionID: string) {
       currentPhase: next.currentPhase,
       turnNumber: next.turnNumber,
       phaseHistory: [...(session.phaseHistory ?? []), transition],
+      ...(otherWorldState
+        ? {
+            otherWorldEncounters: otherWorldEncounterDeckStateForPayload(
+              discardCurrentOtherWorldEncounterCard(otherWorldState),
+            ),
+          }
+        : {}),
       sessionLog: [
         ...(session.sessionLog ?? []),
+        ...completionLogEntries,
         logEntry(
           session,
           'advance-phase',
@@ -378,6 +440,132 @@ export async function advancePhaseAction(sessionID: string) {
   })
 
   revalidatePath('/')
+}
+
+async function updateSessionOtherWorldEncounters(
+  sessionID: string,
+  state: OtherWorldEncounterDeckState,
+  entries: NonNullable<GameSession['sessionLog']>,
+  extraData: Partial<Pick<GameSession, 'shuffleEvents'>> = {},
+) {
+  const payload = await getPayloadClient()
+  const session = await payload.findByID({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  await payload.update({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    overrideAccess: true,
+    data: {
+      otherWorldEncounters: otherWorldEncounterDeckStateForPayload(state),
+      sessionLog: [...(session.sessionLog ?? []), ...entries],
+      ...extraData,
+    },
+  })
+
+  revalidatePath('/')
+}
+
+export async function flipNextOtherWorldEncounterAction(sessionID: string) {
+  const payload = await getPayloadClient()
+  const session = await payload.findByID({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  if (session.currentPhase !== 'Other World Encounters') return
+
+  const state = otherWorldEncounterDeckStateFromSession(session)
+  const discardedCardID = state.currentDraw?.cardID ?? null
+  const availableDiscard = [
+    ...(state.discardPile ?? []),
+    ...(state.currentDraw ? [state.currentDraw] : []),
+  ]
+  const result = flipNextOtherWorldEncounterCard(state, shuffle(availableDiscard))
+  const entries: NonNullable<GameSession['sessionLog']> = [
+    ...(discardedCardID
+      ? [otherWorldEncounterLogEntry(session, 'discard-other-world-encounter', discardedCardID)]
+      : []),
+    ...(result.didShuffle
+      ? [logEntry(session, 'shuffle-deck', null, 'Other World encounter deck empty.')]
+      : []),
+    ...(result.drawnCardID
+      ? [otherWorldEncounterLogEntry(session, 'draw-other-world-encounter', result.drawnCardID)]
+      : []),
+  ]
+
+  await updateSessionOtherWorldEncounters(sessionID, result.state, entries, {
+    shuffleEvents: result.didShuffle
+      ? [
+          ...(session.shuffleEvents ?? []),
+          shuffleEvent(
+            session,
+            'deck-empty',
+            'Discard pile shuffled into the Other World encounter draw pile.',
+          ),
+        ]
+      : session.shuffleEvents,
+  })
+}
+
+export async function shuffleOtherWorldEncounterDiscardAction(sessionID: string) {
+  const payload = await getPayloadClient()
+  const session = await payload.findByID({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
+  const state = otherWorldEncounterDeckStateFromSession(session)
+  const nextState: OtherWorldEncounterDeckState = {
+    ...state,
+    drawPile: [...(state.drawPile ?? []), ...shuffle(state.discardPile ?? [])],
+    discardPile: [],
+    shuffleCount: (state.shuffleCount ?? 0) + 1,
+  }
+  const note = 'Discard pile manually shuffled into the Other World encounter draw pile.'
+
+  await updateSessionOtherWorldEncounters(
+    sessionID,
+    nextState,
+    [logEntry(session, 'shuffle-deck', null, note)],
+    {
+      shuffleEvents: [...(session.shuffleEvents ?? []), shuffleEvent(session, 'manual', note)],
+    },
+  )
+}
+
+export async function resetOtherWorldEncounterDeckAction(sessionID: string) {
+  const payload = await getPayloadClient()
+  const session = await payload.findByID({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
+  const cards = await payload.find({
+    collection: OTHER_WORLD_ENCOUNTER_CARDS,
+    where: sourceSetWhere(relationshipIDs(session.enabledSets)),
+    limit: 1000,
+    depth: 0,
+    overrideAccess: true,
+  })
+  const nextState = freshOtherWorldEncounterDeckState(cards.docs)
+
+  await updateSessionOtherWorldEncounters(sessionID, nextState, [
+    logEntry(
+      session,
+      'shuffle-deck',
+      null,
+      'Other World encounter deck reset from the sets enabled for this session.',
+    ),
+  ])
 }
 
 export async function previousPhaseAction(sessionID: string) {

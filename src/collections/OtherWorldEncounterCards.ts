@@ -43,6 +43,14 @@ export const OtherWorldEncounterCards: CollectionConfig = {
       },
     },
     {
+      name: 'copyCount',
+      label: 'Physical Copies',
+      type: 'number',
+      required: true,
+      defaultValue: 1,
+      min: 1,
+    },
+    {
       name: 'colour',
       type: 'select',
       required: true,

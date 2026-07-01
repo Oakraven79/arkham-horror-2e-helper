@@ -1,12 +1,11 @@
 import './card.css'
 
-export interface OtherworldEncounterCardBackProps {}
-
-export const OtherworldEncounterCardBack = ({}: OtherworldEncounterCardBackProps) => {
+export const OtherworldEncounterCardBack = () => {
   return (
     <div className="otherworldcardback">
       <div className="image">
-        <img src="/images/otherworldEncounterBack.jpg" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img alt="Other World encounter card back" src="/images/otherworldEncounterBack.jpg" />
       </div>
     </div>
   )

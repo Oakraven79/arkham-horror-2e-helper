@@ -557,6 +557,7 @@ export interface OtherWorldEncounterCard {
    * Stable internal identifier, for example "base-blue-001".
    */
   cardCode: string;
+  copyCount: number;
   colour: 'blue' | 'green' | 'red' | 'yellow';
   /**
    * The two named destination encounters and the single "Other" fallback printed on the card.
@@ -746,6 +747,36 @@ export interface GameSession {
     shuffleCount: number;
   };
   /**
+   * Saved copy-aware deck state. Flipping the next card discards the currently displayed card.
+   */
+  otherWorldEncounters: {
+    initialized: boolean;
+    drawPileInstances?:
+      | {
+          instanceKey: string;
+          card: string | OtherWorldEncounterCard;
+          id?: string | null;
+        }[]
+      | null;
+    discardPileInstances?:
+      | {
+          instanceKey: string;
+          card: string | OtherWorldEncounterCard;
+          id?: string | null;
+        }[]
+      | null;
+    drawHistoryInstances?:
+      | {
+          instanceKey: string;
+          card: string | OtherWorldEncounterCard;
+          id?: string | null;
+        }[]
+      | null;
+    currentDraw?: (string | null) | OtherWorldEncounterCard;
+    currentDrawInstanceKey?: string | null;
+    shuffleCount: number;
+  };
+  /**
    * Records when the discard pile was shuffled back into the draw pile.
    */
   shuffleEvents?:
@@ -794,6 +825,8 @@ export interface GameSession {
           | 'advance-phase'
           | 'previous-phase'
           | 'draw-mythos'
+          | 'draw-other-world-encounter'
+          | 'discard-other-world-encounter'
           | 'reveal-card'
           | 'resolve-card'
           | 'activate-environment'
@@ -806,6 +839,7 @@ export interface GameSession {
           | 'undo'
           | 'note';
         card?: (string | null) | MythosCard;
+        otherWorldEncounterCard?: (string | null) | OtherWorldEncounterCard;
         note?: string | null;
         id?: string | null;
       }[]
@@ -1199,6 +1233,7 @@ export interface OtherWorldsSelect<T extends boolean = true> {
  */
 export interface OtherWorldEncounterCardsSelect<T extends boolean = true> {
   cardCode?: T;
+  copyCount?: T;
   colour?: T;
   encounters?:
     | T
@@ -1290,6 +1325,35 @@ export interface GameSessionsSelect<T extends boolean = true> {
         activeRumorInstanceKey?: T;
         shuffleCount?: T;
       };
+  otherWorldEncounters?:
+    | T
+    | {
+        initialized?: T;
+        drawPileInstances?:
+          | T
+          | {
+              instanceKey?: T;
+              card?: T;
+              id?: T;
+            };
+        discardPileInstances?:
+          | T
+          | {
+              instanceKey?: T;
+              card?: T;
+              id?: T;
+            };
+        drawHistoryInstances?:
+          | T
+          | {
+              instanceKey?: T;
+              card?: T;
+              id?: T;
+            };
+        currentDraw?: T;
+        currentDrawInstanceKey?: T;
+        shuffleCount?: T;
+      };
   shuffleEvents?:
     | T
     | {
@@ -1306,6 +1370,7 @@ export interface GameSessionsSelect<T extends boolean = true> {
         phase?: T;
         action?: T;
         card?: T;
+        otherWorldEncounterCard?: T;
         note?: T;
         id?: T;
       };
