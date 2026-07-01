@@ -8,7 +8,6 @@ import {
   calculateInvestigatorRules,
   calculateMonsterSurgeCount,
   gameLimitWarnings,
-  type InvestigatorRules,
 } from '@/lib/investigatorRules'
 import { createGameSession } from '@/lib/gameSessions'
 import { mythosCardFrontProps } from '@/lib/mythosCardPresentation'
@@ -38,6 +37,7 @@ import {
   shuffleDiscardIntoDeckAction,
   startNewSessionAction,
 } from './actions'
+import { GameRulesContext } from './GameRulesContext'
 import { InvestigatorCountInput } from './InvestigatorCountInput'
 import { MythosDeckSlot } from './MythosDeckSlot'
 import './styles.css'
@@ -266,10 +266,7 @@ function AncientOneSetup({
   ancientOnes,
   activeAncientOne,
   activeSheet,
-  activeBoardNames,
-  hasRelationships,
   investigatorCount,
-  investigatorRules,
   currentSession,
   savedSessions,
   sessionID,
@@ -277,10 +274,7 @@ function AncientOneSetup({
   ancientOnes: AncientOne[]
   activeAncientOne: AncientOne | null
   activeSheet: AncientOneSheet | null
-  activeBoardNames: string[]
-  hasRelationships: boolean
   investigatorCount: number
-  investigatorRules: InvestigatorRules
   currentSession: GameSession
   savedSessions: GameSession[]
   sessionID: string
@@ -386,89 +380,6 @@ function AncientOneSetup({
           <Link href="/admin/collections/ancient-ones">Open Ancient Ones</Link>
         </div>
       )}
-
-      <section className="setup-rules">
-        <div className="setup-rules-heading">
-          <div>
-            <p className="eyebrow">Investigator Rules</p>
-            <h3>Table limits</h3>
-          </div>
-          {activeBoardNames.length > 0 && <p>Expansion boards: {activeBoardNames.join(', ')}</p>}
-        </div>
-        {investigatorRules.expansionBoardAdjustment > 0 && (
-          <div className="setup-adjustment-note">
-            {investigatorRules.actualInvestigatorCount} investigators count as{' '}
-            {investigatorRules.effectiveInvestigatorCount} for board-pressure limits.
-          </div>
-        )}
-        <div className="setup-rule-values">
-          <div>
-            <span>Investigators</span>
-            <strong>{investigatorRules.actualInvestigatorCount}</strong>
-          </div>
-          {investigatorRules.expansionBoardAdjustment > 0 && (
-            <div>
-              <span>Effective count</span>
-              <strong>{investigatorRules.effectiveInvestigatorCount}</strong>
-            </div>
-          )}
-          <div>
-            <span>Monster limit</span>
-            <strong>{investigatorRules.monsterLimit}</strong>
-          </div>
-          <div>
-            <span>Outskirts</span>
-            <strong>{investigatorRules.outskirtsCapacity}</strong>
-          </div>
-          <div>
-            <span>Gate awakening</span>
-            <strong>{investigatorRules.gateAwakeningThreshold}</strong>
-          </div>
-          <div>
-            <span>New gate monsters</span>
-            <strong>{investigatorRules.newGateMonsterCount}</strong>
-          </div>
-          <div>
-            <span>Surge minimum</span>
-            <strong>{investigatorRules.monsterSurgeMinimum}</strong>
-          </div>
-          <div>
-            <span>Successes per doom</span>
-            <strong>{investigatorRules.finalBattleSuccessesPerDoom}</strong>
-          </div>
-          <div>
-            <span>Gate trophies</span>
-            <strong>{investigatorRules.closeGateTrophiesRequired}</strong>
-          </div>
-          {hasRelationships && (
-            <div>
-              <span>Relationship cards</span>
-              <strong>{investigatorRules.relationshipCardCount}</strong>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {activeAncientOne && activeSheet && (
-        <section className="ancient-one-sheet-summary">
-          <div>
-            <span>Ancient One</span>
-            <strong>{activeAncientOne.name}</strong>
-          </div>
-          <div>
-            <span>Sheet</span>
-            <strong>{activeSheet.label}</strong>
-          </div>
-          <div>
-            <span>Doom track</span>
-            <strong>{activeSheet.doomTrack}</strong>
-          </div>
-          <div>
-            <span>{activeSheet.powerName}</span>
-            <strong>{activeSheet.power}</strong>
-          </div>
-        </section>
-      )}
     </section>
   )
 }
@@ -518,14 +429,10 @@ function EncounterDeckPlaceholder({
 }
 
 function PhaseGuide({
-  activeAncientOne,
-  activeSheet,
   locations,
   otherWorlds,
   phase,
 }: {
-  activeAncientOne: AncientOne | null
-  activeSheet: AncientOneSheet | null
   locations: Location[]
   otherWorlds: OtherWorld[]
   phase: GamePhase
@@ -560,14 +467,6 @@ function PhaseGuide({
           </li>
         ))}
       </ol>
-
-      {activeAncientOne && activeSheet && (
-        <section className="ancient-one-power">
-          <p>{activeAncientOne.name}</p>
-          <h3>{activeSheet.powerName}</h3>
-          <span>{activeSheet.power}</span>
-        </section>
-      )}
     </section>
   )
 }
@@ -714,48 +613,26 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           <p className="eyebrow">Arkham Horror Helper</p>
           <h1>{session.name}</h1>
         </div>
-        <section className="ancient-one-status" aria-label="Active Ancient One">
-          <span>Ancient One</span>
-          <strong>{activeAncientOne?.name ?? 'Not selected'}</strong>
-          <small>
-            {activeSheet
-              ? `${activeSheet.powerName} | Doom ${tracks.doomCurrent ?? 0}/${tracks.doomMax ?? activeSheet.doomTrack}`
-              : 'Choose during setup'}
-          </small>
-        </section>
         <div className="table-counters" aria-label="Session counters">
-          <div>
-            <span>Investigators</span>
-            <strong>{session.playerCount}</strong>
-          </div>
           <div>
             <span>Terror</span>
             <strong>{tracks.terror ?? 0}/10</strong>
           </div>
           <div>
             <span>Gates</span>
-            <strong>
-              {tracks.gatesOpen ?? 0}/{investigatorRules.gateAwakeningThreshold}
-            </strong>
+            <strong>{tracks.gatesOpen ?? 0}</strong>
           </div>
           <div>
             <span>Elder Signs</span>
             <strong>{tracks.elderSigns ?? 0}</strong>
           </div>
           <div>
-            <span>{(tracks.terror ?? 0) >= 10 ? 'Monsters to Wake' : 'Monsters'}</span>
-            <strong>
-              {tracks.monstersInArkham ?? 0}/
-              {(tracks.terror ?? 0) >= 10
-                ? investigatorRules.terrorTenAwakeningMonsterCount
-                : investigatorRules.monsterLimit}
-            </strong>
+            <span>Monsters</span>
+            <strong>{tracks.monstersInArkham ?? 0}</strong>
           </div>
           <div>
             <span>Outskirts</span>
-            <strong>
-              {tracks.monstersInOutskirts ?? 0}/{investigatorRules.outskirtsCapacity}
-            </strong>
+            <strong>{tracks.monstersInOutskirts ?? 0}</strong>
           </div>
           <div>
             <span>Draw Pile</span>
@@ -770,6 +647,16 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           phase={currentPhase}
           sessionID={sessionID}
           turnNumber={session.turnNumber}
+        />
+
+        <GameRulesContext
+          activeAncientOne={activeAncientOne}
+          activeSheet={activeSheet}
+          expansionBoardNames={expansionBoards.map((boxedSet) => boxedSet.name)}
+          hasRelationships={enabledSetKeys.has('lurker-at-the-threshold')}
+          investigatorRules={investigatorRules}
+          phase={currentPhase}
+          tracks={tracks}
         />
 
         {currentPhase !== 'Setup' && limitWarnings.length > 0 && (
@@ -787,17 +674,125 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             ancientOnes={referenceData.ancientOnes}
             activeAncientOne={activeAncientOne}
             activeSheet={activeSheet}
-            activeBoardNames={expansionBoards.map((boxedSet) => boxedSet.name)}
-            hasRelationships={enabledSetKeys.has('lurker-at-the-threshold')}
             investigatorCount={session.playerCount}
-            investigatorRules={investigatorRules}
             currentSession={session}
             savedSessions={savedSessions}
             sessionID={sessionID}
           />
         ) : currentPhase === 'Mythos' ? (
-          <>
-            <section className="card-lineup" aria-label="Mythos cards in play">
+          <div className="mythos-workspace">
+            <aside className="mythos-resolver" aria-label="Mythos resolver">
+              <header>
+                <p className="eyebrow">Mythos Resolver</p>
+                <h2>
+                  {currentCardDocument
+                    ? mythos.currentDrawRevealed
+                      ? currentCardDocument.title
+                      : 'Card drawn'
+                    : 'Deck ready'}
+                </h2>
+                <p className="resolver-copy">
+                  {currentCardDocument
+                    ? mythos.currentDrawRevealed
+                      ? currentCardType || 'Mythos card'
+                      : 'Flip the card to reveal it.'
+                    : mythosCards.length
+                      ? 'Draw the next Mythos card.'
+                      : 'No Mythos cards are available.'}
+                </p>
+              </header>
+
+              <ol className="mythos-step-list">
+                {gamePhaseGuides.Mythos.steps.map((step) => (
+                  <li key={step}>{step}</li>
+                ))}
+              </ol>
+
+              <div className="mythos-count-rules">
+                <div>
+                  <span>New gate</span>
+                  <strong>{investigatorRules.newGateMonsterCount}</strong>
+                </div>
+                <div>
+                  <span>Surge</span>
+                  <strong>{monsterSurgeCount}</strong>
+                </div>
+                <div>
+                  <span>Arkham room</span>
+                  <strong>
+                    {(tracks.terror ?? 0) >= 10
+                      ? 'None'
+                      : Math.max(
+                          0,
+                          investigatorRules.monsterLimit - (tracks.monstersInArkham ?? 0),
+                        )}
+                  </strong>
+                </div>
+                <div>
+                  <span>Outskirts room</span>
+                  <strong>
+                    {Math.max(
+                      0,
+                      investigatorRules.outskirtsCapacity - (tracks.monstersInOutskirts ?? 0),
+                    )}
+                  </strong>
+                </div>
+                <div>
+                  <span>Gate pressure</span>
+                  <strong>
+                    {tracks.gatesOpen ?? 0}/{investigatorRules.gateAwakeningThreshold}
+                  </strong>
+                </div>
+              </div>
+
+              {currentCardDocument && mythos.currentDrawRevealed && (
+                <section className="mythos-primary-action">
+                  {String(currentCardType).startsWith('Environment') ? (
+                    <form action={activateCurrentEnvironmentAction.bind(null, sessionID)}>
+                      <button type="submit">Set as Environment</button>
+                    </form>
+                  ) : currentCardType === 'Rumor' ? (
+                    <form action={activateCurrentRumorAction.bind(null, sessionID)}>
+                      <button type="submit">
+                        {activeRumorDocument ? 'Ignore new Rumor' : 'Set as Rumor'}
+                      </button>
+                    </form>
+                  ) : (
+                    <form action={discardCurrentDrawAction.bind(null, sessionID)}>
+                      <button type="submit">Discard after resolving</button>
+                    </form>
+                  )}
+                </section>
+              )}
+
+              <div className="mythos-pile-summary">
+                <span>
+                  Discard <strong>{discardPile.length}</strong>
+                </span>
+                <span>
+                  Drawn <strong>{drawHistory.length}</strong>
+                </span>
+                <span>
+                  Shuffles <strong>{mythos.shuffleCount ?? 0}</strong>
+                </span>
+              </div>
+
+              <details className="mythos-deck-actions">
+                <summary>Deck actions</summary>
+                <div>
+                  <form action={shuffleDiscardIntoDeckAction.bind(null, sessionID)}>
+                    <button disabled={discardPile.length === 0} type="submit">
+                      Shuffle discard into deck
+                    </button>
+                  </form>
+                  <form action={resetMythosDeckAction.bind(null, sessionID)}>
+                    <button type="submit">Reset Mythos deck</button>
+                  </form>
+                </div>
+              </details>
+            </aside>
+
+            <section className="card-lineup mythos-card-lineup" aria-label="Mythos cards in play">
               <section className="table-card-slot">
                 <div className="slot-heading">
                   <h2>Current Mythos</h2>
@@ -836,103 +831,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                 actionLabel="Clear"
               />
             </section>
-
-            <aside className="resolver-panel" aria-label="Mythos resolver">
-              <section>
-                <p className="eyebrow">Current Draw</p>
-                <h2>{currentCardDocument?.title ?? 'Deck ready'}</h2>
-                <p className="resolver-copy">
-                  {currentCardDocument
-                    ? mythos.currentDrawRevealed
-                      ? currentCardType || 'Mythos card'
-                      : 'Face down'
-                    : mythosCards.length
-                      ? 'Draw the next Mythos card.'
-                      : 'No Mythos cards are available.'}
-                </p>
-                <div className="mythos-count-rules">
-                  <div>
-                    <span>New gate</span>
-                    <strong>{investigatorRules.newGateMonsterCount} monsters</strong>
-                  </div>
-                  <div>
-                    <span>Surge now</span>
-                    <strong>{monsterSurgeCount} monsters</strong>
-                  </div>
-                  <div>
-                    <span>Monster room</span>
-                    <strong>
-                      {(tracks.terror ?? 0) >= 10
-                        ? 'No limit'
-                        : Math.max(
-                            0,
-                            investigatorRules.monsterLimit - (tracks.monstersInArkham ?? 0),
-                          )}
-                    </strong>
-                  </div>
-                </div>
-              </section>
-
-              <section className="resolver-actions">
-                {currentCardDocument && (
-                  <>
-                    <form action={discardCurrentDrawAction.bind(null, sessionID)}>
-                      <button type="submit">Discard after resolving</button>
-                    </form>
-                    {String(currentCardType).startsWith('Environment') && (
-                      <form action={activateCurrentEnvironmentAction.bind(null, sessionID)}>
-                        <button type="submit">Set as Environment</button>
-                      </form>
-                    )}
-                    {currentCardType === 'Rumor' && (
-                      <form action={activateCurrentRumorAction.bind(null, sessionID)}>
-                        <button type="submit">
-                          {activeRumorDocument ? 'Ignore new Rumor' : 'Set as Rumor'}
-                        </button>
-                      </form>
-                    )}
-                  </>
-                )}
-                <form action={shuffleDiscardIntoDeckAction.bind(null, sessionID)}>
-                  <button disabled={discardPile.length === 0} type="submit">
-                    Shuffle discard into deck
-                  </button>
-                </form>
-                <form action={resetMythosDeckAction.bind(null, sessionID)}>
-                  <button type="submit">Reset Mythos deck</button>
-                </form>
-              </section>
-
-              <section className="session-piles">
-                <div>
-                  <span>Discard</span>
-                  <strong>{discardPile.length}</strong>
-                </div>
-                <div>
-                  <span>Drawn</span>
-                  <strong>{drawHistory.length}</strong>
-                </div>
-                <div>
-                  <span>Shuffles</span>
-                  <strong>{mythos.shuffleCount ?? 0}</strong>
-                </div>
-              </section>
-
-              <section className="resolver-steps">
-                <h2>Mythos Steps</h2>
-                <ol>
-                  {gamePhaseGuides.Mythos.steps.map((step) => (
-                    <li key={step}>{step}</li>
-                  ))}
-                </ol>
-              </section>
-            </aside>
-          </>
+          </div>
         ) : (
           <div className="phase-workspace">
             <PhaseGuide
-              activeAncientOne={activeAncientOne}
-              activeSheet={activeSheet}
               locations={referenceData.locations}
               otherWorlds={referenceData.otherWorlds}
               phase={currentPhase}
