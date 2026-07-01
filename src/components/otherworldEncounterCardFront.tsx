@@ -24,18 +24,23 @@ export const OtherworldEncounterCardFront = ({
   colour,
 }: OtherworldEncounterCardFrontProps) => {
   const cardClass = 'otherworldcardfront ' + colour
+  const contentLength = textBlocks.reduce(
+    (total, block) => total + block.header.length + block.desc.length,
+    0,
+  )
+  const density = contentLength > 650 ? 'compact' : contentLength > 400 ? 'dense' : 'regular'
 
   return (
     <div className={cardClass}>
       <BoxedSetMark boxedSet={boxedSet} />
-      <div className="otherworldcard-center-panel">
+      <div className={`otherworldcard-center-panel otherworldcard-center-panel--${density}`}>
         {textBlocks.map((block, index) => (
-          <div key={`${block.header}-${index}`}>
+          <section className="otherworldcard-encounter" key={`${block.header}-${index}`}>
             <h2>{block.header}</h2>
-            <p>
+            <div className="otherworldcard-encounter-text">
               <ReactMarkdown>{block.desc}</ReactMarkdown>
-            </p>
-          </div>
+            </div>
+          </section>
         ))}
       </div>
     </div>

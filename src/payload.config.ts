@@ -38,8 +38,9 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
     livePreview: {
-      url: ({ data, req }) => `${req.protocol}//${req.host}/preview/${data.id}/`,
-      collections: ['mythos-cards'],
+      url: ({ collectionConfig, data, req }) =>
+        `${req.protocol}//${req.host}/preview/${collectionConfig?.slug ?? 'mythos-cards'}/${data.id}/`,
+      collections: ['mythos-cards', 'other-world-encounter-cards'],
     },
   },
   collections: [

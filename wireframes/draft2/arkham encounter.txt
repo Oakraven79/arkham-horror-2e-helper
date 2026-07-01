@@ -1,0 +1,163 @@
+
+Fourth Of July Parade!
+Headline
+Investigators cannot move into or out of the Merchant District street until the end of the next turn. Leave this card in play until then to indicate this.
+Close:
+Merchant District Streets
+Clue Appears at:
+Black Cave
+
+
+
+The Witch
+House
+The Chill of the Grave
+Environment (Mystic)
+All Undead Monsters have their toughness increased by 1.
+Clue Appears at:
+Science Building
+
+
+
+Univisited
+Isle
+Disturbing the Dead
+Rumor
+Ongoing Effect: Roll a die at the end of every Mythos Phase while this is in play (Beginning the turn after it entered play). On a 1 or 2, increase the terror level by 1.
+Pass: If a player discards 2 gate trophies during the Arkham Encounter Phase while in the Rivertown Streets, return this card to the box. Each player draws 1 Spell.
+Fail: If the terror level reaches 10, return the card to the box. Every investigator is Cursed.
+Activity at:
+Rivertown Streets
+
+
+
+
+
+Black
+Cave
+
+Abyss
+The caverns split. Make a Luck(+1) check and consult the chart below:
+Successes: 0-1: Move to the Black Cave. 2: Move to The Dreamlands. 3+: You enter a dark temple. Pass a Luck (-1) check to draw a Unique Item.
+Celano
+The huge book opens nmoiselessly at your approach. If you choose you may read it, in which case you must pass a Fight(-1)[2] check to defeat its guardian. If you do, draw 3 Spells and keep 2 of them. If you fail, lose 3 stamina.
+Other
+A monster appears!
+The Dreamlands
+You encounter the talking cats of Ulthar. Pass a Will (+0) check to draw 1 Spell.
+City Of The Great Race
+Pass a Luck (-1) check to find something useful among the incomprehensible artifacts. If so, draw 1 Unique Item.
+Other
+A glimpse of home give you hope. Gain 1 Sanity.
+R'lyeh
+Pass a Speed (-1) check or you slip and slide down a barnacled surface, slashing your skin to ribbons. Lose 3 Stamina
+Abyss
+Pass a Luck (-1) check or you are faced with an enourmouse mountain with a strange symbol carved into it, as if by the claw of a gigantic creature. The world swims around you and you lose 3 Sanity.
+Other
+The obsidian door refuses to open. Pass a Fight (-1) check or stay here next turn struggling with it.
+R'lyeh
+The stink of this place is unbearable. Pass a Will (-1) check or lose 1 Stamina, 1 Sanity and your lunch.
+City Of The Great Race
+In a flash of insight, you realise the purpose of the bladed artifact. Shivering, you put it back where you found it. Lose 1 Sanity but gain 1 Clue token.
+Other
+Time and space bend around you. Make a Luck (-1) check. If you pass, return to Arkham. If you fail, stay here next turn.
+
+
+
+
+St. Mary's Hospital
+Nurse Sharon slips something into your hand when the doctor isn't looking. Pass a Sneak (-1) check to keep anyone else from noticing. If you do, you later examine the object and find it to be an old parchment with a spell scratched on it. Draw 1 Spell. If you fail, an orderly takes it away from you and you gain nothing.
+Woods
+You come across a cringing dog. Pass a Speed (-2) check to catch and calm him. If you have Food, you can discard that to automatically pass the check instead of rolling. You see by his collar that he is named Duke. Take his Ally card. If it isn't available, gain $3 as a reward for returning him to his owner, instead.
+Ye Olde Magick Shoppe
+Miriam Beecher talks to you for awhile, explaining some very interesting theories she has concerning the Mythos. Gain 1 Clue token.
+
+
+
+
+
+Administration Building
+Your discussions on the Mythos lead campus security to conclude that you are off your rocker, and they escort you off campus. Move to Arkham Asylum and immediately have an encounter there.
+Library
+Lose 1 Sanity. begins to whisper terrible things to you. A book in a shadowy corner of the library
+Science Building
+A chemical brew bubbles on a nearby Bunsen burner. It smells delicious. If you drink it, make a Luck (+0) check. If you pass, the strange liquid fortifies you. Roll a die and gain that many points, split between your Stamina and Sanity however you like. If you fail, the liquid turns out to be coffee. Gain 1 Stamina.
+
+
+
+
+
+Curiositie Shoppe
+As you wander into the back of the shop, you hear a noise. Pass a Speed (-1) check or you look up just in time to see a descending club. Everything goes black. When you awaken, you are somewhere else. Draw a Mythos card and move to the gate location shown on it, then immediately have an encounter there.
+Newspaper
+You accidentally tip over a bottle of ink and are aghast at the pattern the ink forms on the newsroom floor. Lose 1 Sanity.
+Train Station
+A stranger in a turban steps off the Boston local train with a crazed look on his face. Make a Luck (-1) check. If you pass, the man pulls a strange object from beneath his cloak and gives it to you. Draw 1 Unique Item. If you fail, he pulls a poisoned blade out of his cloak and stabs you. Roll a die and lose that much Stamina.
+
+
+
+
+
+Hibb's Roadhouse
+A stranger buys you a drink. You may search the Common Item deck for a Whiskey card and take it.
+Police Station
+Pass a Will (-1) check to convince Deputy Dingby to share some files with you that are very interesting. Gain 2 Clue tokens.
+Velma's Diner
+"This must be where pies go when they die." If you want, pay $1 to enjoy a fine slice of cherry pie. If you do, gain 2 Stamina.
+
+
+
+
+
+Arkham Asylum
+Nurse Heather is coming! Make a Speed (-1) check to hide in time. If you pass, you see her drop something as she walks by. Draw 1 Unique Item. If you fail, she throws you out. Move to the street.
+Bank of Arkham
+A man wearing dirty and tattered clothing is loitering outside the bank. He offers to sell you his last possession to get some food money for him and his family. If you accept, pay $2 and make a Luck (-1) check. If you pass, draw 1 Unique Item. If you fail, draw 1 Common Item.
+Independence Square
+Make a Will (-1) check. If you pass it, Anna Kaslow the fortune teller offers her help in your investigation. Take her Ally card if it is still available. Otherwise, gain 2 Clue tokens. If you fail, nothing happens.
+
+
+
+
+
+Black Cave
+A monster appears!
+General Store
+You notice that some of the locals have an odd, fish-like quality to them that sets your teeth on edge. The shopkeeper notices your gaze and nods, "Marsh stock, from over in Innsmouth. Watch yourself around them." Shivering, you lose 1 Sanity.
+Graveyard
+You find a man painting a picture of one of the horrible gargoyles lining the walls of the graveyard. Seeing you, he introduces himself as Richard Upton Pickman, a painter visiting from Boston. If you spend monster trophies that have a total of 5 toughness, Pickman takes a liking to you. Take his Ally card. If it is not available, he teaches you an incantation instead. Draw 1 Spell. =
+
+
+
+
+
+Historical Society
+Perusing the county records, you discover something horrifying about your family tree. Lose 1 Sanity.
+Ma's Boarding House
+The last guest to stay in your room had to leave in a hurry and left something behind.Draw 1 Common Item.
+South Church
+You enter the confessional. "Bless me, Father, for I have sinned." Make a Luck (+0) check and consult the chart below:
+Successes: 0) "Father? Are you there?" You hear a scream in the next compartment! Lose 3 Sanity and move to the street. 1) "Father?" There is no answer Sighing, you leave. Move to the street. 2+) "I don't remember my last confession." Raise your Sanity to its maximum value.
+
+
+
+
+
+
+River Docks
+As you look out across the waves, you feel strangely compelled to throw yourself into the ocean's watery embrace. Pass a Will (+1) check or you are lost in time and space.
+The Unnamable
+You hear the scurrying and squeaking of a horde of rats from inside the walls. Abruptly, you realize that they are moving to surround you. Pass a Speed (-1) check to make it to the front door first. If you fail, you are lost in time and space.
+Unvisited Isle
+Looking up at the night sky from the island, you see constellations that you've never seen before. The entire night sky is different here! Lose 1 Sanity and gain 1 Clue token.
+
+
+
+
+Silver Twilight Lodge
+You find an old parchment in the study. Pass aLore (-1) check to draw 2 Spells and keep one of your choice.
+Inner Sanctum
+You are allowed into the vault of Silver Secrets. Pass a Luck (-2) check to steal a very unusual item. Search the Unique Item deck and take any 1 Unique Item you want.
+The Witch House
+"Excuse me, stranger, but have you ever seen this symbol before?" A man standing Make a Lore (-1) check. If you pass, the man introduces himself as Thomas F. Malone, a police detective visiting Arkham on a case. He's impressed with you and offers to join you. Take his Ally card. If it's not available, he tells you some valuable information instead. Gain 2 Clue tokens. If you fail, nothing happens.
+
