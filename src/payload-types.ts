@@ -707,6 +707,9 @@ export interface GameSession {
             )
           | null;
         action:
+          | 'create-session'
+          | 'resume-session'
+          | 'exit-session'
           | 'select-ancient-one'
           | 'advance-phase'
           | 'previous-phase'

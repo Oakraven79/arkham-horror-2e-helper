@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 
 import { MythosCardFront, type MythosCardFrontProps } from '@/components/mythosCardFront'
@@ -10,7 +11,7 @@ import {
   gameLimitWarnings,
 } from '@/lib/investigatorRules'
 import { relationshipID, relationshipIDs, sourceSetWhere } from '@/lib/gameSessionContent'
-import { createGameSession, repairLegacySessionEnabledSets } from '@/lib/gameSessions'
+import { repairLegacySessionEnabledSets } from '@/lib/gameSessions'
 import { mythosCardFrontProps } from '@/lib/mythosCardPresentation'
 import { mythosDeckStateFromSession } from '@/lib/mythosSessionState'
 import config from '@/payload.config'
@@ -30,13 +31,12 @@ import {
   clearActiveEnvironmentAction,
   clearActiveRumorAction,
   discardCurrentDrawAction,
+  exitGameAction,
   previousPhaseAction,
   renameSessionAction,
   resetMythosDeckAction,
-  resumeSessionAction,
   selectAncientOneAction,
   shuffleDiscardIntoDeckAction,
-  startNewSessionAction,
   updateEnabledSetsAction,
 } from './actions'
 import { GameRulesContext } from './GameRulesContext'
@@ -130,20 +130,22 @@ async function getReferenceData(
   }
 }
 
-async function getOrCreateSession(
+async function getActiveSession(
   payload: Awaited<ReturnType<typeof getPayload>>,
   requestedSessionID?: string,
-): Promise<GameSession> {
+): Promise<GameSession | null> {
   if (requestedSessionID) {
     try {
-      return await payload.findByID({
+      const requestedSession = await payload.findByID({
         collection: 'game-sessions',
         id: requestedSessionID,
         depth: 2,
         overrideAccess: true,
       })
+
+      return requestedSession.status === 'active' ? requestedSession : null
     } catch {
-      // Fall back to the current active session when a saved URL is stale.
+      return null
     }
   }
 
@@ -160,9 +162,7 @@ async function getOrCreateSession(
     overrideAccess: true,
   })
 
-  if (existing.docs[0]) return existing.docs[0]
-
-  return createGameSession(payload)
+  return existing.docs[0] ?? null
 }
 
 function resolveCard(value: RelationshipValue, cardsByID: Map<string, MythosCard>) {
@@ -282,7 +282,6 @@ function AncientOneSetup({
   activeSheet,
   investigatorCount,
   currentSession,
-  savedSessions,
   sessionID,
 }: {
   ancientOnes: AncientOne[]
@@ -291,7 +290,6 @@ function AncientOneSetup({
   activeSheet: AncientOneSheet | null
   investigatorCount: number
   currentSession: GameSession
-  savedSessions: GameSession[]
   sessionID: string
 }) {
   const currentSelection =
@@ -313,52 +311,27 @@ function AncientOneSetup({
         <p>Choose the Ancient One sheet and number of investigators before the first turn.</p>
       </div>
 
-      <section className="session-setup">
+      <section className="current-session-setup">
         <div className="current-session-details">
-          <p className="eyebrow">Saved Games</p>
+          <p className="eyebrow">Current Table</p>
           <h3>{currentSession.name}</h3>
           <time dateTime={currentSession.createdAt}>
             Started {formatSessionTimestamp(currentSession.createdAt)}
           </time>
-          <form action={renameSessionAction.bind(null, sessionID)} className="session-name-form">
-            <label htmlFor="current-session-name">Session name</label>
-            <input
-              defaultValue={currentSession.name}
-              id="current-session-name"
-              maxLength={80}
-              name="sessionName"
-              required
-              type="text"
-            />
-            <button type="submit">Save</button>
-          </form>
         </div>
-        <form action={resumeSessionAction} className="resume-session-form">
-          <label htmlFor="saved-session">Resume session</label>
-          <select defaultValue={sessionID} id="saved-session" name="sessionID">
-            {savedSessions.map((savedSession) => (
-              <option key={savedSession.id} value={savedSession.id}>
-                {savedSession.name} - {formatSessionTimestamp(savedSession.createdAt)} - Turn{' '}
-                {savedSession.turnNumber}, {savedSession.currentPhase} ({savedSession.status})
-              </option>
-            ))}
-          </select>
-          <button type="submit">Resume</button>
-        </form>
-        <form action={startNewSessionAction} className="new-session-form">
-          <label htmlFor="new-session-name">New session name</label>
+        <form action={renameSessionAction.bind(null, sessionID)} className="session-name-form">
+          <label htmlFor="current-session-name">Session name</label>
           <input
-            id="new-session-name"
+            defaultValue={currentSession.name}
+            id="current-session-name"
             maxLength={80}
             name="sessionName"
-            placeholder="Friday night in Arkham"
             required
             type="text"
           />
-          <button className="new-session-button" type="submit">
-            Start session
-          </button>
+          <button type="submit">Rename</button>
         </form>
+        <Link href="/sessions">All sessions</Link>
       </section>
 
       <form action={updateEnabledSetsAction.bind(null, sessionID)} className="expansion-selector">
@@ -636,10 +609,15 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     : requestedSearchParams.session
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
-  const loadedSession = await getOrCreateSession(payload, requestedSessionID)
+  const loadedSession = await getActiveSession(payload, requestedSessionID)
+
+  if (!loadedSession) {
+    redirect('/sessions')
+  }
+
   const session = await repairLegacySessionEnabledSets(payload, loadedSession)
   const enabledSetIDs = relationshipIDs(session.enabledSets)
-  const [mythosCards, referenceData, boxedSetResult, savedSessionResult] = await Promise.all([
+  const [mythosCards, referenceData, boxedSetResult] = await Promise.all([
     getAllMythosCards(payload, enabledSetIDs),
     getReferenceData(payload, enabledSetIDs),
     payload.find({
@@ -649,17 +627,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       depth: 1,
       overrideAccess: true,
     }),
-    payload.find({
-      collection: 'game-sessions',
-      sort: '-updatedAt',
-      limit: 50,
-      depth: 0,
-      overrideAccess: true,
-    }),
   ])
-  const savedSessions = savedSessionResult.docs.filter(
-    (savedSession) => savedSession.status === 'active' || savedSession.status === 'paused',
-  )
   const cardsByID = new Map(mythosCards.map((card) => [String(card.id), card]))
   const ancientOnesByID = new Map(
     referenceData.ancientOnes.map((ancientOne) => [String(ancientOne.id), ancientOne]),
@@ -731,6 +699,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             <strong>{drawPile.length}</strong>
           </div>
         </div>
+        <form action={exitGameAction.bind(null, sessionID)} className="exit-game-form">
+          <button type="submit">Exit game</button>
+        </form>
       </header>
 
       <section className="table-layout">
@@ -769,7 +740,6 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             activeSheet={activeSheet}
             investigatorCount={session.playerCount}
             currentSession={session}
-            savedSessions={savedSessions}
             sessionID={sessionID}
           />
         ) : currentPhase === 'Mythos' ? (

@@ -31,7 +31,12 @@ import {
   sameSetSelection,
   sourceSetWhere,
 } from '@/lib/gameSessionContent'
-import { createGameSession, pauseActiveGameSessions } from '@/lib/gameSessions'
+import {
+  createGameSession,
+  exitGameSession,
+  pauseActiveGameSessions,
+  resumeGameSession,
+} from '@/lib/gameSessions'
 import config from '@/payload.config'
 import type { GameSession } from '@/payload-types'
 
@@ -124,6 +129,7 @@ export async function renameSessionAction(sessionID: string, formData: FormData)
   })
 
   revalidatePath('/')
+  revalidatePath('/sessions')
 }
 
 export async function resumeSessionAction(formData: FormData) {
@@ -134,28 +140,17 @@ export async function resumeSessionAction(formData: FormData) {
   }
 
   const payload = await getPayloadClient()
-  const session = await payload.findByID({
-    collection: GAME_SESSIONS,
-    id: sessionID,
-    depth: 0,
-    overrideAccess: true,
-  })
-
-  if (session.status === 'complete' || session.status === 'abandoned') {
-    throw new Error('Only active or paused sessions can be resumed.')
-  }
-
-  await pauseActiveGameSessions(payload, sessionID)
-  await payload.update({
-    collection: GAME_SESSIONS,
-    id: sessionID,
-    data: {
-      status: 'active',
-    },
-    overrideAccess: true,
-  })
+  await resumeGameSession(payload, sessionID)
 
   redirect(`/?session=${sessionID}`)
+}
+
+export async function exitGameAction(sessionID: string) {
+  const payload = await getPayloadClient()
+  await exitGameSession(payload, sessionID)
+
+  revalidatePath('/sessions')
+  redirect('/sessions')
 }
 
 export async function updateEnabledSetsAction(sessionID: string, formData: FormData) {

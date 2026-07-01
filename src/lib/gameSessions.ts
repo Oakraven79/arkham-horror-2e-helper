@@ -12,6 +12,19 @@ import {
 } from './gameSessionContent'
 import { mythosDeckStateForPayload } from './mythosSessionState'
 
+function lifecycleLogEntry(
+  session: GameSession,
+  action: 'exit-session' | 'resume-session',
+  note: string,
+): NonNullable<GameSession['sessionLog']>[number] {
+  return {
+    turnNumber: session.turnNumber,
+    phase: session.currentPhase,
+    action,
+    note,
+  }
+}
+
 export async function pauseActiveGameSessions(payload: Payload, exceptSessionID?: string) {
   const activeSessions = await payload.find({
     collection: 'game-sessions',
@@ -39,6 +52,58 @@ export async function pauseActiveGameSessions(payload: Payload, exceptSessionID?
         }),
       ),
   )
+}
+
+export async function resumeGameSession(payload: Payload, sessionID: string) {
+  const session = await payload.findByID({
+    collection: 'game-sessions',
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  if (session.status === 'complete' || session.status === 'abandoned') {
+    throw new Error('Only active or paused sessions can be resumed.')
+  }
+
+  await pauseActiveGameSessions(payload, sessionID)
+
+  return payload.update({
+    collection: 'game-sessions',
+    id: sessionID,
+    data: {
+      status: 'active',
+      sessionLog: [
+        ...(session.sessionLog ?? []),
+        lifecycleLogEntry(session, 'resume-session', 'Session resumed.'),
+      ],
+    },
+    overrideAccess: true,
+  })
+}
+
+export async function exitGameSession(payload: Payload, sessionID: string) {
+  const session = await payload.findByID({
+    collection: 'game-sessions',
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  if (session.status === 'complete' || session.status === 'abandoned') return session
+
+  return payload.update({
+    collection: 'game-sessions',
+    id: sessionID,
+    data: {
+      status: 'paused',
+      sessionLog: [
+        ...(session.sessionLog ?? []),
+        lifecycleLogEntry(session, 'exit-session', 'Session exited and saved.'),
+      ],
+    },
+    overrideAccess: true,
+  })
 }
 
 export async function createGameSession(
@@ -91,6 +156,12 @@ export async function createGameSession(
       },
       mythos: mythosDeckStateForPayload(freshMythosDeckState(cards.docs)),
       sessionLog: [
+        {
+          turnNumber: 1,
+          phase: 'Setup',
+          action: 'create-session',
+          note: 'Session created.',
+        },
         {
           turnNumber: 1,
           phase: 'Setup',

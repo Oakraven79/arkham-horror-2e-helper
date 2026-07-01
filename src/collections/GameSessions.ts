@@ -370,6 +370,9 @@ export const GameSessions: CollectionConfig = {
           type: 'select',
           required: true,
           options: [
+            { label: 'Create Session', value: 'create-session' },
+            { label: 'Resume Session', value: 'resume-session' },
+            { label: 'Exit Session', value: 'exit-session' },
             { label: 'Select Ancient One', value: 'select-ancient-one' },
             { label: 'Advance Phase', value: 'advance-phase' },
             { label: 'Previous Phase', value: 'previous-phase' },
