@@ -77,8 +77,20 @@ export const Locations: CollectionConfig = {
     },
     {
       name: 'neighborhood',
-      type: 'text',
+      type: 'relationship',
+      relationTo: 'neighborhoods',
       required: true,
+      index: true,
+    },
+    {
+      name: 'encounterBackOrder',
+      label: 'Encounter Deck Back Art Order',
+      type: 'number',
+      min: 1,
+      admin: {
+        description:
+          'Optional panel position on the neighbourhood deck back. Leave empty for areas that do not have their own artwork panel.',
+      },
     },
     {
       name: 'stability',
@@ -86,9 +98,7 @@ export const Locations: CollectionConfig = {
       required: true,
       options: locationStabilities.map((stability) => ({
         label:
-          stability === 'n/a'
-            ? 'Not Applicable'
-            : stability[0].toUpperCase() + stability.slice(1),
+          stability === 'n/a' ? 'Not Applicable' : stability[0].toUpperCase() + stability.slice(1),
         value: stability,
       })),
     },

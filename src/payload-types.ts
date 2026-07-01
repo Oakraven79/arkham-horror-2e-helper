@@ -71,7 +71,9 @@ export interface Config {
     media: Media;
     'boxed-sets': BoxedSet;
     'ancient-ones': AncientOne;
+    neighborhoods: Neighborhood;
     locations: Location;
+    'arkham-encounter-cards': ArkhamEncounterCard;
     'mythos-cards': MythosCard;
     'other-worlds': OtherWorld;
     'other-world-encounter-cards': OtherWorldEncounterCard;
@@ -87,7 +89,9 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     'boxed-sets': BoxedSetsSelect<false> | BoxedSetsSelect<true>;
     'ancient-ones': AncientOnesSelect<false> | AncientOnesSelect<true>;
+    neighborhoods: NeighborhoodsSelect<false> | NeighborhoodsSelect<true>;
     locations: LocationsSelect<false> | LocationsSelect<true>;
+    'arkham-encounter-cards': ArkhamEncounterCardsSelect<false> | ArkhamEncounterCardsSelect<true>;
     'mythos-cards': MythosCardsSelect<false> | MythosCardsSelect<true>;
     'other-worlds': OtherWorldsSelect<false> | OtherWorldsSelect<true>;
     'other-world-encounter-cards': OtherWorldEncounterCardsSelect<false> | OtherWorldEncounterCardsSelect<true>;
@@ -290,6 +294,36 @@ export interface AncientOne {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "neighborhoods".
+ */
+export interface Neighborhood {
+  id: string;
+  name: string;
+  /**
+   * Stable board-qualified identifier, for example "arkham-uptown".
+   */
+  key: string;
+  board: 'Arkham' | 'Dunwich' | 'Kingsport' | 'Innsmouth' | 'Other';
+  customBoardName?: string | null;
+  /**
+   * Printed deck colour, such as Red, Dark Grey, or Purple.
+   */
+  colourName?: string | null;
+  /**
+   * CSS fallback used when custom frame artwork is not available.
+   */
+  colourHex?: string | null;
+  frontFrame?: (string | null) | Media;
+  backFrame?: (string | null) | Media;
+  sourceSet: string | BoxedSet;
+  fixtureNamespace?: string | null;
+  fixtureVersion?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "locations".
  */
 export interface Location {
@@ -306,7 +340,11 @@ export interface Location {
   cardImage?: (string | null) | Media;
   board: 'Arkham' | 'Dunwich' | 'Kingsport' | 'Innsmouth' | 'Other';
   customBoardName?: string | null;
-  neighborhood: string;
+  neighborhood: string | Neighborhood;
+  /**
+   * Optional panel position on the neighbourhood deck back. Leave empty for areas that do not have their own artwork panel.
+   */
+  encounterBackOrder?: number | null;
   stability: 'stable' | 'unstable' | 'n/a';
   aquatic: boolean;
   encounterTypes?:
@@ -348,6 +386,39 @@ export interface Location {
    */
   sourceSet: string | BoxedSet;
   customSetName?: string | null;
+  fixtureNamespace?: string | null;
+  fixtureVersion?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "arkham-encounter-cards".
+ */
+export interface ArkhamEncounterCard {
+  id: string;
+  /**
+   * Stable internal identifier, for example "base-uptown-001".
+   */
+  cardCode: string;
+  /**
+   * Determines this card’s deck, colour, front frame, and card back.
+   */
+  neighborhood: string | Neighborhood;
+  encounters: {
+    location: string | Location;
+    /**
+     * Markdown is supported by the encounter card component.
+     */
+    text: string;
+    id?: string | null;
+  }[];
+  sourceSet: string | BoxedSet;
+  /**
+   * Optional helper notes. These are not printed on the rendered card.
+   */
+  clarifications?: string | null;
   fixtureNamespace?: string | null;
   fixtureVersion?: number | null;
   updatedAt: string;
@@ -792,8 +863,16 @@ export interface PayloadLockedDocument {
         value: string | AncientOne;
       } | null)
     | ({
+        relationTo: 'neighborhoods';
+        value: string | Neighborhood;
+      } | null)
+    | ({
         relationTo: 'locations';
         value: string | Location;
+      } | null)
+    | ({
+        relationTo: 'arkham-encounter-cards';
+        value: string | ArkhamEncounterCard;
       } | null)
     | ({
         relationTo: 'mythos-cards';
@@ -973,6 +1052,26 @@ export interface AncientOnesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "neighborhoods_select".
+ */
+export interface NeighborhoodsSelect<T extends boolean = true> {
+  name?: T;
+  key?: T;
+  board?: T;
+  customBoardName?: T;
+  colourName?: T;
+  colourHex?: T;
+  frontFrame?: T;
+  backFrame?: T;
+  sourceSet?: T;
+  fixtureNamespace?: T;
+  fixtureVersion?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "locations_select".
  */
 export interface LocationsSelect<T extends boolean = true> {
@@ -983,6 +1082,7 @@ export interface LocationsSelect<T extends boolean = true> {
   board?: T;
   customBoardName?: T;
   neighborhood?: T;
+  encounterBackOrder?: T;
   stability?: T;
   aquatic?: T;
   encounterTypes?: T;
@@ -997,6 +1097,28 @@ export interface LocationsSelect<T extends boolean = true> {
   boxedSet?: T;
   sourceSet?: T;
   customSetName?: T;
+  fixtureNamespace?: T;
+  fixtureVersion?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "arkham-encounter-cards_select".
+ */
+export interface ArkhamEncounterCardsSelect<T extends boolean = true> {
+  cardCode?: T;
+  neighborhood?: T;
+  encounters?:
+    | T
+    | {
+        location?: T;
+        text?: T;
+        id?: T;
+      };
+  sourceSet?: T;
+  clarifications?: T;
   fixtureNamespace?: T;
   fixtureVersion?: T;
   updatedAt?: T;

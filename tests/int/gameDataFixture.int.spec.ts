@@ -10,10 +10,12 @@ describe('Game data fixture', () => {
     expect(validation.valid).toBe(true)
     expect(validation.errors).toEqual([])
     expect(validation.counts).toEqual({
+      arkhamEncounterCards: 9,
       boxedSets: 11,
       locations: 57,
-      media: 66,
+      media: 84,
       mythosCards: 287,
+      neighborhoods: 19,
       otherWorldEncounterCards: 4,
       otherWorlds: 5,
     })

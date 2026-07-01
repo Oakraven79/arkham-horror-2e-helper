@@ -1,15 +1,26 @@
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 
+import { ArkhamEncounterCardFront } from '@/components/arkhamEncounterCardFront'
+import { ArkhamEncounterDeckBack } from '@/components/arkhamEncounterDeckBack'
 import { MythosCardFront } from '@/components/mythosCardFront'
 import { OtherworldEncounterCardFront } from '@/components/otherworldEncounterCardFront'
+import {
+  arkhamEncounterCardFrontProps,
+  arkhamEncounterDeckBackProps,
+} from '@/lib/arkhamEncounterPresentation'
 import { mythosCardFrontProps } from '@/lib/mythosCardPresentation'
 import { otherWorldEncounterCardFrontProps } from '@/lib/otherWorldEncounterCardPresentation'
 import config from '@/payload.config'
 
 import { RefreshRouteOnSave } from '../../RefreshRouteOnSave'
 
-const previewCollections = ['mythos-cards', 'other-world-encounter-cards'] as const
+const previewCollections = [
+  'mythos-cards',
+  'other-world-encounter-cards',
+  'arkham-encounter-cards',
+  'neighborhoods',
+] as const
 type PreviewCollection = (typeof previewCollections)[number]
 
 function isPreviewCollection(value: string): value is PreviewCollection {
@@ -38,6 +49,48 @@ export default async function CardPreview({ params }: Props) {
     return (
       <PreviewFrame title={card.title}>
         <MythosCardFront {...mythosCardFrontProps(card)} />
+      </PreviewFrame>
+    )
+  }
+
+  if (collection === 'arkham-encounter-cards') {
+    const card = await payload.findByID({
+      collection,
+      draft: true,
+      id,
+      depth: 2,
+    })
+
+    return (
+      <PreviewFrame title={card.cardCode}>
+        <ArkhamEncounterCardFront {...arkhamEncounterCardFrontProps(card)} />
+      </PreviewFrame>
+    )
+  }
+
+  if (collection === 'neighborhoods') {
+    const neighborhood = await payload.findByID({
+      collection,
+      draft: true,
+      id,
+      depth: 2,
+    })
+    const locations = await payload.find({
+      collection: 'locations',
+      depth: 1,
+      draft: true,
+      limit: 100,
+      overrideAccess: true,
+      where: {
+        neighborhood: {
+          equals: id,
+        },
+      },
+    })
+
+    return (
+      <PreviewFrame title={`${neighborhood.name} deck back`}>
+        <ArkhamEncounterDeckBack {...arkhamEncounterDeckBackProps(neighborhood, locations.docs)} />
       </PreviewFrame>
     )
   }

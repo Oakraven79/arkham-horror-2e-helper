@@ -24,6 +24,7 @@ export interface LocationFixture {
   board: Exclude<LocationBoard, 'Other'>
   cardDisplayText: string
   description?: string
+  encounterBackOrder?: number
   encounterTypes: LocationEncounterType[]
   homeInvestigators: string[]
   image?: {

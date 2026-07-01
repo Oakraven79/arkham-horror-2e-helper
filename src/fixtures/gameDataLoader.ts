@@ -5,10 +5,13 @@ import path from 'node:path'
 import type { Payload } from 'payload'
 
 import { relationshipID } from '@/lib/boxedSetContent'
+import { neighborhoodKey } from '@/content/neighborhoods'
+import { seedArkhamEncounterCards } from '@/seed/arkhamEncounterCards'
 import { seedBoxedSets } from '@/seed/boxedSets'
 import { seedLocations } from '@/seed/locations'
 import { ensureSeedMedia } from '@/seed/media'
 import { seedMythosCards } from '@/seed/mythosCards'
+import { seedNeighborhoods } from '@/seed/neighborhoods'
 import { seedOtherWorldEncounterCards } from '@/seed/otherWorldEncounterCards'
 import { seedOtherWorlds } from '@/seed/otherWorlds'
 
@@ -18,9 +21,11 @@ export interface GameDataFixtureValidation {
   checksum: string
   counts: {
     boxedSets: number
+    arkhamEncounterCards: number
     locations: number
     media: number
     mythosCards: number
+    neighborhoods: number
     otherWorldEncounterCards: number
     otherWorlds: number
   }
@@ -211,17 +216,22 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
   const errors: string[] = []
   const warnings: string[] = []
   const boxedSetKeys = new Set(gameDataFixture.boxedSets.map((boxedSet) => boxedSet.key))
+  const neighborhoodKeys = new Set(
+    gameDataFixture.neighborhoods.map((neighborhood) => neighborhood.key),
+  )
   const locationKeys = new Set(gameDataFixture.locations.map((location) => location.key))
   const otherWorldKeys = new Set(gameDataFixture.otherWorlds.map((world) => world.key))
-  const mediaByPublicPath = new Map(
-    gameDataFixture.media.map((asset) => [asset.publicPath, asset]),
-  )
+  const mediaByPublicPath = new Map(gameDataFixture.media.map((asset) => [asset.publicPath, asset]))
   const mediaKeys = new Set(gameDataFixture.media.map((asset) => asset.fixtureKey))
 
   const duplicateChecks = [
     ['media asset keys', duplicateValues(gameDataFixture.media.map((asset) => asset.fixtureKey))],
     ['media filenames', duplicateValues(gameDataFixture.media.map((asset) => asset.filename))],
     ['boxed set keys', duplicateValues(gameDataFixture.boxedSets.map((boxedSet) => boxedSet.key))],
+    [
+      'neighborhood keys',
+      duplicateValues(gameDataFixture.neighborhoods.map((neighborhood) => neighborhood.key)),
+    ],
     ['location keys', duplicateValues(gameDataFixture.locations.map((location) => location.key))],
     [
       'Mythos card codes',
@@ -229,10 +239,12 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
     ],
     ['Other World keys', duplicateValues(gameDataFixture.otherWorlds.map((world) => world.key))],
     [
+      'Arkham encounter card codes',
+      duplicateValues(gameDataFixture.arkhamEncounterCards.map((card) => card.cardCode)),
+    ],
+    [
       'Other World encounter card codes',
-      duplicateValues(
-        gameDataFixture.otherWorldEncounterCards.map((card) => card.cardCode),
-      ),
+      duplicateValues(gameDataFixture.otherWorldEncounterCards.map((card) => card.cardCode)),
     ],
   ] as const
 
@@ -253,14 +265,56 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
       errors.push(`Location ${location.key} has unknown boxed set ${location.sourceSetKey}`)
     }
 
+    const locationNeighborhoodKey = neighborhoodKey(location.board, location.neighborhood)
+    if (!neighborhoodKeys.has(locationNeighborhoodKey)) {
+      errors.push(`Location ${location.key} has unknown neighborhood ${locationNeighborhoodKey}`)
+    }
+
     if (
       location.image &&
       !mediaKeys.has(location.image.fixtureKey) &&
       !mediaByPublicPath.has(location.image.publicPath)
     ) {
+      errors.push(`Location ${location.key} has unregistered media ${location.image.fixtureKey}`)
+    }
+  }
+
+  for (const neighborhood of gameDataFixture.neighborhoods) {
+    if (!boxedSetKeys.has(neighborhood.sourceSetKey)) {
       errors.push(
-        `Location ${location.key} has unregistered media ${location.image.fixtureKey}`,
+        `Neighborhood ${neighborhood.key} has unknown boxed set ${neighborhood.sourceSetKey}`,
       )
+    }
+
+    for (const frame of [neighborhood.frontFrame, neighborhood.backFrame]) {
+      if (frame && !mediaKeys.has(frame.fixtureKey)) {
+        errors.push(`Neighborhood ${neighborhood.key} has unregistered frame ${frame.fixtureKey}`)
+      }
+    }
+  }
+
+  for (const card of gameDataFixture.arkhamEncounterCards) {
+    if (!boxedSetKeys.has(card.sourceSetKey)) {
+      errors.push(
+        `Arkham encounter card ${card.cardCode} has unknown boxed set ${card.sourceSetKey}`,
+      )
+    }
+
+    if (!neighborhoodKeys.has(card.neighborhoodKey)) {
+      errors.push(
+        `Arkham encounter card ${card.cardCode} has unknown neighborhood ${card.neighborhoodKey}`,
+      )
+    }
+
+    const encounterLocationKeys = card.encounters.map((encounter) => encounter.locationKey)
+    for (const locationKey of encounterLocationKeys) {
+      if (!locationKeys.has(locationKey)) {
+        errors.push(`Arkham encounter card ${card.cardCode} has unknown location ${locationKey}`)
+      }
+    }
+
+    if (new Set(encounterLocationKeys).size !== encounterLocationKeys.length) {
+      errors.push(`Arkham encounter card ${card.cardCode} repeats a location`)
     }
   }
 
@@ -337,7 +391,9 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
       media: gameDataFixture.media.map((asset) => ({
         ...asset,
         fileHash: existsSync(assetPath(asset.publicPath))
-          ? createHash('sha256').update(readFileSync(assetPath(asset.publicPath))).digest('hex')
+          ? createHash('sha256')
+              .update(readFileSync(assetPath(asset.publicPath)))
+              .digest('hex')
           : null,
       })),
     }),
@@ -346,10 +402,12 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
   return {
     checksum: checksum.digest('hex'),
     counts: {
+      arkhamEncounterCards: gameDataFixture.arkhamEncounterCards.length,
       boxedSets: gameDataFixture.boxedSets.length,
       locations: gameDataFixture.locations.length,
       media: gameDataFixture.media.length,
       mythosCards: gameDataFixture.mythosCards.length,
+      neighborhoods: gameDataFixture.neighborhoods.length,
       otherWorldEncounterCards: gameDataFixture.otherWorldEncounterCards.length,
       otherWorlds: gameDataFixture.otherWorlds.length,
     },
@@ -387,7 +445,9 @@ export async function loadGameDataFixture(payload: Payload) {
   }
 
   const boxedSets = await seedBoxedSets(payload)
+  const neighborhoods = await seedNeighborhoods(payload)
   const locations = await seedLocations(payload)
+  const arkhamEncounterCards = await seedArkhamEncounterCards(payload)
   const otherWorlds = await seedOtherWorlds(payload)
   const mythosCards = await seedMythosCards(payload)
   const otherWorldEncounterCards = await seedOtherWorldEncounterCards(payload)
@@ -398,7 +458,9 @@ export async function loadGameDataFixture(payload: Payload) {
     collections: {
       media,
       boxedSets,
+      neighborhoods,
       locations,
+      arkhamEncounterCards,
       mythosCards,
       otherWorlds,
       otherWorldEncounterCards,

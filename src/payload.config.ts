@@ -16,6 +16,8 @@ import { GameSessions } from './collections/GameSessions'
 import { OtherWorldEncounterCards } from './collections/OtherWorldEncounterCards'
 import { OtherWorlds } from './collections/OtherWorlds'
 import { Locations } from './collections/Locations'
+import { Neighborhoods } from './collections/Neighborhoods'
+import { ArkhamEncounterCards } from './collections/ArkhamEncounterCards'
 import { FixtureInstallations } from './collections/FixtureInstallations'
 import { gameDataEndpoints } from './endpoints/gameData'
 
@@ -40,7 +42,12 @@ export default buildConfig({
     livePreview: {
       url: ({ collectionConfig, data, req }) =>
         `${req.protocol}//${req.host}/preview/${collectionConfig?.slug ?? 'mythos-cards'}/${data.id}/`,
-      collections: ['mythos-cards', 'other-world-encounter-cards'],
+      collections: [
+        'mythos-cards',
+        'other-world-encounter-cards',
+        'arkham-encounter-cards',
+        'neighborhoods',
+      ],
     },
   },
   collections: [
@@ -48,7 +55,9 @@ export default buildConfig({
     Media,
     BoxedSets,
     AncientOnes,
+    Neighborhoods,
     Locations,
+    ArkhamEncounterCards,
     MythosCards,
     OtherWorlds,
     OtherWorldEncounterCards,
