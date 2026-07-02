@@ -13,6 +13,7 @@
     "generate:ancient-ones-fixture": "node scripts/generate-ancient-ones-fixture.mjs",
     "generate:locations-fixture": "node scripts/generate-locations-fixture.mjs",
     "generate:mythos-fixture": "node scripts/generate-mythos-cards-fixture.mjs",
+    "snapshot:game-data": "cross-env NODE_OPTIONS=--no-deprecation payload run src/scripts/generateGameDataMediaFixture.ts",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",

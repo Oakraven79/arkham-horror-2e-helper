@@ -8,13 +8,18 @@ import { starterOtherWorlds } from '@/content/otherWorlds'
 import type { SeedMediaAsset } from '@/seed/media'
 
 import { generatedGameDataMedia } from './gameDataMedia.generated'
+import { generatedGameDataSnapshot } from './gameDataSnapshot.generated'
 
 export const GAME_DATA_FIXTURE_NAMESPACE = 'arkham-horror-2e'
-export const GAME_DATA_FIXTURE_VERSION = 4
+export const GAME_DATA_FIXTURE_VERSION = 5
+
+const generatedMediaKeys = new Set<string>(
+  generatedGameDataMedia.assets.map((asset) => asset.fixtureKey),
+)
 
 export const gameDataFixtureMedia: SeedMediaAsset[] = [
   ...generatedGameDataMedia.assets.map((asset) => ({ ...asset })),
-  ...neighborhoodFrameAssets,
+  ...neighborhoodFrameAssets.filter((asset) => !generatedMediaKeys.has(asset.fixtureKey)),
 ]
 
 export const doomCounterAsset = gameDataFixtureMedia.find(
@@ -33,4 +38,5 @@ export const gameDataFixture = {
   otherWorlds: starterOtherWorlds,
   otherWorldEncounterCards: starterOtherWorldEncounterCards,
   mediaRelationships: generatedGameDataMedia.relationships,
+  snapshot: generatedGameDataSnapshot,
 }

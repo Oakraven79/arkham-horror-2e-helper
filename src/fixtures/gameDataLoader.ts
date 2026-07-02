@@ -16,10 +16,12 @@ import { seedOtherWorldEncounterCards } from '@/seed/otherWorldEncounterCards'
 import { seedOtherWorlds } from '@/seed/otherWorlds'
 
 import { gameDataFixture } from './gameData'
+import { restoreGameDataSnapshot } from './gameDataSnapshotLoader'
 
 export interface GameDataFixtureValidation {
   checksum: string
   counts: {
+    ancientOnes: number
     boxedSets: number
     arkhamEncounterCards: number
     locations: number
@@ -223,6 +225,9 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
   const otherWorldKeys = new Set(gameDataFixture.otherWorlds.map((world) => world.key))
   const mediaByPublicPath = new Map(gameDataFixture.media.map((asset) => [asset.publicPath, asset]))
   const mediaKeys = new Set(gameDataFixture.media.map((asset) => asset.fixtureKey))
+  const snapshot = gameDataFixture.snapshot
+  const snapshotCollections = snapshot.collections
+  const hasSnapshot = snapshotCollections.boxedSets.length > 0
 
   const duplicateChecks = [
     ['media asset keys', duplicateValues(gameDataFixture.media.map((asset) => asset.fixtureKey))],
@@ -380,6 +385,154 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
     }
   }
 
+  if (hasSnapshot) {
+    const snapshotBoxedSetKeys = new Set(
+      snapshotCollections.boxedSets.map((document) => document.key),
+    )
+    const snapshotNeighborhoodKeys = new Set(
+      snapshotCollections.neighborhoods.map((document) => document.key),
+    )
+    const snapshotLocationKeys = new Set(
+      snapshotCollections.locations.map((document) => document.key),
+    )
+    const snapshotOtherWorldKeys = new Set(
+      snapshotCollections.otherWorlds.map((document) => document.key),
+    )
+    const snapshotDuplicateChecks = [
+      [
+        'snapshot boxed set keys',
+        duplicateValues(snapshotCollections.boxedSets.map((document) => document.key)),
+      ],
+      [
+        'snapshot Ancient One keys',
+        duplicateValues(snapshotCollections.ancientOnes.map((document) => document.key)),
+      ],
+      [
+        'snapshot neighborhood keys',
+        duplicateValues(snapshotCollections.neighborhoods.map((document) => document.key)),
+      ],
+      [
+        'snapshot location keys',
+        duplicateValues(snapshotCollections.locations.map((document) => document.key)),
+      ],
+      [
+        'snapshot Arkham encounter codes',
+        duplicateValues(
+          snapshotCollections.arkhamEncounterCards.map((document) => document.cardCode),
+        ),
+      ],
+      [
+        'snapshot Mythos card codes',
+        duplicateValues(snapshotCollections.mythosCards.map((document) => document.cardCode)),
+      ],
+      [
+        'snapshot Other World keys',
+        duplicateValues(snapshotCollections.otherWorlds.map((document) => document.key)),
+      ],
+      [
+        'snapshot Other World encounter codes',
+        duplicateValues(
+          snapshotCollections.otherWorldEncounterCards.map((document) => document.cardCode),
+        ),
+      ],
+    ] as const
+
+    for (const [label, duplicates] of snapshotDuplicateChecks) {
+      if (duplicates.length > 0) errors.push(`Duplicate ${label}: ${duplicates.join(', ')}`)
+    }
+
+    if (JSON.stringify(snapshotCollections).includes('"id":')) {
+      errors.push('The generated game-data snapshot contains Payload document or row IDs.')
+    }
+
+    const checkSet = (sourceSet: string, label: string) => {
+      if (!snapshotBoxedSetKeys.has(sourceSet)) {
+        errors.push(`${label} references unknown boxed set ${sourceSet}`)
+      }
+    }
+    const checkMedia = (assetKey: string | null | undefined, label: string) => {
+      if (assetKey && !mediaKeys.has(assetKey)) {
+        errors.push(`${label} references unknown media asset ${assetKey}`)
+      }
+    }
+
+    for (const document of snapshotCollections.boxedSets) {
+      checkMedia(document.icon, `Boxed set ${document.key}`)
+    }
+
+    for (const document of snapshotCollections.ancientOnes) {
+      checkSet(document.sourceSet, `Ancient One ${document.key}`)
+      for (const sheet of document.sheets) {
+        checkMedia(sheet.sheetImage, `Ancient One ${document.key} sheet ${sheet.key}`)
+      }
+    }
+
+    for (const document of snapshotCollections.neighborhoods) {
+      checkSet(document.sourceSet, `Neighborhood ${document.key}`)
+      checkMedia(document.frontFrame, `Neighborhood ${document.key} front frame`)
+      checkMedia(document.backFrame, `Neighborhood ${document.key} back frame`)
+    }
+
+    for (const document of snapshotCollections.locations) {
+      checkSet(document.sourceSet, `Location ${document.key}`)
+      checkMedia(document.cardImage, `Location ${document.key}`)
+      if (!snapshotNeighborhoodKeys.has(document.neighborhood)) {
+        errors.push(
+          `Location ${document.key} references unknown neighborhood ${document.neighborhood}`,
+        )
+      }
+    }
+
+    for (const document of snapshotCollections.arkhamEncounterCards) {
+      checkSet(document.sourceSet, `Arkham encounter ${document.cardCode}`)
+      if (!snapshotNeighborhoodKeys.has(document.neighborhood)) {
+        errors.push(
+          `Arkham encounter ${document.cardCode} references unknown neighborhood ${document.neighborhood}`,
+        )
+      }
+      for (const encounter of document.encounters) {
+        if (!snapshotLocationKeys.has(encounter.location)) {
+          errors.push(
+            `Arkham encounter ${document.cardCode} references unknown location ${encounter.location}`,
+          )
+        }
+      }
+    }
+
+    for (const document of snapshotCollections.mythosCards) {
+      checkSet(document.sourceSet, `Mythos card ${document.cardCode}`)
+      checkMedia(
+        document.lowerLeftOverride?.image,
+        `Mythos card ${document.cardCode} lower-left image`,
+      )
+      for (const location of document.gateInstruction.locations) {
+        if (!snapshotLocationKeys.has(location)) {
+          errors.push(
+            `Mythos card ${document.cardCode} references unknown gate location ${location}`,
+          )
+        }
+      }
+    }
+
+    for (const document of snapshotCollections.otherWorlds) {
+      checkSet(document.sourceSet, `Other World ${document.key}`)
+      checkMedia(document.art, `Other World ${document.key}`)
+    }
+
+    for (const document of snapshotCollections.otherWorldEncounterCards) {
+      checkSet(document.sourceSet, `Other World encounter ${document.cardCode}`)
+      for (const encounter of document.encounters) {
+        if (encounter.destination && !snapshotOtherWorldKeys.has(encounter.destination)) {
+          errors.push(
+            `Other World encounter ${document.cardCode} references unknown destination ${encounter.destination}`,
+          )
+        }
+      }
+    }
+  } else {
+    warnings.push('The fixture has no generated game-data content snapshot.')
+  }
+
   if (gameDataFixture.media.length === 0) {
     warnings.push('The fixture contains no Payload media assets.')
   }
@@ -402,14 +555,29 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
   return {
     checksum: checksum.digest('hex'),
     counts: {
-      arkhamEncounterCards: gameDataFixture.arkhamEncounterCards.length,
-      boxedSets: gameDataFixture.boxedSets.length,
-      locations: gameDataFixture.locations.length,
+      ancientOnes: snapshotCollections.ancientOnes.length,
+      arkhamEncounterCards: hasSnapshot
+        ? snapshotCollections.arkhamEncounterCards.length
+        : gameDataFixture.arkhamEncounterCards.length,
+      boxedSets: hasSnapshot
+        ? snapshotCollections.boxedSets.length
+        : gameDataFixture.boxedSets.length,
+      locations: hasSnapshot
+        ? snapshotCollections.locations.length
+        : gameDataFixture.locations.length,
       media: gameDataFixture.media.length,
-      mythosCards: gameDataFixture.mythosCards.length,
-      neighborhoods: gameDataFixture.neighborhoods.length,
-      otherWorldEncounterCards: gameDataFixture.otherWorldEncounterCards.length,
-      otherWorlds: gameDataFixture.otherWorlds.length,
+      mythosCards: hasSnapshot
+        ? snapshotCollections.mythosCards.length
+        : gameDataFixture.mythosCards.length,
+      neighborhoods: hasSnapshot
+        ? snapshotCollections.neighborhoods.length
+        : gameDataFixture.neighborhoods.length,
+      otherWorldEncounterCards: hasSnapshot
+        ? snapshotCollections.otherWorldEncounterCards.length
+        : gameDataFixture.otherWorldEncounterCards.length,
+      otherWorlds: hasSnapshot
+        ? snapshotCollections.otherWorlds.length
+        : gameDataFixture.otherWorlds.length,
     },
     errors,
     namespace: gameDataFixture.namespace,
@@ -441,6 +609,18 @@ export async function loadGameDataFixture(payload: Payload) {
       media.updated.push(asset.fixtureKey)
     } else {
       media.unchanged.push(asset.fixtureKey)
+    }
+  }
+
+  if (gameDataFixture.snapshot.collections.boxedSets.length > 0) {
+    const snapshotCollections = await restoreGameDataSnapshot(payload)
+
+    return {
+      validation,
+      collections: {
+        media,
+        ...snapshotCollections,
+      },
     }
   }
 
