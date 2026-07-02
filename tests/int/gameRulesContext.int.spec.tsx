@@ -40,8 +40,6 @@ const ancientOne = {
 const rules = calculateInvestigatorRules({
   investigatorCount: 6,
   expansionBoardCount: 2,
-  hasDunwich: true,
-  hasInnsmouth: true,
 })
 
 const tracks = {

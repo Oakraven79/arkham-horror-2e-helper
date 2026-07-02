@@ -726,8 +726,6 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const investigatorRules = calculateInvestigatorRules({
     investigatorCount: session.playerCount,
     expansionBoardCount: expansionBoards.length,
-    hasDunwich: enabledSetKeys.has('dunwich-horror'),
-    hasInnsmouth: enabledSetKeys.has('innsmouth-horror'),
   })
   const limitWarnings = gameLimitWarnings(investigatorRules, {
     gatesOpen: tracks.gatesOpen ?? 0,

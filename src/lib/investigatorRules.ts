@@ -1,7 +1,5 @@
 export interface InvestigatorRulesInput {
   expansionBoardCount: number
-  hasDunwich: boolean
-  hasInnsmouth: boolean
   investigatorCount: number
 }
 
@@ -54,7 +52,6 @@ export function calculateInvestigatorRules(input: InvestigatorRulesInput): Inves
   const expansionBoardAdjustment = Math.max(0, input.expansionBoardCount - 1)
   const effectiveInvestigatorCount = Math.max(1, input.investigatorCount - expansionBoardAdjustment)
   const monsterLimit = effectiveInvestigatorCount + 3
-  const combinedDunwichInnsmouthAdjustment = input.hasDunwich && input.hasInnsmouth ? 1 : 0
 
   return {
     actualInvestigatorCount: input.investigatorCount,
@@ -62,8 +59,7 @@ export function calculateInvestigatorRules(input: InvestigatorRulesInput): Inves
     effectiveInvestigatorCount,
     expansionBoardAdjustment,
     finalBattleSuccessesPerDoom: input.investigatorCount,
-    gateAwakeningThreshold:
-      gateThreshold(effectiveInvestigatorCount) + combinedDunwichInnsmouthAdjustment,
+    gateAwakeningThreshold: gateThreshold(effectiveInvestigatorCount),
     monsterLimit,
     monsterSurgeMinimum: input.investigatorCount,
     newGateMonsterCount: effectiveInvestigatorCount >= 5 ? 2 : 1,

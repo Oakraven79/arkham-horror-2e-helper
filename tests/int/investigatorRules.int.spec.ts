@@ -22,8 +22,6 @@ describe('investigator-count rules', () => {
       const rules = calculateInvestigatorRules({
         investigatorCount,
         expansionBoardCount: 0,
-        hasDunwich: false,
-        hasInnsmouth: false,
       })
 
       expect(rules).toMatchObject({
@@ -44,8 +42,6 @@ describe('investigator-count rules', () => {
     const rules = calculateInvestigatorRules({
       investigatorCount: 6,
       expansionBoardCount: 3,
-      hasDunwich: true,
-      hasInnsmouth: true,
     })
 
     expect(rules).toMatchObject({
@@ -54,7 +50,7 @@ describe('investigator-count rules', () => {
       expansionBoardAdjustment: 2,
       monsterLimit: 7,
       outskirtsCapacity: 4,
-      gateAwakeningThreshold: 8,
+      gateAwakeningThreshold: 7,
       newGateMonsterCount: 1,
       monsterSurgeMinimum: 6,
       finalBattleSuccessesPerDoom: 6,
@@ -71,8 +67,6 @@ describe('investigator-count rules', () => {
     const rules = calculateInvestigatorRules({
       investigatorCount: 4,
       expansionBoardCount: 0,
-      hasDunwich: false,
-      hasInnsmouth: false,
     })
 
     expect(
