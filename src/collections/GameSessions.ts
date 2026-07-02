@@ -544,6 +544,7 @@ export const GameSessions: CollectionConfig = {
               label: 'Draw Arkham Encounter',
               value: 'draw-arkham-encounter',
             },
+            { label: 'Adjust Track', value: 'adjust-track' },
             { label: 'Reveal Card', value: 'reveal-card' },
             { label: 'Resolve Card', value: 'resolve-card' },
             { label: 'Activate Environment', value: 'activate-environment' },

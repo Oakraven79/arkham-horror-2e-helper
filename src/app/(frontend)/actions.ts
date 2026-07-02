@@ -61,6 +61,11 @@ import {
   otherWorldEncounterDeckStateForPayload,
   otherWorldEncounterDeckStateFromSession,
 } from '@/lib/otherWorldEncounterSessionState'
+import {
+  adjustSessionTrack,
+  isAdjustableSessionTrack,
+  sessionTrackLogNote,
+} from '@/lib/sessionTracks'
 import config from '@/payload.config'
 import type { GameSession } from '@/payload-types'
 
@@ -218,6 +223,52 @@ export async function deleteSessionAction(sessionID: string) {
   await deleteGameSession(payload, sessionID)
 
   revalidatePath('/sessions')
+}
+
+export async function adjustSessionTrackAction(
+  sessionID: string,
+  trackValue: string,
+  delta: number,
+) {
+  if (!isAdjustableSessionTrack(trackValue)) {
+    throw new Error('That session counter cannot be adjusted.')
+  }
+
+  const payload = await getPayloadClient()
+  const session = await payload.findByID({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  if (!relationshipID(session.activeAncientOne)) {
+    throw new Error('Complete setup before adjusting game counters.')
+  }
+
+  const adjustment = adjustSessionTrack(session.tracks, trackValue, delta)
+
+  if (adjustment.nextValue === adjustment.previousValue) return
+
+  await payload.update({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    overrideAccess: true,
+    data: {
+      tracks: adjustment.tracks,
+      sessionLog: [
+        ...(session.sessionLog ?? []),
+        logEntry(
+          session,
+          'adjust-track',
+          null,
+          sessionTrackLogNote(trackValue, adjustment.previousValue, adjustment.nextValue),
+        ),
+      ],
+    },
+  })
+
+  revalidatePath('/')
 }
 
 export async function updateEnabledSetsAction(sessionID: string, formData: FormData) {

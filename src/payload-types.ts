@@ -850,6 +850,7 @@ export interface GameSession {
           | 'discard-other-world-encounter'
           | 'select-arkham-neighborhood'
           | 'draw-arkham-encounter'
+          | 'adjust-track'
           | 'reveal-card'
           | 'resolve-card'
           | 'activate-environment'

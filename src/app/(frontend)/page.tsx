@@ -66,6 +66,7 @@ import { GameRulesContext } from './GameRulesContext'
 import { InvestigatorCountInput } from './InvestigatorCountInput'
 import { MythosDeckSlot } from './MythosDeckSlot'
 import { OtherWorldEncounterDeckSlot } from './OtherWorldEncounterDeckSlot'
+import { SessionTrackControls } from './SessionTrackControls'
 import './styles.css'
 
 export const dynamic = 'force-dynamic'
@@ -805,32 +806,23 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           <p className="eyebrow">Arkham Horror Helper</p>
           <h1>{session.name}</h1>
         </div>
-        <div className="table-counters" aria-label="Session counters">
-          <div>
-            <span>Terror</span>
-            <strong>{tracks.terror ?? 0}/10</strong>
-          </div>
-          <div>
-            <span>Gates</span>
-            <strong>{tracks.gatesOpen ?? 0}</strong>
-          </div>
-          <div>
-            <span>Elder Signs</span>
-            <strong>{tracks.elderSigns ?? 0}</strong>
-          </div>
-          <div>
-            <span>Monsters</span>
-            <strong>{tracks.monstersInArkham ?? 0}</strong>
-          </div>
-          <div>
-            <span>Outskirts</span>
-            <strong>{tracks.monstersInOutskirts ?? 0}</strong>
-          </div>
-          <div>
-            <span>Draw Pile</span>
-            <strong>{drawPile.length}</strong>
-          </div>
-        </div>
+        <section className="ancient-one-status" aria-label="Active Ancient One">
+          <span>Ancient One</span>
+          <strong>{activeAncientOne?.name ?? 'Not selected'}</strong>
+          <small>
+            {activeSheet
+              ? `${activeSheet.label} | ${activeSheet.powerName}`
+              : 'Choose during Setup'}
+          </small>
+        </section>
+        <SessionTrackControls
+          disabled={!activeAncientOne}
+          gateAwakeningThreshold={investigatorRules.gateAwakeningThreshold}
+          monsterLimit={investigatorRules.monsterLimit}
+          outskirtsCapacity={investigatorRules.outskirtsCapacity}
+          sessionID={sessionID}
+          tracks={tracks}
+        />
         <form action={exitGameAction.bind(null, sessionID)} className="exit-game-form">
           <button type="submit">Exit game</button>
         </form>

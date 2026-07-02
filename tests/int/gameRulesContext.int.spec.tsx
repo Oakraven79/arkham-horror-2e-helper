@@ -55,7 +55,7 @@ const tracks = {
 } satisfies GameSession['tracks']
 
 describe('persistent game rules context', () => {
-  it('shows Ancient One and investigator modifiers during Mythos', () => {
+  it('shows Ancient One details and investigator modifiers during Mythos', () => {
     const markup = renderToStaticMarkup(
       <GameRulesContext
         activeAncientOne={ancientOne}
@@ -64,13 +64,20 @@ describe('persistent game rules context', () => {
         hasRelationships
         investigatorRules={rules}
         phase="Mythos"
-        tracks={tracks}
+        tracks={{ ...tracks, terror: 6 }}
       />,
     )
 
-    expect(markup).toContain('Cthulhu')
     expect(markup).toContain('The Sleeper')
     expect(markup).toContain('Cultists gain Endless.')
+    expect(markup).toContain('The General Store is closed.')
+    expect(markup).toContain('The Curiositie Shoppe is closed.')
+    expect(markup).toContain('Next at 9')
+    expect(markup).toContain('Arkham + Sky')
+    expect(markup).toContain('Additional monsters go to the Outskirts.')
+    expect(markup).toContain('Elder signs')
+    expect(markup).toContain('0/6')
+    expect(markup).toContain('6 more on the board wins the game.')
     expect(markup).toContain('Adjusted investigators')
     expect(markup).toContain('Terror 10 awakening')
     expect(markup).toContain('Relationship setup')
@@ -97,6 +104,45 @@ describe('persistent game rules context', () => {
     expect(markup).toContain('All investigators lose 1 Stamina.')
   })
 
+  it('announces a sealing victory when six Elder Signs are on the board', () => {
+    const markup = renderToStaticMarkup(
+      <GameRulesContext
+        activeAncientOne={ancientOne}
+        activeSheet={activeSheet}
+        expansionBoardNames={[]}
+        hasRelationships={false}
+        investigatorRules={rules}
+        phase="Mythos"
+        tracks={{ ...tracks, elderSigns: 6 }}
+      />,
+    )
+
+    expect(markup).toContain('6/6')
+    expect(markup).toContain('Six Elder Signs are on the board. The investigators win.')
+    expect(markup).toContain('is-victory')
+  })
+
+  it('shows where monsters flow when both capacities are full', () => {
+    const markup = renderToStaticMarkup(
+      <GameRulesContext
+        activeAncientOne={ancientOne}
+        activeSheet={activeSheet}
+        expansionBoardNames={[]}
+        hasRelationships={false}
+        investigatorRules={rules}
+        phase="Mythos"
+        tracks={{
+          ...tracks,
+          monstersInArkham: rules.monsterLimit,
+          monstersInOutskirts: rules.outskirtsCapacity,
+        }}
+      />,
+    )
+
+    expect(markup).toContain('Full. The next monster flows to the Outskirts.')
+    expect(markup).toContain('Full. The next monster clears the Outskirts and raises Terror.')
+  })
+
   it('keeps count modifiers visible before an Ancient One is selected', () => {
     const markup = renderToStaticMarkup(
       <GameRulesContext
@@ -110,8 +156,8 @@ describe('persistent game rules context', () => {
       />,
     )
 
-    expect(markup).toContain('Not selected')
-    expect(markup).toContain('Monster cap')
-    expect(markup).toContain('Gates to awaken')
+    expect(markup).toContain('Choose an Ancient One during Setup')
+    expect(markup).toContain('New gate monsters')
+    expect(markup).toContain('Minimum surge')
   })
 })

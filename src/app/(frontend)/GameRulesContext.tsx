@@ -1,4 +1,9 @@
 import type { GamePhase } from '@/lib/gamePhaseState'
+import {
+  ELDER_SIGN_VICTORY_THRESHOLD,
+  elderSignVictoryStatus,
+  terrorLevelStatus,
+} from '@/lib/gameStatusRules'
 import type { InvestigatorRules } from '@/lib/investigatorRules'
 import type { AncientOne, GameSession } from '@/payload-types'
 
@@ -32,12 +37,12 @@ export function GameRulesContext({
     ...(investigatorRules.expansionBoardAdjustment > 0
       ? [['Adjusted investigators', investigatorRules.effectiveInvestigatorCount] as const]
       : []),
-    ['Monster cap', investigatorRules.monsterLimit],
-    ['Outskirts cap', investigatorRules.outskirtsCapacity],
-    ['Gates to awaken', investigatorRules.gateAwakeningThreshold],
     ['New gate monsters', investigatorRules.newGateMonsterCount],
     ['Minimum surge', investigatorRules.monsterSurgeMinimum],
   ]
+  const terrorStatus = terrorLevelStatus(tracks.terror)
+  const elderSignStatus = elderSignVictoryStatus(tracks.elderSigns)
+  const monsterLimitRemoved = tracks.terror >= 10
   const secondaryModifiers = [
     ['Terror 10 awakening', `${investigatorRules.terrorTenAwakeningMonsterCount} monsters`],
     ['Close-gates victory', `${investigatorRules.closeGateTrophiesRequired} gate trophies`],
@@ -52,22 +57,108 @@ export function GameRulesContext({
 
   return (
     <section className="game-rules-context" aria-label="Game rules and modifiers">
+      <div className="active-rules-summary">
+        <section className="active-rule ancient-effect-summary">
+          <p className="eyebrow">Ancient One effect</p>
+          {activeSheet ? (
+            <>
+              <h2>{activeSheet.powerName}</h2>
+              <p>{activeSheet.power}</p>
+              <p className="worshipper-summary">
+                <strong>Worshippers:</strong> {activeSheet.worshippers}
+              </p>
+            </>
+          ) : (
+            <p className="rules-context-empty">
+              Choose an Ancient One during Setup to display its effect.
+            </p>
+          )}
+        </section>
+
+        <section className="active-rule terror-effect-summary">
+          <div className="active-rule-heading">
+            <p className="eyebrow">Terror effects</p>
+            <strong>{terrorStatus.level}/10</strong>
+          </div>
+          <p className="terror-standing-rule">
+            Terror does not normally decrease. Each increase returns one random Ally to the box.
+          </p>
+          {terrorStatus.activeEffects.length > 0 ? (
+            <ul>
+              {terrorStatus.activeEffects.map((effect) => (
+                <li key={effect}>{effect}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="inactive-rule">No Terror milestone effects are active.</p>
+          )}
+          {terrorStatus.nextMilestone && (
+            <p className="next-terror-milestone">
+              <strong>Next at {terrorStatus.nextMilestone.level}:</strong>{' '}
+              {terrorStatus.nextMilestone.effect}
+            </p>
+          )}
+        </section>
+
+        <section className="active-rule capacity-effect-summary">
+          <p className="eyebrow">Board pressure</p>
+          <dl>
+            <div>
+              <dt>Arkham + Sky</dt>
+              <dd>
+                <strong>
+                  {tracks.monstersInArkham}/
+                  {monsterLimitRemoved ? 'no cap' : investigatorRules.monsterLimit}
+                </strong>
+                <span>
+                  {monsterLimitRemoved
+                    ? `The Ancient One awakens at ${investigatorRules.terrorTenAwakeningMonsterCount} monsters.`
+                    : tracks.monstersInArkham >= investigatorRules.monsterLimit
+                      ? 'Full. The next monster flows to the Outskirts.'
+                      : 'Additional monsters go to the Outskirts.'}
+                </span>
+              </dd>
+            </div>
+            <div>
+              <dt>Outskirts</dt>
+              <dd>
+                <strong>
+                  {tracks.monstersInOutskirts}/{investigatorRules.outskirtsCapacity}
+                </strong>
+                <span>
+                  {tracks.monstersInOutskirts >= investigatorRules.outskirtsCapacity
+                    ? 'Full. The next monster clears the Outskirts and raises Terror.'
+                    : 'Exceeding capacity clears the Outskirts and raises Terror.'}
+                </span>
+              </dd>
+            </div>
+            <div>
+              <dt>Open gates</dt>
+              <dd>
+                <strong>
+                  {tracks.gatesOpen}/{investigatorRules.gateAwakeningThreshold}
+                </strong>
+                <span>Reaching the threshold awakens the Ancient One.</span>
+              </dd>
+            </div>
+            <div className={elderSignStatus.won ? 'is-victory' : undefined}>
+              <dt>Elder signs</dt>
+              <dd>
+                <strong>
+                  {elderSignStatus.current}/{ELDER_SIGN_VICTORY_THRESHOLD}
+                </strong>
+                <span>
+                  {elderSignStatus.won
+                    ? 'Six Elder Signs are on the board. The investigators win.'
+                    : `${elderSignStatus.remaining} more on the board wins the game.`}
+                </span>
+              </dd>
+            </div>
+          </dl>
+        </section>
+      </div>
+
       <div className="rules-reference-strip">
-        <div className="reference-identity">
-          <span>Ancient One</span>
-          <strong>{activeAncientOne?.name ?? 'Not selected'}</strong>
-          <small>
-            {activeSheet
-              ? `${activeSheet.label} | ${activeSheet.powerName}`
-              : 'Choose during Setup'}
-          </small>
-        </div>
-        <div className="reference-metric doom">
-          <span>Doom</span>
-          <strong>
-            {tracks.doomCurrent ?? 0}/{tracks.doomMax ?? activeSheet?.doomTrack ?? '-'}
-          </strong>
-        </div>
         {primaryModifiers.map(([label, value]) => (
           <div className="reference-metric" key={label}>
             <span>{label}</span>
@@ -79,59 +170,44 @@ export function GameRulesContext({
       <details className="rules-reference-details" open={phase === 'Final Battle'}>
         <summary>Reference details</summary>
         <div className="rules-reference-body">
-          <section className="ancient-one-reference">
-            <p className="eyebrow">Ancient One modifiers</p>
-            {activeSheet ? (
-              <>
-                <div className="ancient-modifier-text">
-                  <strong>{activeSheet.powerName}</strong>
-                  <span>{activeSheet.power}</span>
+          {(relevantNotes.length > 0 || (phase === 'Final Battle' && activeSheet)) && (
+            <section className="ancient-one-reference">
+              <p className="eyebrow">Ancient One details</p>
+              {relevantNotes.length > 0 && (
+                <div className="ancient-rules-notes">
+                  {relevantNotes.map((note) => (
+                    <p key={`${note.kind}-${note.text}`}>
+                      <strong>{note.kind}</strong>
+                      {note.text}
+                    </p>
+                  ))}
                 </div>
-                <div className="ancient-modifier-text">
-                  <strong>Worshipper changes</strong>
-                  <span>{activeSheet.worshippers}</span>
-                </div>
+              )}
 
-                {relevantNotes.length > 0 && (
-                  <div className="ancient-rules-notes">
-                    {relevantNotes.map((note) => (
-                      <p key={`${note.kind}-${note.text}`}>
-                        <strong>{note.kind}</strong>
-                        {note.text}
-                      </p>
-                    ))}
+              {phase === 'Final Battle' && activeSheet && (
+                <section className="final-battle-context">
+                  <div>
+                    <span>Combat modifier</span>
+                    <strong>{activeSheet.combatRating.display}</strong>
                   </div>
-                )}
-
-                {phase === 'Final Battle' && (
-                  <section className="final-battle-context">
+                  <div>
+                    <span>Defenses</span>
+                    <strong>{activeSheet.defenseText}</strong>
+                  </div>
+                  {activeSheet.startOfBattle && (
                     <div>
-                      <span>Combat modifier</span>
-                      <strong>{activeSheet.combatRating.display}</strong>
+                      <span>Start of battle</span>
+                      <strong>{activeSheet.startOfBattle}</strong>
                     </div>
-                    <div>
-                      <span>Defenses</span>
-                      <strong>{activeSheet.defenseText}</strong>
-                    </div>
-                    {activeSheet.startOfBattle && (
-                      <div>
-                        <span>Start of battle</span>
-                        <strong>{activeSheet.startOfBattle}</strong>
-                      </div>
-                    )}
-                    <div>
-                      <span>Ancient One attack</span>
-                      <strong>{activeSheet.attack}</strong>
-                    </div>
-                  </section>
-                )}
-              </>
-            ) : (
-              <p className="rules-context-empty">
-                Choose an Ancient One during Setup to display its modifiers.
-              </p>
-            )}
-          </section>
+                  )}
+                  <div>
+                    <span>Ancient One attack</span>
+                    <strong>{activeSheet.attack}</strong>
+                  </div>
+                </section>
+              )}
+            </section>
+          )}
 
           <section className="additional-rules-reference">
             <p className="eyebrow">Additional thresholds</p>
