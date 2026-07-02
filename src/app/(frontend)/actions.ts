@@ -35,6 +35,14 @@ import {
   type GamePhasePointer,
 } from '@/lib/gamePhaseState'
 import {
+  applyExpansionTrackCommand,
+  assertExpansionTrackCommand,
+  commandRequiredSet,
+  expansionTrackStateForPayload,
+  expansionTrackStateFromSession,
+  type ExpansionTrackCommand,
+} from '@/lib/expansionTracks'
+import {
   assertSetsCanChange,
   freshMythosDeckState,
   normalizeEnabledSetSelection,
@@ -264,6 +272,79 @@ export async function adjustSessionTrackAction(
           null,
           sessionTrackLogNote(trackValue, adjustment.previousValue, adjustment.nextValue),
         ),
+      ],
+    },
+  })
+
+  revalidatePath('/')
+}
+
+export async function adjustExpansionTrackAction(
+  sessionID: string,
+  command: ExpansionTrackCommand,
+) {
+  assertExpansionTrackCommand(command)
+
+  const payload = await getPayloadClient()
+  const session = await payload.findByID({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  if (!relationshipID(session.activeAncientOne)) {
+    throw new Error('Complete setup before adjusting expansion tracks.')
+  }
+
+  const enabledSetIDs = relationshipIDs(session.enabledSets)
+  const enabledSets = await payload.find({
+    collection: 'boxed-sets',
+    where: {
+      id: {
+        in: enabledSetIDs,
+      },
+    },
+    limit: 100,
+    depth: 0,
+    overrideAccess: true,
+  })
+  const enabledSetKeys = new Set(enabledSets.docs.map((boxedSet) => boxedSet.key))
+  const requiredSet = commandRequiredSet(command)
+
+  if (!enabledSetKeys.has(requiredSet)) {
+    throw new Error('That expansion track is not active for this session.')
+  }
+
+  const transition = applyExpansionTrackCommand(
+    expansionTrackStateFromSession(session.expansionTracks),
+    command,
+  )
+  const tracks = {
+    ...session.tracks,
+  }
+
+  if (transition.terrorIncrease > 0) {
+    if (tracks.terror < 10) {
+      tracks.terror = Math.min(10, tracks.terror + transition.terrorIncrease)
+    } else {
+      tracks.doomCurrent = Math.min(
+        tracks.doomMax ?? 10,
+        tracks.doomCurrent + transition.terrorIncrease,
+      )
+    }
+  }
+
+  await payload.update({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    overrideAccess: true,
+    data: {
+      expansionTracks: expansionTrackStateForPayload(transition.state),
+      tracks,
+      sessionLog: [
+        ...(session.sessionLog ?? []),
+        logEntry(session, 'adjust-expansion-track', null, transition.note),
       ],
     },
   })

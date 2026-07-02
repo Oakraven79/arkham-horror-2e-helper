@@ -10,6 +10,7 @@ import {
   sameSetSelection,
   sourceSetWhere,
 } from './gameSessionContent'
+import { expansionTrackStateForPayload, freshExpansionTrackState } from './expansionTracks'
 import { mythosDeckStateForPayload } from './mythosSessionState'
 import { freshOtherWorldEncounterDeckState } from './otherWorldEncounterDeckState'
 import {
@@ -177,6 +178,7 @@ export async function createGameSession(
         monstersInArkham: 0,
         monstersInOutskirts: 0,
       },
+      expansionTracks: expansionTrackStateForPayload(freshExpansionTrackState()),
       mythos: mythosDeckStateForPayload(freshMythosDeckState(mythosCards.docs)),
       otherWorldEncounters: otherWorldEncounterDeckStateForPayload(
         freshOtherWorldEncounterDeckState(otherWorldEncounterCards.docs),

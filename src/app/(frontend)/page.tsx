@@ -12,6 +12,7 @@ import {
 } from '@/lib/arkhamEncounterPresentation'
 import { arkhamEncounterStateFromSession } from '@/lib/arkhamEncounterSessionState'
 import { boxedSetDisplay } from '@/lib/boxedSetPresentation'
+import { expansionTrackStateFromSession } from '@/lib/expansionTracks'
 import { openingMythosPhase, turnPhases, type GamePhase } from '@/lib/gamePhaseState'
 import { calculateInvestigatorRules, gameLimitWarnings } from '@/lib/investigatorRules'
 import { relationshipID, relationshipIDs, sourceSetWhere } from '@/lib/gameSessionContent'
@@ -40,6 +41,7 @@ import type {
 import {
   activateCurrentEnvironmentAction,
   activateCurrentRumorAction,
+  adjustExpansionTrackAction,
   advancePhaseAction,
   clearActiveEnvironmentAction,
   clearActiveRumorAction,
@@ -63,6 +65,7 @@ import {
   type ArkhamNeighborhoodDeckOption,
 } from './ArkhamNeighborhoodShelf'
 import { GameRulesContext } from './GameRulesContext'
+import { ExpansionTrackPanel } from './ExpansionTrackPanel'
 import { InvestigatorCountInput } from './InvestigatorCountInput'
 import { MythosDeckSlot } from './MythosDeckSlot'
 import { OtherWorldEncounterDeckSlot } from './OtherWorldEncounterDeckSlot'
@@ -722,6 +725,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const tracks = session.tracks ?? {}
   const enabledSets = session.enabledSets.filter(isBoxedSetDocument)
   const enabledSetKeys = new Set(enabledSets.map((boxedSet) => boxedSet.key))
+  const expansionTracks = expansionTrackStateFromSession(session.expansionTracks)
   const expansionBoards = enabledSets.filter(addsExpansionBoard)
   const investigatorRules = calculateInvestigatorRules({
     investigatorCount: session.playerCount,
@@ -833,6 +837,21 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           phase={currentPhase}
           sessionID={sessionID}
           turnNumber={session.turnNumber}
+        />
+
+        <ExpansionTrackPanel
+          enabledSetKeys={[...enabledSetKeys]}
+          mythosMovement={
+            currentCardDocument
+              ? {
+                  white: currentCardDocument.monsterMoveWhite ?? [],
+                  black: currentCardDocument.monsterMoveBlack ?? [],
+                }
+              : undefined
+          }
+          onCommand={adjustExpansionTrackAction.bind(null, sessionID)}
+          phase={currentPhase}
+          state={expansionTracks}
         />
 
         <GameRulesContext

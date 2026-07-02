@@ -689,6 +689,29 @@ export interface GameSession {
     monstersInOutskirts: number;
   };
   /**
+   * Persistent Dunwich, Innsmouth, and Kingsport board state. The table UI only exposes tracks for enabled expansions.
+   */
+  expansionTracks: {
+    dunwichHorrorTokens: number;
+    deepOnesRising: number;
+    fedsChurchGreen: number;
+    fedsFactoryDistrict: number;
+    fedsInnsmouthShore: number;
+    kingsportRifts?:
+      | {
+          trackKey: 'rift-1' | 'rift-2' | 'rift-3';
+          progress: number;
+          open: boolean;
+          investigated: number;
+          /**
+           * Optional reminder of the board space occupied by an open rift marker.
+           */
+          currentLocation?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
    * Deck state for drawing without repeats. Shuffle events should rebuild the draw pile from the discard pile.
    */
   mythos: {
@@ -851,6 +874,7 @@ export interface GameSession {
           | 'select-arkham-neighborhood'
           | 'draw-arkham-encounter'
           | 'adjust-track'
+          | 'adjust-expansion-track'
           | 'reveal-card'
           | 'resolve-card'
           | 'activate-environment'
@@ -1314,6 +1338,25 @@ export interface GameSessionsSelect<T extends boolean = true> {
         elderSigns?: T;
         monstersInArkham?: T;
         monstersInOutskirts?: T;
+      };
+  expansionTracks?:
+    | T
+    | {
+        dunwichHorrorTokens?: T;
+        deepOnesRising?: T;
+        fedsChurchGreen?: T;
+        fedsFactoryDistrict?: T;
+        fedsInnsmouthShore?: T;
+        kingsportRifts?:
+          | T
+          | {
+              trackKey?: T;
+              progress?: T;
+              open?: T;
+              investigated?: T;
+              currentLocation?: T;
+              id?: T;
+            };
       };
   mythos?:
     | T
