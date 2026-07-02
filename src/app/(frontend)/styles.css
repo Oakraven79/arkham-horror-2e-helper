@@ -48,6 +48,9 @@ button {
 
 .mythos-table {
   min-height: 100vh;
+  background:
+    linear-gradient(rgba(7, 7, 6, 0.84), rgba(7, 7, 6, 0.88)),
+    var(--table-background-image, url('/images/mythosBacking.jpg')) center / cover fixed;
   padding: 24px;
 }
 
@@ -1379,7 +1382,7 @@ button {
 
 .setup-form-fields {
   display: grid;
-  grid-template-columns: minmax(280px, 1fr) 190px auto;
+  grid-template-columns: minmax(280px, 1fr) minmax(260px, 0.85fr) 190px auto;
   gap: 14px;
   align-items: end;
 }
@@ -1397,6 +1400,68 @@ button {
 
 .ancient-one-field select {
   width: 100%;
+}
+
+.setup-control-label {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.ancient-one-selector .ancient-one-background-toggle {
+  display: grid;
+  grid-template-columns: 18px 44px minmax(0, 1fr);
+  gap: 9px;
+  min-height: 44px;
+  align-items: center;
+  margin: 0;
+  color: var(--ink);
+  cursor: pointer;
+  text-transform: none;
+}
+
+.ancient-one-background-toggle input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--gold);
+}
+
+.ancient-one-background-preview {
+  display: block;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background:
+    linear-gradient(rgba(7, 7, 6, 0.5), rgba(7, 7, 6, 0.62)),
+    url('/images/mythosBacking.jpg') center / cover;
+}
+
+.ancient-one-background-preview.has-image {
+  background-position: center;
+  background-size: cover;
+}
+
+.ancient-one-background-toggle strong,
+.ancient-one-background-toggle small {
+  display: block;
+}
+
+.ancient-one-background-toggle strong {
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.ancient-one-background-toggle small {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1.25;
 }
 
 .ancient-one-selector > .setup-form-fields > button,

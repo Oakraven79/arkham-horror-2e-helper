@@ -634,6 +634,10 @@ export interface GameSession {
    * The playable sheet variant selected for this session.
    */
   ancientOneSheetKey?: string | null;
+  /**
+   * Use the selected Ancient One sheet image as the game-table background when artwork is available.
+   */
+  useAncientOneBackground: boolean;
   currentPhase:
     | 'Setup'
     | 'Opening Mythos'
@@ -1316,6 +1320,7 @@ export interface GameSessionsSelect<T extends boolean = true> {
   turnNumber?: T;
   activeAncientOne?: T;
   ancientOneSheetKey?: T;
+  useAncientOneBackground?: T;
   currentPhase?: T;
   openingHeadlineResolved?: T;
   phaseHistory?:

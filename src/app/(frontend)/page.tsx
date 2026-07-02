@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
+import type { CSSProperties } from 'react'
 
 import type { ArkhamEncounterCardFrontProps } from '@/components/arkhamEncounterCardFront'
 import { MythosCardFront, type MythosCardFrontProps } from '@/components/mythosCardFront'
@@ -12,6 +13,11 @@ import {
 } from '@/lib/arkhamEncounterPresentation'
 import { arkhamEncounterStateFromSession } from '@/lib/arkhamEncounterSessionState'
 import { boxedSetDisplay } from '@/lib/boxedSetPresentation'
+import {
+  activeAncientOneBackground,
+  ancientOneSheetBackground,
+  cssBackgroundImageValue,
+} from '@/lib/ancientOneBackground'
 import { expansionTrackStateFromSession } from '@/lib/expansionTracks'
 import { openingMythosPhase, turnPhases, type GamePhase } from '@/lib/gamePhaseState'
 import { calculateInvestigatorRules, gameLimitWarnings } from '@/lib/investigatorRules'
@@ -60,6 +66,7 @@ import {
   updateEnabledSetsAction,
 } from './actions'
 import { ArkhamEncounterDeckSlot } from './ArkhamEncounterDeckSlot'
+import { AncientOneSetupFields, type AncientOneSetupOption } from './AncientOneSetupFields'
 import {
   ArkhamNeighborhoodShelf,
   type ArkhamNeighborhoodDeckOption,
@@ -76,6 +83,9 @@ export const dynamic = 'force-dynamic'
 
 type RelationshipValue = string | MythosCard | null | undefined
 type AncientOneSheet = AncientOne['sheets'][number]
+type TableBackgroundStyle = CSSProperties & {
+  '--table-background-image'?: string
+}
 
 const MYTHOS_CARDS = 'mythos-cards' as const
 const ARKHAM_ENCOUNTER_CARDS = 'arkham-encounter-cards' as const
@@ -410,6 +420,18 @@ function AncientOneSetup({
 }) {
   const currentSelection =
     activeAncientOne && activeSheet ? `${activeAncientOne.id}::${activeSheet.key}` : ''
+  const ancientOneOptions: AncientOneSetupOption[] = ancientOnes.flatMap((ancientOne) =>
+    ancientOne.sheets.map((sheet) => {
+      const background = ancientOneSheetBackground(sheet)
+
+      return {
+        value: `${ancientOne.id}::${sheet.key}`,
+        label: `${ancientOne.name} - ${sheet.label} (${sheet.doomTrack} doom)`,
+        imageUrl: background?.url,
+        imageAlt: background?.alt,
+      }
+    }),
+  )
   const enabledSetIDs = new Set(relationshipIDs(currentSession.enabledSets))
   const boxedSetsByCategory = Object.entries(BOXED_SET_CATEGORY_LABELS).map(
     ([category, label]) => ({
@@ -516,29 +538,11 @@ function AncientOneSetup({
           className="ancient-one-selector"
         >
           <div className="setup-form-fields">
-            <div className="setup-form-field ancient-one-field">
-              <label htmlFor="ancient-one-selection">Ancient One and sheet</label>
-              <select
-                defaultValue={currentSelection}
-                id="ancient-one-selection"
-                name="ancientOneSelection"
-                required
-              >
-                <option disabled value="">
-                  Select an Ancient One
-                </option>
-                {ancientOnes.flatMap((ancientOne) =>
-                  ancientOne.sheets.map((sheet) => (
-                    <option
-                      key={`${ancientOne.id}-${sheet.key}`}
-                      value={`${ancientOne.id}::${sheet.key}`}
-                    >
-                      {ancientOne.name} - {sheet.label} ({sheet.doomTrack} doom)
-                    </option>
-                  )),
-                )}
-              </select>
-            </div>
+            <AncientOneSetupFields
+              currentSelection={currentSelection}
+              initialUseBackground={Boolean(currentSession.useAncientOneBackground)}
+              options={ancientOneOptions}
+            />
             <div className="setup-form-field investigator-count-field">
               <label>Investigators</label>
               <InvestigatorCountInput initialValue={investigatorCount} />
@@ -739,6 +743,15 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   })
   const activeAncientOne = selectedAncientOne(session, ancientOnesByID)
   const activeSheet = selectedAncientOneSheet(activeAncientOne, session.ancientOneSheetKey)
+  const ancientOneBackground = activeAncientOneBackground(
+    Boolean(session.useAncientOneBackground),
+    activeSheet,
+  )
+  const tableBackgroundStyle: TableBackgroundStyle | undefined = ancientOneBackground
+    ? {
+        '--table-background-image': cssBackgroundImageValue(ancientOneBackground.url),
+      }
+    : undefined
   const currentPhase: GamePhase = activeAncientOne ? (session.currentPhase as GamePhase) : 'Setup'
   const isOpeningMythos = currentPhase === openingMythosPhase
 
@@ -802,7 +815,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const sessionID = String(session.id)
 
   return (
-    <main className="mythos-table">
+    <main className="mythos-table" style={tableBackgroundStyle}>
       <header className="table-topbar">
         <div className="session-title">
           <p className="eyebrow">Arkham Horror Helper</p>

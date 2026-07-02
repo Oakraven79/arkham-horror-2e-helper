@@ -460,6 +460,7 @@ function phasePointer(session: GameSession): GamePhasePointer {
 export async function selectAncientOneAction(sessionID: string, formData: FormData) {
   const selection = formData.get('ancientOneSelection')
   const investigatorCountValue = formData.get('investigatorCount')
+  const useAncientOneBackground = formData.get('useAncientOneBackground') === 'on'
 
   if (typeof selection !== 'string') {
     throw new Error('Select an Ancient One before beginning the game.')
@@ -513,6 +514,7 @@ export async function selectAncientOneAction(sessionID: string, formData: FormDa
     data: {
       activeAncientOne: ancientOne.id,
       ancientOneSheetKey: sheet.key,
+      useAncientOneBackground,
       currentPhase: 'Setup',
       playerCount: investigatorCount,
       tracks: {
@@ -526,7 +528,7 @@ export async function selectAncientOneAction(sessionID: string, formData: FormDa
           { ...session, currentPhase: 'Setup' },
           'select-ancient-one',
           null,
-          `${ancientOne.name} - ${sheet.label} selected with ${investigatorCount} investigators and a ${sheet.doomTrack}-space doom track.`,
+          `${ancientOne.name} - ${sheet.label} selected with ${investigatorCount} investigators and a ${sheet.doomTrack}-space doom track. Ancient One background ${useAncientOneBackground ? 'enabled' : 'disabled'}.`,
         ),
       ],
     },

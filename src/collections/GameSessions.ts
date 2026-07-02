@@ -131,6 +131,17 @@ export const GameSessions: CollectionConfig = {
       },
     },
     {
+      name: 'useAncientOneBackground',
+      label: 'Use Ancient One Background',
+      type: 'checkbox',
+      required: true,
+      defaultValue: false,
+      admin: {
+        description:
+          'Use the selected Ancient One sheet image as the game-table background when artwork is available.',
+      },
+    },
+    {
       name: 'currentPhase',
       type: 'select',
       required: true,

@@ -166,6 +166,7 @@ export async function createGameSession(
       status: 'active',
       playerCount: 4,
       enabledSets: [baseSetID],
+      useAncientOneBackground: false,
       turnNumber: 1,
       currentPhase: 'Setup',
       openingHeadlineResolved: false,
