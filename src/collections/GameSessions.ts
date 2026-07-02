@@ -41,6 +41,16 @@ const otherWorldEncounterCardInstanceFields: Field[] = [
   },
 ]
 
+const arkhamEncounterCardRelationship = {
+  type: 'relationship',
+  relationTo: 'arkham-encounter-cards',
+} as const
+
+const neighborhoodRelationship = {
+  type: 'relationship',
+  relationTo: 'neighborhoods',
+} as const
+
 export const GameSessions: CollectionConfig = {
   slug: 'game-sessions',
   admin: {
@@ -393,6 +403,68 @@ export const GameSessions: CollectionConfig = {
       ],
     },
     {
+      name: 'arkhamEncounters',
+      label: 'Arkham Encounters',
+      type: 'group',
+      admin: {
+        description:
+          'Saved neighbourhood selection and draw history. Location decks are shuffled before every draw.',
+      },
+      fields: [
+        {
+          name: 'selectedNeighborhood',
+          label: 'Selected Neighborhood',
+          ...neighborhoodRelationship,
+        },
+        {
+          name: 'currentDraw',
+          label: 'Current Encounter Card',
+          ...arkhamEncounterCardRelationship,
+        },
+        {
+          name: 'currentDrawKey',
+          type: 'text',
+          admin: {
+            description:
+              'Unique draw identifier so repeated copies of the same card still animate correctly.',
+          },
+        },
+        {
+          name: 'drawHistory',
+          label: 'Draw History',
+          type: 'array',
+          fields: [
+            {
+              name: 'drawKey',
+              type: 'text',
+              required: true,
+            },
+            {
+              name: 'card',
+              ...arkhamEncounterCardRelationship,
+              required: true,
+            },
+            {
+              name: 'neighborhood',
+              ...neighborhoodRelationship,
+              required: true,
+            },
+            {
+              name: 'turnNumber',
+              type: 'number',
+              required: true,
+              min: 1,
+            },
+            {
+              name: 'drawnAt',
+              type: 'date',
+              required: true,
+            },
+          ],
+        },
+      ],
+    },
+    {
       name: 'shuffleEvents',
       type: 'array',
       admin: {
@@ -464,6 +536,14 @@ export const GameSessions: CollectionConfig = {
               label: 'Discard Other World Encounter',
               value: 'discard-other-world-encounter',
             },
+            {
+              label: 'Select Arkham Neighborhood',
+              value: 'select-arkham-neighborhood',
+            },
+            {
+              label: 'Draw Arkham Encounter',
+              value: 'draw-arkham-encounter',
+            },
             { label: 'Reveal Card', value: 'reveal-card' },
             { label: 'Resolve Card', value: 'resolve-card' },
             { label: 'Activate Environment', value: 'activate-environment' },
@@ -485,6 +565,15 @@ export const GameSessions: CollectionConfig = {
           name: 'otherWorldEncounterCard',
           label: 'Other World Encounter Card',
           ...otherWorldEncounterCardRelationship,
+        },
+        {
+          name: 'arkhamEncounterCard',
+          label: 'Arkham Encounter Card',
+          ...arkhamEncounterCardRelationship,
+        },
+        {
+          name: 'neighborhood',
+          ...neighborhoodRelationship,
         },
         {
           name: 'note',

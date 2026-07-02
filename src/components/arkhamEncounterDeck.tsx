@@ -18,6 +18,7 @@ export interface ArkhamEncounterDeckProps
   initiallyRevealed?: boolean
   onFlip?: (isRevealed: boolean) => void
   revealed?: boolean
+  revealedLabel?: string
 }
 
 export function ArkhamEncounterDeck({
@@ -26,6 +27,7 @@ export function ArkhamEncounterDeck({
   onFlip,
   panels,
   revealed,
+  revealedLabel,
   ...frontProps
 }: ArkhamEncounterDeckProps) {
   const [localRevealed, setLocalRevealed] = useState(initiallyRevealed)
@@ -50,7 +52,7 @@ export function ArkhamEncounterDeck({
     <div
       aria-label={
         isRevealed
-          ? `Flip ${frontProps.neighborhood.name} encounter card face down`
+          ? (revealedLabel ?? `Flip ${frontProps.neighborhood.name} encounter card face down`)
           : `Draw from the ${frontProps.neighborhood.name} encounter deck`
       }
       aria-pressed={isRevealed}

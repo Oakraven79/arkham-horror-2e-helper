@@ -1,9 +1,20 @@
 'use server'
 
+import { randomUUID } from 'node:crypto'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 
+import {
+  clearArkhamEncounterSelection,
+  drawArkhamEncounterCard,
+  selectArkhamEncounterNeighborhood,
+} from '@/lib/arkhamEncounterState'
+import { arkhamEncounterCardsWhere } from '@/lib/arkhamEncounterContent'
+import {
+  arkhamEncounterStateForPayload,
+  arkhamEncounterStateFromSession,
+} from '@/lib/arkhamEncounterSessionState'
 import {
   activateCurrentEnvironment,
   activateCurrentRumor,
@@ -57,6 +68,7 @@ type SessionLogAction = NonNullable<GameSession['sessionLog']>[number]['action']
 type ShuffleEventReason = NonNullable<GameSession['shuffleEvents']>[number]['reason']
 
 const GAME_SESSIONS = 'game-sessions' as const
+const ARKHAM_ENCOUNTER_CARDS = 'arkham-encounter-cards' as const
 const MYTHOS_CARDS = 'mythos-cards' as const
 const OTHER_WORLD_ENCOUNTER_CARDS = 'other-world-encounter-cards' as const
 
@@ -98,6 +110,25 @@ function otherWorldEncounterLogEntry(
     action,
     ...(card ? { otherWorldEncounterCard: card } : {}),
     ...(note ? { note } : {}),
+  }
+}
+
+function arkhamEncounterLogEntry(
+  session: GameSession,
+  action: 'draw-arkham-encounter' | 'select-arkham-neighborhood',
+  options: {
+    card?: string | null
+    neighborhood?: string | null
+    note?: string
+  },
+): NonNullable<GameSession['sessionLog']>[number] {
+  return {
+    turnNumber: session.turnNumber,
+    phase: session.currentPhase,
+    action,
+    ...(options.card ? { arkhamEncounterCard: options.card } : {}),
+    ...(options.neighborhood ? { neighborhood: options.neighborhood } : {}),
+    ...(options.note ? { note: options.note } : {}),
   }
 }
 
@@ -276,6 +307,9 @@ export async function updateEnabledSetsAction(sessionID: string, formData: FormD
       otherWorldEncounters: otherWorldEncounterDeckStateForPayload(
         freshOtherWorldEncounterDeckState(otherWorldEncounterCards.docs),
       ),
+      arkhamEncounters: arkhamEncounterStateForPayload(
+        clearArkhamEncounterSelection(arkhamEncounterStateFromSession(session)),
+      ),
       sessionLog: [...(session.sessionLog ?? []), logEntry(session, 'shuffle-deck', null, note)],
       shuffleEvents: [...(session.shuffleEvents ?? []), shuffleEvent(session, 'setup', note)],
     },
@@ -394,6 +428,10 @@ export async function advancePhaseAction(sessionID: string) {
   }
 
   const transition = transitionFor(current, next)
+  const completingArkhamEncounters = session.currentPhase === 'Arkham Encounters'
+  const arkhamEncounterState = completingArkhamEncounters
+    ? arkhamEncounterStateFromSession(session)
+    : null
   const completingOtherWorldEncounters = session.currentPhase === 'Other World Encounters'
   const otherWorldState = completingOtherWorldEncounters
     ? otherWorldEncounterDeckStateFromSession(session)
@@ -426,6 +464,13 @@ export async function advancePhaseAction(sessionID: string) {
             ),
           }
         : {}),
+      ...(arkhamEncounterState
+        ? {
+            arkhamEncounters: arkhamEncounterStateForPayload(
+              clearArkhamEncounterSelection(arkhamEncounterState),
+            ),
+          }
+        : {}),
       sessionLog: [
         ...(session.sessionLog ?? []),
         ...completionLogEntries,
@@ -436,6 +481,167 @@ export async function advancePhaseAction(sessionID: string) {
           `Advanced to ${next.currentPhase}, turn ${next.turnNumber}.`,
         ),
       ],
+    },
+  })
+
+  revalidatePath('/')
+}
+
+async function eligibleArkhamEncounterCards(
+  payload: Awaited<ReturnType<typeof getPayloadClient>>,
+  session: GameSession,
+  neighborhoodID: string,
+) {
+  const enabledSetIDs = relationshipIDs(session.enabledSets)
+  const neighborhood = await payload.findByID({
+    collection: 'neighborhoods',
+    id: neighborhoodID,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  if (!enabledSetIDs.includes(relationshipID(neighborhood.sourceSet) ?? '')) {
+    throw new Error('That neighborhood is not available for the boxed sets in this session.')
+  }
+
+  const cards = await payload.find({
+    collection: ARKHAM_ENCOUNTER_CARDS,
+    where: arkhamEncounterCardsWhere(neighborhoodID, enabledSetIDs),
+    limit: 1000,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  return {
+    cards: cards.docs,
+    neighborhood,
+  }
+}
+
+export async function selectArkhamNeighborhoodAction(sessionID: string, neighborhoodID: string) {
+  const payload = await getPayloadClient()
+  const session = await payload.findByID({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  if (session.currentPhase !== 'Arkham Encounters') return
+
+  const { cards, neighborhood } = await eligibleArkhamEncounterCards(
+    payload,
+    session,
+    neighborhoodID,
+  )
+
+  if (cards.length === 0) {
+    throw new Error(`No active encounter cards are available for ${neighborhood.name}.`)
+  }
+
+  const nextState = selectArkhamEncounterNeighborhood(
+    arkhamEncounterStateFromSession(session),
+    neighborhoodID,
+  )
+
+  await payload.update({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+    data: {
+      arkhamEncounters: arkhamEncounterStateForPayload(nextState),
+      sessionLog: [
+        ...(session.sessionLog ?? []),
+        arkhamEncounterLogEntry(session, 'select-arkham-neighborhood', {
+          neighborhood: neighborhoodID,
+          note: `${neighborhood.name} encounter deck selected.`,
+        }),
+      ],
+    },
+  })
+
+  revalidatePath('/')
+}
+
+export async function drawArkhamEncounterAction(sessionID: string) {
+  const payload = await getPayloadClient()
+  const session = await payload.findByID({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  if (session.currentPhase !== 'Arkham Encounters') return
+
+  const state = arkhamEncounterStateFromSession(session)
+
+  if (!state.selectedNeighborhoodID) {
+    throw new Error('Select a neighborhood before drawing an encounter card.')
+  }
+
+  const { cards, neighborhood } = await eligibleArkhamEncounterCards(
+    payload,
+    session,
+    state.selectedNeighborhoodID,
+  )
+  const drawKey = randomUUID()
+  const nextState = drawArkhamEncounterCard(
+    state,
+    cards.map((card) => String(card.id)),
+    {
+      drawKey,
+      drawnAt: new Date().toISOString(),
+      turnNumber: session.turnNumber,
+    },
+  )
+
+  if (!nextState.currentCardID || nextState.currentDrawKey !== drawKey) {
+    throw new Error(`No active encounter cards are available for ${neighborhood.name}.`)
+  }
+
+  await payload.update({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+    data: {
+      arkhamEncounters: arkhamEncounterStateForPayload(nextState),
+      sessionLog: [
+        ...(session.sessionLog ?? []),
+        arkhamEncounterLogEntry(session, 'draw-arkham-encounter', {
+          card: nextState.currentCardID,
+          neighborhood: state.selectedNeighborhoodID,
+          note: `${neighborhood.name} deck shuffled and an encounter card drawn.`,
+        }),
+      ],
+    },
+  })
+
+  revalidatePath('/')
+}
+
+export async function clearArkhamNeighborhoodAction(sessionID: string) {
+  const payload = await getPayloadClient()
+  const session = await payload.findByID({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  if (session.currentPhase !== 'Arkham Encounters') return
+
+  await payload.update({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+    data: {
+      arkhamEncounters: arkhamEncounterStateForPayload(
+        clearArkhamEncounterSelection(arkhamEncounterStateFromSession(session)),
+      ),
     },
   })
 

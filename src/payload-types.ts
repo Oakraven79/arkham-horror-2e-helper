@@ -777,6 +777,27 @@ export interface GameSession {
     shuffleCount: number;
   };
   /**
+   * Saved neighbourhood selection and draw history. Location decks are shuffled before every draw.
+   */
+  arkhamEncounters?: {
+    selectedNeighborhood?: (string | null) | Neighborhood;
+    currentDraw?: (string | null) | ArkhamEncounterCard;
+    /**
+     * Unique draw identifier so repeated copies of the same card still animate correctly.
+     */
+    currentDrawKey?: string | null;
+    drawHistory?:
+      | {
+          drawKey: string;
+          card: string | ArkhamEncounterCard;
+          neighborhood: string | Neighborhood;
+          turnNumber: number;
+          drawnAt: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
    * Records when the discard pile was shuffled back into the draw pile.
    */
   shuffleEvents?:
@@ -827,6 +848,8 @@ export interface GameSession {
           | 'draw-mythos'
           | 'draw-other-world-encounter'
           | 'discard-other-world-encounter'
+          | 'select-arkham-neighborhood'
+          | 'draw-arkham-encounter'
           | 'reveal-card'
           | 'resolve-card'
           | 'activate-environment'
@@ -840,6 +863,8 @@ export interface GameSession {
           | 'note';
         card?: (string | null) | MythosCard;
         otherWorldEncounterCard?: (string | null) | OtherWorldEncounterCard;
+        arkhamEncounterCard?: (string | null) | ArkhamEncounterCard;
+        neighborhood?: (string | null) | Neighborhood;
         note?: string | null;
         id?: string | null;
       }[]
@@ -1354,6 +1379,23 @@ export interface GameSessionsSelect<T extends boolean = true> {
         currentDrawInstanceKey?: T;
         shuffleCount?: T;
       };
+  arkhamEncounters?:
+    | T
+    | {
+        selectedNeighborhood?: T;
+        currentDraw?: T;
+        currentDrawKey?: T;
+        drawHistory?:
+          | T
+          | {
+              drawKey?: T;
+              card?: T;
+              neighborhood?: T;
+              turnNumber?: T;
+              drawnAt?: T;
+              id?: T;
+            };
+      };
   shuffleEvents?:
     | T
     | {
@@ -1371,6 +1413,8 @@ export interface GameSessionsSelect<T extends boolean = true> {
         action?: T;
         card?: T;
         otherWorldEncounterCard?: T;
+        arkhamEncounterCard?: T;
+        neighborhood?: T;
         note?: T;
         id?: T;
       };

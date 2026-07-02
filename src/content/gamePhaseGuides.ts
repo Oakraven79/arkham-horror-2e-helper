@@ -51,7 +51,8 @@ export const gamePhaseGuides: Record<GamePhase, GamePhaseGuide> = {
     title: 'Arkham Encounters',
     summary: 'Resolve encounters for investigators at Arkham locations.',
     steps: [
-      'At a location without a gate, draw the matching neighborhood encounter card.',
+      'At a location without a gate, shuffle the matching neighborhood deck and draw one card.',
+      'Resolve the entry for the investigator’s location, then return the card to its deck.',
       'At an open gate, enter it unless returning with an explored marker.',
       'With an explored marker, attempt to close or seal the gate.',
       'Investigators in streets or Other Worlds do not have an Arkham encounter.',

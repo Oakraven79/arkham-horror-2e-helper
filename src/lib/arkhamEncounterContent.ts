@@ -1,3 +1,6 @@
+import type { Where } from 'payload'
+
+import { sourceSetWhere } from './gameSessionContent'
 import { relationshipID } from './boxedSetContent'
 
 type EncounterRow = {
@@ -22,4 +25,17 @@ export function validateArkhamEncounterRows(value: unknown) {
   }
 
   return true
+}
+
+export function arkhamEncounterCardsWhere(neighborhoodID: string, enabledSetIDs: string[]): Where {
+  return {
+    and: [
+      {
+        neighborhood: {
+          equals: neighborhoodID,
+        },
+      },
+      sourceSetWhere(enabledSetIDs),
+    ],
+  }
 }

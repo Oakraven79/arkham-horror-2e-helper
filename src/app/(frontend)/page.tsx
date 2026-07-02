@@ -2,9 +2,16 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 
+import type { ArkhamEncounterCardFrontProps } from '@/components/arkhamEncounterCardFront'
 import { MythosCardFront, type MythosCardFrontProps } from '@/components/mythosCardFront'
 import type { OtherworldEncounterCardFrontProps } from '@/components/otherworldEncounterCardFront'
 import { gamePhaseGuides } from '@/content/gamePhaseGuides'
+import {
+  arkhamEncounterCardFrontProps,
+  arkhamEncounterDeckBackProps,
+} from '@/lib/arkhamEncounterPresentation'
+import { arkhamEncounterStateFromSession } from '@/lib/arkhamEncounterSessionState'
+import { boxedSetDisplay } from '@/lib/boxedSetPresentation'
 import { openingMythosPhase, turnPhases, type GamePhase } from '@/lib/gamePhaseState'
 import { calculateInvestigatorRules, gameLimitWarnings } from '@/lib/investigatorRules'
 import { relationshipID, relationshipIDs, sourceSetWhere } from '@/lib/gameSessionContent'
@@ -21,10 +28,12 @@ import { isHeadlineCardType } from '@/lib/openingMythos'
 import config from '@/payload.config'
 import type {
   AncientOne,
+  ArkhamEncounterCard,
   BoxedSet,
   GameSession,
   Location,
   MythosCard,
+  Neighborhood,
   OtherWorldEncounterCard,
 } from '@/payload-types'
 
@@ -34,6 +43,7 @@ import {
   advancePhaseAction,
   clearActiveEnvironmentAction,
   clearActiveRumorAction,
+  clearArkhamNeighborhoodAction,
   discardCurrentDrawAction,
   exitGameAction,
   previousPhaseAction,
@@ -47,6 +57,11 @@ import {
   skipOpeningMythosCardAction,
   updateEnabledSetsAction,
 } from './actions'
+import { ArkhamEncounterDeckSlot } from './ArkhamEncounterDeckSlot'
+import {
+  ArkhamNeighborhoodShelf,
+  type ArkhamNeighborhoodDeckOption,
+} from './ArkhamNeighborhoodShelf'
 import { GameRulesContext } from './GameRulesContext'
 import { InvestigatorCountInput } from './InvestigatorCountInput'
 import { MythosDeckSlot } from './MythosDeckSlot'
@@ -59,8 +74,10 @@ type RelationshipValue = string | MythosCard | null | undefined
 type AncientOneSheet = AncientOne['sheets'][number]
 
 const MYTHOS_CARDS = 'mythos-cards' as const
+const ARKHAM_ENCOUNTER_CARDS = 'arkham-encounter-cards' as const
 const OTHER_WORLD_ENCOUNTER_CARDS = 'other-world-encounter-cards' as const
 const EXPANSION_CITY_KEYS = new Set(['dunwich-horror', 'kingsport-horror', 'innsmouth-horror'])
+const BOARD_ORDER = ['Arkham', 'Dunwich', 'Kingsport', 'Innsmouth', 'Other']
 const BOXED_SET_CATEGORY_LABELS: Record<BoxedSet['category'], string> = {
   core: 'Core Game',
   'large-expansion': 'Large Expansions',
@@ -93,6 +110,13 @@ function otherWorldEncounterCardProps(
   return otherWorldEncounterCardFrontProps(card)
 }
 
+function arkhamEncounterCardProps(
+  card: ArkhamEncounterCard | null,
+): ArkhamEncounterCardFrontProps | null {
+  if (!card) return null
+  return arkhamEncounterCardFrontProps(card)
+}
+
 async function getAllMythosCards(
   payload: Awaited<ReturnType<typeof getPayload>>,
   enabledSetIDs: string[],
@@ -123,12 +147,27 @@ async function getAllOtherWorldEncounterCards(
   return cards.docs
 }
 
+async function getAllArkhamEncounterCards(
+  payload: Awaited<ReturnType<typeof getPayload>>,
+  enabledSetIDs: string[],
+) {
+  const cards = await payload.find({
+    collection: ARKHAM_ENCOUNTER_CARDS,
+    where: sourceSetWhere(enabledSetIDs),
+    limit: 1000,
+    depth: 2,
+    overrideAccess: true,
+  })
+
+  return cards.docs
+}
+
 async function getReferenceData(
   payload: Awaited<ReturnType<typeof getPayload>>,
   enabledSetIDs: string[],
 ) {
   const where = sourceSetWhere(enabledSetIDs)
-  const [ancientOnes, locations] = await Promise.all([
+  const [ancientOnes, locations, neighborhoods, media] = await Promise.all([
     payload.find({
       collection: 'ancient-ones',
       where,
@@ -145,11 +184,31 @@ async function getReferenceData(
       depth: 0,
       overrideAccess: true,
     }),
+    payload.find({
+      collection: 'neighborhoods',
+      where,
+      limit: 100,
+      sort: 'name',
+      depth: 2,
+      overrideAccess: true,
+    }),
+    payload.find({
+      collection: 'media',
+      limit: 1000,
+      depth: 0,
+      overrideAccess: true,
+    }),
   ])
+  const mediaByID = new Map(media.docs.map((asset) => [String(asset.id), asset]))
 
   return {
     ancientOnes: ancientOnes.docs,
-    locations: locations.docs,
+    locations: locations.docs.map((location) => ({
+      ...location,
+      cardImage:
+        mediaByID.get(relationshipID(location.cardImage) ?? '') ?? location.cardImage ?? null,
+    })),
+    neighborhoods: neighborhoods.docs,
   }
 }
 
@@ -229,6 +288,36 @@ function isBoxedSetDocument(value: BoxedSet | string): value is BoxedSet {
 
 function addsExpansionBoard(boxedSet: BoxedSet) {
   return Boolean(boxedSet.addsExpansionBoard || EXPANSION_CITY_KEYS.has(boxedSet.key))
+}
+
+function neighborhoodBoardName(neighborhood: Neighborhood) {
+  return neighborhood.board === 'Other'
+    ? neighborhood.customBoardName || 'Other'
+    : neighborhood.board
+}
+
+function neighborhoodSort(left: Neighborhood, right: Neighborhood) {
+  const leftBoard = neighborhoodBoardName(left)
+  const rightBoard = neighborhoodBoardName(right)
+  const leftIndex = BOARD_ORDER.indexOf(leftBoard)
+  const rightIndex = BOARD_ORDER.indexOf(rightBoard)
+  const boardDifference =
+    (leftIndex === -1 ? BOARD_ORDER.length : leftIndex) -
+    (rightIndex === -1 ? BOARD_ORDER.length : rightIndex)
+
+  return (
+    boardDifference || leftBoard.localeCompare(rightBoard) || left.name.localeCompare(right.name)
+  )
+}
+
+function locationBelongsToNeighborhood(location: Location, neighborhood: Neighborhood) {
+  const neighborhoodReference = relationshipID(location.neighborhood)
+
+  return (
+    neighborhoodReference === String(neighborhood.id) ||
+    neighborhoodReference === neighborhood.name ||
+    neighborhoodReference === neighborhood.key
+  )
 }
 
 function CardSlot({
@@ -463,37 +552,7 @@ function AncientOneSetup({
   )
 }
 
-function ArkhamEncounterDeckPlaceholder({ locations }: { locations: Location[] }) {
-  return (
-    <div className="encounter-draw-area">
-      <label htmlFor="arkham-encounter-target">Encounter location</label>
-      <select defaultValue="" id="arkham-encounter-target">
-        <option disabled value="">
-          Select a location
-        </option>
-        {locations.map((destination) => (
-          <option key={destination.id} value={destination.id}>
-            {destination.name}
-          </option>
-        ))}
-      </select>
-      <button
-        aria-label="Arkham encounter deck placeholder"
-        className="encounter-deck-placeholder arkham"
-        disabled
-        type="button"
-      >
-        <span className="encounter-deck-mark" aria-hidden="true">
-          AH
-        </span>
-        <span>Arkham Encounter</span>
-        <strong>Draw card</strong>
-      </button>
-    </div>
-  )
-}
-
-function PhaseGuide({ locations, phase }: { locations: Location[]; phase: GamePhase }) {
+function PhaseGuide({ phase }: { phase: GamePhase }) {
   const guide = gamePhaseGuides[phase]
 
   return (
@@ -501,8 +560,6 @@ function PhaseGuide({ locations, phase }: { locations: Location[]; phase: GamePh
       <p className="eyebrow">Current Phase</p>
       <h2>{guide.title}</h2>
       <p className="phase-summary">{guide.summary}</p>
-
-      {phase === 'Arkham Encounters' && <ArkhamEncounterDeckPlaceholder locations={locations} />}
 
       <ol className="phase-checklist">
         {guide.steps.map((step) => (
@@ -626,8 +683,15 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const sessionWithOpening = await repairLegacyOpeningHeadline(payload, sessionWithSets)
   const session = await repairLegacyOtherWorldEncounterDeck(payload, sessionWithOpening)
   const enabledSetIDs = relationshipIDs(session.enabledSets)
-  const [mythosCards, otherWorldEncounterCards, referenceData, boxedSetResult] = await Promise.all([
+  const [
+    mythosCards,
+    arkhamEncounterCards,
+    otherWorldEncounterCards,
+    referenceData,
+    boxedSetResult,
+  ] = await Promise.all([
     getAllMythosCards(payload, enabledSetIDs),
+    getAllArkhamEncounterCards(payload, enabledSetIDs),
     getAllOtherWorldEncounterCards(payload, enabledSetIDs),
     getReferenceData(payload, enabledSetIDs),
     payload.find({
@@ -639,13 +703,20 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     }),
   ])
   const cardsByID = new Map(mythosCards.map((card) => [String(card.id), card]))
+  const arkhamEncounterCardsByID = new Map(
+    arkhamEncounterCards.map((card) => [String(card.id), card]),
+  )
   const otherWorldEncounterCardsByID = new Map(
     otherWorldEncounterCards.map((card) => [String(card.id), card]),
+  )
+  const neighborhoodsByID = new Map(
+    referenceData.neighborhoods.map((neighborhood) => [String(neighborhood.id), neighborhood]),
   )
   const ancientOnesByID = new Map(
     referenceData.ancientOnes.map((ancientOne) => [String(ancientOne.id), ancientOne]),
   )
   const mythos = mythosDeckStateFromSession(session)
+  const arkhamEncounters = arkhamEncounterStateFromSession(session)
   const otherWorldEncounterDeck = otherWorldEncounterDeckStateFromSession(session)
   const tracks = session.tracks ?? {}
   const enabledSets = session.enabledSets.filter(isBoxedSetDocument)
@@ -678,6 +749,41 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const activeEnvironment = cardProps(activeEnvironmentDocument)
   const activeRumor = cardProps(activeRumorDocument)
   const currentCardType = currentCardDocument?.cardType ?? ''
+  const selectedArkhamNeighborhood = arkhamEncounters.selectedNeighborhoodID
+    ? (neighborhoodsByID.get(arkhamEncounters.selectedNeighborhoodID) ?? null)
+    : null
+  const currentArkhamEncounterDocument = arkhamEncounters.currentCardID
+    ? (arkhamEncounterCardsByID.get(arkhamEncounters.currentCardID) ?? null)
+    : null
+  const currentArkhamEncounter = arkhamEncounterCardProps(currentArkhamEncounterDocument)
+  const arkhamCardCounts = arkhamEncounterCards.reduce((counts, card) => {
+    const neighborhoodID = relationshipID(card.neighborhood)
+
+    if (neighborhoodID) counts.set(neighborhoodID, (counts.get(neighborhoodID) ?? 0) + 1)
+
+    return counts
+  }, new Map<string, number>())
+  const arkhamNeighborhoodDecks: ArkhamNeighborhoodDeckOption[] = [...referenceData.neighborhoods]
+    .sort(neighborhoodSort)
+    .map((neighborhood) => ({
+      id: String(neighborhood.id),
+      board: neighborhoodBoardName(neighborhood),
+      boxedSet: boxedSetDisplay(neighborhood.sourceSet),
+      cardCount: arkhamCardCounts.get(String(neighborhood.id)) ?? 0,
+      ...arkhamEncounterDeckBackProps(
+        neighborhood,
+        referenceData.locations.filter((location) =>
+          locationBelongsToNeighborhood(location, neighborhood),
+        ),
+      ),
+    }))
+  const selectedArkhamDeck = selectedArkhamNeighborhood
+    ? (arkhamNeighborhoodDecks.find((deck) => deck.id === String(selectedArkhamNeighborhood.id)) ??
+      null)
+    : null
+  const arkhamDrawsThisTurn = (arkhamEncounters.drawHistory ?? []).filter(
+    (entry) => entry.turnNumber === session.turnNumber,
+  ).length
   const currentOtherWorldEncounterDocument =
     otherWorldEncounterCardsByID.get(otherWorldEncounterDeck.currentDraw?.cardID ?? '') ?? null
   const currentOtherWorldEncounter = otherWorldEncounterCardProps(
@@ -910,6 +1016,98 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               />
             </section>
           </div>
+        ) : currentPhase === 'Arkham Encounters' ? (
+          <div className="mythos-workspace arkham-workspace">
+            <aside className="mythos-resolver" aria-label="Arkham encounter resolver">
+              <header>
+                <p className="eyebrow">Arkham Encounters</p>
+                <h2>{selectedArkhamNeighborhood?.name ?? 'Choose a neighborhood'}</h2>
+                <p className="resolver-copy">
+                  {selectedArkhamNeighborhood
+                    ? currentArkhamEncounterDocument
+                      ? 'Resolve the entry for the investigator’s location.'
+                      : `${selectedArkhamNeighborhood.name} deck ready.`
+                    : 'Select the location deck matching the investigator’s neighborhood.'}
+                </p>
+              </header>
+
+              <ol className="mythos-step-list">
+                {gamePhaseGuides['Arkham Encounters'].steps.map((step) => (
+                  <li key={step}>{step}</li>
+                ))}
+              </ol>
+
+              {selectedArkhamNeighborhood && (
+                <section className="mythos-primary-action">
+                  <form action={clearArkhamNeighborhoodAction.bind(null, sessionID)}>
+                    <button type="submit">Choose neighborhood</button>
+                  </form>
+                </section>
+              )}
+
+              <div className="mythos-pile-summary">
+                <span>
+                  This turn <strong>{arkhamDrawsThisTurn}</strong>
+                </span>
+                <span>
+                  Session <strong>{arkhamEncounters.drawHistory?.length ?? 0}</strong>
+                </span>
+                {selectedArkhamDeck && (
+                  <span>
+                    Cards <strong>{selectedArkhamDeck.cardCount}</strong>
+                  </span>
+                )}
+              </div>
+            </aside>
+
+            {selectedArkhamNeighborhood && selectedArkhamDeck ? (
+              <section
+                className="card-lineup mythos-card-lineup"
+                aria-label="Arkham encounter and active effects"
+              >
+                <section className="table-card-slot">
+                  <div className="slot-heading">
+                    <h2>{selectedArkhamNeighborhood.name}</h2>
+                  </div>
+                  <div className="deck-area">
+                    <ArkhamEncounterDeckSlot
+                      cardCount={selectedArkhamDeck.cardCount}
+                      currentCard={currentArkhamEncounter}
+                      currentDrawKey={arkhamEncounters.currentDrawKey}
+                      neighborhood={selectedArkhamDeck.neighborhood}
+                      panels={selectedArkhamDeck.panels}
+                      sessionID={sessionID}
+                    />
+                  </div>
+                </section>
+
+                <CardSlot
+                  title="Active Environment"
+                  card={activeEnvironment}
+                  emptyText="No Environment is active."
+                  effectCard={activeEnvironmentDocument}
+                  action={
+                    activeEnvironmentDocument
+                      ? clearActiveEnvironmentAction.bind(null, sessionID)
+                      : undefined
+                  }
+                  actionLabel="Clear"
+                />
+                <CardSlot
+                  title="Active Rumor"
+                  card={activeRumor}
+                  emptyText="No Rumor is active."
+                  effectCard={activeRumorDocument}
+                  action={
+                    activeRumorDocument ? clearActiveRumorAction.bind(null, sessionID) : undefined
+                  }
+                  actionLabel="Clear"
+                />
+              </section>
+            ) : (
+              <ArkhamNeighborhoodShelf decks={arkhamNeighborhoodDecks} sessionID={sessionID} />
+            )}
+          </div>
         ) : currentPhase === 'Other World Encounters' ? (
           <div className="mythos-workspace other-world-workspace">
             <aside className="mythos-resolver" aria-label="Other World encounter resolver">
@@ -1011,7 +1209,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           </div>
         ) : (
           <div className="phase-workspace">
-            <PhaseGuide locations={referenceData.locations} phase={currentPhase} />
+            <PhaseGuide phase={currentPhase} />
             <div className="persistent-card-lineup" aria-label="Active Mythos effects">
               <CardSlot
                 title="Active Environment"
