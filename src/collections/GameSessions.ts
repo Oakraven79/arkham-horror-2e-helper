@@ -2,6 +2,7 @@ import type { CollectionConfig, Field } from 'payload'
 
 import { arkhamHorror2eBoxes } from '@/components/arkhamConstants'
 import { gamePhases } from '@/lib/gamePhaseState'
+import { publishSessionChange } from '@/lib/sessionEvents'
 
 const phaseOptions = gamePhases
 
@@ -57,6 +58,36 @@ export const GameSessions: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'status', 'turnNumber', 'currentPhase', 'updatedAt'],
   },
+  hooks: {
+    beforeChange: [
+      ({ data, operation, originalDoc }) => {
+        data.stateRevision =
+          operation === 'create'
+            ? Math.max(0, Number(data.stateRevision ?? 0))
+            : Math.max(0, Number(originalDoc?.stateRevision ?? 0)) + 1
+
+        if (data.status && data.status !== 'active') {
+          data.mobileControlsEnabled = false
+          data.mobileJoinCodeHash = null
+          data.mobileJoinSecretHash = null
+          data.mobileControlExpiresAt = null
+          data.mobileControlVersion = null
+        }
+
+        return data
+      },
+    ],
+    afterChange: [
+      ({ doc }) => {
+        publishSessionChange({
+          revision: Number(doc.stateRevision ?? 0),
+          sessionID: String(doc.id),
+        })
+
+        return doc
+      },
+    ],
+  },
   fields: [
     {
       name: 'name',
@@ -74,6 +105,82 @@ export const GameSessions: CollectionConfig = {
         { label: 'Paused', value: 'paused' },
         { label: 'Complete', value: 'complete' },
         { label: 'Abandoned', value: 'abandoned' },
+      ],
+    },
+    {
+      name: 'stateRevision',
+      type: 'number',
+      required: true,
+      defaultValue: 0,
+      min: 0,
+      admin: {
+        description:
+          'Monotonic revision used to reject stale remote-controller commands and refresh connected displays.',
+        readOnly: true,
+      },
+    },
+    {
+      name: 'mobileControlsEnabled',
+      type: 'checkbox',
+      required: true,
+      defaultValue: false,
+      admin: {
+        description:
+          'Optional controller room. The main dashboard remains fully functional when this is disabled.',
+      },
+    },
+    {
+      name: 'mobileControlExpiresAt',
+      type: 'date',
+      admin: {
+        description: 'Mobile controllers are rejected after this time.',
+        readOnly: true,
+      },
+    },
+    {
+      name: 'mobileControlVersion',
+      type: 'text',
+      hidden: true,
+    },
+    {
+      name: 'mobileJoinCodeHash',
+      type: 'text',
+      hidden: true,
+      index: true,
+    },
+    {
+      name: 'mobileJoinSecretHash',
+      type: 'text',
+      hidden: true,
+    },
+    {
+      name: 'controllerCommandHistory',
+      type: 'array',
+      maxRows: 100,
+      admin: {
+        hidden: true,
+      },
+      fields: [
+        {
+          name: 'idempotencyKey',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'command',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'actorName',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'appliedAt',
+          type: 'date',
+          required: true,
+        },
       ],
     },
     {
@@ -150,12 +257,13 @@ export const GameSessions: CollectionConfig = {
     },
     {
       name: 'openingHeadlineResolved',
-      label: 'Opening Headline Resolved',
+      label: 'Opening Mythos Resolved',
       type: 'checkbox',
       required: true,
       defaultValue: false,
       admin: {
-        description: 'Tracks completion of the opening Mythos draw before the first Upkeep phase.',
+        description:
+          'Legacy field name. Tracks full resolution of the eligible opening Mythos card before the first Upkeep phase.',
       },
     },
     {

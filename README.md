@@ -1,67 +1,273 @@
-# Payload Blank Template
+# Arkham Horror 2e Helper
 
-This template comes configured with the bare minimum to get started on anything you need.
+A local table companion for **Arkham Horror Second Edition**. It provides a shared
+dashboard for the table, a phone-friendly controller, Payload CMS admin screens
+for reference data, and saved game sessions backed by MongoDB.
 
-## Quick start
+The physical board remains authoritative. This app tracks state, presents phase
+guidance, draws supported digital decks, and lets players correct or advance the
+table without replacing the game rules.
 
-This template can be deployed directly from our Cloud hosting and it will setup MongoDB and cloud S3 object storage for media.
+## Screenshots
 
-## Quick Start - local setup
+### Session Hub
 
-To spin up this template locally, follow these steps:
+![Game sessions hub](docs/screenshots/sessions.png)
 
-### Clone
+### Live Table Dashboard
 
-After you click the `Deploy` button above, you'll want to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+![Live table dashboard](docs/screenshots/dashboard.png)
 
-### Development
+### Mobile Controller Room
 
-1. First [clone the repo](#clone) if you have not done so already
-2. `cd my-project && cp .env.example .env` to copy the example environment variables. You'll need to add the `MONGODB_URI` from your Cloud project to your `.env` if you want to use S3 storage and the MongoDB database that was created for you.
+![Dashboard mobile controller room](docs/screenshots/dashboard-mobile-room.png)
 
-3. `pnpm install && pnpm dev` to install dependencies and start the dev server
-4. open `http://localhost:3000` to open the app in your browser
+### Phone Controller
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+![Mobile controller join screen](docs/screenshots/mobile-controller.png)
 
-#### Docker (Optional)
+![Connected mobile controller](docs/screenshots/mobile-controller-connected.png)
 
-If you prefer to use Docker for local development instead of a local MongoDB instance, the provided docker-compose.yml file can be used.
+## Requirements
 
-To do so, follow these steps:
+- Node.js `>=22 <26`
+- pnpm `>=11 <12`
+- MongoDB, either installed locally or run through Docker Compose
+- A modern browser for the dashboard and mobile controller
 
-- Modify the `MONGODB_URI` in your `.env` file to `mongodb://127.0.0.1/<dbname>`
-- Modify the `docker-compose.yml` file's `MONGODB_URI` to match the above `<dbname>`
-- Run `docker-compose up` to start the database, optionally pass `-d` to run in the background.
+The repo declares `pnpm@11.6.0` in `package.json`. Using Corepack keeps that
+version aligned:
 
-## How it works
+```bash
+corepack enable
+corepack prepare pnpm@11.6.0 --activate
+```
 
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+## Environment Variables
 
-### Collections
+Copy the example file and then replace the placeholder secrets:
 
-See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
+```bash
+cp .env.example .env
+```
 
-- #### Users (Authentication)
+| Variable | Required | Example | Notes |
+| --- | --- | --- | --- |
+| `DATABASE_URI` | Yes | `mongodb://127.0.0.1:27017/arkham-horror-helper` | MongoDB connection string. Use `mongodb://mongo:27017/arkham-horror-helper` when running the app inside the provided Docker Compose network. |
+| `PAYLOAD_SECRET` | Yes | generated with `openssl rand -base64 32` | Signs Payload auth cookies and tokens. Never share a production value. |
+| `NEXT_PUBLIC_SERVER_URL` | Recommended | `http://localhost:3000` | Public URL used by Payload live preview links. Set this to the deployed URL in production. |
+| `CONTROLLER_SECRET` | Optional | generated with `openssl rand -base64 32` | Separate signing secret for mobile controller cookies. If omitted, controllers use `PAYLOAD_SECRET`. |
+| `NEXT_PUBLIC_CONTROLLER_ORIGIN` | Optional | `http://192.168.1.25:3000` | Origin encoded into QR links for phones. Set this to a LAN or public URL when phones cannot open `localhost`. |
 
-  Users are auth-enabled collections that have access to the admin panel.
+For local play on real phones, start the app on a machine reachable from the
+same Wi-Fi network and set `NEXT_PUBLIC_CONTROLLER_ORIGIN` to that machine's LAN
+origin before starting Next.js.
 
-  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/main/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
+## Install And Run Locally
 
-- #### Media
+1. Install dependencies:
 
-  This is the uploads enabled collection. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
+   ```bash
+   pnpm install
+   ```
 
-### Docker
+2. Start MongoDB.
 
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
+   With Docker Compose, running only the database:
 
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
+   ```bash
+   docker compose up -d mongo
+   ```
 
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
+   With the app running on your host machine, keep `DATABASE_URI` pointed at
+   `mongodb://127.0.0.1:27017/arkham-horror-helper`.
 
-## Questions
+3. Start the dev server:
 
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+   ```bash
+   pnpm dev
+   ```
+
+4. Open the app:
+
+   - Dashboard: [http://localhost:3000](http://localhost:3000)
+   - Sessions: [http://localhost:3000/sessions](http://localhost:3000/sessions)
+   - Mobile controller: [http://localhost:3000/controller](http://localhost:3000/controller)
+   - Payload admin: [http://localhost:3000/admin](http://localhost:3000/admin)
+
+5. Create the first Payload admin user at `/admin`.
+
+6. Load game data, using either:
+
+   ```bash
+   pnpm seed
+   ```
+
+   Or the authenticated admin screen:
+
+   ```text
+   /admin/game-data
+   ```
+
+7. Go to `/sessions`, create or resume a saved table, then use `/` as the live
+   table display.
+
+## Docker
+
+To run both the app and MongoDB in Docker:
+
+1. Set this in `.env`:
+
+   ```bash
+   DATABASE_URI=mongodb://mongo:27017/arkham-horror-helper
+   NEXT_PUBLIC_SERVER_URL=http://localhost:3000
+   ```
+
+2. Start the stack:
+
+   ```bash
+   docker compose up
+   ```
+
+The `payload` service installs dependencies and runs `pnpm dev` inside the
+container. The app is exposed at [http://localhost:3000](http://localhost:3000).
+
+## Mobile Controller Flow
+
+1. Open the live dashboard for an active session.
+2. Expand **Mobile controls**.
+3. Select **Enable mobile controls**.
+4. Phones can join by scanning the QR code, opening the controller link, or
+   entering the join code at `/controller`.
+5. Each phone enters a display name and receives an HTTP-only controller cookie.
+6. The controller shows only actions valid for the current session phase.
+7. Disable the room from the dashboard to revoke all connected phones.
+
+Controller rooms expire after 12 hours. If the QR link warns about `localhost`,
+set `NEXT_PUBLIC_CONTROLLER_ORIGIN` to the LAN URL that phones should use.
+
+## Useful Scripts
+
+| Command | What it does |
+| --- | --- |
+| `pnpm dev` | Start the Next.js and Payload dev server. |
+| `pnpm build` | Build the production Next.js app. |
+| `pnpm start` | Serve the production build. |
+| `pnpm seed` | Seed boxed sets, locations, Ancient Ones, Mythos cards, and encounter decks. |
+| `pnpm snapshot:game-data` | Regenerate the bundled game-data media fixture. |
+| `pnpm generate:types` | Regenerate Payload TypeScript types. |
+| `pnpm test:int` | Run Vitest integration tests. |
+| `pnpm test:e2e` | Run Playwright end-to-end tests. |
+| `pnpm storybook` | Start Storybook for card and UI component work. |
+
+## Architecture
+
+```mermaid
+flowchart LR
+  Admin["Payload Admin"] --> Payload["Payload CMS config"]
+  Sessions["/sessions"] --> Actions["Next server actions"]
+  Dashboard["Live dashboard /"] --> Actions
+  Phone["Mobile controller /controller"] --> ControllerAPI["/api/controller/*"]
+
+  Actions --> Rules["src/lib rule and state helpers"]
+  ControllerAPI --> Projection["controllerProjection"]
+  ControllerAPI --> Commands["controllerCommands"]
+  Commands --> Actions
+  Rules --> Payload
+  Projection --> Payload
+  Payload --> Mongo[(MongoDB)]
+
+  PayloadHooks["GameSessions hooks"] --> Events["in-memory session event bus"]
+  Events --> SSE["SSE streams"]
+  SSE --> Dashboard
+  SSE --> Phone
+
+  Fixtures["fixtures and seed scripts"] --> Payload
+```
+
+### Main Layers
+
+- `src/app/(frontend)` contains the public app: session hub, live dashboard,
+  setup forms, phase controls, deck controls, and mobile controller UI.
+- `src/app/api/controller/*` handles phone controller join, session projection,
+  command submission, leave, and server-sent event streams.
+- `src/app/api/session-events/[sessionID]` streams table changes to live
+  dashboard clients.
+- `src/collections` defines Payload collections for users, media, boxed sets,
+  Ancient Ones, locations, neighborhoods, encounter cards, Mythos cards, other
+  worlds, saved sessions, and fixture installations.
+- `src/lib` holds the rules-facing state logic: phase flow, session creation,
+  Mythos deck state, Arkham and Other World encounter state, expansion tracks,
+  investigator limits, controller auth, controller commands, and event streams.
+- `src/components` contains card rendering components used by the dashboard,
+  previews, and Storybook.
+- `src/fixtures`, `src/seed`, and `src/scripts` hold bundled game data and
+  repeatable load/generation scripts.
+
+### State Model
+
+Reference data lives in Payload collections. A saved table lives in the
+`game-sessions` collection and stores:
+
+- session status, name, investigator count, active Ancient One, and enabled sets
+- ordered phase state and phase history
+- doom, terror, gates, elder signs, monster, and expansion-board tracks
+- copy-aware Mythos and Other World encounter deck state
+- Arkham neighborhood selection and encounter draw history
+- mobile controller room hashes, expiry, state revision, and command history
+
+The controller never writes directly to MongoDB. It submits a command with the
+session revision and an idempotency key. The server checks that the command is
+still legal for the current phase, serializes commands per session, applies the
+same server action used by the dashboard, records command history, and returns a
+fresh projection.
+
+### Live Updates
+
+`GameSessions` increments `stateRevision` in a Payload `beforeChange` hook.
+After each change, it publishes a session event. Dashboard and controller
+clients subscribe through SSE and refresh their server-rendered or projected
+state when a matching session changes.
+
+This event bus is in-memory, which is simple for local play and one Node.js
+process. A multi-instance deployment would need a shared pub/sub adapter.
+
+## Rule References
+
+Game rules are requirements for this project. Before changing game state, phase
+flow, counters, limits, movement, encounters, gates, monsters, investigators,
+Mythos resolution, expansion behavior, or rules-facing UI, read `AGENTS.md` and
+the relevant `RULES_*.md` files. Add or update focused regression coverage for
+rules-facing behavior.
+
+## Troubleshooting
+
+### The dashboard has no cards or Ancient Ones
+
+Load the bundled game data with `pnpm seed` or visit `/admin/game-data` after
+creating an admin user.
+
+### Phones cannot open the QR link
+
+The dashboard was probably opened at `localhost`. Use the machine's LAN URL and
+set:
+
+```bash
+NEXT_PUBLIC_CONTROLLER_ORIGIN=http://YOUR_LAN_IP:3000
+NEXT_PUBLIC_SERVER_URL=http://YOUR_LAN_IP:3000
+```
+
+Restart `pnpm dev`, reopen the dashboard from the LAN URL, and generate a new
+mobile controller room.
+
+### Payload cannot connect to MongoDB
+
+Check that `DATABASE_URI` matches where the app is running:
+
+- app on host, Mongo in Docker: `mongodb://127.0.0.1:27017/arkham-horror-helper`
+- app and Mongo in Docker Compose: `mongodb://mongo:27017/arkham-horror-helper`
+
+### Controller command says the table changed
+
+Another browser or phone changed the session first. The controller refreshes and
+then shows the actions valid for the new session revision.

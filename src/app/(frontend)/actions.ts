@@ -58,7 +58,10 @@ import {
   pauseActiveGameSessions,
   resumeGameSession,
 } from '@/lib/gameSessions'
-import { isHeadlineCardType } from '@/lib/openingMythos'
+import {
+  isEligibleOpeningMythosCard,
+  resolveOpeningMythosCard,
+} from '@/lib/openingMythos'
 import {
   discardCurrentOtherWorldEncounterCard,
   flipNextOtherWorldEncounterCard,
@@ -1084,13 +1087,15 @@ export async function skipOpeningMythosCardAction(sessionID: string) {
     overrideAccess: true,
   })
 
-  if (isHeadlineCardType(card.cardType)) {
-    throw new Error('The opening Headline must be resolved.')
+  if (isEligibleOpeningMythosCard(card)) {
+    throw new Error('The opening Mythos card depicts a gate and must be resolved.')
   }
 
   const skippedState = discardCurrentMythosCard(sessionState)
   const result = drawMythosCard(skippedState, shuffle(skippedState.discardPile ?? []))
-  const skipNote = `Opening ${card.cardType} skipped while searching for a Headline.`
+  const skipReason =
+    card.cardType === 'Rumor' ? 'Rumor' : 'Mythos card without a gate location'
+  const skipNote = `Opening ${skipReason} discarded during Game Setup.`
 
   await payload.update({
     collection: GAME_SESSIONS,
@@ -1136,7 +1141,7 @@ export async function resolveOpeningHeadlineAction(sessionID: string) {
     !currentDraw ||
     !sessionState.currentDrawRevealed
   ) {
-    throw new Error('Reveal the opening Headline before completing setup.')
+    throw new Error('Reveal an eligible opening Mythos card before completing setup.')
   }
 
   const card = await payload.findByID({
@@ -1146,20 +1151,24 @@ export async function resolveOpeningHeadlineAction(sessionID: string) {
     overrideAccess: true,
   })
 
-  if (!isHeadlineCardType(card.cardType)) {
-    throw new Error('Only a Headline can complete the opening Mythos step.')
+  if (!isEligibleOpeningMythosCard(card)) {
+    throw new Error(
+      'The opening Mythos card must not be a Rumor and must depict a gate location.',
+    )
   }
 
   const current = phasePointer(session)
   const next = nextGamePhase(current)
   const transition = transitionFor(current, next)
+  const isEnvironment = String(card.cardType).startsWith('Environment')
+  const resolvedState = resolveOpeningMythosCard(sessionState, card.cardType)
 
   await payload.update({
     collection: GAME_SESSIONS,
     id: sessionID,
     overrideAccess: true,
     data: {
-      mythos: mythosDeckStateForPayload(discardCurrentMythosCard(sessionState)),
+      mythos: mythosDeckStateForPayload(resolvedState),
       openingHeadlineResolved: true,
       currentPhase: next.currentPhase,
       turnNumber: next.turnNumber,
@@ -1168,9 +1177,11 @@ export async function resolveOpeningHeadlineAction(sessionID: string) {
         ...(session.sessionLog ?? []),
         logEntry(
           session,
-          'resolve-card',
+          isEnvironment ? 'activate-environment' : 'resolve-card',
           currentDraw.cardID,
-          'Opening Headline resolved and discarded.',
+          isEnvironment
+            ? 'Opening Mythos Environment fully resolved and left in play.'
+            : 'Opening Mythos card fully resolved and discarded.',
         ),
         logEntry(
           session,

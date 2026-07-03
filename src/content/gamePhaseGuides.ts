@@ -19,13 +19,13 @@ export const gamePhaseGuides: Record<GamePhase, GamePhaseGuide> = {
   },
   'Opening Mythos': {
     title: 'Opening Mythos',
-    summary: 'Draw until a Headline appears, then resolve it before the first turn.',
+    summary: 'Draw a non-Rumor Mythos card that depicts a gate and fully resolve it.',
     steps: [
       'Draw and reveal the top Mythos card.',
-      'Discard Rumors and Environments without resolving them, then draw again.',
-      'For the first Headline, open its gate and spawn monsters.',
+      'Discard and redraw a Rumor or a card that does not depict a gate.',
+      'Open its gate and spawn monsters.',
       'Place its clue and move monsters.',
-      'Resolve the Headline ability, discard it, and begin turn one.',
+      'Resolve its Mythos ability, leaving an Environment in play, then begin turn one.',
     ],
   },
   Upkeep: {

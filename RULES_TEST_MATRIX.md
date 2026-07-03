@@ -14,6 +14,20 @@ for each rules-facing change. Cite the scenario ID in test names where useful.
 | CORE-05 | A check includes initial and Clue dice            | A legal reroll is used           | Reroll all dice rolled so far                                  |
 | CORE-06 | A check naturally succeeds                        | Player tries to choose failure   | Reject the voluntary failure                                   |
 
+## Setup and optional mobile controllers
+
+| ID        | Given                                                    | When                                | Then                                                                 |
+| --------- | -------------------------------------------------------- | ----------------------------------- | -------------------------------------------------------------------- |
+| SETUP-01  | Opening Mythos draws a Rumor                             | Resolve Game Setup                  | Discard it and draw again                                            |
+| SETUP-02  | Opening Mythos draws a non-Rumor without a gate location | Resolve Game Setup                  | Discard it and draw again                                            |
+| SETUP-03  | Opening Mythos draws an Environment depicting a gate     | Resolve Game Setup                  | Fully resolve the card and leave the Environment in play                |
+| MOBILE-01 | Mobile controls are disabled                             | The dashboard changes game state    | Dashboard remains fully functional and authoritative                 |
+| MOBILE-02 | A controller has the current revision                    | It submits a legal phase command    | Apply once, log the actor, increment revision, and notify displays    |
+| MOBILE-03 | A controller has an older revision                       | It submits any command              | Reject as stale without changing game state                           |
+| MOBILE-04 | A controller repeats an idempotency key                  | The request is retried              | Return current state without applying the command twice               |
+| MOBILE-05 | A command belongs to another phase                       | A controller submits it manually    | Reject it even if the mobile UI had previously displayed it           |
+| MOBILE-06 | A controller room is disabled or expires                 | A phone reconnects or submits       | Reject access without changing or pausing the underlying game         |
+
 ## Movement, encounters, and status
 
 | ID           | Given                                                         | When                    | Then                                                                                 |

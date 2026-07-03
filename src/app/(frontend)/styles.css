@@ -300,6 +300,13 @@ button {
   display: flex;
 }
 
+.table-topbar-actions {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+}
+
 .exit-game-form button {
   min-width: 104px;
   border: 1px solid rgba(232, 207, 146, 0.38);
@@ -2500,7 +2507,7 @@ button {
     min-width: 0;
   }
 
-  .exit-game-form {
+  .table-topbar-actions {
     grid-column: 4;
     grid-row: 1;
   }
@@ -2706,9 +2713,10 @@ button {
     grid-row: 2;
   }
 
-  .exit-game-form {
+  .table-topbar-actions {
     grid-column: 2;
     grid-row: 1;
+    flex-direction: column-reverse;
   }
 
   .expansion-track-panel-heading > span {

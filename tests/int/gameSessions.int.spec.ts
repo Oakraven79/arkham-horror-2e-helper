@@ -158,7 +158,7 @@ describe('game session lifecycle', () => {
     ])
   })
 
-  it('marks legacy games beyond setup as having completed the opening Headline', async () => {
+  it('marks legacy games beyond setup as having completed the opening Mythos step', async () => {
     const session = savedSession()
     const { payload, updates } = payloadDouble(session)
 

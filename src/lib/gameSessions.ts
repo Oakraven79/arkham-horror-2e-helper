@@ -164,6 +164,8 @@ export async function createGameSession(
     data: {
       name,
       status: 'active',
+      stateRevision: 0,
+      mobileControlsEnabled: false,
       playerCount: 4,
       enabledSets: [baseSetID],
       useAncientOneBackground: false,

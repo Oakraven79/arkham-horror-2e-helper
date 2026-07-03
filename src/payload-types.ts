@@ -606,6 +606,30 @@ export interface GameSession {
   id: string;
   name: string;
   status: 'active' | 'paused' | 'complete' | 'abandoned';
+  /**
+   * Monotonic revision used to reject stale remote-controller commands and refresh connected displays.
+   */
+  stateRevision: number;
+  /**
+   * Optional controller room. The main dashboard remains fully functional when this is disabled.
+   */
+  mobileControlsEnabled: boolean;
+  /**
+   * Mobile controllers are rejected after this time.
+   */
+  mobileControlExpiresAt?: string | null;
+  mobileControlVersion?: string | null;
+  mobileJoinCodeHash?: string | null;
+  mobileJoinSecretHash?: string | null;
+  controllerCommandHistory?:
+    | {
+        idempotencyKey: string;
+        command: string;
+        actorName: string;
+        appliedAt: string;
+        id?: string | null;
+      }[]
+    | null;
   playerCount: number;
   activeExpansions?:
     | (
@@ -648,7 +672,7 @@ export interface GameSession {
     | 'Mythos'
     | 'Final Battle';
   /**
-   * Tracks completion of the opening Mythos draw before the first Upkeep phase.
+   * Legacy field name. Tracks full resolution of the eligible opening Mythos card before the first Upkeep phase.
    */
   openingHeadlineResolved: boolean;
   /**
@@ -1314,6 +1338,21 @@ export interface OtherWorldEncounterCardsSelect<T extends boolean = true> {
 export interface GameSessionsSelect<T extends boolean = true> {
   name?: T;
   status?: T;
+  stateRevision?: T;
+  mobileControlsEnabled?: T;
+  mobileControlExpiresAt?: T;
+  mobileControlVersion?: T;
+  mobileJoinCodeHash?: T;
+  mobileJoinSecretHash?: T;
+  controllerCommandHistory?:
+    | T
+    | {
+        idempotencyKey?: T;
+        command?: T;
+        actorName?: T;
+        appliedAt?: T;
+        id?: T;
+      };
   playerCount?: T;
   activeExpansions?: T;
   enabledSets?: T;

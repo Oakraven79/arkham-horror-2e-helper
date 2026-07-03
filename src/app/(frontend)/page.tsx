@@ -31,7 +31,7 @@ import { mythosCardFrontProps } from '@/lib/mythosCardPresentation'
 import { mythosDeckStateFromSession } from '@/lib/mythosSessionState'
 import { otherWorldEncounterCardFrontProps } from '@/lib/otherWorldEncounterCardPresentation'
 import { otherWorldEncounterDeckStateFromSession } from '@/lib/otherWorldEncounterSessionState'
-import { isHeadlineCardType } from '@/lib/openingMythos'
+import { isEligibleOpeningMythosCard } from '@/lib/openingMythos'
 import config from '@/payload.config'
 import type {
   AncientOne,
@@ -74,8 +74,10 @@ import {
 import { GameRulesContext } from './GameRulesContext'
 import { ExpansionTrackPanel } from './ExpansionTrackPanel'
 import { InvestigatorCountInput } from './InvestigatorCountInput'
+import { MobileControlPanel } from './MobileControlPanel'
 import { MythosDeckSlot } from './MythosDeckSlot'
 import { OtherWorldEncounterDeckSlot } from './OtherWorldEncounterDeckSlot'
+import { SessionLiveRefresh } from './SessionLiveRefresh'
 import { SessionTrackControls } from './SessionTrackControls'
 import './styles.css'
 
@@ -603,7 +605,7 @@ function PhaseNavigation({
       : isOpeningMythos
         ? openingHeadlineResolved
           ? 'Begin turn'
-          : 'Resolve headline'
+          : 'Resolve opening card'
         : phase === 'Mythos'
           ? 'Complete turn'
           : phase === 'Other World Encounters'
@@ -816,6 +818,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   return (
     <main className="mythos-table" style={tableBackgroundStyle}>
+      <SessionLiveRefresh
+        revision={session.stateRevision ?? 0}
+        sessionID={sessionID}
+      />
       <header className="table-topbar">
         <div className="session-title">
           <p className="eyebrow">Arkham Horror Helper</p>
@@ -838,9 +844,16 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           sessionID={sessionID}
           tracks={tracks}
         />
-        <form action={exitGameAction.bind(null, sessionID)} className="exit-game-form">
-          <button type="submit">Exit game</button>
-        </form>
+        <div className="table-topbar-actions">
+          <MobileControlPanel
+            expiresAt={session.mobileControlExpiresAt}
+            initiallyEnabled={Boolean(session.mobileControlsEnabled)}
+            sessionID={sessionID}
+          />
+          <form action={exitGameAction.bind(null, sessionID)} className="exit-game-form">
+            <button type="submit">Exit game</button>
+          </form>
+        </div>
       </header>
 
       <section className="table-layout">
@@ -916,14 +929,15 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                 <p className="resolver-copy">
                   {currentCardDocument
                     ? mythos.currentDrawRevealed
-                      ? isOpeningMythos && !isHeadlineCardType(currentCardType)
+                      ? isOpeningMythos &&
+                        !isEligibleOpeningMythosCard(currentCardDocument)
                         ? `${currentCardType || 'Mythos card'}: skip this card and draw again.`
                         : currentCardType || 'Mythos card'
                       : 'Flip the card to reveal it.'
                     : isOpeningMythos && session.openingHeadlineResolved
                       ? 'The first turn can begin.'
                       : isOpeningMythos
-                        ? 'Draw until a Headline appears. Skip Rumors and Environments.'
+                        ? 'Draw until a non-Rumor card depicting a gate appears.'
                         : mythosCards.length
                           ? 'Draw the next Mythos card.'
                           : 'No Mythos cards are available.'}
@@ -942,9 +956,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
               {currentCardDocument && mythos.currentDrawRevealed && (
                 <section className="mythos-primary-action">
                   {isOpeningMythos ? (
-                    isHeadlineCardType(currentCardType) ? (
+                    isEligibleOpeningMythosCard(currentCardDocument) ? (
                       <form action={resolveOpeningHeadlineAction.bind(null, sessionID)}>
-                        <button type="submit">Opening Headline resolved</button>
+                        <button type="submit">Opening Mythos resolved</button>
                       </form>
                     ) : (
                       <form action={skipOpeningMythosCardAction.bind(null, sessionID)}>
