@@ -1,10 +1,11 @@
 import type { Payload } from 'payload'
 
+import { activeAncientOneBackground } from '@/lib/ancientOneBackground'
 import { arkhamEncounterStateFromSession } from '@/lib/arkhamEncounterSessionState'
 import { relationshipID, relationshipIDs, sourceSetWhere } from '@/lib/gameSessionContent'
 import { mythosDeckStateFromSession } from '@/lib/mythosSessionState'
 import { isEligibleOpeningMythosCard } from '@/lib/openingMythos'
-import type { GameSession, MythosCard, Neighborhood } from '@/payload-types'
+import type { AncientOne, GameSession, MythosCard, Neighborhood } from '@/payload-types'
 
 import type { ControllerParticipant } from './controllerAuth'
 
@@ -63,6 +64,10 @@ export interface ControllerProjection {
     environmentTitle: string | null
     rumorTitle: string | null
   }
+  presentation: {
+    tableBackgroundAlt: string | null
+    tableBackgroundUrl: string | null
+  }
   session: {
     id: string
     name: string
@@ -89,6 +94,24 @@ function neighborhoodDocument(
   value: NonNullable<GameSession['arkhamEncounters']>['selectedNeighborhood'],
 ) {
   return value && typeof value === 'object' ? (value as Neighborhood) : null
+}
+
+function ancientOneDocument(value: GameSession['activeAncientOne']) {
+  return value && typeof value === 'object' ? (value as AncientOne) : null
+}
+
+function selectedAncientOneSheet(
+  ancientOne: AncientOne | null,
+  sheetKey: string | null | undefined,
+) {
+  if (!ancientOne) return null
+
+  return (
+    ancientOne.sheets.find((sheet) => sheet.key === sheetKey) ??
+    ancientOne.sheets.find((sheet) => sheet.isDefault) ??
+    ancientOne.sheets[0] ??
+    null
+  )
 }
 
 function primaryCommand(
@@ -275,6 +298,13 @@ export async function controllerProjection(
   const selectedNeighborhood = neighborhoodDocument(
     storedArkhamEncounter.selectedNeighborhood,
   )
+  const tableBackground = activeAncientOneBackground(
+    Boolean(session.useAncientOneBackground),
+    selectedAncientOneSheet(
+      ancientOneDocument(session.activeAncientOne),
+      session.ancientOneSheetKey,
+    ),
+  )
 
   return {
     canAdjustTracks: Boolean(session.activeAncientOne),
@@ -309,6 +339,10 @@ export async function controllerProjection(
     persistentEffects: {
       environmentTitle: relationshipTitle(session.mythos.activeEnvironment),
       rumorTitle: relationshipTitle(session.mythos.activeRumor),
+    },
+    presentation: {
+      tableBackgroundAlt: tableBackground?.alt ?? null,
+      tableBackgroundUrl: tableBackground?.url ?? null,
     },
     session: {
       id: String(session.id),

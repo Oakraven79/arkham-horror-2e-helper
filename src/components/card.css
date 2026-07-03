@@ -18,6 +18,11 @@
   flex-shrink: 0; /* don’t let flexbox squeeze it */
 }
 
+.mythoscardback .image {
+  position: absolute;
+  inset: 0;
+}
+
 .mythoscardback img {
   width: 100%;
   height: 100%;
@@ -459,6 +464,11 @@
   overflow: hidden;
   font-family: 'IM Fell English', serif;
   flex-shrink: 0; /* don’t let flexbox squeeze it */
+}
+
+.otherworldcardback .image {
+  position: absolute;
+  inset: 0;
 }
 
 .otherworldcardback img {

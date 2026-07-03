@@ -2,10 +2,9 @@
   min-height: 100dvh;
   padding: max(1rem, env(safe-area-inset-top)) 1rem max(1.5rem, env(safe-area-inset-bottom));
   color: #f5edd6;
-  background-color: #0b1511;
-  background-image:
-    radial-gradient(circle at top right, rgba(96, 119, 82, 0.2), transparent 38%),
-    linear-gradient(165deg, #16251e 0%, #0b1511 58%, #10100d 100%);
+  background:
+    linear-gradient(rgba(7, 7, 6, 0.84), rgba(7, 7, 6, 0.88)),
+    var(--controller-background-image, url('/images/mythosBacking.jpg')) center / cover fixed;
 }
 
 .header,

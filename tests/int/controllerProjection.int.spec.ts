@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest'
+import type { Payload } from 'payload'
 
-import { controllerCommandsForSession } from '@/lib/controllerProjection'
-import type { GameSession, MythosCard } from '@/payload-types'
+import type { ControllerParticipant } from '@/lib/controllerAuth'
+import { controllerCommandsForSession, controllerProjection } from '@/lib/controllerProjection'
+import type { AncientOne, GameSession, Media, MythosCard } from '@/payload-types'
 
 function mythosCard(
   cardType: MythosCard['cardType'],
@@ -61,6 +63,51 @@ function session(overrides: Partial<GameSession> = {}) {
     createdAt: '2026-07-03T00:00:00.000Z',
     ...overrides,
   } as GameSession
+}
+
+const participant: ControllerParticipant = {
+  expiresAt: Date.UTC(2030, 0, 1),
+  name: 'Jenny',
+  roomVersion: 'room-one',
+  sessionID: 'session-one',
+}
+
+const unusedPayload = {} as Payload
+
+function ancientOneWithBackground() {
+  return {
+    id: 'azathoth',
+    name: 'Azathoth',
+    key: 'azathoth',
+    boxedSet: 'Base Game',
+    sourceSet: 'base-set',
+    sheets: [
+      {
+        key: 'standard',
+        label: 'Standard',
+        isDefault: true,
+        doomTrack: 14,
+        combatRating: {
+          display: '-',
+          type: 'infinite',
+        },
+        defenseText: '',
+        worshippers: '',
+        powerName: 'Absolute Destruction',
+        power: '',
+        attack: '',
+        sheetImage: {
+          id: 'azathoth-background',
+          alt: 'Azathoth sheet art',
+          url: '/media/azathoth.png',
+          updatedAt: '2026-07-03T00:00:00.000Z',
+          createdAt: '2026-07-03T00:00:00.000Z',
+        } as Media,
+      },
+    ],
+    updatedAt: '2026-07-03T00:00:00.000Z',
+    createdAt: '2026-07-03T00:00:00.000Z',
+  } as AncientOne
 }
 
 function commandIDs(value: GameSession) {
@@ -156,5 +203,39 @@ describe('mobile controller phase projection', () => {
 
   it('keeps Setup read-only on phones', () => {
     expect(commandIDs(session({ currentPhase: 'Setup' }))).toEqual([])
+  })
+
+  it('uses the default table background when the Ancient One background is disabled', async () => {
+    const projection = await controllerProjection(
+      unusedPayload,
+      session({
+        activeAncientOne: ancientOneWithBackground(),
+        ancientOneSheetKey: 'standard',
+        useAncientOneBackground: false,
+      }),
+      participant,
+    )
+
+    expect(projection.presentation).toEqual({
+      tableBackgroundAlt: null,
+      tableBackgroundUrl: null,
+    })
+  })
+
+  it('projects the selected Ancient One sheet background for phones when enabled', async () => {
+    const projection = await controllerProjection(
+      unusedPayload,
+      session({
+        activeAncientOne: ancientOneWithBackground(),
+        ancientOneSheetKey: 'standard',
+        useAncientOneBackground: true,
+      }),
+      participant,
+    )
+
+    expect(projection.presentation).toEqual({
+      tableBackgroundAlt: 'Azathoth sheet art',
+      tableBackgroundUrl: '/media/azathoth.png',
+    })
   })
 })

@@ -1,7 +1,9 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import type { CSSProperties } from 'react'
 
+import { cssBackgroundImageValue } from '@/lib/ancientOneBackground'
 import type {
   ControllerCommandDescriptor,
   ControllerCommandID,
@@ -19,6 +21,10 @@ interface ControllerClientProps {
 
 interface ErrorResponse {
   error?: string
+}
+
+type ControllerShellStyle = CSSProperties & {
+  '--controller-background-image'?: string
 }
 
 const trackLabels: Record<AdjustableSessionTrack, string> = {
@@ -283,9 +289,16 @@ export function ControllerClient({ joinSecret, sessionID }: ControllerClientProp
   const secondaryCommands = projection.commands.filter(
     (command) => command.group === 'secondary',
   )
+  const shellStyle: ControllerShellStyle | undefined = projection.presentation.tableBackgroundUrl
+    ? {
+        '--controller-background-image': cssBackgroundImageValue(
+          projection.presentation.tableBackgroundUrl,
+        ),
+      }
+    : undefined
 
   return (
-    <main className={styles.shell}>
+    <main className={styles.shell} style={shellStyle}>
       <header className={styles.header}>
         <div>
           <p className={styles.eyebrow}>Connected as {projection.connection.participantName}</p>
