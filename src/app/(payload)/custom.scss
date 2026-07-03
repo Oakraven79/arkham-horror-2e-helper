@@ -1,0 +1,660 @@
+:root,
+html[data-theme='light'],
+html[data-theme='dark'] {
+  --arkham-admin-night: #0b0d09;
+  --arkham-admin-ink: #171914;
+  --arkham-admin-panel: #22231c;
+  --arkham-admin-parchment: #f2ead6;
+  --arkham-admin-muted: #c8b996;
+  --arkham-admin-gold: #d7b75f;
+  --arkham-admin-hastur-gold: #c99a2e;
+  --arkham-admin-doom: #7d2323;
+  --arkham-admin-green: #566749;
+  --arkham-admin-teal: #314f4d;
+  --arkham-admin-purple: #55356d;
+  --arkham-admin-line: rgba(215, 183, 95, 0.28);
+  --arkham-admin-line-strong: rgba(215, 183, 95, 0.5);
+  --arkham-admin-shadow: 0 22px 55px rgba(0, 0, 0, 0.42);
+  --style-radius-s: 4px;
+  --style-radius-m: 6px;
+  --style-radius-l: 8px;
+  --accessibility-outline: 2px solid var(--arkham-admin-gold);
+}
+
+:root,
+html[data-theme='dark'] {
+  --theme-bg: var(--arkham-admin-night);
+  --theme-input-bg: #151711;
+  --theme-text: var(--arkham-admin-parchment);
+  --theme-border-color: var(--arkham-admin-line);
+  --theme-overlay: rgba(5, 5, 5, 0.78);
+
+  --theme-elevation-0: #0b0d09;
+  --theme-elevation-50: #11130e;
+  --theme-elevation-100: #171914;
+  --theme-elevation-150: #22231c;
+  --theme-elevation-200: #2c2e24;
+  --theme-elevation-250: #383a2e;
+  --theme-elevation-300: #464838;
+  --theme-elevation-350: #555843;
+  --theme-elevation-400: #6d704f;
+  --theme-elevation-450: #88845c;
+  --theme-elevation-500: #a59b6f;
+  --theme-elevation-550: #b5aa7d;
+  --theme-elevation-600: #c8b996;
+  --theme-elevation-650: #d4c6a6;
+  --theme-elevation-700: #ded2b8;
+  --theme-elevation-750: #e7dcc5;
+  --theme-elevation-800: #eee4d2;
+  --theme-elevation-850: #f3eadb;
+  --theme-elevation-900: #f7f0e3;
+  --theme-elevation-950: #faf5ec;
+  --theme-elevation-1000: #fff9ef;
+
+  --theme-success-50: #10160f;
+  --theme-success-100: #162117;
+  --theme-success-200: #233321;
+  --theme-success-300: #354832;
+  --theme-success-400: #465d3f;
+  --theme-success-500: #6f875a;
+  --theme-success-600: #92a873;
+  --theme-success-700: #b2c58e;
+  --theme-success-800: #d1dfb0;
+  --theme-success-900: #e7f0d0;
+  --theme-success-950: #f4f8e8;
+
+  --theme-warning-50: #1c1509;
+  --theme-warning-100: #2b210d;
+  --theme-warning-200: #493716;
+  --theme-warning-300: #70531f;
+  --theme-warning-400: #9b7428;
+  --theme-warning-500: var(--arkham-admin-hastur-gold);
+  --theme-warning-600: var(--arkham-admin-gold);
+  --theme-warning-700: #e0c878;
+  --theme-warning-800: #ecdca4;
+  --theme-warning-900: #f5eccb;
+  --theme-warning-950: #fbf6e7;
+
+  --theme-error-50: #1d0b0a;
+  --theme-error-100: #2d1110;
+  --theme-error-200: #481817;
+  --theme-error-300: #681f1e;
+  --theme-error-400: #8a2927;
+  --theme-error-500: var(--arkham-admin-doom);
+  --theme-error-600: #b55d52;
+  --theme-error-700: #cc8379;
+  --theme-error-800: #e0ada6;
+  --theme-error-900: #f0d4cf;
+  --theme-error-950: #faeee9;
+
+  --arkham-admin-page-image: url('/fixture-assets/game-data/media-cthulu.webp');
+  --arkham-admin-page-glow: radial-gradient(circle at 76% 9%, rgba(215, 183, 95, 0.17), transparent 27%);
+  --arkham-admin-page-shade: linear-gradient(
+    120deg,
+    rgba(6, 8, 5, 0.82),
+    rgba(12, 15, 10, 0.72) 42%,
+    rgba(5, 6, 4, 0.9)
+  );
+  --arkham-admin-shell-bg: rgba(12, 14, 9, 0.9);
+  --arkham-admin-panel-bg: rgba(24, 26, 19, 0.94);
+  --arkham-admin-panel-raised: rgba(34, 35, 28, 0.96);
+  --arkham-admin-nav-bg: rgba(9, 10, 7, 0.96);
+  --arkham-admin-toolbar-bg: rgba(13, 15, 10, 0.88);
+  --arkham-admin-field-bg: rgba(8, 10, 7, 0.72);
+}
+
+html[data-theme='light'] {
+  --theme-bg: #efe7d3;
+  --theme-input-bg: #f6efdf;
+  --theme-text: #211d16;
+  --theme-border-color: rgba(90, 71, 43, 0.3);
+  --theme-overlay: rgba(16, 12, 7, 0.42);
+
+  --theme-elevation-0: #f5edd9;
+  --theme-elevation-50: #eee3ca;
+  --theme-elevation-100: #e6d7b8;
+  --theme-elevation-150: #d8c49b;
+  --theme-elevation-200: #c8ad79;
+  --theme-elevation-250: #b1935e;
+  --theme-elevation-300: #95774a;
+  --theme-elevation-350: #7f643e;
+  --theme-elevation-400: #6a5335;
+  --theme-elevation-450: #5a462f;
+  --theme-elevation-500: #4d3c2c;
+  --theme-elevation-550: #423329;
+  --theme-elevation-600: #382c24;
+  --theme-elevation-650: #302720;
+  --theme-elevation-700: #29211b;
+  --theme-elevation-750: #241d18;
+  --theme-elevation-800: #1f1a15;
+  --theme-elevation-850: #17140f;
+  --theme-elevation-900: #11100b;
+  --theme-elevation-950: #090a06;
+  --theme-elevation-1000: #040503;
+
+  --theme-success-50: #edf2df;
+  --theme-success-100: #dce8c7;
+  --theme-success-200: #c1d4a3;
+  --theme-success-300: #9eb879;
+  --theme-success-400: #78945d;
+  --theme-success-500: #566749;
+  --theme-success-600: #44543a;
+  --theme-success-700: #35422d;
+  --theme-success-800: #293323;
+  --theme-success-900: #1d2419;
+  --theme-success-950: #12170f;
+
+  --theme-warning-50: #fbf3dc;
+  --theme-warning-100: #f5e3ad;
+  --theme-warning-200: #edcb72;
+  --theme-warning-300: var(--arkham-admin-gold);
+  --theme-warning-400: var(--arkham-admin-hastur-gold);
+  --theme-warning-500: #9b7428;
+  --theme-warning-600: #70531f;
+  --theme-warning-700: #493716;
+  --theme-warning-800: #2b210d;
+  --theme-warning-900: #1c1509;
+  --theme-warning-950: #120d05;
+
+  --theme-error-50: #f4ded8;
+  --theme-error-100: #e9bdb2;
+  --theme-error-200: #d88d80;
+  --theme-error-300: #bf6458;
+  --theme-error-400: #a3453d;
+  --theme-error-500: var(--arkham-admin-doom);
+  --theme-error-600: #681f1e;
+  --theme-error-700: #481817;
+  --theme-error-800: #2d1110;
+  --theme-error-900: #1d0b0a;
+  --theme-error-950: #130706;
+
+  --arkham-admin-page-image: url('/fixture-assets/game-data/media-arkham-horror-box.webp');
+  --arkham-admin-page-glow: radial-gradient(circle at 72% 7%, rgba(215, 183, 95, 0.22), transparent 27%);
+  --arkham-admin-page-shade: linear-gradient(
+    120deg,
+    rgba(245, 237, 217, 0.84),
+    rgba(237, 224, 193, 0.76) 42%,
+    rgba(226, 211, 178, 0.88)
+  );
+  --arkham-admin-shell-bg: rgba(245, 237, 217, 0.91);
+  --arkham-admin-panel-bg: rgba(249, 242, 224, 0.96);
+  --arkham-admin-panel-raised: rgba(239, 228, 199, 0.97);
+  --arkham-admin-nav-bg: rgba(39, 31, 21, 0.94);
+  --arkham-admin-toolbar-bg: rgba(248, 239, 217, 0.9);
+  --arkham-admin-field-bg: rgba(255, 250, 236, 0.78);
+}
+
+html,
+body {
+  min-height: 100%;
+  background-color: var(--theme-bg);
+}
+
+body {
+  background-image: var(--arkham-admin-page-glow), var(--arkham-admin-page-shade), var(--arkham-admin-page-image);
+  background-attachment: fixed, fixed, fixed;
+  background-position: center, center, center;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-size: cover, cover, cover;
+  color: var(--theme-text);
+}
+
+body::selection {
+  background: rgba(215, 183, 95, 0.35);
+  color: var(--theme-text);
+}
+
+.template-default,
+.template-minimal {
+  background: transparent;
+}
+
+.template-default__wrap {
+  min-height: 100vh;
+  border-left: 1px solid var(--arkham-admin-line);
+  background: var(--arkham-admin-shell-bg);
+  box-shadow: var(--arkham-admin-shadow);
+  backdrop-filter: blur(16px);
+}
+
+.template-minimal {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: calc(var(--base) * 2);
+}
+
+.template-minimal__wrap {
+  width: min(100%, 540px);
+  padding: clamp(28px, 4vw, 44px);
+  border: 1px solid var(--arkham-admin-line);
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgba(215, 183, 95, 0.09), transparent 42%),
+    var(--arkham-admin-panel-bg);
+  box-shadow: var(--arkham-admin-shadow);
+  backdrop-filter: blur(18px);
+}
+
+.template-minimal__wrap .field-type {
+  margin-bottom: calc(var(--base) * 0.95);
+}
+
+.template-minimal__wrap input:not([type='checkbox']):not([type='radio']) {
+  min-height: 52px;
+  font-size: 1rem;
+}
+
+.template-minimal__wrap .form-submit {
+  margin-top: calc(var(--base) * 0.55);
+}
+
+.template-minimal__wrap .form-submit .btn {
+  min-height: 52px;
+  font-size: 1.02rem;
+}
+
+.app-header {
+  border-bottom: 1px solid var(--arkham-admin-line);
+  background:
+    linear-gradient(90deg, rgba(215, 183, 95, 0.08), transparent 46%),
+    var(--arkham-admin-toolbar-bg);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(18px);
+}
+
+.app-header__gradient-placeholder {
+  background: linear-gradient(to right, transparent, var(--arkham-admin-toolbar-bg));
+}
+
+.nav {
+  position: relative;
+  border-right: 1px solid var(--arkham-admin-line);
+  background: var(--arkham-admin-nav-bg);
+  box-shadow: 12px 0 34px rgba(0, 0, 0, 0.34);
+}
+
+.nav::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(7, 8, 5, 0.74), rgba(7, 8, 5, 0.96)),
+    url('/images/mythosBacking.jpg') center top / cover no-repeat;
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+.nav__scroll,
+.nav__wrap,
+.nav__header {
+  position: relative;
+  z-index: 1;
+}
+
+.nav__wrap {
+  padding-inline: calc(var(--base) * 0.75);
+}
+
+.nav__link,
+.game-data-nav a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  margin-block: 2px;
+  min-height: 36px;
+  padding: 6px 10px;
+  color: rgba(242, 234, 214, 0.76);
+  font-weight: 650;
+  line-height: 1.25;
+  transition:
+    border-color 140ms ease,
+    background-color 140ms ease,
+    color 140ms ease,
+    transform 140ms ease;
+}
+
+.nav__link:hover,
+.nav__link:focus-visible,
+.nav__link:has(.nav__link-indicator),
+.game-data-nav a:hover,
+.game-data-nav a.active {
+  border-color: rgba(215, 183, 95, 0.3);
+  background: rgba(215, 183, 95, 0.11);
+  color: var(--arkham-admin-parchment);
+  text-decoration: none;
+}
+
+.nav__link:has(.nav__link-indicator),
+.game-data-nav a.active {
+  box-shadow: inset 3px 0 0 var(--arkham-admin-gold);
+}
+
+.nav__link-indicator {
+  background: var(--arkham-admin-gold);
+  box-shadow: 0 0 14px rgba(215, 183, 95, 0.45);
+}
+
+.nav-group__toggle {
+  color: rgba(242, 234, 214, 0.58);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.nav-group__toggle:hover,
+.nav-group__toggle:focus-visible {
+  color: var(--arkham-admin-gold);
+}
+
+.nav__controls {
+  border-top: 1px solid rgba(215, 183, 95, 0.2);
+  margin-top: var(--base);
+  padding-top: calc(var(--base) * 0.75);
+}
+
+.collection-list__wrap,
+.collection-edit__main,
+.collection-edit__main-wrapper,
+.render-fields,
+.collections__wrap,
+.payload-settings,
+.account,
+.query-inspector__configuration,
+.query-inspector__results,
+.view-version,
+.versions__wrap {
+  border-color: var(--arkham-admin-line);
+}
+
+.collections__card-list .card,
+.table,
+.list-header,
+.doc-header,
+.collection-edit__main,
+.render-fields,
+.field-type,
+.collapsible,
+.array-field,
+.tabs-field,
+.upload-field-card,
+.file-field,
+.banner,
+.popup__content,
+.drawer__content,
+.modal,
+.confirmation-modal__wrapper,
+.query-inspector__results,
+.payload-settings,
+.game-data-status-band,
+.game-data-counts,
+.game-data-results {
+  border-color: var(--arkham-admin-line);
+}
+
+.card,
+.collections__card-list .card,
+.banner,
+.popup__content,
+.drawer__content,
+.confirmation-modal__wrapper,
+.upload-field-card,
+.file-field {
+  background:
+    linear-gradient(145deg, rgba(215, 183, 95, 0.07), transparent 48%),
+    var(--arkham-admin-panel-bg);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+}
+
+.collection-list .table,
+.versions .table,
+.relationship-table,
+.orderable-table {
+  border: 1px solid var(--arkham-admin-line);
+  border-radius: 8px;
+  background: var(--arkham-admin-panel-bg);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
+}
+
+.table thead,
+.table--appearance-condensed thead {
+  background:
+    linear-gradient(90deg, rgba(215, 183, 95, 0.12), transparent),
+    var(--arkham-admin-panel-raised);
+  color: var(--arkham-admin-gold);
+}
+
+.table th,
+.table td,
+.table--appearance-condensed tr td,
+.table--appearance-condensed th {
+  border-color: rgba(215, 183, 95, 0.16);
+}
+
+.table tbody tr:nth-child(odd) {
+  background: rgba(215, 183, 95, 0.055);
+}
+
+.table tbody tr:hover {
+  background: rgba(215, 183, 95, 0.12);
+}
+
+.btn--style-primary {
+  --color: #120f08;
+  --bg-color: var(--arkham-admin-gold);
+  --hover-bg: #e3c979;
+  --hover-color: #0b0d09;
+}
+
+.btn--style-secondary,
+.btn--style-subtle {
+  --color: var(--theme-text);
+  --bg-color: rgba(215, 183, 95, 0.08);
+  --btn-border: 1px solid var(--arkham-admin-line-strong);
+  --hover-bg: rgba(215, 183, 95, 0.17);
+  --hover-color: var(--theme-text);
+  --hover-btn-border: 1px solid var(--arkham-admin-gold);
+}
+
+.btn--style-dashed {
+  --color: var(--theme-elevation-700);
+  --btn-border: 1px dashed var(--arkham-admin-line-strong);
+  --hover-color: var(--theme-text);
+  --hover-btn-border: 1px dashed var(--arkham-admin-gold);
+}
+
+.btn--style-pill,
+.pill {
+  background: rgba(215, 183, 95, 0.12);
+  color: var(--theme-text);
+}
+
+input:not([type='checkbox']):not([type='radio']),
+textarea,
+select,
+.text-input,
+.textarea-input,
+.rs__control,
+.code-editor {
+  border-color: var(--arkham-admin-line);
+  background: var(--arkham-admin-field-bg);
+  color: var(--theme-text);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+input:not([type='checkbox']):not([type='radio']):hover,
+textarea:hover,
+select:hover,
+.rs__control:hover {
+  border-color: var(--arkham-admin-line-strong);
+}
+
+input:not([type='checkbox']):not([type='radio']):focus,
+textarea:focus,
+select:focus,
+.rs__control:focus-within {
+  border-color: var(--arkham-admin-gold);
+  box-shadow: 0 0 0 2px rgba(215, 183, 95, 0.16);
+  outline: 0;
+}
+
+.react-select .rs__menu {
+  border: 1px solid var(--arkham-admin-line);
+  border-radius: 6px;
+  background: var(--arkham-admin-panel-bg);
+  box-shadow: var(--arkham-admin-shadow);
+  overflow: hidden;
+}
+
+.react-select .rs__option {
+  color: var(--theme-text);
+}
+
+.react-select .rs__option--is-focused {
+  background: rgba(215, 183, 95, 0.14);
+}
+
+.react-select .rs__option--is-selected {
+  background: rgba(86, 103, 73, 0.54);
+}
+
+.field-label,
+.field-description,
+.list-header__label,
+.render-title,
+.id-label,
+.step-nav,
+.doc-header__title {
+  color: var(--theme-text);
+}
+
+.field-description,
+.id-label,
+.list-controls__buttons-wrap,
+.paginator,
+.per-page,
+.where-builder,
+.sort-column {
+  color: var(--theme-elevation-600);
+}
+
+.banner--type-error,
+.field-error.tooltip {
+  background: var(--theme-error-100);
+  color: var(--theme-error-800);
+}
+
+.banner--type-success {
+  background: var(--theme-success-100);
+  color: var(--theme-success-800);
+}
+
+.banner--type-default {
+  border: 1px solid var(--arkham-admin-line);
+}
+
+.login__brand,
+.create-first-user__brand {
+  margin-bottom: calc(var(--base) * 1.3);
+  filter: drop-shadow(0 8px 28px rgba(0, 0, 0, 0.45));
+}
+
+.login .form-submit .btn,
+.create-first-user .form-submit .btn {
+  width: 100%;
+}
+
+.arkham-admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 100%;
+  color: var(--arkham-admin-parchment);
+}
+
+.arkham-admin-brand__mark,
+.arkham-admin-icon {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 56px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(215, 183, 95, 0.58);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 34% 24%, rgba(215, 183, 95, 0.28), transparent 32%),
+    linear-gradient(145deg, rgba(86, 103, 73, 0.86), rgba(11, 13, 9, 0.95));
+  color: var(--arkham-admin-gold);
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 249, 239, 0.06),
+    0 10px 24px rgba(0, 0, 0, 0.3);
+}
+
+.arkham-admin-brand__copy {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.arkham-admin-brand__title {
+  color: var(--arkham-admin-parchment);
+  font-size: clamp(1.55rem, 4vw, 2.2rem);
+  font-weight: 850;
+  letter-spacing: 0;
+  line-height: 1.02;
+}
+
+.arkham-admin-brand__subtitle {
+  color: var(--arkham-admin-gold);
+  font-size: clamp(0.86rem, 2vw, 1.02rem);
+  font-weight: 750;
+  letter-spacing: 0;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.arkham-admin-icon {
+  width: 34px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+}
+
+@media (max-width: 768px) {
+  body {
+    background-size: cover, cover, cover;
+  }
+
+  .template-minimal {
+    padding: var(--base);
+  }
+
+  .template-default__wrap {
+    border-left: 0;
+  }
+
+  .nav {
+    border-right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .template-minimal__wrap {
+    padding: 24px;
+  }
+
+  .arkham-admin-brand {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .arkham-admin-brand__mark {
+    width: 48px;
+  }
+}

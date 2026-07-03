@@ -29,6 +29,10 @@ export default buildConfig({
     user: Users.slug,
     components: {
       afterNavLinks: ['/components/admin/GameDataNavLink'],
+      graphics: {
+        Icon: '/components/admin/ArkhamAdminIcon',
+        Logo: '/components/admin/ArkhamAdminBrand',
+      },
       views: {
         gameData: {
           Component: '/components/admin/GameDataView',

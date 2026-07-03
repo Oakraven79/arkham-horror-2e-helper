@@ -1,5 +1,5 @@
 .game-data-view {
-  padding: var(--base);
+  padding: calc(var(--base) * 1.2);
   max-width: 1440px;
 }
 
@@ -8,14 +8,14 @@
   align-items: center;
   gap: 6px;
   margin-bottom: var(--base);
-  color: var(--theme-elevation-700);
+  color: var(--theme-elevation-650);
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
 }
 
 .game-data-back-link:hover {
-  color: var(--theme-text);
+  color: var(--arkham-admin-gold, var(--theme-text));
   text-decoration: underline;
 }
 
@@ -25,11 +25,18 @@
   justify-content: space-between;
   gap: calc(var(--base) * 1.5);
   margin-bottom: calc(var(--base) * 1.5);
+  border: 1px solid var(--arkham-admin-line, var(--theme-elevation-150));
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(215, 183, 95, 0.1), transparent 46%),
+    var(--arkham-admin-panel-bg, var(--theme-bg));
+  padding: calc(var(--base) * 0.9);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.2);
 }
 
 .game-data-header p {
   margin: 0 0 4px;
-  color: var(--theme-elevation-500);
+  color: var(--theme-elevation-600);
   font-size: 13px;
   font-weight: 600;
 }
@@ -47,9 +54,9 @@
 
 .game-data-actions button {
   min-height: 40px;
-  border: 1px solid var(--theme-elevation-400);
-  border-radius: 4px;
-  background: var(--theme-elevation-100);
+  border: 1px solid var(--arkham-admin-line-strong, var(--theme-elevation-400));
+  border-radius: 6px;
+  background: rgba(215, 183, 95, 0.08);
   color: var(--theme-text);
   cursor: pointer;
   padding: 8px 14px;
@@ -62,10 +69,16 @@
   opacity: 0.5;
 }
 
+.game-data-actions button:hover:not(:disabled),
+.game-data-actions button:focus-visible {
+  border-color: var(--arkham-admin-gold, var(--theme-elevation-500));
+  background: rgba(215, 183, 95, 0.16);
+}
+
 .game-data-actions .game-data-primary-action {
-  border-color: var(--theme-success-500);
-  background: var(--theme-success-500);
-  color: var(--theme-success-50);
+  border-color: var(--arkham-admin-gold, var(--theme-success-500));
+  background: var(--arkham-admin-gold, var(--theme-success-500));
+  color: #120f08;
 }
 
 .game-data-status-band,
@@ -74,9 +87,10 @@
   display: grid;
   gap: 1px;
   overflow: hidden;
-  border: 1px solid var(--theme-elevation-150);
-  border-radius: 4px;
-  background: var(--theme-elevation-150);
+  border: 1px solid var(--arkham-admin-line, var(--theme-elevation-150));
+  border-radius: 8px;
+  background: var(--arkham-admin-line, var(--theme-elevation-150));
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
 }
 
 .game-data-status-band {
@@ -87,7 +101,9 @@
 .game-data-status-band > div,
 .game-data-counts > div,
 .game-data-results > div {
-  background: var(--theme-bg);
+  background:
+    linear-gradient(145deg, rgba(215, 183, 95, 0.055), transparent 52%),
+    var(--arkham-admin-panel-bg, var(--theme-bg));
   padding: calc(var(--base) * 0.75);
 }
 
@@ -95,7 +111,7 @@
 .game-data-counts span {
   display: block;
   margin-bottom: 4px;
-  color: var(--theme-elevation-500);
+  color: var(--theme-elevation-600);
   font-size: 12px;
   font-weight: 600;
 }
@@ -112,6 +128,7 @@
 
 .game-data-section h2 {
   margin-bottom: calc(var(--base) * 0.75);
+  color: var(--theme-text);
   font-size: 20px;
 }
 
@@ -120,13 +137,16 @@
 }
 
 .game-data-counts strong {
+  color: var(--arkham-admin-gold, var(--theme-text));
   font-size: 24px;
 }
 
 .game-data-alert {
   margin-top: calc(var(--base) * 0.5);
+  border: 1px solid var(--arkham-admin-line, var(--theme-elevation-150));
   border-left: 3px solid var(--theme-elevation-400);
-  background: var(--theme-elevation-50);
+  border-radius: 6px;
+  background: var(--arkham-admin-panel-raised, var(--theme-elevation-50));
   padding: calc(var(--base) * 0.65);
 }
 
@@ -157,11 +177,12 @@
   justify-content: space-between;
   gap: var(--base);
   padding: 4px 0;
-  border-top: 1px solid var(--theme-elevation-100);
+  border-top: 1px solid rgba(215, 183, 95, 0.16);
 }
 
 .game-data-results dd {
   margin: 0;
+  color: var(--arkham-admin-gold, var(--theme-text));
   font-weight: 600;
 }
 

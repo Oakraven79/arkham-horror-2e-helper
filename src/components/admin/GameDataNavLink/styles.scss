@@ -3,15 +3,23 @@
 }
 
 .game-data-nav a {
-  display: block;
-  padding: 8px 12px;
-  border-radius: 3px;
-  color: var(--theme-elevation-800);
+  display: flex;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  margin-block: 2px;
+  min-height: 36px;
+  padding: 6px 10px;
+  color: rgba(242, 234, 214, 0.76);
+  font-weight: 650;
+  line-height: 1.25;
   text-decoration: none;
 }
 
 .game-data-nav a:hover,
 .game-data-nav a.active {
-  background: var(--theme-elevation-100);
-  color: var(--theme-text);
+  border-color: rgba(215, 183, 95, 0.3);
+  background: rgba(215, 183, 95, 0.11);
+  color: var(--arkham-admin-parchment, var(--theme-text));
+  box-shadow: inset 3px 0 0 var(--arkham-admin-gold, var(--theme-text));
 }
