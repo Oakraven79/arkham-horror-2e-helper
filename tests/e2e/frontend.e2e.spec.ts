@@ -26,7 +26,9 @@ test.describe('mobile controller', () => {
   test('offers a compact join screen without requiring the dashboard', async ({ page }) => {
     await page.goto('/controller')
 
-    await expect(page.getByRole('heading', { name: 'Join the table' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Join the table' })).toBeVisible({
+      timeout: 15000,
+    })
     await expect(page.getByLabel('Your name')).toBeVisible()
     await expect(page.getByLabel('Join code')).toBeVisible()
     await expect(page.getByRole('button', { name: 'Join controller' })).toBeVisible()

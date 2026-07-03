@@ -35,7 +35,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'pnpm exec next dev -p 3017',
+    command: 'pnpm exec next dev --webpack -p 3017',
     reuseExistingServer: false,
     url: e2eBaseURL,
   },
