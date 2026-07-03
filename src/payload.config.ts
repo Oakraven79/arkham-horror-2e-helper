@@ -43,6 +43,9 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    meta: {
+      titleSuffix: ' - Arkham Horror 2nd Edition Helper',
+    },
     livePreview: {
       url: ({ collectionConfig, data, req }) =>
         `${req.protocol}//${req.host}/preview/${collectionConfig?.slug ?? 'mythos-cards'}/${data.id}/`,
