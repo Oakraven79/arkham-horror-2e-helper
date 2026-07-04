@@ -18,22 +18,54 @@ export interface OtherworldEncounterCardFrontProps {
   colour: CardColor
 }
 
+function clamp(min: number, value: number, max: number) {
+  return Math.min(max, Math.max(min, value))
+}
+
+function encounterBreakWeight(text: string) {
+  const paragraphBreaks = text.match(/\n\s*\n/g)?.length ?? 0
+  const lineBreaks = text.match(/\n/g)?.length ?? 0
+  const listRows = text.match(/(?:^|\n)\s*\d[+:.-]/g)?.length ?? 0
+
+  return paragraphBreaks * 62 + lineBreaks * 20 + listRows * 30
+}
+
+function encounterCopyStyle(textBlocks: TextBlocks[]) {
+  const totalLength = textBlocks.reduce(
+    (total, block) => total + block.header.length + block.desc.length,
+    0,
+  )
+  const longestEncounter = Math.max(0, ...textBlocks.map((block) => block.desc.length))
+  const breakWeight = textBlocks.reduce(
+    (total, block) => total + encounterBreakWeight(block.desc),
+    0,
+  )
+  const contentScore = totalLength + longestEncounter * 0.38 + breakWeight
+  const bodySize = clamp(0.84, 1.16 - contentScore * 0.0003, 1.08)
+  const headingSize = clamp(1.08, bodySize * 1.16 + 0.08, 1.3)
+  const gap = clamp(0.1, 0.42 - contentScore * 0.00035, 0.28)
+  const blockPadding = clamp(0.48, 0.82 - contentScore * 0.00028, 0.72)
+
+  return {
+    '--encounter-body-size': `${bodySize.toFixed(3)}rem`,
+    '--encounter-gap': `${gap.toFixed(3)}rem`,
+    '--encounter-heading-size': `${headingSize.toFixed(3)}rem`,
+    '--encounter-panel-padding-block': `${blockPadding.toFixed(3)}rem`,
+  } as React.CSSProperties
+}
+
 export const OtherworldEncounterCardFront = ({
   boxedSet,
   textBlocks,
   colour,
 }: OtherworldEncounterCardFrontProps) => {
   const cardClass = 'otherworldcardfront ' + colour
-  const contentLength = textBlocks.reduce(
-    (total, block) => total + block.header.length + block.desc.length,
-    0,
-  )
-  const density = contentLength > 650 ? 'compact' : contentLength > 400 ? 'dense' : 'regular'
+  const copyStyle = encounterCopyStyle(textBlocks)
 
   return (
     <div className={cardClass}>
       <BoxedSetMark boxedSet={boxedSet} />
-      <div className={`otherworldcard-center-panel otherworldcard-center-panel--${density}`}>
+      <div className="otherworldcard-center-panel" style={copyStyle}>
         {textBlocks.map((block, index) => (
           <section className="otherworldcard-encounter" key={`${block.header}-${index}`}>
             <h2>{block.header}</h2>

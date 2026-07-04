@@ -526,7 +526,9 @@
 
 .otherworldcardfront .otherworldcard-center-panel {
   --encounter-body-size: 0.98rem;
+  --encounter-gap: 0.25rem;
   --encounter-heading-size: 1.2rem;
+  --encounter-panel-padding-block: 0.7rem;
   position: absolute;
   top: 2%;
   left: 2%;
@@ -541,22 +543,10 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  gap: 0.25rem;
+  gap: var(--encounter-gap);
   overflow: hidden;
-  padding: 0.7rem 0.55rem;
+  padding: var(--encounter-panel-padding-block) 0.55rem;
   text-align: center;
-}
-
-.otherworldcardfront .otherworldcard-center-panel--dense {
-  --encounter-body-size: 0.86rem;
-  --encounter-heading-size: 1.08rem;
-}
-
-.otherworldcardfront .otherworldcard-center-panel--compact {
-  --encounter-body-size: 0.75rem;
-  --encounter-heading-size: 0.98rem;
-  gap: 0.1rem;
-  padding-block: 0.5rem;
 }
 
 .otherworldcardfront .otherworldcard-encounter {
