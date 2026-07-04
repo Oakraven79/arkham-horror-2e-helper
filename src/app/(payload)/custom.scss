@@ -255,6 +255,7 @@ body::selection {
 }
 
 .app-header {
+  min-height: var(--app-header-height);
   border-bottom: 1px solid var(--arkham-admin-line);
   background:
     linear-gradient(90deg, rgba(215, 183, 95, 0.08), transparent 46%),
@@ -265,6 +266,39 @@ body::selection {
 
 .app-header__gradient-placeholder {
   background: linear-gradient(to right, transparent, var(--arkham-admin-toolbar-bg));
+}
+
+.app-header__content,
+.app-header__wrapper,
+.app-header__controls-wrapper,
+.app-header__step-nav-wrapper,
+.step-nav {
+  min-height: 0;
+}
+
+.app-header__step-nav-wrapper,
+.step-nav,
+.step-nav__home,
+.step-nav a {
+  align-items: center;
+}
+
+.step-nav__home {
+  display: flex;
+  justify-content: center;
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.step-nav__home .arkham-admin-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  font-size: 0.66rem;
+  box-shadow: none;
 }
 
 .nav {
