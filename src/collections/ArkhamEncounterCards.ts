@@ -12,7 +12,8 @@ export const ArkhamEncounterCards: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'cardCode',
-    defaultColumns: ['cardCode', 'neighborhood', 'sourceSet', 'updatedAt'],
+    defaultColumns: ['cardCode', 'neighborhood', 'encounters', 'sourceSet', 'updatedAt'],
+    listSearchableFields: ['cardCode', 'encounters.text'],
   },
   versions: {
     drafts: {
@@ -97,6 +98,11 @@ export const ArkhamEncounterCards: CollectionConfig = {
       required: true,
       minRows: 1,
       validate: validateArkhamEncounterRows,
+      admin: {
+        components: {
+          Cell: '/components/admin/ArkhamEncounterListCell',
+        },
+      },
       fields: [
         {
           name: 'location',

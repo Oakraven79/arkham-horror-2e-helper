@@ -1,3 +1,5 @@
+import { default as default_41c2baf89be792cc4dc41f65dc74cc7c } from '../../../components/admin/ArkhamEncounterListCell'
+import { default as default_304829dffa01b8ebde24744f71502be3 } from '../../../components/admin/OtherWorldEncounterListCell'
 import { default as default_e00b7c927ff9627b11f0d5642e0f0656 } from '../../../components/admin/ArkhamAdminIcon'
 import { default as default_24e278ef55f624400d6b5fea36827c05 } from '../../../components/admin/ArkhamAdminBrand'
 import { default as default_51259efd1d35408a70d9ba2f99f1c99f } from '../../../components/admin/GameDataNavLink'
@@ -6,6 +8,8 @@ import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } f
 
 /** @type import('payload').ImportMap */
 export const importMap = {
+  "/components/admin/ArkhamEncounterListCell#default": default_41c2baf89be792cc4dc41f65dc74cc7c,
+  "/components/admin/OtherWorldEncounterListCell#default": default_304829dffa01b8ebde24744f71502be3,
   "/components/admin/ArkhamAdminIcon#default": default_e00b7c927ff9627b11f0d5642e0f0656,
   "/components/admin/ArkhamAdminBrand#default": default_24e278ef55f624400d6b5fea36827c05,
   "/components/admin/GameDataNavLink#default": default_51259efd1d35408a70d9ba2f99f1c99f,

@@ -21,7 +21,8 @@ export const OtherWorldEncounterCards: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'cardCode',
-    defaultColumns: ['cardCode', 'colour', 'sourceSet', 'updatedAt'],
+    defaultColumns: ['cardCode', 'colour', 'encounters', 'sourceSet', 'updatedAt'],
+    listSearchableFields: ['cardCode', 'encounters.text'],
   },
   versions: {
     drafts: {
@@ -68,6 +69,9 @@ export const OtherWorldEncounterCards: CollectionConfig = {
       maxRows: 3,
       validate: validateOtherWorldEncounterRows,
       admin: {
+        components: {
+          Cell: '/components/admin/OtherWorldEncounterListCell',
+        },
         description:
           'The two named destination encounters and the single "Other" fallback printed on the card.',
       },
