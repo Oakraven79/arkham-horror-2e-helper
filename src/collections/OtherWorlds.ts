@@ -6,6 +6,7 @@ import {
   validateCustomSetName,
 } from '@/lib/otherWorldContent'
 import { gameDataFixtureFields } from './fields/gameDataFixtureFields'
+import { requiredSetsField } from './fields/requiredSetsField'
 
 const boxedSetOptions = [
   ...arkhamHorror2eBoxes.map((box) => ({ label: box.name, value: box.name })),
@@ -81,6 +82,7 @@ export const OtherWorlds: CollectionConfig = {
         description: 'Set provenance and card icon.',
       },
     },
+    requiredSetsField,
     {
       name: 'customSetName',
       label: 'Custom Set Name',

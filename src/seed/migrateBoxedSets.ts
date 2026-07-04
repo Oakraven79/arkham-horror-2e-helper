@@ -4,8 +4,10 @@ import type { BoxedSet } from '@/payload-types'
 
 type ContentCollection =
   | 'ancient-ones'
+  | 'arkham-encounter-cards'
   | 'locations'
   | 'mythos-cards'
+  | 'neighborhoods'
   | 'other-world-encounter-cards'
   | 'other-worlds'
 
@@ -18,17 +20,20 @@ type LegacyContentDocument = {
   id: string
   key?: string
   name?: string
+  requiredSets?: (BoxedSet | string)[] | null
   sourceSet?: BoxedSet | string | null
   title?: string
 }
 
 const contentTargets: {
   collection: ContentCollection
-  legacyField: 'boxedSet' | 'boxedset'
+  legacyField?: 'boxedSet' | 'boxedset'
 }[] = [
   { collection: 'ancient-ones', legacyField: 'boxedSet' },
+  { collection: 'arkham-encounter-cards' },
   { collection: 'locations', legacyField: 'boxedSet' },
   { collection: 'mythos-cards', legacyField: 'boxedset' },
+  { collection: 'neighborhoods' },
   { collection: 'other-world-encounter-cards', legacyField: 'boxedSet' },
   { collection: 'other-worlds', legacyField: 'boxedSet' },
 ]
@@ -47,6 +52,10 @@ function relationshipID(value: unknown): string | null {
   }
 
   return null
+}
+
+function relationshipIDs(values: unknown[] | null | undefined) {
+  return (values ?? []).map(relationshipID).filter((id): id is string => Boolean(id))
 }
 
 function normalize(value: string) {
@@ -114,7 +123,12 @@ function buildLookups(boxedSets: BoxedSet[]) {
   }
 }
 
-function legacyName(document: LegacyContentDocument, legacyField: 'boxedSet' | 'boxedset') {
+function legacyName(
+  document: LegacyContentDocument,
+  legacyField: 'boxedSet' | 'boxedset' | undefined,
+) {
+  if (!legacyField) return ''
+
   return legacyField === 'boxedset' ? (document.boxedset ?? '') : (document.boxedSet ?? '')
 }
 
@@ -165,6 +179,11 @@ export async function migrateBoxedSetRelationships(payload: Payload, apply: bool
       const currentID = relationshipID(document.sourceSet)
 
       if (currentID && initialLookups.byID.has(currentID)) {
+        continue
+      }
+
+      if (!target.legacyField) {
+        unresolved.push(`${target.collection}/${documentLabel(document)}: missing source set`)
         continue
       }
 
@@ -270,8 +289,10 @@ export async function migrateBoxedSetRelationships(payload: Payload, apply: bool
   const lookups = buildLookups(boxedSetResult.docs)
   const contentChanges: Record<ContentCollection, number> = {
     'ancient-ones': 0,
+    'arkham-encounter-cards': 0,
     locations: 0,
     'mythos-cards': 0,
+    neighborhoods: 0,
     'other-world-encounter-cards': 0,
     'other-worlds': 0,
   }
@@ -281,8 +302,32 @@ export async function migrateBoxedSetRelationships(payload: Payload, apply: bool
       const currentID = relationshipID(document.sourceSet)
 
       if (currentID && lookups.byID.has(currentID)) {
+        const currentRequiredIDs = relationshipIDs(document.requiredSets)
+        const needsRequiredSetBackfill =
+          currentRequiredIDs.length === 0 ||
+          !currentRequiredIDs.includes(currentID) ||
+          !currentRequiredIDs.every((id) => lookups.byID.has(id))
+
+        if (!needsRequiredSetBackfill) continue
+
+        contentChanges[target.collection] += 1
+
+        if (!apply) continue
+
+        await payload.update({
+          collection: target.collection,
+          id: document.id,
+          data: {
+            requiredSets: [currentID],
+            _status: document._status,
+          },
+          draft: document._status === 'draft',
+          overrideAccess: true,
+        })
         continue
       }
+
+      if (!target.legacyField) continue
 
       const name = legacyName(document, target.legacyField)
       const customName = name === 'Custom' ? (document.customSetName?.trim() ?? '') : ''
@@ -303,6 +348,7 @@ export async function migrateBoxedSetRelationships(payload: Payload, apply: bool
         id: document.id,
         data: {
           sourceSet: expected.id,
+          requiredSets: [expected.id],
           _status: document._status,
         },
         draft: document._status === 'draft',

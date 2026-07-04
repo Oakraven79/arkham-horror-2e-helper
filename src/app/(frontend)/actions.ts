@@ -44,6 +44,8 @@ import {
 } from '@/lib/expansionTracks'
 import {
   assertSetsCanChange,
+  contentIsEligibleForEnabledSets,
+  eligibleDocuments,
   freshMythosDeckState,
   normalizeEnabledSetSelection,
   relationshipID,
@@ -402,6 +404,11 @@ export async function updateEnabledSetsAction(sessionID: string, formData: FormD
       overrideAccess: true,
     }),
   ])
+  const eligibleMythosCards = eligibleDocuments(cards.docs, enabledSetIDs)
+  const eligibleOtherWorldEncounterCards = eligibleDocuments(
+    otherWorldEncounterCards.docs,
+    enabledSetIDs,
+  )
   const activeAncientOneID = relationshipID(session.activeAncientOne)
   const activeAncientOne = activeAncientOneID
     ? await payload.findByID({
@@ -412,7 +419,7 @@ export async function updateEnabledSetsAction(sessionID: string, formData: FormD
       })
     : null
   const keepAncientOne = Boolean(
-    activeAncientOne && enabledSetIDs.includes(relationshipID(activeAncientOne.sourceSet) ?? ''),
+    activeAncientOne && contentIsEligibleForEnabledSets(activeAncientOne, enabledSetIDs),
   )
   const enabledSetNames = boxedSetResult.docs
     .filter((boxedSet) => enabledSetIDs.includes(String(boxedSet.id)))
@@ -438,9 +445,9 @@ export async function updateEnabledSetsAction(sessionID: string, formData: FormD
               doomMax: 10,
             }),
       },
-      mythos: mythosDeckStateForPayload(freshMythosDeckState(cards.docs)),
+      mythos: mythosDeckStateForPayload(freshMythosDeckState(eligibleMythosCards)),
       otherWorldEncounters: otherWorldEncounterDeckStateForPayload(
-        freshOtherWorldEncounterDeckState(otherWorldEncounterCards.docs),
+        freshOtherWorldEncounterDeckState(eligibleOtherWorldEncounterCards),
       ),
       arkhamEncounters: arkhamEncounterStateForPayload(
         clearArkhamEncounterSelection(arkhamEncounterStateFromSession(session)),
@@ -506,7 +513,7 @@ export async function selectAncientOneAction(sessionID: string, formData: FormDa
     throw new Error('The Ancient One is locked after setup.')
   }
 
-  if (!relationshipIDs(session.enabledSets).includes(relationshipID(ancientOne.sourceSet) ?? '')) {
+  if (!contentIsEligibleForEnabledSets(ancientOne, relationshipIDs(session.enabledSets))) {
     throw new Error('The selected Ancient One is not from a set enabled for this session.')
   }
 
@@ -637,7 +644,7 @@ async function eligibleArkhamEncounterCards(
     overrideAccess: true,
   })
 
-  if (!enabledSetIDs.includes(relationshipID(neighborhood.sourceSet) ?? '')) {
+  if (!contentIsEligibleForEnabledSets(neighborhood, enabledSetIDs)) {
     throw new Error('That neighborhood is not available for the boxed sets in this session.')
   }
 
@@ -650,7 +657,7 @@ async function eligibleArkhamEncounterCards(
   })
 
   return {
-    cards: cards.docs,
+    cards: eligibleDocuments(cards.docs, enabledSetIDs),
     neighborhood,
   }
 }
@@ -899,7 +906,8 @@ export async function resetOtherWorldEncounterDeckAction(sessionID: string) {
     depth: 0,
     overrideAccess: true,
   })
-  const nextState = freshOtherWorldEncounterDeckState(cards.docs)
+  const enabledSetIDs = relationshipIDs(session.enabledSets)
+  const nextState = freshOtherWorldEncounterDeckState(eligibleDocuments(cards.docs, enabledSetIDs))
 
   await updateSessionOtherWorldEncounters(sessionID, nextState, [
     logEntry(
@@ -1313,7 +1321,8 @@ export async function resetMythosDeckAction(sessionID: string) {
     depth: 0,
     overrideAccess: true,
   })
-  const nextState = freshMythosDeckState(cards.docs)
+  const enabledSetIDs = relationshipIDs(session.enabledSets)
+  const nextState = freshMythosDeckState(eligibleDocuments(cards.docs, enabledSetIDs))
 
   await updateSessionMythos(
     sessionID,

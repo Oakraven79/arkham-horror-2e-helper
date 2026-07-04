@@ -2,6 +2,8 @@ import { createHash } from 'node:crypto'
 
 import type { Payload } from 'payload'
 
+import { officialBoxedSets } from '@/content/boxedSets'
+
 import type { GameDataSnapshot } from './gameDataSnapshotTypes'
 
 export const GAME_DATA_SNAPSHOT_EXCLUDED_COLLECTIONS = [
@@ -56,6 +58,14 @@ const omittedDocumentFields = new Set([
   'fixtureNamespace',
   'fixtureVersion',
 ])
+const officialBoxedSetKeysByName = new Map(
+  officialBoxedSets.flatMap((boxedSet) =>
+    [boxedSet.name, boxedSet.key, ...boxedSet.aliases].map((name) => [
+      normalizeName(name),
+      boxedSet.key,
+    ] as const),
+  ),
+)
 
 function isRecord(value: unknown): value is SnapshotDocument {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
@@ -81,6 +91,24 @@ function slugify(value: string) {
     .replace(/\.[^.]+$/, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
+}
+
+function normalizeName(value: string) {
+  return value.trim().toLowerCase().replace(/\s+/g, ' ')
+}
+
+function portableBoxedSetKey(document: PayloadDocument) {
+  const key = documentString(document, 'key')
+  if (key) return key
+
+  const name = documentString(document, 'name')
+  if (!name) return null
+
+  const officialKey = officialBoxedSetKeysByName.get(normalizeName(name))
+  if (officialKey) return officialKey
+
+  const slug = slugify(name)
+  return slug ? `custom-${slug}` : null
 }
 
 export function portableMediaKey(document: Record<string, unknown>) {
@@ -166,6 +194,29 @@ function requiredRelationshipKey(value: unknown, keysByID: Map<string, string>, 
   return key
 }
 
+function relationshipKeys(value: unknown, keysByID: Map<string, string>, label: string) {
+  if (!Array.isArray(value)) return []
+
+  return value.map((entry, index) =>
+    requiredRelationshipKey(entry, keysByID, `${label} ${index + 1}`),
+  )
+}
+
+function setRequiredSets(
+  snapshot: SnapshotDocument,
+  document: PayloadDocument,
+  keysByID: Map<string, string>,
+  label: string,
+) {
+  const keys = relationshipKeys(document.requiredSets, keysByID, `${label} required set`)
+
+  if (keys.length > 0) {
+    snapshot.requiredSets = keys
+  } else {
+    delete snapshot.requiredSets
+  }
+}
+
 function setOptionalRelationship(document: SnapshotDocument, field: string, value: unknown) {
   if (value) {
     document[field] = value
@@ -232,9 +283,12 @@ export async function buildGameDataSnapshot(
   ])
 
   const mediaKeysByID = options.mediaKeysByID ?? portableMediaKeysByID(mediaDocuments)
+  const portableBoxedSetDocuments = boxedSetDocuments.filter((document) =>
+    Boolean(portableBoxedSetKey(document)),
+  )
   const boxedSetKeysByID = mapByID(
-    boxedSetDocuments,
-    (document) => documentString(document, 'key'),
+    portableBoxedSetDocuments,
+    portableBoxedSetKey,
     'Boxed set',
   )
   const neighborhoodKeysByID = mapByID(
@@ -253,8 +307,13 @@ export async function buildGameDataSnapshot(
     'Other World',
   )
 
-  const boxedSets = boxedSetDocuments.map((document) => {
+  const boxedSets = portableBoxedSetDocuments.map((document) => {
     const snapshot = cleanDocument(document)
+    snapshot.key = requiredRelationshipKey(
+      document.id,
+      boxedSetKeysByID,
+      `Boxed set ${document.id} portable key`,
+    )
     setOptionalRelationship(
       snapshot,
       'icon',
@@ -273,6 +332,12 @@ export async function buildGameDataSnapshot(
       document.sourceSet,
       boxedSetKeysByID,
       `Ancient One ${snapshotLabel(snapshot, 'key')} source set`,
+    )
+    setRequiredSets(
+      snapshot,
+      document,
+      boxedSetKeysByID,
+      `Ancient One ${snapshotLabel(snapshot, 'key')}`,
     )
     snapshot.sheets = Array.isArray(document.sheets)
       ? document.sheets.map((sheet) => {
@@ -302,6 +367,12 @@ export async function buildGameDataSnapshot(
       boxedSetKeysByID,
       `Neighborhood ${snapshotLabel(snapshot, 'key')} source set`,
     )
+    setRequiredSets(
+      snapshot,
+      document,
+      boxedSetKeysByID,
+      `Neighborhood ${snapshotLabel(snapshot, 'key')}`,
+    )
     setOptionalRelationship(
       snapshot,
       'frontFrame',
@@ -330,6 +401,12 @@ export async function buildGameDataSnapshot(
       boxedSetKeysByID,
       `Location ${snapshotLabel(snapshot, 'key')} source set`,
     )
+    setRequiredSets(
+      snapshot,
+      document,
+      boxedSetKeysByID,
+      `Location ${snapshotLabel(snapshot, 'key')}`,
+    )
     snapshot.neighborhood = requiredRelationshipKey(
       document.neighborhood,
       neighborhoodKeysByID,
@@ -353,6 +430,12 @@ export async function buildGameDataSnapshot(
       document.sourceSet,
       boxedSetKeysByID,
       `Arkham encounter ${snapshotLabel(snapshot, 'cardCode')} source set`,
+    )
+    setRequiredSets(
+      snapshot,
+      document,
+      boxedSetKeysByID,
+      `Arkham encounter ${snapshotLabel(snapshot, 'cardCode')}`,
     )
     snapshot.neighborhood = requiredRelationshipKey(
       document.neighborhood,
@@ -378,6 +461,12 @@ export async function buildGameDataSnapshot(
       document.sourceSet,
       boxedSetKeysByID,
       `Mythos card ${snapshotLabel(snapshot, 'cardCode')} source set`,
+    )
+    setRequiredSets(
+      snapshot,
+      document,
+      boxedSetKeysByID,
+      `Mythos card ${snapshotLabel(snapshot, 'cardCode')}`,
     )
     const gateInstruction = cleanDocument(document.gateInstruction ?? {})
     const gateInstructionLocations = isRecord(document.gateInstruction)
@@ -415,6 +504,12 @@ export async function buildGameDataSnapshot(
       boxedSetKeysByID,
       `Other World ${snapshotLabel(snapshot, 'key')} source set`,
     )
+    setRequiredSets(
+      snapshot,
+      document,
+      boxedSetKeysByID,
+      `Other World ${snapshotLabel(snapshot, 'key')}`,
+    )
     setOptionalRelationship(
       snapshot,
       'art',
@@ -433,6 +528,12 @@ export async function buildGameDataSnapshot(
       document.sourceSet,
       boxedSetKeysByID,
       `Other World encounter ${snapshotLabel(snapshot, 'cardCode')} source set`,
+    )
+    setRequiredSets(
+      snapshot,
+      document,
+      boxedSetKeysByID,
+      `Other World encounter ${snapshotLabel(snapshot, 'cardCode')}`,
     )
     snapshot.encounters = Array.isArray(document.encounters)
       ? document.encounters.map((encounter) => {
@@ -729,6 +830,17 @@ export function validateGameDataSnapshot(
     if (!mediaKeys) return
     checkReference(mediaKeys, assetKey, label, errors, false)
   }
+  const checkRequiredSets = (value: unknown, label: string) => {
+    if (value === null || value === undefined) return
+    if (!Array.isArray(value)) {
+      errors.push(`${label} requiredSets must be an array when present.`)
+      return
+    }
+
+    for (const [index, setKey] of value.entries()) {
+      checkReference(boxedSetKeys, setKey, `${label} required set ${index + 1}`, errors)
+    }
+  }
 
   for (const document of boxedSets) {
     checkMedia(document.icon, `Boxed set ${document.key} icon`)
@@ -741,6 +853,7 @@ export function validateGameDataSnapshot(
       `Ancient One ${document.key} source set`,
       errors,
     )
+    checkRequiredSets(document.requiredSets, `Ancient One ${document.key}`)
     const sheets = Array.isArray(document.sheets) ? document.sheets : []
 
     for (const sheet of sheets) {
@@ -756,12 +869,14 @@ export function validateGameDataSnapshot(
       `Neighborhood ${document.key} source set`,
       errors,
     )
+    checkRequiredSets(document.requiredSets, `Neighborhood ${document.key}`)
     checkMedia(document.frontFrame, `Neighborhood ${document.key} front frame`)
     checkMedia(document.backFrame, `Neighborhood ${document.key} back frame`)
   }
 
   for (const document of locations) {
     checkReference(boxedSetKeys, document.sourceSet, `Location ${document.key} source set`, errors)
+    checkRequiredSets(document.requiredSets, `Location ${document.key}`)
     checkReference(
       neighborhoodKeys,
       document.neighborhood,
@@ -778,6 +893,7 @@ export function validateGameDataSnapshot(
       `Arkham encounter ${document.cardCode} source set`,
       errors,
     )
+    checkRequiredSets(document.requiredSets, `Arkham encounter ${document.cardCode}`)
     checkReference(
       neighborhoodKeys,
       document.neighborhood,
@@ -810,6 +926,7 @@ export function validateGameDataSnapshot(
       `Mythos card ${document.cardCode} source set`,
       errors,
     )
+    checkRequiredSets(document.requiredSets, `Mythos card ${document.cardCode}`)
     const gateInstruction = optionalRecord(
       document.gateInstruction,
       `Mythos card ${document.cardCode} gateInstruction`,
@@ -841,6 +958,7 @@ export function validateGameDataSnapshot(
       `Other World ${document.key} source set`,
       errors,
     )
+    checkRequiredSets(document.requiredSets, `Other World ${document.key}`)
     checkMedia(document.art, `Other World ${document.key} art`)
   }
 
@@ -851,6 +969,7 @@ export function validateGameDataSnapshot(
       `Other World encounter ${document.cardCode} source set`,
       errors,
     )
+    checkRequiredSets(document.requiredSets, `Other World encounter ${document.cardCode}`)
     const encounters = Array.isArray(document.encounters) ? document.encounters : []
 
     for (const encounter of encounters) {

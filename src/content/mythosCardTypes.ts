@@ -27,6 +27,7 @@ export interface StarterMythosCard {
   monsterMoveWhite?: MonsterIcons[]
   ongoingEffect?: string
   passCondition?: string
+  requiredSetKeys?: OfficialBoxedSetKey[]
   reshuffleDeck?: boolean
   rulesNotes?: {
     kind: MythosRulesNoteKind

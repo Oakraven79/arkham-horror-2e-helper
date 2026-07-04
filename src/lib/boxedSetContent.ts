@@ -2,6 +2,11 @@ import { getOfficialBoxedSet } from '@/content/boxedSets'
 import type { OfficialBoxedSetKey, OfficialBoxedSetName } from '@/content/boxedSetTypes'
 import type { BoxedSet, Media } from '@/payload-types'
 
+export interface BoxedSetRequirementFixture {
+  requiredSetKeys?: OfficialBoxedSetKey[]
+  sourceSetKey: OfficialBoxedSetKey
+}
+
 export function relationshipID(value: unknown): string | null {
   if (typeof value === 'string' || typeof value === 'number') {
     return String(value)
@@ -46,4 +51,17 @@ export function requireBoxedSet(boxedSetsByKey: Map<string, BoxedSet>, key: Offi
   }
 
   return boxedSet
+}
+
+export function fixtureRequiredSetKeys(fixture: BoxedSetRequirementFixture) {
+  const keys = fixture.requiredSetKeys?.length ? fixture.requiredSetKeys : [fixture.sourceSetKey]
+
+  return [...new Set([fixture.sourceSetKey, ...keys])]
+}
+
+export function requireBoxedSets(
+  boxedSetsByKey: Map<string, BoxedSet>,
+  keys: OfficialBoxedSetKey[],
+) {
+  return keys.map((key) => requireBoxedSet(boxedSetsByKey, key))
 }

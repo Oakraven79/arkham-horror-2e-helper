@@ -95,6 +95,19 @@ function setOptionalID(
   }
 }
 
+function requiredSetIDs(
+  keys: Map<string, string>,
+  value: unknown,
+  fallbackSourceSet: unknown,
+  label: string,
+) {
+  const portableKeys = Array.isArray(value) && value.length > 0 ? value : [fallbackSourceSet]
+
+  return portableKeys.map((key, index) =>
+    requiredID(keys, key, `${label} required set ${index + 1}`),
+  )
+}
+
 async function mediaIDs(payload: Payload) {
   const result = await payload.find({
     collection: 'media',
@@ -219,10 +232,17 @@ export async function restoreGameDataSnapshot(
     'key',
     snapshotCollections.ancientOnes,
     (document) => {
+      const sourceSetKey = document.sourceSet
       document.sourceSet = requiredID(
         context.boxedSets,
-        document.sourceSet,
+        sourceSetKey,
         `Ancient One ${document.key} source set`,
+      )
+      document.requiredSets = requiredSetIDs(
+        context.boxedSets,
+        document.requiredSets,
+        sourceSetKey,
+        `Ancient One ${document.key}`,
       )
       document.sheets = Array.isArray(document.sheets)
         ? document.sheets.map((sheet) => {
@@ -247,10 +267,17 @@ export async function restoreGameDataSnapshot(
     'key',
     snapshotCollections.neighborhoods,
     (document) => {
+      const sourceSetKey = document.sourceSet
       document.sourceSet = requiredID(
         context.boxedSets,
-        document.sourceSet,
+        sourceSetKey,
         `Neighborhood ${document.key} source set`,
+      )
+      document.requiredSets = requiredSetIDs(
+        context.boxedSets,
+        document.requiredSets,
+        sourceSetKey,
+        `Neighborhood ${document.key}`,
       )
       setOptionalID(
         document,
@@ -277,10 +304,17 @@ export async function restoreGameDataSnapshot(
     'key',
     snapshotCollections.locations,
     (document) => {
+      const sourceSetKey = document.sourceSet
       document.sourceSet = requiredID(
         context.boxedSets,
-        document.sourceSet,
+        sourceSetKey,
         `Location ${document.key} source set`,
+      )
+      document.requiredSets = requiredSetIDs(
+        context.boxedSets,
+        document.requiredSets,
+        sourceSetKey,
+        `Location ${document.key}`,
       )
       document.neighborhood = requiredID(
         context.neighborhoods,
@@ -305,10 +339,17 @@ export async function restoreGameDataSnapshot(
     'cardCode',
     snapshotCollections.arkhamEncounterCards,
     (document) => {
+      const sourceSetKey = document.sourceSet
       document.sourceSet = requiredID(
         context.boxedSets,
-        document.sourceSet,
+        sourceSetKey,
         `Arkham encounter ${document.cardCode} source set`,
+      )
+      document.requiredSets = requiredSetIDs(
+        context.boxedSets,
+        document.requiredSets,
+        sourceSetKey,
+        `Arkham encounter ${document.cardCode}`,
       )
       document.neighborhood = requiredID(
         context.neighborhoods,
@@ -336,10 +377,17 @@ export async function restoreGameDataSnapshot(
     'cardCode',
     snapshotCollections.mythosCards,
     (document) => {
+      const sourceSetKey = document.sourceSet
       document.sourceSet = requiredID(
         context.boxedSets,
-        document.sourceSet,
+        sourceSetKey,
         `Mythos card ${document.cardCode} source set`,
+      )
+      document.requiredSets = requiredSetIDs(
+        context.boxedSets,
+        document.requiredSets,
+        sourceSetKey,
+        `Mythos card ${document.cardCode}`,
       )
       const gateInstruction = mutableDocument((document.gateInstruction ?? {}) as SnapshotDocument)
       gateInstruction.locations = Array.isArray(gateInstruction.locations)
@@ -374,10 +422,17 @@ export async function restoreGameDataSnapshot(
     'key',
     snapshotCollections.otherWorlds,
     (document) => {
+      const sourceSetKey = document.sourceSet
       document.sourceSet = requiredID(
         context.boxedSets,
-        document.sourceSet,
+        sourceSetKey,
         `Other World ${document.key} source set`,
+      )
+      document.requiredSets = requiredSetIDs(
+        context.boxedSets,
+        document.requiredSets,
+        sourceSetKey,
+        `Other World ${document.key}`,
       )
       setOptionalID(document, 'art', context.media, document.art, `Other World ${document.key} art`)
       return document
@@ -391,10 +446,17 @@ export async function restoreGameDataSnapshot(
     'cardCode',
     snapshotCollections.otherWorldEncounterCards,
     (document) => {
+      const sourceSetKey = document.sourceSet
       document.sourceSet = requiredID(
         context.boxedSets,
-        document.sourceSet,
+        sourceSetKey,
         `Other World encounter ${document.cardCode} source set`,
+      )
+      document.requiredSets = requiredSetIDs(
+        context.boxedSets,
+        document.requiredSets,
+        sourceSetKey,
+        `Other World encounter ${document.cardCode}`,
       )
       document.encounters = Array.isArray(document.encounters)
         ? document.encounters.map((encounter) => {

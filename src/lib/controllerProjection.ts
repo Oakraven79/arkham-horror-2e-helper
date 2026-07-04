@@ -2,7 +2,12 @@ import type { Payload } from 'payload'
 
 import { activeAncientOneBackground } from '@/lib/ancientOneBackground'
 import { arkhamEncounterStateFromSession } from '@/lib/arkhamEncounterSessionState'
-import { relationshipID, relationshipIDs, sourceSetWhere } from '@/lib/gameSessionContent'
+import {
+  eligibleDocuments,
+  relationshipID,
+  relationshipIDs,
+  sourceSetWhere,
+} from '@/lib/gameSessionContent'
 import { mythosDeckStateFromSession } from '@/lib/mythosSessionState'
 import { isEligibleOpeningMythosCard } from '@/lib/openingMythos'
 import type { AncientOne, GameSession, MythosCard, Neighborhood } from '@/payload-types'
@@ -274,11 +279,13 @@ async function controllerNeighborhoods(payload: Payload, session: GameSession) {
       overrideAccess: true,
     }),
   ])
+  const eligibleCards = eligibleDocuments(cards.docs, enabledSetIDs)
+  const eligibleNeighborhoods = eligibleDocuments(neighborhoods.docs, enabledSetIDs)
   const neighborhoodIDsWithCards = new Set(
-    cards.docs.map((card) => relationshipID(card.neighborhood)).filter(Boolean),
+    eligibleCards.map((card) => relationshipID(card.neighborhood)).filter(Boolean),
   )
 
-  return neighborhoods.docs
+  return eligibleNeighborhoods
     .filter((neighborhood) => neighborhoodIDsWithCards.has(String(neighborhood.id)))
     .map((neighborhood) => ({
       board: neighborhood.board ?? 'Arkham',

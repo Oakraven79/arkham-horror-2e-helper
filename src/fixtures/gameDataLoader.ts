@@ -217,7 +217,7 @@ async function applyGameDataMediaRelationships(payload: Payload) {
 export function validateGameDataFixture(): GameDataFixtureValidation {
   const errors: string[] = []
   const warnings: string[] = []
-  const boxedSetKeys = new Set(gameDataFixture.boxedSets.map((boxedSet) => boxedSet.key))
+  const boxedSetKeys = new Set<string>(gameDataFixture.boxedSets.map((boxedSet) => boxedSet.key))
   const neighborhoodKeys = new Set(
     gameDataFixture.neighborhoods.map((neighborhood) => neighborhood.key),
   )
@@ -265,10 +265,22 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
     }
   }
 
+  const checkRequiredSetKeys = (
+    requiredSetKeys: readonly string[] | null | undefined,
+    label: string,
+  ) => {
+    for (const key of requiredSetKeys ?? []) {
+      if (!boxedSetKeys.has(key)) {
+        errors.push(`${label} has unknown required boxed set ${key}`)
+      }
+    }
+  }
+
   for (const location of gameDataFixture.locations) {
     if (!boxedSetKeys.has(location.sourceSetKey)) {
       errors.push(`Location ${location.key} has unknown boxed set ${location.sourceSetKey}`)
     }
+    checkRequiredSetKeys(location.requiredSetKeys, `Location ${location.key}`)
 
     const locationNeighborhoodKey = neighborhoodKey(location.board, location.neighborhood)
     if (!neighborhoodKeys.has(locationNeighborhoodKey)) {
@@ -290,6 +302,7 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
         `Neighborhood ${neighborhood.key} has unknown boxed set ${neighborhood.sourceSetKey}`,
       )
     }
+    checkRequiredSetKeys(neighborhood.requiredSetKeys, `Neighborhood ${neighborhood.key}`)
 
     for (const frame of [neighborhood.frontFrame, neighborhood.backFrame]) {
       if (frame && !mediaKeys.has(frame.fixtureKey)) {
@@ -304,6 +317,7 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
         `Arkham encounter card ${card.cardCode} has unknown boxed set ${card.sourceSetKey}`,
       )
     }
+    checkRequiredSetKeys(card.requiredSetKeys, `Arkham encounter card ${card.cardCode}`)
 
     if (!neighborhoodKeys.has(card.neighborhoodKey)) {
       errors.push(
@@ -327,6 +341,7 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
     if (!boxedSetKeys.has(card.sourceSetKey)) {
       errors.push(`Mythos card ${card.cardCode} has unknown boxed set ${card.sourceSetKey}`)
     }
+    checkRequiredSetKeys(card.requiredSetKeys, `Mythos card ${card.cardCode}`)
 
     for (const locationKey of card.gateInstruction.locationKeys) {
       if (!locationKeys.has(locationKey)) {
@@ -351,12 +366,14 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
     if (!boxedSetKeys.has(world.sourceSetKey)) {
       errors.push(`Other World ${world.key} has unknown boxed set ${world.sourceSetKey}`)
     }
+    checkRequiredSetKeys(world.requiredSetKeys, `Other World ${world.key}`)
   }
 
   for (const card of gameDataFixture.otherWorldEncounterCards) {
     if (!boxedSetKeys.has(card.sourceSetKey)) {
       errors.push(`Encounter card ${card.cardCode} has unknown boxed set ${card.sourceSetKey}`)
     }
+    checkRequiredSetKeys(card.requiredSetKeys, `Encounter card ${card.cardCode}`)
 
     if (card.encounters.length !== 3) {
       errors.push(`Encounter card ${card.cardCode} must contain exactly three encounters`)
@@ -450,6 +467,11 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
         errors.push(`${label} references unknown boxed set ${sourceSet}`)
       }
     }
+    const checkRequiredSets = (requiredSets: string[] | null | undefined, label: string) => {
+      for (const requiredSet of requiredSets ?? []) {
+        checkSet(requiredSet, `${label} required set`)
+      }
+    }
     const checkMedia = (assetKey: string | null | undefined, label: string) => {
       if (assetKey && !mediaKeys.has(assetKey)) {
         errors.push(`${label} references unknown media asset ${assetKey}`)
@@ -462,6 +484,7 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
 
     for (const document of snapshotCollections.ancientOnes) {
       checkSet(document.sourceSet, `Ancient One ${document.key}`)
+      checkRequiredSets(document.requiredSets, `Ancient One ${document.key}`)
       for (const sheet of document.sheets) {
         checkMedia(sheet.sheetImage, `Ancient One ${document.key} sheet ${sheet.key}`)
       }
@@ -469,12 +492,14 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
 
     for (const document of snapshotCollections.neighborhoods) {
       checkSet(document.sourceSet, `Neighborhood ${document.key}`)
+      checkRequiredSets(document.requiredSets, `Neighborhood ${document.key}`)
       checkMedia(document.frontFrame, `Neighborhood ${document.key} front frame`)
       checkMedia(document.backFrame, `Neighborhood ${document.key} back frame`)
     }
 
     for (const document of snapshotCollections.locations) {
       checkSet(document.sourceSet, `Location ${document.key}`)
+      checkRequiredSets(document.requiredSets, `Location ${document.key}`)
       checkMedia(document.cardImage, `Location ${document.key}`)
       if (!snapshotNeighborhoodKeys.has(document.neighborhood)) {
         errors.push(
@@ -485,6 +510,7 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
 
     for (const document of snapshotCollections.arkhamEncounterCards) {
       checkSet(document.sourceSet, `Arkham encounter ${document.cardCode}`)
+      checkRequiredSets(document.requiredSets, `Arkham encounter ${document.cardCode}`)
       if (!snapshotNeighborhoodKeys.has(document.neighborhood)) {
         errors.push(
           `Arkham encounter ${document.cardCode} references unknown neighborhood ${document.neighborhood}`,
@@ -501,6 +527,7 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
 
     for (const document of snapshotCollections.mythosCards) {
       checkSet(document.sourceSet, `Mythos card ${document.cardCode}`)
+      checkRequiredSets(document.requiredSets, `Mythos card ${document.cardCode}`)
       checkMedia(
         document.lowerLeftOverride?.image,
         `Mythos card ${document.cardCode} lower-left image`,
@@ -516,11 +543,13 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
 
     for (const document of snapshotCollections.otherWorlds) {
       checkSet(document.sourceSet, `Other World ${document.key}`)
+      checkRequiredSets(document.requiredSets, `Other World ${document.key}`)
       checkMedia(document.art, `Other World ${document.key}`)
     }
 
     for (const document of snapshotCollections.otherWorldEncounterCards) {
       checkSet(document.sourceSet, `Other World encounter ${document.cardCode}`)
+      checkRequiredSets(document.requiredSets, `Other World encounter ${document.cardCode}`)
       for (const encounter of document.encounters) {
         if (encounter.destination && !snapshotOtherWorldKeys.has(encounter.destination)) {
           errors.push(

@@ -252,6 +252,10 @@ export interface AncientOne {
    * Set provenance and card icon.
    */
   sourceSet: string | BoxedSet;
+  /**
+   * All boxed sets that must be enabled before this content is included. Empty legacy records fall back to the source set.
+   */
+  requiredSets?: (string | BoxedSet)[] | null;
   customSetName?: string | null;
   /**
    * Optional source lore. Gameplay instructions belong to a playable sheet.
@@ -321,6 +325,10 @@ export interface Neighborhood {
   frontFrame?: (string | null) | Media;
   backFrame?: (string | null) | Media;
   sourceSet: string | BoxedSet;
+  /**
+   * All boxed sets that must be enabled before this content is included. Empty legacy records fall back to the source set.
+   */
+  requiredSets?: (string | BoxedSet)[] | null;
   fixtureNamespace?: string | null;
   fixtureVersion?: number | null;
   updatedAt: string;
@@ -390,6 +398,10 @@ export interface Location {
    * Set provenance and card icon.
    */
   sourceSet: string | BoxedSet;
+  /**
+   * All boxed sets that must be enabled before this content is included. Empty legacy records fall back to the source set.
+   */
+  requiredSets?: (string | BoxedSet)[] | null;
   customSetName?: string | null;
   fixtureNamespace?: string | null;
   fixtureVersion?: number | null;
@@ -420,6 +432,10 @@ export interface ArkhamEncounterCard {
     id?: string | null;
   }[];
   sourceSet: string | BoxedSet;
+  /**
+   * All boxed sets that must be enabled before this content is included. Empty legacy records fall back to the source set.
+   */
+  requiredSets?: (string | BoxedSet)[] | null;
   /**
    * Optional helper notes. These are not printed on the rendered card.
    */
@@ -507,6 +523,10 @@ export interface MythosCard {
    * Set provenance and card icon.
    */
   sourceSet: string | BoxedSet;
+  /**
+   * All boxed sets that must be enabled before this content is included. Empty legacy records fall back to the source set.
+   */
+  requiredSets?: (string | BoxedSet)[] | null;
   fixtureNamespace?: string | null;
   fixtureVersion?: number | null;
   updatedAt: string;
@@ -544,6 +564,10 @@ export interface OtherWorld {
    * Set provenance and card icon.
    */
   sourceSet: string | BoxedSet;
+  /**
+   * All boxed sets that must be enabled before this content is included. Empty legacy records fall back to the source set.
+   */
+  requiredSets?: (string | BoxedSet)[] | null;
   customSetName?: string | null;
   art?: (string | null) | Media;
   fixtureNamespace?: string | null;
@@ -592,6 +616,10 @@ export interface OtherWorldEncounterCard {
    * Set provenance and card icon.
    */
   sourceSet: string | BoxedSet;
+  /**
+   * All boxed sets that must be enabled before this content is included. Empty legacy records fall back to the source set.
+   */
+  requiredSets?: (string | BoxedSet)[] | null;
   customSetName?: string | null;
   /**
    * Optional helper notes. These are not printed on the rendered card.
@@ -1146,6 +1174,7 @@ export interface AncientOnesSelect<T extends boolean = true> {
   key?: T;
   boxedSet?: T;
   sourceSet?: T;
+  requiredSets?: T;
   customSetName?: T;
   lore?: T;
   sheets?:
@@ -1198,6 +1227,7 @@ export interface NeighborhoodsSelect<T extends boolean = true> {
   frontFrame?: T;
   backFrame?: T;
   sourceSet?: T;
+  requiredSets?: T;
   fixtureNamespace?: T;
   fixtureVersion?: T;
   updatedAt?: T;
@@ -1230,6 +1260,7 @@ export interface LocationsSelect<T extends boolean = true> {
       };
   boxedSet?: T;
   sourceSet?: T;
+  requiredSets?: T;
   customSetName?: T;
   fixtureNamespace?: T;
   fixtureVersion?: T;
@@ -1252,6 +1283,7 @@ export interface ArkhamEncounterCardsSelect<T extends boolean = true> {
         id?: T;
       };
   sourceSet?: T;
+  requiredSets?: T;
   clarifications?: T;
   fixtureNamespace?: T;
   fixtureVersion?: T;
@@ -1303,6 +1335,7 @@ export interface MythosCardsSelect<T extends boolean = true> {
   monsterMoveBlack?: T;
   boxedset?: T;
   sourceSet?: T;
+  requiredSets?: T;
   fixtureNamespace?: T;
   fixtureVersion?: T;
   updatedAt?: T;
@@ -1319,6 +1352,7 @@ export interface OtherWorldsSelect<T extends boolean = true> {
   preferredColours?: T;
   boxedSet?: T;
   sourceSet?: T;
+  requiredSets?: T;
   customSetName?: T;
   art?: T;
   fixtureNamespace?: T;
@@ -1345,6 +1379,7 @@ export interface OtherWorldEncounterCardsSelect<T extends boolean = true> {
       };
   boxedSet?: T;
   sourceSet?: T;
+  requiredSets?: T;
   customSetName?: T;
   clarifications?: T;
   fixtureNamespace?: T;

@@ -5,7 +5,13 @@ import {
   type OtherWorldEncounterCardFixture,
 } from '@/content/otherWorldEncounterCards'
 import { GAME_DATA_FIXTURE_NAMESPACE, GAME_DATA_FIXTURE_VERSION } from '@/fixtures/gameData'
-import { officialBoxedSetName, relationshipID, requireBoxedSet } from '@/lib/boxedSetContent'
+import {
+  fixtureRequiredSetKeys,
+  officialBoxedSetName,
+  relationshipID,
+  requireBoxedSet,
+  requireBoxedSets,
+} from '@/lib/boxedSetContent'
 import type { BoxedSet, OtherWorld, OtherWorldEncounterCard } from '@/payload-types'
 
 export interface SeedOtherWorldEncounterCardsOptions {
@@ -14,6 +20,7 @@ export interface SeedOtherWorldEncounterCardsOptions {
 
 function fixtureMetadata(
   fixture: OtherWorldEncounterCardFixture,
+  requiredSets: BoxedSet[],
   sourceSet: BoxedSet,
   worldsByKey: Map<string, OtherWorld>,
 ) {
@@ -30,6 +37,7 @@ function fixtureMetadata(
     })),
     boxedSet: officialBoxedSetName(fixture.sourceSetKey) as OtherWorldEncounterCard['boxedSet'],
     sourceSet: sourceSet.id,
+    requiredSets: requiredSets.map((boxedSet) => boxedSet.id),
     clarifications: fixture.clarifications,
     fixtureNamespace: GAME_DATA_FIXTURE_NAMESPACE,
     fixtureVersion: GAME_DATA_FIXTURE_VERSION,
@@ -47,6 +55,10 @@ function requireOtherWorld(worldsByKey: Map<string, OtherWorld>, key: string) {
 }
 
 function comparableDocument(card: OtherWorldEncounterCard) {
+  const requiredSets = (card.requiredSets ?? [])
+    .map(relationshipID)
+    .filter((id): id is string => Boolean(id))
+
   return {
     cardCode: card.cardCode,
     copyCount: card.copyCount,
@@ -58,6 +70,10 @@ function comparableDocument(card: OtherWorldEncounterCard) {
     })),
     boxedSet: card.boxedSet,
     sourceSet: relationshipID(card.sourceSet) ?? undefined,
+    requiredSets:
+      requiredSets.length > 0
+        ? requiredSets
+        : [relationshipID(card.sourceSet)].filter((id): id is string => Boolean(id)),
     clarifications: card.clarifications ?? undefined,
     fixtureNamespace: card.fixtureNamespace ?? undefined,
     fixtureVersion: card.fixtureVersion ?? undefined,
@@ -106,6 +122,7 @@ export async function seedOtherWorldEncounterCards(
   for (const fixture of starterOtherWorldEncounterCards) {
     const card = cardsByCode.get(fixture.cardCode)
     const sourceSet = requireBoxedSet(boxedSetsByKey, fixture.sourceSetKey)
+    const requiredSets = requireBoxedSets(boxedSetsByKey, fixtureRequiredSetKeys(fixture))
 
     if (
       card &&
@@ -117,7 +134,7 @@ export async function seedOtherWorldEncounterCards(
       continue
     }
 
-    const metadata = fixtureMetadata(fixture, sourceSet, worldsByKey)
+    const metadata = fixtureMetadata(fixture, requiredSets, sourceSet, worldsByKey)
 
     if (!card) {
       created.push(fixture.cardCode)
@@ -140,6 +157,7 @@ export async function seedOtherWorldEncounterCards(
     const expected = {
       ...metadata,
       sourceSet: String(sourceSet.id),
+      requiredSets: requiredSets.map((boxedSet) => String(boxedSet.id)),
       encounters: metadata.encounters.map((encounter) => ({
         ...encounter,
         destination: encounter.destination ? String(encounter.destination) : undefined,

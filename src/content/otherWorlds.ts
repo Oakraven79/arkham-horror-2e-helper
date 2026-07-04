@@ -4,6 +4,7 @@ export interface OtherWorldFixture {
   key: string
   name: string
   preferredColours: ('blue' | 'green' | 'red' | 'yellow')[]
+  requiredSetKeys?: OfficialBoxedSetKey[]
   sourceSetKey: OfficialBoxedSetKey
 }
 

@@ -1,7 +1,13 @@
 import type { Payload } from 'payload'
 
 import { starterAncientOnes, type StarterAncientOne } from '@/content/ancientOnes'
-import { officialBoxedSetName, relationshipID, requireBoxedSet } from '@/lib/boxedSetContent'
+import {
+  fixtureRequiredSetKeys,
+  officialBoxedSetName,
+  relationshipID,
+  requireBoxedSet,
+  requireBoxedSets,
+} from '@/lib/boxedSetContent'
 import type { AncientOne, BoxedSet } from '@/payload-types'
 
 export interface SeedAncientOnesOptions {
@@ -38,24 +44,35 @@ function fixtureSheets(fixture: StarterAncientOne, existing?: AncientOne) {
   })
 }
 
-function fixtureMetadata(fixture: StarterAncientOne, sourceSet: BoxedSet, existing?: AncientOne) {
+function fixtureMetadata(
+  fixture: StarterAncientOne,
+  requiredSets: BoxedSet[],
+  sourceSet: BoxedSet,
+  existing?: AncientOne,
+) {
   return {
     name: fixture.name,
     key: fixture.key,
     boxedSet: officialBoxedSetName(fixture.sourceSetKey) as AncientOne['boxedSet'],
     sourceSet: sourceSet.id,
+    requiredSets: requiredSets.map((boxedSet) => boxedSet.id),
     lore: fixture.lore,
     sheets: fixtureSheets(fixture, existing),
     rulesNotes: fixture.rulesNotes?.map((note) => ({ ...note })),
   }
 }
 
-function comparableFixture(fixture: StarterAncientOne, sourceSet: BoxedSet) {
+function comparableFixture(
+  fixture: StarterAncientOne,
+  requiredSets: BoxedSet[],
+  sourceSet: BoxedSet,
+) {
   return {
     name: fixture.name,
     key: fixture.key,
     boxedSet: officialBoxedSetName(fixture.sourceSetKey) as AncientOne['boxedSet'],
     sourceSet: String(sourceSet.id),
+    requiredSets: requiredSets.map((boxedSet) => String(boxedSet.id)),
     lore: fixture.lore,
     sheets: fixture.sheets.map((sheet) => ({
       key: sheet.key,
@@ -80,6 +97,9 @@ function comparableFixture(fixture: StarterAncientOne, sourceSet: BoxedSet) {
 }
 
 function comparableDocument(document: AncientOne) {
+  const requiredSets = (document.requiredSets ?? [])
+    .map(relationshipID)
+    .filter((id): id is string => Boolean(id))
   const notes = document.rulesNotes?.map((note) => ({
     kind: note.kind,
     text: note.text,
@@ -91,6 +111,10 @@ function comparableDocument(document: AncientOne) {
     key: document.key,
     boxedSet: document.boxedSet,
     sourceSet: relationshipID(document.sourceSet) ?? undefined,
+    requiredSets:
+      requiredSets.length > 0
+        ? requiredSets
+        : [relationshipID(document.sourceSet)].filter((id): id is string => Boolean(id)),
     lore: document.lore ?? '',
     sheets: document.sheets.map((sheet) => {
       const defenses = sheet.defenses ?? []
@@ -118,10 +142,15 @@ function comparableDocument(document: AncientOne) {
   }
 }
 
-function metadataMatches(document: AncientOne, fixture: StarterAncientOne, sourceSet: BoxedSet) {
+function metadataMatches(
+  document: AncientOne,
+  fixture: StarterAncientOne,
+  requiredSets: BoxedSet[],
+  sourceSet: BoxedSet,
+) {
   return (
     JSON.stringify(comparableDocument(document)) ===
-    JSON.stringify(comparableFixture(fixture, sourceSet))
+    JSON.stringify(comparableFixture(fixture, requiredSets, sourceSet))
   )
 }
 
@@ -197,6 +226,7 @@ export async function seedAncientOnes(payload: Payload, options: SeedAncientOnes
     const { fixture } = match
     const existingAncientOne = match.candidates[0]
     const sourceSet = requireBoxedSet(boxedSetsByKey, fixture.sourceSetKey)
+    const requiredSets = requireBoxedSets(boxedSetsByKey, fixtureRequiredSetKeys(fixture))
 
     if (!existingAncientOne) {
       created.push(fixture.name)
@@ -206,7 +236,7 @@ export async function seedAncientOnes(payload: Payload, options: SeedAncientOnes
       await payload.create({
         collection: 'ancient-ones',
         data: {
-          ...fixtureMetadata(fixture, sourceSet),
+          ...fixtureMetadata(fixture, requiredSets, sourceSet),
           _status: 'published',
         },
         draft: false,
@@ -215,7 +245,7 @@ export async function seedAncientOnes(payload: Payload, options: SeedAncientOnes
       continue
     }
 
-    if (metadataMatches(existingAncientOne, fixture, sourceSet)) {
+    if (metadataMatches(existingAncientOne, fixture, requiredSets, sourceSet)) {
       unchanged.push(fixture.name)
       continue
     }
@@ -228,7 +258,7 @@ export async function seedAncientOnes(payload: Payload, options: SeedAncientOnes
       collection: 'ancient-ones',
       id: existingAncientOne.id,
       data: {
-        ...fixtureMetadata(fixture, sourceSet, existingAncientOne),
+        ...fixtureMetadata(fixture, requiredSets, sourceSet, existingAncientOne),
         _status: existingAncientOne._status,
       },
       draft: existingAncientOne._status === 'draft',

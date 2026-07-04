@@ -169,3 +169,4 @@ for each rules-facing change. Cite the scenario ID in test names where useful.
 | MISK-02    | Alternate gate upper board enabled                   | Resolve gate                                  | Use upper location only                                  |
 | MISK-03    | Miskatonic card requires disabled expansion icon     | Draw                                          | Exclude at setup or replace draw                         |
 | MISK-04    | Investigator holds a paired Injury and Madness       | Resolve acquisition                           | Devour unless a specific ability prevents it             |
+| MISK-05    | Miskatonic component requires another boxed set      | Build eligible content for enabled sets      | Include only when every required set is enabled          |

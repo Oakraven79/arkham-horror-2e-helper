@@ -5,7 +5,12 @@ import {
   type ArkhamEncounterCardFixture,
 } from '@/content/arkhamEncounterCards'
 import { GAME_DATA_FIXTURE_NAMESPACE, GAME_DATA_FIXTURE_VERSION } from '@/fixtures/gameData'
-import { relationshipID, requireBoxedSet } from '@/lib/boxedSetContent'
+import {
+  fixtureRequiredSetKeys,
+  relationshipID,
+  requireBoxedSet,
+  requireBoxedSets,
+} from '@/lib/boxedSetContent'
 import type { ArkhamEncounterCard, BoxedSet, Location, Neighborhood } from '@/payload-types'
 
 export interface SeedArkhamEncounterCardsOptions {
@@ -24,6 +29,7 @@ function requireFixtureDependency<T>(valuesByKey: Map<string, T>, key: string, l
 
 function fixtureMetadata(
   fixture: ArkhamEncounterCardFixture,
+  requiredSets: BoxedSet[],
   sourceSet: BoxedSet,
   neighborhood: Neighborhood,
   locationsByKey: Map<string, Location>,
@@ -36,6 +42,7 @@ function fixtureMetadata(
       text: encounter.text,
     })),
     sourceSet: sourceSet.id,
+    requiredSets: requiredSets.map((boxedSet) => boxedSet.id),
     clarifications: fixture.clarifications,
     fixtureNamespace: GAME_DATA_FIXTURE_NAMESPACE,
     fixtureVersion: GAME_DATA_FIXTURE_VERSION,
@@ -43,6 +50,10 @@ function fixtureMetadata(
 }
 
 function comparableDocument(card: ArkhamEncounterCard) {
+  const requiredSets = (card.requiredSets ?? [])
+    .map(relationshipID)
+    .filter((id): id is string => Boolean(id))
+
   return {
     cardCode: card.cardCode,
     neighborhood: relationshipID(card.neighborhood) ?? undefined,
@@ -51,6 +62,10 @@ function comparableDocument(card: ArkhamEncounterCard) {
       text: encounter.text,
     })),
     sourceSet: relationshipID(card.sourceSet) ?? undefined,
+    requiredSets:
+      requiredSets.length > 0
+        ? requiredSets
+        : [relationshipID(card.sourceSet)].filter((id): id is string => Boolean(id)),
     clarifications: card.clarifications ?? undefined,
     fixtureNamespace: card.fixtureNamespace ?? undefined,
     fixtureVersion: card.fixtureVersion ?? undefined,
@@ -105,16 +120,18 @@ export async function seedArkhamEncounterCards(
   for (const fixture of starterArkhamEncounterCards) {
     const existing = cardsByCode.get(fixture.cardCode)
     const sourceSet = requireBoxedSet(boxedSetsByKey, fixture.sourceSetKey)
+    const requiredSets = requireBoxedSets(boxedSetsByKey, fixtureRequiredSetKeys(fixture))
     const neighborhood = requireFixtureDependency(
       neighborhoodsByKey,
       fixture.neighborhoodKey,
       'neighborhood',
     )
-    const metadata = fixtureMetadata(fixture, sourceSet, neighborhood, locationsByKey)
+    const metadata = fixtureMetadata(fixture, requiredSets, sourceSet, neighborhood, locationsByKey)
     const expected = {
       ...metadata,
       neighborhood: String(neighborhood.id),
       sourceSet: String(sourceSet.id),
+      requiredSets: requiredSets.map((boxedSet) => String(boxedSet.id)),
       encounters: metadata.encounters.map((encounter) => ({
         ...encounter,
         location: String(encounter.location),

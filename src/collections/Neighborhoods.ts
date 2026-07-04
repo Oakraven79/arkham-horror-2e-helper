@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { locationBoards } from '@/content/locationTypes'
 import { gameDataFixtureFields } from './fields/gameDataFixtureFields'
+import { requiredSetsField } from './fields/requiredSetsField'
 
 function validateHexColour(value: unknown) {
   if (!value) return true
@@ -96,6 +97,7 @@ export const Neighborhoods: CollectionConfig = {
       required: true,
       index: true,
     },
+    requiredSetsField,
     ...gameDataFixtureFields,
   ],
 }

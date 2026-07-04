@@ -36,6 +36,7 @@ export interface LocationFixture {
   key: string
   name: string
   neighborhood: string
+  requiredSetKeys?: OfficialBoxedSetKey[]
   specialEncounter?: string
   sourceSetKey: Extract<
     OfficialBoxedSetKey,

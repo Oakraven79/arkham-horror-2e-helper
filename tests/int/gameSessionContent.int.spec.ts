@@ -2,9 +2,12 @@ import { describe, expect, it } from 'vitest'
 
 import {
   assertSetsCanChange,
+  contentIsEligibleForEnabledSets,
+  eligibleDocuments,
   freshMythosDeckState,
   normalizeEnabledSetSelection,
   relationshipIDs,
+  requiredSetIDs,
   sameSetSelection,
   sourceSetWhere,
 } from '@/lib/gameSessionContent'
@@ -26,6 +29,40 @@ describe('game session content', () => {
         in: ['set-base', 'set-dunwich'],
       },
     })
+  })
+
+  it('requires every required boxed set before content is eligible', () => {
+    const baseCard = { id: 'base-card', sourceSet: 'set-base' }
+    const miskatonicDunwichCard = {
+      id: 'misk-card',
+      sourceSet: 'set-miskatonic',
+      requiredSets: ['set-miskatonic', { id: 'set-dunwich' }],
+    }
+    const legacyCard = {
+      id: 'legacy-card',
+      sourceSet: { id: 'set-dunwich' },
+      requiredSets: [],
+    }
+
+    expect(requiredSetIDs(miskatonicDunwichCard)).toEqual([
+      'set-miskatonic',
+      'set-dunwich',
+    ])
+    expect(contentIsEligibleForEnabledSets(baseCard, ['set-base'])).toBe(true)
+    expect(contentIsEligibleForEnabledSets(miskatonicDunwichCard, ['set-dunwich'])).toBe(false)
+    expect(
+      contentIsEligibleForEnabledSets(miskatonicDunwichCard, [
+        'set-dunwich',
+        'set-miskatonic',
+      ]),
+    ).toBe(true)
+    expect(contentIsEligibleForEnabledSets(legacyCard, ['set-dunwich'])).toBe(true)
+    expect(
+      eligibleDocuments([baseCard, miskatonicDunwichCard, legacyCard], [
+        'set-base',
+        'set-dunwich',
+      ]).map((card) => card.id),
+    ).toEqual(['base-card', 'legacy-card'])
   })
 
   it('always includes the Base Game and rejects unknown set IDs', () => {

@@ -17,6 +17,7 @@ export interface OtherWorldEncounterCardFixture {
         text: string
       }
   )[]
+  requiredSetKeys?: OfficialBoxedSetKey[]
   sourceSetKey: OfficialBoxedSetKey
 }
 

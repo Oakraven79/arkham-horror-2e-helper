@@ -7,7 +7,13 @@ import {
   GAME_DATA_FIXTURE_NAMESPACE,
   GAME_DATA_FIXTURE_VERSION,
 } from '@/fixtures/gameData'
-import { officialBoxedSetName, relationshipID, requireBoxedSet } from '@/lib/boxedSetContent'
+import {
+  fixtureRequiredSetKeys,
+  officialBoxedSetName,
+  relationshipID,
+  requireBoxedSet,
+  requireBoxedSets,
+} from '@/lib/boxedSetContent'
 import type { BoxedSet, Location, MythosCard } from '@/payload-types'
 
 import { ensureSeedMedia } from './media'
@@ -45,6 +51,7 @@ function fixtureRulesNotes(fixture: StarterMythosCard) {
 function fixtureMetadata(
   fixture: StarterMythosCard,
   locationsByKey: Map<string, Location>,
+  requiredSets: BoxedSet[],
   sourceSet: BoxedSet,
 ) {
   const gateLocations = fixture.gateInstruction.locationKeys.map(
@@ -75,12 +82,16 @@ function fixtureMetadata(
     monsterMoveBlack: fixture.monsterMoveBlack,
     boxedset: officialBoxedSetName(fixture.sourceSetKey) as MythosCard['boxedset'],
     sourceSet: sourceSet.id,
+    requiredSets: requiredSets.map((boxedSet) => boxedSet.id),
     fixtureNamespace: GAME_DATA_FIXTURE_NAMESPACE,
     fixtureVersion: GAME_DATA_FIXTURE_VERSION,
   }
 }
 
 function comparableDocument(card: MythosCard) {
+  const requiredSets = (card.requiredSets ?? [])
+    .map(relationshipID)
+    .filter((id): id is string => Boolean(id))
   const notes = card.rulesNotes?.map((note) => ({
     kind: note.kind,
     text: note.text,
@@ -114,6 +125,10 @@ function comparableDocument(card: MythosCard) {
     monsterMoveBlack: monsterMoveBlack.length > 0 ? monsterMoveBlack : undefined,
     boxedset: card.boxedset,
     sourceSet: relationshipID(card.sourceSet) ?? undefined,
+    requiredSets:
+      requiredSets.length > 0
+        ? requiredSets
+        : [relationshipID(card.sourceSet)].filter((id): id is string => Boolean(id)),
     fixtureNamespace: card.fixtureNamespace ?? undefined,
     fixtureVersion: card.fixtureVersion ?? undefined,
   }
@@ -122,9 +137,10 @@ function comparableDocument(card: MythosCard) {
 function comparableFixture(
   fixture: StarterMythosCard,
   locationsByKey: Map<string, Location>,
+  requiredSets: BoxedSet[],
   sourceSet: BoxedSet,
 ) {
-  const metadata = fixtureMetadata(fixture, locationsByKey, sourceSet)
+  const metadata = fixtureMetadata(fixture, locationsByKey, requiredSets, sourceSet)
 
   return {
     ...metadata,
@@ -133,6 +149,7 @@ function comparableFixture(
       locations: metadata.gateInstruction.locations.map(String),
     },
     sourceSet: String(sourceSet.id),
+    requiredSets: requiredSets.map((boxedSet) => String(boxedSet.id)),
   }
 }
 
@@ -140,10 +157,11 @@ function metadataDifferences(
   card: MythosCard,
   fixture: StarterMythosCard,
   locationsByKey: Map<string, Location>,
+  requiredSets: BoxedSet[],
   sourceSet: BoxedSet,
 ) {
   const document = comparableDocument(card)
-  const expected = comparableFixture(fixture, locationsByKey, sourceSet)
+  const expected = comparableFixture(fixture, locationsByKey, requiredSets, sourceSet)
 
   return Object.keys(expected).filter(
     (field) =>
@@ -265,7 +283,8 @@ export async function seedMythosCards(payload: Payload, options: SeedMythosCards
     const { fixture } = match
     const existingCard = match.candidates[0]
     const sourceSet = requireBoxedSet(boxedSetsByKey, fixture.sourceSetKey)
-    const metadata = fixtureMetadata(fixture, locationsByKey, sourceSet)
+    const requiredSets = requireBoxedSets(boxedSetsByKey, fixtureRequiredSetKeys(fixture))
+    const metadata = fixtureMetadata(fixture, locationsByKey, requiredSets, sourceSet)
 
     if (!existingCard) {
       created.push(fixture.title)
@@ -296,7 +315,13 @@ export async function seedMythosCards(payload: Payload, options: SeedMythosCards
       continue
     }
 
-    const changedMetadata = metadataDifferences(existingCard, fixture, locationsByKey, sourceSet)
+    const changedMetadata = metadataDifferences(
+      existingCard,
+      fixture,
+      locationsByKey,
+      requiredSets,
+      sourceSet,
+    )
     const needsMetadata = changedMetadata.length > 0
     const needsDescription = !existingCard.desc && Boolean(fixture.description)
     const needsLowerLeft =

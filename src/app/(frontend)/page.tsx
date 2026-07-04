@@ -21,7 +21,12 @@ import {
 import { expansionTrackStateFromSession } from '@/lib/expansionTracks'
 import { openingMythosPhase, turnPhases, type GamePhase } from '@/lib/gamePhaseState'
 import { calculateInvestigatorRules, gameLimitWarnings } from '@/lib/investigatorRules'
-import { relationshipID, relationshipIDs, sourceSetWhere } from '@/lib/gameSessionContent'
+import {
+  eligibleDocuments,
+  relationshipID,
+  relationshipIDs,
+  sourceSetWhere,
+} from '@/lib/gameSessionContent'
 import {
   repairLegacyOpeningHeadline,
   repairLegacyOtherWorldEncounterDeck,
@@ -145,7 +150,7 @@ async function getAllMythosCards(
     overrideAccess: true,
   })
 
-  return cards.docs
+  return eligibleDocuments(cards.docs, enabledSetIDs)
 }
 
 async function getAllOtherWorldEncounterCards(
@@ -160,7 +165,7 @@ async function getAllOtherWorldEncounterCards(
     overrideAccess: true,
   })
 
-  return cards.docs
+  return eligibleDocuments(cards.docs, enabledSetIDs)
 }
 
 async function getAllArkhamEncounterCards(
@@ -175,7 +180,7 @@ async function getAllArkhamEncounterCards(
     overrideAccess: true,
   })
 
-  return cards.docs
+  return eligibleDocuments(cards.docs, enabledSetIDs)
 }
 
 async function getReferenceData(
@@ -218,13 +223,13 @@ async function getReferenceData(
   const mediaByID = new Map(media.docs.map((asset) => [String(asset.id), asset]))
 
   return {
-    ancientOnes: ancientOnes.docs,
-    locations: locations.docs.map((location) => ({
+    ancientOnes: eligibleDocuments(ancientOnes.docs, enabledSetIDs),
+    locations: eligibleDocuments(locations.docs, enabledSetIDs).map((location) => ({
       ...location,
       cardImage:
         mediaByID.get(relationshipID(location.cardImage) ?? '') ?? location.cardImage ?? null,
     })),
-    neighborhoods: neighborhoods.docs,
+    neighborhoods: eligibleDocuments(neighborhoods.docs, enabledSetIDs),
   }
 }
 

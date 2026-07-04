@@ -2,7 +2,12 @@ import type { Payload } from 'payload'
 
 import { starterNeighborhoods, type NeighborhoodFixture } from '@/content/neighborhoods'
 import { GAME_DATA_FIXTURE_NAMESPACE, GAME_DATA_FIXTURE_VERSION } from '@/fixtures/gameData'
-import { relationshipID, requireBoxedSet } from '@/lib/boxedSetContent'
+import {
+  fixtureRequiredSetKeys,
+  relationshipID,
+  requireBoxedSet,
+  requireBoxedSets,
+} from '@/lib/boxedSetContent'
 import type { BoxedSet, Neighborhood } from '@/payload-types'
 
 import { ensureSeedMedia } from './media'
@@ -11,7 +16,11 @@ export interface SeedNeighborhoodsOptions {
   dryRun?: boolean
 }
 
-function fixtureMetadata(fixture: NeighborhoodFixture, sourceSet: BoxedSet) {
+function fixtureMetadata(
+  fixture: NeighborhoodFixture,
+  requiredSets: BoxedSet[],
+  sourceSet: BoxedSet,
+) {
   return {
     name: fixture.name,
     key: fixture.key,
@@ -19,12 +28,17 @@ function fixtureMetadata(fixture: NeighborhoodFixture, sourceSet: BoxedSet) {
     colourName: fixture.colourName,
     colourHex: fixture.colourHex,
     sourceSet: sourceSet.id,
+    requiredSets: requiredSets.map((boxedSet) => boxedSet.id),
     fixtureNamespace: GAME_DATA_FIXTURE_NAMESPACE,
     fixtureVersion: GAME_DATA_FIXTURE_VERSION,
   }
 }
 
 function comparableNeighborhood(neighborhood: Neighborhood) {
+  const requiredSets = (neighborhood.requiredSets ?? [])
+    .map(relationshipID)
+    .filter((id): id is string => Boolean(id))
+
   return {
     name: neighborhood.name,
     key: neighborhood.key,
@@ -32,6 +46,10 @@ function comparableNeighborhood(neighborhood: Neighborhood) {
     colourName: neighborhood.colourName ?? undefined,
     colourHex: neighborhood.colourHex ?? undefined,
     sourceSet: relationshipID(neighborhood.sourceSet) ?? undefined,
+    requiredSets:
+      requiredSets.length > 0
+        ? requiredSets
+        : [relationshipID(neighborhood.sourceSet)].filter((id): id is string => Boolean(id)),
     fixtureNamespace: neighborhood.fixtureNamespace ?? undefined,
     fixtureVersion: neighborhood.fixtureVersion ?? undefined,
   }
@@ -67,13 +85,15 @@ export async function seedNeighborhoods(payload: Payload, options: SeedNeighborh
   for (const fixture of starterNeighborhoods) {
     const existing = neighborhoodsByKey.get(fixture.key)
     const sourceSet = requireBoxedSet(boxedSetsByKey, fixture.sourceSetKey)
-    const metadata = fixtureMetadata(fixture, sourceSet)
+    const requiredSets = requireBoxedSets(boxedSetsByKey, fixtureRequiredSetKeys(fixture))
+    const metadata = fixtureMetadata(fixture, requiredSets, sourceSet)
     const metadataMatches =
       existing &&
       JSON.stringify(comparableNeighborhood(existing)) ===
         JSON.stringify({
           ...metadata,
           sourceSet: String(sourceSet.id),
+          requiredSets: requiredSets.map((boxedSet) => String(boxedSet.id)),
         })
     const needsFrontFrame = Boolean(fixture.frontFrame && !existing?.frontFrame)
     const needsBackFrame = Boolean(fixture.backFrame && !existing?.backFrame)

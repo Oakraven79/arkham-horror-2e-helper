@@ -3,6 +3,7 @@ import { ValidationError, type CollectionConfig } from 'payload'
 import { gameDataFixtureFields } from './fields/gameDataFixtureFields'
 import { validateArkhamEncounterRows } from '@/lib/arkhamEncounterContent'
 import { relationshipID } from '@/lib/boxedSetContent'
+import { requiredSetsField } from './fields/requiredSetsField'
 
 export const ArkhamEncounterCards: CollectionConfig = {
   slug: 'arkham-encounter-cards',
@@ -129,6 +130,7 @@ export const ArkhamEncounterCards: CollectionConfig = {
       required: true,
       index: true,
     },
+    requiredSetsField,
     {
       name: 'clarifications',
       type: 'textarea',

@@ -8,6 +8,7 @@ export interface ArkhamEncounterCardFixture {
     text: string
   }[]
   neighborhoodKey: string
+  requiredSetKeys?: OfficialBoxedSetKey[]
   sourceSetKey: OfficialBoxedSetKey
 }
 

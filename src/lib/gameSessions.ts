@@ -4,9 +4,11 @@ import type { GameSession } from '@/payload-types'
 
 import {
   BASE_GAME_SET_KEY,
+  eligibleDocuments,
   freshMythosDeckState,
   relationshipID,
   relationshipIDs,
+  requiredSetIDs,
   sameSetSelection,
   sourceSetWhere,
 } from './gameSessionContent'
@@ -157,6 +159,12 @@ export async function createGameSession(
       overrideAccess: true,
     }),
   ])
+  const enabledSetIDs = [String(baseSetID)]
+  const eligibleMythosCards = eligibleDocuments(mythosCards.docs, enabledSetIDs)
+  const eligibleOtherWorldEncounterCards = eligibleDocuments(
+    otherWorldEncounterCards.docs,
+    enabledSetIDs,
+  )
 
   const created = await payload.create({
     collection: 'game-sessions',
@@ -182,9 +190,9 @@ export async function createGameSession(
         monstersInOutskirts: 0,
       },
       expansionTracks: expansionTrackStateForPayload(freshExpansionTrackState()),
-      mythos: mythosDeckStateForPayload(freshMythosDeckState(mythosCards.docs)),
+      mythos: mythosDeckStateForPayload(freshMythosDeckState(eligibleMythosCards)),
       otherWorldEncounters: otherWorldEncounterDeckStateForPayload(
-        freshOtherWorldEncounterDeckState(otherWorldEncounterCards.docs),
+        freshOtherWorldEncounterDeckState(eligibleOtherWorldEncounterCards),
       ),
       sessionLog: [
         {
@@ -231,13 +239,15 @@ export async function repairLegacyOtherWorldEncounterDeck(payload: Payload, sess
     depth: 0,
     overrideAccess: true,
   })
+  const enabledSetIDs = relationshipIDs(session.enabledSets)
+  const eligibleCards = eligibleDocuments(cards.docs, enabledSetIDs)
 
   await payload.update({
     collection: 'game-sessions',
     id: session.id,
     data: {
       otherWorldEncounters: otherWorldEncounterDeckStateForPayload(
-        freshOtherWorldEncounterDeckState(cards.docs),
+        freshOtherWorldEncounterDeckState(eligibleCards),
       ),
     },
     overrideAccess: true,
@@ -309,7 +319,7 @@ export async function repairLegacySessionEnabledSets(payload: Payload, session: 
     overrideAccess: true,
   })
   const currentSetIDs = relationshipIDs(session.enabledSets)
-  const representedSetIDs = relationshipIDs(cards.docs.map((card) => card.sourceSet))
+  const representedSetIDs = cards.docs.flatMap(requiredSetIDs)
   const repairedSetIDs = [...new Set([...currentSetIDs, ...representedSetIDs])]
 
   await payload.update({

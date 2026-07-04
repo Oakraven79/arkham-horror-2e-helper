@@ -20,6 +20,7 @@ export interface StarterAncientOne {
   key: string
   lore: string
   name: string
+  requiredSetKeys?: OfficialBoxedSetKey[]
   rulesNotes?: {
     kind: AncientOneRulesNoteKind
     sheetKey?: string

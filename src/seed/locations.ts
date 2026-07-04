@@ -2,7 +2,13 @@ import type { Payload } from 'payload'
 
 import { starterLocations, type StarterLocation } from '@/content/locations'
 import { GAME_DATA_FIXTURE_NAMESPACE, GAME_DATA_FIXTURE_VERSION } from '@/fixtures/gameData'
-import { officialBoxedSetName, relationshipID, requireBoxedSet } from '@/lib/boxedSetContent'
+import {
+  fixtureRequiredSetKeys,
+  officialBoxedSetName,
+  relationshipID,
+  requireBoxedSet,
+  requireBoxedSets,
+} from '@/lib/boxedSetContent'
 import { neighborhoodKey } from '@/content/neighborhoods'
 import type { BoxedSet, Location, Neighborhood } from '@/payload-types'
 
@@ -13,11 +19,19 @@ export interface SeedLocationsOptions {
 }
 
 function comparableLocation(location: Location) {
+  const requiredSets = (location.requiredSets ?? [])
+    .map(relationshipID)
+    .filter((id): id is string => Boolean(id))
+
   return {
     name: location.name,
     key: location.key,
     boxedSet: location.boxedSet,
     sourceSet: relationshipID(location.sourceSet) ?? undefined,
+    requiredSets:
+      requiredSets.length > 0
+        ? requiredSets
+        : [relationshipID(location.sourceSet)].filter((id): id is string => Boolean(id)),
     board: location.board,
     neighborhood: relationshipID(location.neighborhood) ?? undefined,
     encounterBackOrder: location.encounterBackOrder ?? undefined,
@@ -50,6 +64,7 @@ function requireNeighborhood(
 
 function fixtureMetadata(
   location: StarterLocation,
+  requiredSets: BoxedSet[],
   sourceSet: BoxedSet,
   neighborhood: Neighborhood,
 ) {
@@ -58,6 +73,7 @@ function fixtureMetadata(
     key: location.key,
     boxedSet: officialBoxedSetName(location.sourceSetKey) as Location['boxedSet'],
     sourceSet: sourceSet.id,
+    requiredSets: requiredSets.map((boxedSet) => boxedSet.id),
     board: location.board,
     neighborhood: neighborhood.id,
     encounterBackOrder: location.encounterBackOrder,
@@ -74,12 +90,14 @@ function fixtureMetadata(
 
 function fixtureComparable(
   location: StarterLocation,
+  requiredSets: BoxedSet[],
   sourceSet: BoxedSet,
   neighborhood: Neighborhood,
 ) {
   return {
-    ...fixtureMetadata(location, sourceSet, neighborhood),
+    ...fixtureMetadata(location, requiredSets, sourceSet, neighborhood),
     sourceSet: String(sourceSet.id),
+    requiredSets: requiredSets.map((boxedSet) => String(boxedSet.id)),
     neighborhood: String(neighborhood.id),
     homeInvestigators: [...location.homeInvestigators],
   }
@@ -88,12 +106,13 @@ function fixtureComparable(
 function metadataMatches(
   existing: Location,
   fixture: StarterLocation,
+  requiredSets: BoxedSet[],
   sourceSet: BoxedSet,
   neighborhood: Neighborhood,
 ) {
   return (
     JSON.stringify(comparableLocation(existing)) ===
-    JSON.stringify(fixtureComparable(fixture, sourceSet, neighborhood))
+    JSON.stringify(fixtureComparable(fixture, requiredSets, sourceSet, neighborhood))
   )
 }
 
@@ -184,6 +203,7 @@ export async function seedLocations(payload: Payload, options: SeedLocationsOpti
     const { fixture } = match
     const existingLocation = match.candidates[0]
     const sourceSet = requireBoxedSet(boxedSetsByKey, fixture.sourceSetKey)
+    const requiredSets = requireBoxedSets(boxedSetsByKey, fixtureRequiredSetKeys(fixture))
     const neighborhood = requireNeighborhood(neighborhoodsByKey, fixture)
 
     if (!existingLocation) {
@@ -200,7 +220,7 @@ export async function seedLocations(payload: Payload, options: SeedLocationsOpti
       await payload.create({
         collection: 'locations',
         data: {
-          ...fixtureMetadata(fixture, sourceSet, neighborhood),
+          ...fixtureMetadata(fixture, requiredSets, sourceSet, neighborhood),
           cardDisplayText: fixture.cardDisplayText,
           cardImage: mediaResult?.media.id,
           _status: 'published',
@@ -213,7 +233,13 @@ export async function seedLocations(payload: Payload, options: SeedLocationsOpti
 
     const needsDisplayText = !existingLocation.cardDisplayText
     const needsImage = Boolean(fixture.image && !existingLocation.cardImage)
-    const needsMetadata = !metadataMatches(existingLocation, fixture, sourceSet, neighborhood)
+    const needsMetadata = !metadataMatches(
+      existingLocation,
+      fixture,
+      requiredSets,
+      sourceSet,
+      neighborhood,
+    )
 
     if (!needsDisplayText && !needsImage && !needsMetadata) {
       unchanged.push(fixture.name)
@@ -235,7 +261,7 @@ export async function seedLocations(payload: Payload, options: SeedLocationsOpti
       collection: 'locations',
       id: existingLocation.id,
       data: {
-        ...fixtureMetadata(fixture, sourceSet, neighborhood),
+        ...fixtureMetadata(fixture, requiredSets, sourceSet, neighborhood),
         ...(needsDisplayText ? { cardDisplayText: fixture.cardDisplayText } : {}),
         ...(mediaResult ? { cardImage: mediaResult.media.id } : {}),
         _status: existingLocation._status,

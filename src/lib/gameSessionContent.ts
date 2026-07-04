@@ -7,6 +7,10 @@ import { createMythosDeckInstances, type MythosDeckState } from './mythosDeckSta
 export const BASE_GAME_SET_KEY = 'base-game'
 
 type RelationshipValue = string | number | { id?: string | number } | null | undefined
+type RequiredSetDocument = {
+  requiredSets?: RelationshipValue[] | null
+  sourceSet?: RelationshipValue
+}
 
 export function relationshipID(value: RelationshipValue) {
   if (value === null || value === undefined) return null
@@ -25,6 +29,34 @@ export function sourceSetWhere(enabledSetIDs: string[]): Where {
       in: enabledSetIDs,
     },
   }
+}
+
+export function requiredSetIDs(document: RequiredSetDocument) {
+  const explicitRequiredSetIDs = relationshipIDs(document.requiredSets)
+
+  if (explicitRequiredSetIDs.length > 0) {
+    return [...new Set(explicitRequiredSetIDs)]
+  }
+
+  const sourceSetID = relationshipID(document.sourceSet)
+  return sourceSetID ? [sourceSetID] : []
+}
+
+export function contentIsEligibleForEnabledSets(
+  document: RequiredSetDocument,
+  enabledSetIDs: string[],
+) {
+  const enabled = new Set(enabledSetIDs)
+  const required = requiredSetIDs(document)
+
+  return required.length > 0 && required.every((setID) => enabled.has(setID))
+}
+
+export function eligibleDocuments<T extends RequiredSetDocument>(
+  documents: T[],
+  enabledSetIDs: string[],
+) {
+  return documents.filter((document) => contentIsEligibleForEnabledSets(document, enabledSetIDs))
 }
 
 export function normalizeEnabledSetSelection(

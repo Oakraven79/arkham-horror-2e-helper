@@ -400,6 +400,36 @@ describe('Game data fixture', () => {
     }
   })
 
+  it('summarizes legacy boxed sets that predate the portable key field', async () => {
+    const documents = cmsSnapshotDocuments()
+    const boxedSet = documents['boxed-sets'][0]
+
+    delete boxedSet.key
+    documents['boxed-sets'].push({
+      id: 'blank-boxed-set-draft',
+      _status: 'draft',
+    })
+
+    const payload = {
+      find: async ({ collection }: { collection: string }) => ({
+        docs: documents[collection] ?? [],
+      }),
+    } as unknown as Payload
+
+    const snapshot = await buildGameDataSnapshot(payload, {
+      generatedAt: '2026-07-04T00:00:00.000Z',
+    })
+    const summary = await buildCurrentGameDataSummary(payload, {
+      generatedAt: '2026-07-04T00:00:00.000Z',
+    })
+
+    expect(snapshot.collections.boxedSets[0].key).toBe('base-game')
+    expect(snapshot.collections.boxedSets).toHaveLength(1)
+    expect(snapshot.collections.locations[0].sourceSet).toBe('base-game')
+    expect(summary.available).toBe(true)
+    expect(summary.counts.boxedSets).toBe(1)
+  })
+
   it('rejects uploaded snapshots that include Payload IDs or excluded collection data', () => {
     const snapshot = {
       ...sampleGameDataSnapshot(),

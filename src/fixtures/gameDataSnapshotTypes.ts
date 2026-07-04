@@ -9,6 +9,7 @@ export interface PortableBoxedSet extends PortableGameDocument {
 
 export interface PortableAncientOne extends PortableGameDocument {
   key: string
+  requiredSets?: string[]
   sheets: (PortableGameDocument & {
     key: string
     sheetImage?: string
@@ -20,6 +21,7 @@ export interface PortableNeighborhood extends PortableGameDocument {
   backFrame?: string
   frontFrame?: string
   key: string
+  requiredSets?: string[]
   sourceSet: string
 }
 
@@ -27,6 +29,7 @@ export interface PortableLocation extends PortableGameDocument {
   cardImage?: string
   key: string
   neighborhood: string
+  requiredSets?: string[]
   sourceSet: string
 }
 
@@ -36,6 +39,7 @@ export interface PortableArkhamEncounterCard extends PortableGameDocument {
     location: string
   })[]
   neighborhood: string
+  requiredSets?: string[]
   sourceSet: string
 }
 
@@ -47,12 +51,14 @@ export interface PortableMythosCard extends PortableGameDocument {
   lowerLeftOverride?: PortableGameDocument & {
     image?: string
   }
+  requiredSets?: string[]
   sourceSet: string
 }
 
 export interface PortableOtherWorld extends PortableGameDocument {
   art?: string
   key: string
+  requiredSets?: string[]
   sourceSet: string
 }
 
@@ -61,6 +67,7 @@ export interface PortableOtherWorldEncounterCard extends PortableGameDocument {
   encounters: (PortableGameDocument & {
     destination?: string
   })[]
+  requiredSets?: string[]
   sourceSet: string
 }
 

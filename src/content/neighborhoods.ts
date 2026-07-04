@@ -10,6 +10,7 @@ export interface NeighborhoodFixture {
   frontFrame?: SeedMediaAsset
   key: string
   name: string
+  requiredSetKeys?: OfficialBoxedSetKey[]
   sourceSetKey: Extract<
     OfficialBoxedSetKey,
     'base-game' | 'dunwich-horror' | 'kingsport-horror' | 'innsmouth-horror'
