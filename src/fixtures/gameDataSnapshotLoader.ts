@@ -1,6 +1,8 @@
-import type { CollectionSlug, Payload } from 'payload'
+import type { Payload } from 'payload'
 
 import { GAME_DATA_FIXTURE_NAMESPACE, GAME_DATA_FIXTURE_VERSION, gameDataFixture } from './gameData'
+import { portableMediaKeysByID } from './gameDataSnapshot'
+import type { GameDataSnapshot } from './gameDataSnapshotTypes'
 
 type SnapshotDocument = Record<string, unknown>
 type SnapshotDocuments = readonly SnapshotDocument[]
@@ -93,9 +95,9 @@ function setOptionalID(
   }
 }
 
-async function collectionIDs(payload: Payload, collection: CollectionSlug, keyField: string) {
+async function mediaIDs(payload: Payload) {
   const result = await payload.find({
-    collection,
+    collection: 'media',
     depth: 0,
     draft: true,
     limit: 10000,
@@ -103,14 +105,9 @@ async function collectionIDs(payload: Payload, collection: CollectionSlug, keyFi
   })
 
   return new Map(
-    result.docs.map((document) => {
-      const record = document as unknown as Record<string, unknown>
-      const key = record[keyField]
-      if (typeof key !== 'string') {
-        throw new Error(`${collection} document ${document.id} has no ${keyField}.`)
-      }
-      return [key, String(document.id)]
-    }),
+    [...portableMediaKeysByID(result.docs as unknown as Record<string, unknown>[]).entries()].map(
+      ([id, key]) => [key, id],
+    ),
   )
 }
 
@@ -185,10 +182,13 @@ async function restoreCollection(
   return { created, ids, unchanged, updated }
 }
 
-export async function restoreGameDataSnapshot(payload: Payload) {
-  const snapshot = gameDataFixture.snapshot.collections
+export async function restoreGameDataSnapshot(
+  payload: Payload,
+  snapshot: GameDataSnapshot = gameDataFixture.snapshot,
+) {
+  const snapshotCollections = snapshot.collections
   const context: RestoreContext = {
-    media: await collectionIDs(payload, 'media', 'assetKey'),
+    media: await mediaIDs(payload),
     boxedSets: new Map(),
     neighborhoods: new Map(),
     locations: new Map(),
@@ -199,7 +199,7 @@ export async function restoreGameDataSnapshot(payload: Payload) {
     payload,
     'boxed-sets',
     'key',
-    snapshot.boxedSets,
+    snapshotCollections.boxedSets,
     (document) => {
       setOptionalID(
         document,
@@ -217,7 +217,7 @@ export async function restoreGameDataSnapshot(payload: Payload) {
     payload,
     'ancient-ones',
     'key',
-    snapshot.ancientOnes,
+    snapshotCollections.ancientOnes,
     (document) => {
       document.sourceSet = requiredID(
         context.boxedSets,
@@ -245,7 +245,7 @@ export async function restoreGameDataSnapshot(payload: Payload) {
     payload,
     'neighborhoods',
     'key',
-    snapshot.neighborhoods,
+    snapshotCollections.neighborhoods,
     (document) => {
       document.sourceSet = requiredID(
         context.boxedSets,
@@ -275,7 +275,7 @@ export async function restoreGameDataSnapshot(payload: Payload) {
     payload,
     'locations',
     'key',
-    snapshot.locations,
+    snapshotCollections.locations,
     (document) => {
       document.sourceSet = requiredID(
         context.boxedSets,
@@ -303,7 +303,7 @@ export async function restoreGameDataSnapshot(payload: Payload) {
     payload,
     'arkham-encounter-cards',
     'cardCode',
-    snapshot.arkhamEncounterCards,
+    snapshotCollections.arkhamEncounterCards,
     (document) => {
       document.sourceSet = requiredID(
         context.boxedSets,
@@ -334,7 +334,7 @@ export async function restoreGameDataSnapshot(payload: Payload) {
     payload,
     'mythos-cards',
     'cardCode',
-    snapshot.mythosCards,
+    snapshotCollections.mythosCards,
     (document) => {
       document.sourceSet = requiredID(
         context.boxedSets,
@@ -372,7 +372,7 @@ export async function restoreGameDataSnapshot(payload: Payload) {
     payload,
     'other-worlds',
     'key',
-    snapshot.otherWorlds,
+    snapshotCollections.otherWorlds,
     (document) => {
       document.sourceSet = requiredID(
         context.boxedSets,
@@ -389,7 +389,7 @@ export async function restoreGameDataSnapshot(payload: Payload) {
     payload,
     'other-world-encounter-cards',
     'cardCode',
-    snapshot.otherWorldEncounterCards,
+    snapshotCollections.otherWorldEncounterCards,
     (document) => {
       document.sourceSet = requiredID(
         context.boxedSets,

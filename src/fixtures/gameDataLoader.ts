@@ -587,13 +587,7 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
   }
 }
 
-export async function loadGameDataFixture(payload: Payload) {
-  const validation = validateGameDataFixture()
-
-  if (!validation.valid) {
-    throw new Error(`Game data fixture is invalid: ${validation.errors.join('; ')}`)
-  }
-
+export async function loadGameDataFixtureMedia(payload: Payload) {
   const media = {
     created: [] as string[],
     updated: [] as string[],
@@ -611,6 +605,18 @@ export async function loadGameDataFixture(payload: Payload) {
       media.unchanged.push(asset.fixtureKey)
     }
   }
+
+  return media
+}
+
+export async function loadGameDataFixture(payload: Payload) {
+  const validation = validateGameDataFixture()
+
+  if (!validation.valid) {
+    throw new Error(`Game data fixture is invalid: ${validation.errors.join('; ')}`)
+  }
+
+  const media = await loadGameDataFixtureMedia(payload)
 
   if (gameDataFixture.snapshot.collections.boxedSets.length > 0) {
     const snapshotCollections = await restoreGameDataSnapshot(payload)

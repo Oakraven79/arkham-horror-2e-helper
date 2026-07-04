@@ -1,9 +1,272 @@
+import { mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
+
 import { describe, expect, it } from 'vitest'
 import type { Payload } from 'payload'
 
+import {
+  createGameDataArchiveBuffer,
+  importGameDataArchive,
+  readGameDataArchive,
+} from '@/fixtures/gameDataArchive'
 import { gameDataFixture } from '@/fixtures/gameData'
 import { validateGameDataFixture } from '@/fixtures/gameDataLoader'
+import {
+  buildGameDataSnapshot,
+  GAME_DATA_SNAPSHOT_EXCLUDED_COLLECTIONS,
+  validateGameDataSnapshot,
+} from '@/fixtures/gameDataSnapshot'
 import { restoreGameDataSnapshot } from '@/fixtures/gameDataSnapshotLoader'
+import { buildCurrentGameDataSummary } from '@/fixtures/gameDataSummary'
+import type { GameDataSnapshot } from '@/fixtures/gameDataSnapshotTypes'
+
+function sampleGameDataSnapshot(): GameDataSnapshot {
+  return {
+    generatedAt: '2026-07-04T00:00:00.000Z',
+    excludedCollections: GAME_DATA_SNAPSHOT_EXCLUDED_COLLECTIONS,
+    collections: {
+      boxedSets: [
+        {
+          name: 'Base Game',
+          key: 'base-game',
+          icon: 'media-core',
+          _status: 'published',
+        },
+      ],
+      ancientOnes: [
+        {
+          name: 'Cthulhu',
+          key: 'cthulhu',
+          sourceSet: 'base-game',
+          sheets: [
+            {
+              key: 'standard',
+              sheetImage: 'media-yig-sheet',
+            },
+          ],
+          _status: 'published',
+        },
+      ],
+      neighborhoods: [
+        {
+          name: 'Uptown',
+          key: 'arkham-uptown',
+          sourceSet: 'base-game',
+          frontFrame: 'media-core',
+          _status: 'published',
+        },
+      ],
+      locations: [
+        {
+          name: 'Woods',
+          key: 'woods',
+          sourceSet: 'base-game',
+          neighborhood: 'arkham-uptown',
+          cardImage: 'media-core',
+          _status: 'published',
+        },
+      ],
+      arkhamEncounterCards: [
+        {
+          cardCode: 'base-uptown-001',
+          sourceSet: 'base-game',
+          neighborhood: 'arkham-uptown',
+          encounters: [
+            {
+              location: 'woods',
+              text: 'A cold wind moves through the trees.',
+            },
+          ],
+          _status: 'published',
+        },
+      ],
+      mythosCards: [
+        {
+          title: 'The Stars Are Right',
+          cardCode: 'base-mythos-001',
+          sourceSet: 'base-game',
+          gateInstruction: {
+            mode: 'single',
+            locations: ['woods'],
+          },
+          lowerLeftOverride: {
+            image: 'media-core',
+          },
+          _status: 'published',
+        },
+      ],
+      otherWorlds: [
+        {
+          name: 'The Abyss',
+          key: 'abyss',
+          sourceSet: 'base-game',
+          art: 'media-core',
+          _status: 'published',
+        },
+      ],
+      otherWorldEncounterCards: [
+        {
+          cardCode: 'base-blue-001',
+          sourceSet: 'base-game',
+          encounters: [
+            {
+              destination: 'abyss',
+              text: 'The darkness answers.',
+            },
+          ],
+          _status: 'published',
+        },
+      ],
+    },
+  }
+}
+
+function cmsSnapshotDocuments(): Record<string, Record<string, unknown>[]> {
+  return {
+    media: [
+      {
+        id: 'media-1',
+        assetKey: 'media-core',
+        alt: 'Core art',
+        createdAt: '2026-07-03T00:00:00.000Z',
+      },
+      {
+        id: 'media-without-fixture-key',
+        alt: 'Unrelated upload',
+        filename: 'scratch-upload.png',
+      },
+      {
+        id: 'media-yig-sheet',
+        alt: 'Yig sheet',
+        filename: 'yig-sheet.png',
+      },
+    ],
+    'boxed-sets': [
+      {
+        id: 'box-1',
+        name: 'Base Game',
+        key: 'base-game',
+        icon: 'media-1',
+        fixtureNamespace: 'arkham-horror-2e',
+        _status: 'published',
+      },
+    ],
+    'ancient-ones': [
+      {
+        id: 'ancient-1',
+        name: 'Cthulhu',
+        key: 'cthulhu',
+        sourceSet: 'box-1',
+        sheets: [
+          {
+            id: 'ancient-sheet-1',
+            key: 'standard',
+            sheetImage: 'media-yig-sheet',
+          },
+        ],
+        updatedAt: '2026-07-03T00:00:00.000Z',
+        _status: 'published',
+      },
+    ],
+    neighborhoods: [
+      {
+        id: 'neighborhood-1',
+        name: 'Uptown',
+        key: 'arkham-uptown',
+        sourceSet: 'box-1',
+        frontFrame: 'media-1',
+        _status: 'published',
+      },
+    ],
+    locations: [
+      {
+        id: 'location-1',
+        name: 'Woods',
+        key: 'woods',
+        sourceSet: 'box-1',
+        neighborhood: 'neighborhood-1',
+        cardImage: 'media-1',
+        _status: 'published',
+      },
+    ],
+    'arkham-encounter-cards': [
+      {
+        id: 'arkham-card-1',
+        cardCode: 'base-uptown-001',
+        sourceSet: 'box-1',
+        neighborhood: 'neighborhood-1',
+        encounters: [
+          {
+            id: 'arkham-row-1',
+            location: 'location-1',
+            text: 'A cold wind moves through the trees.',
+          },
+        ],
+        _status: 'published',
+      },
+    ],
+    'mythos-cards': [
+      {
+        id: 'mythos-card-1',
+        title: 'The Stars Are Right',
+        cardCode: 'base-mythos-001',
+        sourceSet: 'box-1',
+        gateInstruction: {
+          mode: 'single',
+          locations: ['location-1'],
+        },
+        lowerLeftOverride: {
+          image: 'media-1',
+        },
+        _status: 'published',
+      },
+    ],
+    'other-worlds': [
+      {
+        id: 'other-world-1',
+        name: 'The Abyss',
+        key: 'abyss',
+        sourceSet: 'box-1',
+        art: 'media-1',
+        _status: 'published',
+      },
+    ],
+    'other-world-encounter-cards': [
+      {
+        id: 'other-world-card-1',
+        cardCode: 'base-blue-001',
+        sourceSet: 'box-1',
+        encounters: [
+          {
+            id: 'other-world-row-1',
+            destination: 'other-world-1',
+            text: 'The darkness answers.',
+          },
+        ],
+        _status: 'published',
+      },
+    ],
+    users: [
+      {
+        id: 'user-1',
+        email: 'keeper@example.com',
+      },
+    ],
+    'game-sessions': [
+      {
+        id: 'session-1',
+        name: 'Do not export me',
+      },
+    ],
+    'fixture-installations': [
+      {
+        id: 'fixture-installation-1',
+        status: 'succeeded',
+      },
+    ],
+  }
+}
 
 describe('Game data fixture', () => {
   it('is complete and internally valid', () => {
@@ -48,6 +311,294 @@ describe('Game data fixture', () => {
         'city-of-the-great-race',
         'rlyeh',
       ]),
+    )
+  })
+
+  it('builds a downloadable CMS snapshot with only portable game data', async () => {
+    const calls: string[] = []
+    const documents = cmsSnapshotDocuments()
+    const payload = {
+      find: async ({ collection }: { collection: string }) => {
+        calls.push(collection)
+        return {
+          docs: documents[collection] ?? [],
+        }
+      },
+    } as unknown as Payload
+
+    const snapshot = await buildGameDataSnapshot(payload, {
+      generatedAt: '2026-07-04T00:00:00.000Z',
+    })
+    const validation = validateGameDataSnapshot(snapshot, ['media-core', 'media-yig-sheet'])
+    const serializedCollections = JSON.stringify(snapshot.collections)
+
+    expect(calls).not.toEqual(
+      expect.arrayContaining(['users', 'game-sessions', 'fixture-installations']),
+    )
+    expect(snapshot.excludedCollections).toEqual([
+      'users',
+      'game-sessions',
+      'fixture-installations',
+    ])
+    expect(serializedCollections).not.toContain('"id":')
+    expect(serializedCollections).not.toContain('fixtureNamespace')
+    expect(serializedCollections).not.toContain('scratch-upload.png')
+    expect(snapshot.collections.boxedSets[0].icon).toBe('media-core')
+    expect(snapshot.collections.ancientOnes[0].sheets[0].sheetImage).toBe('media-yig-sheet')
+    expect(snapshot.collections.locations[0].sourceSet).toBe('base-game')
+    expect(snapshot.collections.locations[0].neighborhood).toBe('arkham-uptown')
+    expect(snapshot.collections.arkhamEncounterCards[0].encounters[0].location).toBe('woods')
+    expect(snapshot.collections.otherWorldEncounterCards[0].encounters[0].destination).toBe('abyss')
+    expect(validation.valid).toBe(true)
+    expect(validation.errors).toEqual([])
+  })
+
+  it('summarizes current CMS game data and referenced media disk usage', async () => {
+    const temporaryDirectory = await mkdtemp(path.join(tmpdir(), 'game-data-summary-'))
+    const documents = cmsSnapshotDocuments()
+    const coreMedia = documents.media.find((document) => document.id === 'media-1')
+    const coreBytes = Buffer.from('core image bytes')
+
+    if (coreMedia) coreMedia.filename = 'core.webp'
+
+    await writeFile(path.join(temporaryDirectory, 'core.webp'), coreBytes)
+
+    const payload = {
+      find: async ({ collection }: { collection: string }) => ({
+        docs: documents[collection] ?? [],
+      }),
+    } as unknown as Payload
+
+    try {
+      const summary = await buildCurrentGameDataSummary(payload, {
+        generatedAt: '2026-07-04T00:00:00.000Z',
+        mediaDirectory: temporaryDirectory,
+      })
+
+      expect(summary.available).toBe(true)
+      expect(summary.counts).toEqual({
+        ancientOnes: 1,
+        arkhamEncounterCards: 1,
+        boxedSets: 1,
+        locations: 1,
+        media: 2,
+        mythosCards: 1,
+        neighborhoods: 1,
+        otherWorldEncounterCards: 1,
+        otherWorlds: 1,
+      })
+      expect(summary.totalRecords).toBe(10)
+      expect(summary.media.available).toBe(1)
+      expect(summary.media.bytes).toBe(coreBytes.length)
+      expect(summary.media.missingKeys).toEqual(['media-yig-sheet'])
+      expect(summary.media.referenced).toBe(2)
+      expect(summary.media.unreferenced).toBe(1)
+      expect(summary.snapshotBytes).toBeGreaterThan(0)
+      expect(summary.totalBytes).toBe(summary.snapshotBytes + coreBytes.length)
+    } finally {
+      await rm(temporaryDirectory, { recursive: true, force: true })
+    }
+  })
+
+  it('rejects uploaded snapshots that include Payload IDs or excluded collection data', () => {
+    const snapshot = {
+      ...sampleGameDataSnapshot(),
+      collections: {
+        ...sampleGameDataSnapshot().collections,
+        boxedSets: [
+          {
+            id: 'box-1',
+            key: 'base-game',
+          },
+        ],
+      },
+      users: [
+        {
+          id: 'user-1',
+        },
+      ],
+    }
+
+    const validation = validateGameDataSnapshot(snapshot, ['media-core', 'media-yig-sheet'])
+
+    expect(validation.valid).toBe(false)
+    expect(validation.errors).toContain(
+      'The game-data snapshot contains Payload document or row IDs.',
+    )
+    expect(validation.errors).toContain('Snapshot contains unsupported top-level key users.')
+  })
+
+  it('restores an uploaded snapshot object through the fixture loader', async () => {
+    let nextID = 1
+    const snapshot = sampleGameDataSnapshot()
+    const collections = new Map<string, Map<string, Record<string, unknown>>>()
+    const collection = (slug: string) => {
+      const existing = collections.get(slug)
+      if (existing) return existing
+
+      const created = new Map<string, Record<string, unknown>>()
+      collections.set(slug, created)
+      return created
+    }
+
+    collection('media').set('media-existing', {
+      id: 'media-existing',
+      assetKey: 'media-core',
+    })
+    collection('media').set('media-yig-existing', {
+      id: 'media-yig-existing',
+      filename: 'yig-sheet.png',
+    })
+
+    const payload = {
+      find: async ({ collection: slug }: { collection: string }) => ({
+        docs: [...collection(slug).values()],
+      }),
+      create: async ({
+        collection: slug,
+        data,
+      }: {
+        collection: string
+        data: Record<string, unknown>
+      }) => {
+        const id = `${slug}-${nextID++}`
+        const document = { ...structuredClone(data), id }
+        collection(slug).set(id, document)
+        return document
+      },
+      update: async ({
+        collection: slug,
+        data,
+        id,
+      }: {
+        collection: string
+        data: Record<string, unknown>
+        id: string
+      }) => {
+        const document = { ...structuredClone(data), id }
+        collection(slug).set(id, document)
+        return document
+      },
+    } as unknown as Payload
+
+    const firstLoad = await restoreGameDataSnapshot(payload, snapshot)
+    const secondLoad = await restoreGameDataSnapshot(payload, snapshot)
+    const ancientOne = [...collection('ancient-ones').values()][0]
+    const location = [...collection('locations').values()][0]
+    const otherWorldEncounter = [...collection('other-world-encounter-cards').values()][0]
+
+    expect(firstLoad.boxedSets.created).toEqual(['base-game'])
+    expect(firstLoad.mythosCards.created).toEqual(['base-mythos-001'])
+    expect(secondLoad.boxedSets.unchanged).toEqual(['base-game'])
+    expect((ancientOne.sheets as Record<string, unknown>[])[0].sheetImage).toBe(
+      'media-yig-existing',
+    )
+    expect(location.neighborhood).toBe([...collection('neighborhoods').keys()][0])
+    expect((otherWorldEncounter.encounters as Record<string, unknown>[])[0].destination).toBe(
+      [...collection('other-worlds').keys()][0],
+    )
+  })
+
+  it('imports a game-data archive with media before restoring documents', async () => {
+    let nextID = 1
+    const snapshot = sampleGameDataSnapshot()
+    const archive = createGameDataArchiveBuffer(snapshot, [
+      {
+        key: 'media-core',
+        filename: 'core.webp',
+        alt: 'Core art',
+        mimeType: 'image/webp',
+        data: Buffer.from('core image bytes'),
+      },
+      {
+        key: 'media-yig-sheet',
+        filename: 'yig-sheet.png',
+        alt: 'Yig sheet',
+        mimeType: 'image/png',
+        data: Buffer.from('yig sheet bytes'),
+      },
+    ])
+    const parsedArchive = readGameDataArchive(archive)
+    const collections = new Map<string, Map<string, Record<string, unknown>>>()
+    const collection = (slug: string) => {
+      const existing = collections.get(slug)
+      if (existing) return existing
+
+      const created = new Map<string, Record<string, unknown>>()
+      collections.set(slug, created)
+      return created
+    }
+
+    const payload = {
+      find: async ({
+        collection: slug,
+        where,
+      }: {
+        collection: string
+        where?: { assetKey?: { equals?: string } }
+      }) => {
+        const docs = [...collection(slug).values()]
+        const assetKey = where?.assetKey?.equals
+
+        return {
+          docs: assetKey ? docs.filter((document) => document.assetKey === assetKey) : docs,
+        }
+      },
+      create: async ({
+        collection: slug,
+        data,
+        filePath,
+      }: {
+        collection: string
+        data: Record<string, unknown>
+        filePath?: string
+      }) => {
+        const id = `${slug}-${nextID++}`
+        const document = {
+          ...structuredClone(data),
+          id,
+          ...(filePath ? { filename: filePath.split('/').pop() } : {}),
+        }
+        collection(slug).set(id, document)
+        return document
+      },
+      update: async ({
+        collection: slug,
+        data,
+        filePath,
+        id,
+      }: {
+        collection: string
+        data: Record<string, unknown>
+        filePath?: string
+        id: string
+      }) => {
+        const document = {
+          ...collection(slug).get(id),
+          ...structuredClone(data),
+          id,
+          ...(filePath ? { filename: filePath.split('/').pop() } : {}),
+        }
+        collection(slug).set(id, document)
+        return document
+      },
+    } as unknown as Payload
+
+    const summary = await importGameDataArchive(payload, archive)
+    const ancientOne = [...collection('ancient-ones').values()][0]
+    const mediaDocuments = [...collection('media').values()]
+
+    expect(parsedArchive.manifest.media.map((entry) => entry.key).sort()).toEqual([
+      'media-core',
+      'media-yig-sheet',
+    ])
+    expect(summary.collections.media.created.sort()).toEqual(['media-core', 'media-yig-sheet'])
+    expect(mediaDocuments.map((document) => document.assetKey).sort()).toEqual([
+      'media-core',
+      'media-yig-sheet',
+    ])
+    expect((ancientOne.sheets as Record<string, unknown>[])[0].sheetImage).toBe(
+      mediaDocuments.find((document) => document.assetKey === 'media-yig-sheet')?.id,
     )
   })
 

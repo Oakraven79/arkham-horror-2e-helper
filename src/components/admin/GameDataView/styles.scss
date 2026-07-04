@@ -81,6 +81,8 @@
   color: #120f08;
 }
 
+.game-data-action-grid,
+.game-data-size-grid,
 .game-data-status-band,
 .game-data-counts,
 .game-data-results {
@@ -93,11 +95,25 @@
   box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
 }
 
+.game-data-action-guide {
+  margin-bottom: calc(var(--base) * 1.5);
+}
+
+.game-data-action-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.game-data-size-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
 .game-data-status-band {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin-bottom: calc(var(--base) * 1.5);
 }
 
+.game-data-action-grid > div,
+.game-data-size-grid > div,
 .game-data-status-band > div,
 .game-data-counts > div,
 .game-data-results > div {
@@ -107,6 +123,21 @@
   padding: calc(var(--base) * 0.75);
 }
 
+.game-data-action-grid strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--theme-text);
+  font-size: 14px;
+}
+
+.game-data-action-grid span {
+  display: block;
+  color: var(--theme-elevation-650);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.game-data-size-grid span,
 .game-data-status-band span,
 .game-data-counts span {
   display: block;
@@ -116,6 +147,7 @@
   font-weight: 600;
 }
 
+.game-data-size-grid strong,
 .game-data-status-band strong,
 .game-data-counts strong {
   display: block;
@@ -134,6 +166,10 @@
 
 .game-data-counts {
   grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.game-data-current-counts {
+  margin-top: calc(var(--base) * 0.75);
 }
 
 .game-data-counts strong {
@@ -156,6 +192,10 @@
 
 .game-data-alert.warning {
   border-left-color: var(--theme-warning-500);
+}
+
+.game-data-alert.success {
+  border-left-color: var(--theme-success-500);
 }
 
 .game-data-results {
@@ -196,6 +236,8 @@
     flex: 1;
   }
 
+  .game-data-action-grid,
+  .game-data-size-grid,
   .game-data-status-band,
   .game-data-counts,
   .game-data-results {
@@ -205,6 +247,8 @@
 
 @media (max-width: 520px) {
   .game-data-actions,
+  .game-data-action-grid,
+  .game-data-size-grid,
   .game-data-status-band,
   .game-data-counts,
   .game-data-results {
