@@ -403,6 +403,7 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
   }
 
   if (hasSnapshot) {
+    const serializedSnapshotCollections = JSON.stringify(snapshotCollections)
     const snapshotBoxedSetKeys = new Set(
       snapshotCollections.boxedSets.map((document) => document.key),
     )
@@ -458,8 +459,15 @@ export function validateGameDataFixture(): GameDataFixtureValidation {
       if (duplicates.length > 0) errors.push(`Duplicate ${label}: ${duplicates.join(', ')}`)
     }
 
-    if (JSON.stringify(snapshotCollections).includes('"id":')) {
+    if (serializedSnapshotCollections.includes('"id":')) {
       errors.push('The generated game-data snapshot contains Payload document or row IDs.')
+    }
+    if (
+      serializedSnapshotCollections.includes('"boxedSet":') ||
+      serializedSnapshotCollections.includes('"boxedset":') ||
+      serializedSnapshotCollections.includes('"customSetName":')
+    ) {
+      errors.push('The generated game-data snapshot contains legacy boxed-set fields.')
     }
 
     const checkSet = (sourceSet: string, label: string) => {

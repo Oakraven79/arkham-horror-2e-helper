@@ -3,7 +3,6 @@ import type { Payload } from 'payload'
 import { starterAncientOnes, type StarterAncientOne } from '@/content/ancientOnes'
 import {
   fixtureRequiredSetKeys,
-  officialBoxedSetName,
   relationshipID,
   requireBoxedSet,
   requireBoxedSets,
@@ -53,7 +52,6 @@ function fixtureMetadata(
   return {
     name: fixture.name,
     key: fixture.key,
-    boxedSet: officialBoxedSetName(fixture.sourceSetKey) as AncientOne['boxedSet'],
     sourceSet: sourceSet.id,
     requiredSets: requiredSets.map((boxedSet) => boxedSet.id),
     lore: fixture.lore,
@@ -70,7 +68,6 @@ function comparableFixture(
   return {
     name: fixture.name,
     key: fixture.key,
-    boxedSet: officialBoxedSetName(fixture.sourceSetKey) as AncientOne['boxedSet'],
     sourceSet: String(sourceSet.id),
     requiredSets: requiredSets.map((boxedSet) => String(boxedSet.id)),
     lore: fixture.lore,
@@ -109,7 +106,6 @@ function comparableDocument(document: AncientOne) {
   return {
     name: document.name,
     key: document.key,
-    boxedSet: document.boxedSet,
     sourceSet: relationshipID(document.sourceSet) ?? undefined,
     requiredSets:
       requiredSets.length > 0
@@ -188,18 +184,15 @@ export async function seedAncientOnes(payload: Payload, options: SeedAncientOnes
     const allKeyMatches = byKey.get(fixture.key) ?? []
     const customKeyConflict = allKeyMatches.some(
       (ancientOne) =>
-        boxedSetsByID.get(relationshipID(ancientOne.sourceSet) ?? '')?.category === 'custom' ||
-        ancientOne.boxedSet === 'Custom',
+        boxedSetsByID.get(relationshipID(ancientOne.sourceSet) ?? '')?.category === 'custom',
     )
     const keyMatches = allKeyMatches.filter(
       (ancientOne) =>
-        boxedSetsByID.get(relationshipID(ancientOne.sourceSet) ?? '')?.category !== 'custom' &&
-        ancientOne.boxedSet !== 'Custom',
+        boxedSetsByID.get(relationshipID(ancientOne.sourceSet) ?? '')?.category !== 'custom',
     )
     const nameMatches = (byName.get(fixture.name) ?? []).filter(
       (ancientOne) =>
-        boxedSetsByID.get(relationshipID(ancientOne.sourceSet) ?? '')?.category !== 'custom' &&
-        ancientOne.boxedSet !== 'Custom',
+        boxedSetsByID.get(relationshipID(ancientOne.sourceSet) ?? '')?.category !== 'custom',
     )
 
     return {

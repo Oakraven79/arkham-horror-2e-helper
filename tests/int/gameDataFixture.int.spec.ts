@@ -157,6 +157,7 @@ function cmsSnapshotDocuments(): Record<string, Record<string, unknown>[]> {
         id: 'ancient-1',
         name: 'Cthulhu',
         key: 'cthulhu',
+        boxedSet: 'Base Game',
         sourceSet: 'box-1',
         sheets: [
           {
@@ -184,6 +185,7 @@ function cmsSnapshotDocuments(): Record<string, Record<string, unknown>[]> {
         id: 'location-1',
         name: 'Woods',
         key: 'woods',
+        customSetName: 'Legacy Custom',
         sourceSet: 'box-1',
         neighborhood: 'neighborhood-1',
         cardImage: 'media-1',
@@ -211,6 +213,7 @@ function cmsSnapshotDocuments(): Record<string, Record<string, unknown>[]> {
         id: 'mythos-card-1',
         title: 'The Stars Are Right',
         cardCode: 'base-mythos-001',
+        boxedset: 'Base Game',
         sourceSet: 'box-1',
         gateInstruction: {
           mode: 'single',
@@ -227,6 +230,7 @@ function cmsSnapshotDocuments(): Record<string, Record<string, unknown>[]> {
         id: 'other-world-1',
         name: 'The Abyss',
         key: 'abyss',
+        boxedSet: 'Base Game',
         sourceSet: 'box-1',
         art: 'media-1',
         _status: 'published',
@@ -292,6 +296,9 @@ describe('Game data fixture', () => {
     const serialized = JSON.stringify(gameDataFixture)
 
     expect(serialized).not.toContain('"id":')
+    expect(serialized).not.toContain('"boxedSet":')
+    expect(serialized).not.toContain('"boxedset":')
+    expect(serialized).not.toContain('"customSetName":')
     expect(gameDataFixture.snapshot.excludedCollections).toEqual([
       'users',
       'game-sessions',
@@ -342,6 +349,9 @@ describe('Game data fixture', () => {
     ])
     expect(serializedCollections).not.toContain('"id":')
     expect(serializedCollections).not.toContain('fixtureNamespace')
+    expect(serializedCollections).not.toContain('"boxedSet":')
+    expect(serializedCollections).not.toContain('"boxedset":')
+    expect(serializedCollections).not.toContain('"customSetName":')
     expect(serializedCollections).not.toContain('scratch-upload.png')
     expect(snapshot.collections.boxedSets[0].icon).toBe('media-core')
     expect(snapshot.collections.ancientOnes[0].sheets[0].sheetImage).toBe('media-yig-sheet')
@@ -461,6 +471,9 @@ describe('Game data fixture', () => {
   it('restores an uploaded snapshot object through the fixture loader', async () => {
     let nextID = 1
     const snapshot = sampleGameDataSnapshot()
+    snapshot.collections.locations[0].boxedSet = 'Base Game'
+    snapshot.collections.mythosCards[0].boxedset = 'Base Game'
+    snapshot.collections.otherWorlds[0].customSetName = 'Legacy Custom'
     const collections = new Map<string, Map<string, Record<string, unknown>>>()
     const collection = (slug: string) => {
       const existing = collections.get(slug)
@@ -515,6 +528,8 @@ describe('Game data fixture', () => {
     const secondLoad = await restoreGameDataSnapshot(payload, snapshot)
     const ancientOne = [...collection('ancient-ones').values()][0]
     const location = [...collection('locations').values()][0]
+    const mythosCard = [...collection('mythos-cards').values()][0]
+    const otherWorld = [...collection('other-worlds').values()][0]
     const otherWorldEncounter = [...collection('other-world-encounter-cards').values()][0]
 
     expect(firstLoad.boxedSets.created).toEqual(['base-game'])
@@ -524,6 +539,9 @@ describe('Game data fixture', () => {
       'media-yig-existing',
     )
     expect(location.neighborhood).toBe([...collection('neighborhoods').keys()][0])
+    expect(location.boxedSet).toBeUndefined()
+    expect(mythosCard.boxedset).toBeUndefined()
+    expect(otherWorld.customSetName).toBeUndefined()
     expect((otherWorldEncounter.encounters as Record<string, unknown>[])[0].destination).toBe(
       [...collection('other-worlds').keys()][0],
     )

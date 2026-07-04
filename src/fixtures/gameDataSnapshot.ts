@@ -57,6 +57,9 @@ const omittedDocumentFields = new Set([
   'updatedAt',
   'fixtureNamespace',
   'fixtureVersion',
+  'boxedSet',
+  'boxedset',
+  'customSetName',
 ])
 const officialBoxedSetKeysByName = new Map(
   officialBoxedSets.flatMap((boxedSet) =>

@@ -7,7 +7,6 @@ import {
 } from '@/fixtures/gameData'
 import {
   fixtureRequiredSetKeys,
-  officialBoxedSetName,
   relationshipID,
   requireBoxedSet,
   requireBoxedSets,
@@ -35,7 +34,6 @@ function fixtureMetadata(
     name: fixture.name,
     key: fixture.key,
     preferredColours: [...fixture.preferredColours],
-    boxedSet: officialBoxedSetName(fixture.sourceSetKey) as OtherWorld['boxedSet'],
     sourceSet: sourceSet.id,
     requiredSets: requiredSets.map((boxedSet) => boxedSet.id),
     fixtureNamespace: GAME_DATA_FIXTURE_NAMESPACE,
@@ -52,7 +50,6 @@ function comparableDocument(world: OtherWorld) {
     name: world.name,
     key: world.key,
     preferredColours: [...(world.preferredColours ?? [])],
-    boxedSet: world.boxedSet,
     sourceSet: relationshipID(world.sourceSet) ?? undefined,
     requiredSets:
       requiredSets.length > 0
@@ -102,8 +99,7 @@ export async function seedOtherWorlds(
     if (
       world &&
       world.fixtureNamespace !== GAME_DATA_FIXTURE_NAMESPACE &&
-      (world.boxedSet === 'Custom' ||
-        boxedSetsByID.get(relationshipID(world.sourceSet) ?? '')?.category === 'custom')
+      boxedSetsByID.get(relationshipID(world.sourceSet) ?? '')?.category === 'custom'
     ) {
       conflicts.push(fixture.key)
       continue

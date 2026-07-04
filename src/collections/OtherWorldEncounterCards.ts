@@ -106,8 +106,6 @@ export const OtherWorldEncounterCards: CollectionConfig = {
       name: 'boxedSet',
       label: 'Boxed Set',
       type: 'select',
-      required: true,
-      defaultValue: 'Base Game',
       options: boxedSetOptions,
       admin: {
         hidden: true,

@@ -33,10 +33,28 @@ const fixtureOwnedCollections = new Set<GameDataCollection>([
   'other-world-encounter-cards',
   'other-worlds',
 ])
-const ignoredComparisonFields = new Set(['id', 'createdAt', 'updatedAt'])
+const legacyBoxedSetFields = new Set(['boxedSet', 'boxedset', 'customSetName'])
+const ignoredComparisonFields = new Set([
+  'id',
+  'createdAt',
+  'updatedAt',
+  ...legacyBoxedSetFields,
+])
+
+function removeLegacyBoxedSetFields(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(removeLegacyBoxedSetFields)
+
+  if (!value || typeof value !== 'object') return value
+
+  return Object.fromEntries(
+    Object.entries(value as SnapshotDocument)
+      .filter(([key]) => !legacyBoxedSetFields.has(key))
+      .map(([key, entryValue]) => [key, removeLegacyBoxedSetFields(entryValue)]),
+  )
+}
 
 function mutableDocument(document: SnapshotDocument) {
-  return structuredClone(document)
+  return removeLegacyBoxedSetFields(structuredClone(document)) as SnapshotDocument
 }
 
 function canonicalValue(value: unknown): unknown {

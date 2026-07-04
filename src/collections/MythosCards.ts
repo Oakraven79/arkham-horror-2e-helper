@@ -238,8 +238,6 @@ export const MythosCards: CollectionConfig = {
       name: 'boxedset',
       type: 'select',
       options: arkhamHorror2eBoxes.map((t) => ({ label: t.name, value: t.name })),
-      required: true,
-      defaultValue: 'Base Game',
       admin: {
         hidden: true,
       },

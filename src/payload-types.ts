@@ -235,19 +235,22 @@ export interface AncientOne {
    * Stable identifier used by imports and saved games, for example "cthulhu".
    */
   key: string;
-  boxedSet:
-    | 'Base Game'
-    | 'Dunwich Horror'
-    | 'Kingsport Horror'
-    | 'Innsmouth Horror'
-    | 'Miskatonic Horror'
-    | 'Curse of the Dark Pharaoh (original)'
-    | 'Curse of the Dark Pharaoh (Revised Edition)'
-    | 'The Black Goat of the Woods'
-    | 'The King in Yellow'
-    | 'The Lurker at the Threshold'
-    | 'Promotional'
-    | 'Custom';
+  boxedSet?:
+    | (
+        | 'Base Game'
+        | 'Dunwich Horror'
+        | 'Kingsport Horror'
+        | 'Innsmouth Horror'
+        | 'Miskatonic Horror'
+        | 'Curse of the Dark Pharaoh (original)'
+        | 'Curse of the Dark Pharaoh (Revised Edition)'
+        | 'The Black Goat of the Woods'
+        | 'The King in Yellow'
+        | 'The Lurker at the Threshold'
+        | 'Promotional'
+        | 'Custom'
+      )
+    | null;
   /**
    * Set provenance and card icon.
    */
@@ -382,18 +385,21 @@ export interface Location {
         id?: string | null;
       }[]
     | null;
-  boxedSet:
-    | 'Base Game'
-    | 'Dunwich Horror'
-    | 'Kingsport Horror'
-    | 'Innsmouth Horror'
-    | 'Miskatonic Horror'
-    | 'Curse of the Dark Pharaoh (original)'
-    | 'Curse of the Dark Pharaoh (Revised Edition)'
-    | 'The Black Goat of the Woods'
-    | 'The King in Yellow'
-    | 'The Lurker at the Threshold'
-    | 'Custom';
+  boxedSet?:
+    | (
+        | 'Base Game'
+        | 'Dunwich Horror'
+        | 'Kingsport Horror'
+        | 'Innsmouth Horror'
+        | 'Miskatonic Horror'
+        | 'Curse of the Dark Pharaoh (original)'
+        | 'Curse of the Dark Pharaoh (Revised Edition)'
+        | 'The Black Goat of the Woods'
+        | 'The King in Yellow'
+        | 'The Lurker at the Threshold'
+        | 'Custom'
+      )
+    | null;
   /**
    * Set provenance and card icon.
    */
@@ -508,17 +514,20 @@ export interface MythosCard {
   monsterMoveBlack?:
     | ('cross' | 'crescentMoon' | 'hexagon' | 'leftLean' | 'star' | 'triangle' | 'circle' | 'square' | 'diamond')[]
     | null;
-  boxedset:
-    | 'Base Game'
-    | 'Dunwich Horror'
-    | 'Kingsport Horror'
-    | 'Innsmouth Horror'
-    | 'Miskatonic Horror'
-    | 'Curse of the Dark Pharaoh (original)'
-    | 'Curse of the Dark Pharaoh (Revised Edition)'
-    | 'The Black Goat of the Woods'
-    | 'The King in Yellow'
-    | 'The Lurker at the Threshold';
+  boxedset?:
+    | (
+        | 'Base Game'
+        | 'Dunwich Horror'
+        | 'Kingsport Horror'
+        | 'Innsmouth Horror'
+        | 'Miskatonic Horror'
+        | 'Curse of the Dark Pharaoh (original)'
+        | 'Curse of the Dark Pharaoh (Revised Edition)'
+        | 'The Black Goat of the Woods'
+        | 'The King in Yellow'
+        | 'The Lurker at the Threshold'
+      )
+    | null;
   /**
    * Set provenance and card icon.
    */
@@ -548,18 +557,21 @@ export interface OtherWorld {
    * Suggested encounter colours only. This does not restrict which cards can reference this world.
    */
   preferredColours?: ('blue' | 'green' | 'red' | 'yellow')[] | null;
-  boxedSet:
-    | 'Base Game'
-    | 'Dunwich Horror'
-    | 'Kingsport Horror'
-    | 'Innsmouth Horror'
-    | 'Miskatonic Horror'
-    | 'Curse of the Dark Pharaoh (original)'
-    | 'Curse of the Dark Pharaoh (Revised Edition)'
-    | 'The Black Goat of the Woods'
-    | 'The King in Yellow'
-    | 'The Lurker at the Threshold'
-    | 'Custom';
+  boxedSet?:
+    | (
+        | 'Base Game'
+        | 'Dunwich Horror'
+        | 'Kingsport Horror'
+        | 'Innsmouth Horror'
+        | 'Miskatonic Horror'
+        | 'Curse of the Dark Pharaoh (original)'
+        | 'Curse of the Dark Pharaoh (Revised Edition)'
+        | 'The Black Goat of the Woods'
+        | 'The King in Yellow'
+        | 'The Lurker at the Threshold'
+        | 'Custom'
+      )
+    | null;
   /**
    * Set provenance and card icon.
    */
@@ -600,18 +612,21 @@ export interface OtherWorldEncounterCard {
     text: string;
     id?: string | null;
   }[];
-  boxedSet:
-    | 'Base Game'
-    | 'Dunwich Horror'
-    | 'Kingsport Horror'
-    | 'Innsmouth Horror'
-    | 'Miskatonic Horror'
-    | 'Curse of the Dark Pharaoh (original)'
-    | 'Curse of the Dark Pharaoh (Revised Edition)'
-    | 'The Black Goat of the Woods'
-    | 'The King in Yellow'
-    | 'The Lurker at the Threshold'
-    | 'Custom';
+  boxedSet?:
+    | (
+        | 'Base Game'
+        | 'Dunwich Horror'
+        | 'Kingsport Horror'
+        | 'Innsmouth Horror'
+        | 'Miskatonic Horror'
+        | 'Curse of the Dark Pharaoh (original)'
+        | 'Curse of the Dark Pharaoh (Revised Edition)'
+        | 'The Black Goat of the Woods'
+        | 'The King in Yellow'
+        | 'The Lurker at the Threshold'
+        | 'Custom'
+      )
+    | null;
   /**
    * Set provenance and card icon.
    */

@@ -7,7 +7,6 @@ import {
 import { GAME_DATA_FIXTURE_NAMESPACE, GAME_DATA_FIXTURE_VERSION } from '@/fixtures/gameData'
 import {
   fixtureRequiredSetKeys,
-  officialBoxedSetName,
   relationshipID,
   requireBoxedSet,
   requireBoxedSets,
@@ -35,7 +34,6 @@ function fixtureMetadata(
         : undefined,
       text: encounter.text,
     })),
-    boxedSet: officialBoxedSetName(fixture.sourceSetKey) as OtherWorldEncounterCard['boxedSet'],
     sourceSet: sourceSet.id,
     requiredSets: requiredSets.map((boxedSet) => boxedSet.id),
     clarifications: fixture.clarifications,
@@ -68,7 +66,6 @@ function comparableDocument(card: OtherWorldEncounterCard) {
       destination: relationshipID(encounter.destination) ?? undefined,
       text: encounter.text,
     })),
-    boxedSet: card.boxedSet,
     sourceSet: relationshipID(card.sourceSet) ?? undefined,
     requiredSets:
       requiredSets.length > 0
@@ -127,8 +124,7 @@ export async function seedOtherWorldEncounterCards(
     if (
       card &&
       card.fixtureNamespace !== GAME_DATA_FIXTURE_NAMESPACE &&
-      (card.boxedSet === 'Custom' ||
-        boxedSetsByID.get(relationshipID(card.sourceSet) ?? '')?.category === 'custom')
+      boxedSetsByID.get(relationshipID(card.sourceSet) ?? '')?.category === 'custom'
     ) {
       conflicts.push(fixture.cardCode)
       continue

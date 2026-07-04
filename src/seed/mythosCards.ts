@@ -1,6 +1,5 @@
 import type { Payload } from 'payload'
 
-import { officialBoxedSets } from '@/content/boxedSets'
 import { starterMythosCards, type StarterMythosCard } from '@/content/mythosCards'
 import {
   doomCounterAsset,
@@ -9,7 +8,6 @@ import {
 } from '@/fixtures/gameData'
 import {
   fixtureRequiredSetKeys,
-  officialBoxedSetName,
   relationshipID,
   requireBoxedSet,
   requireBoxedSets,
@@ -31,15 +29,11 @@ function fixtureIdentity(card: Pick<StarterMythosCard, 'sourceSetKey' | 'title'>
 }
 
 function documentIdentity(
-  card: Pick<MythosCard, 'boxedset' | 'sourceSet' | 'title'>,
+  card: Pick<MythosCard, 'sourceSet' | 'title'>,
   boxedSetsByID: Map<string, BoxedSet>,
-  boxedSetKeysByName: Map<string, string>,
 ) {
   const sourceSetID = relationshipID(card.sourceSet)
-  const sourceSetKey =
-    boxedSetsByID.get(sourceSetID ?? '')?.key ??
-    boxedSetKeysByName.get(card.boxedset) ??
-    card.boxedset
+  const sourceSetKey = boxedSetsByID.get(sourceSetID ?? '')?.key
 
   return `${sourceSetKey}:${normalizeCardTitle(card.title)}`
 }
@@ -80,7 +74,6 @@ function fixtureMetadata(
     rulesNotes: fixtureRulesNotes(fixture),
     monsterMoveWhite: fixture.monsterMoveWhite,
     monsterMoveBlack: fixture.monsterMoveBlack,
-    boxedset: officialBoxedSetName(fixture.sourceSetKey) as MythosCard['boxedset'],
     sourceSet: sourceSet.id,
     requiredSets: requiredSets.map((boxedSet) => boxedSet.id),
     fixtureNamespace: GAME_DATA_FIXTURE_NAMESPACE,
@@ -123,7 +116,6 @@ function comparableDocument(card: MythosCard) {
     rulesNotes: notes && notes.length > 0 ? notes : undefined,
     monsterMoveWhite: monsterMoveWhite.length > 0 ? monsterMoveWhite : undefined,
     monsterMoveBlack: monsterMoveBlack.length > 0 ? monsterMoveBlack : undefined,
-    boxedset: card.boxedset,
     sourceSet: relationshipID(card.sourceSet) ?? undefined,
     requiredSets:
       requiredSets.length > 0
@@ -203,13 +195,10 @@ export async function seedMythosCards(payload: Payload, options: SeedMythosCards
   const boxedSetsByID = new Map(
     boxedSetResult.docs.map((boxedSet) => [String(boxedSet.id), boxedSet]),
   )
-  const boxedSetKeysByName = new Map(
-    officialBoxedSets.map((boxedSet) => [boxedSet.name, boxedSet.key]),
-  )
 
   for (const card of existingCards.docs) {
     cardsByCode.set(card.cardCode, [...(cardsByCode.get(card.cardCode) ?? []), card])
-    const identity = documentIdentity(card, boxedSetsByID, boxedSetKeysByName)
+    const identity = documentIdentity(card, boxedSetsByID)
     cardsByIdentity.set(identity, [...(cardsByIdentity.get(identity) ?? []), card])
   }
 

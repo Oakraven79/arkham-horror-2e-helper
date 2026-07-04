@@ -4,7 +4,6 @@ import { starterLocations, type StarterLocation } from '@/content/locations'
 import { GAME_DATA_FIXTURE_NAMESPACE, GAME_DATA_FIXTURE_VERSION } from '@/fixtures/gameData'
 import {
   fixtureRequiredSetKeys,
-  officialBoxedSetName,
   relationshipID,
   requireBoxedSet,
   requireBoxedSets,
@@ -26,7 +25,6 @@ function comparableLocation(location: Location) {
   return {
     name: location.name,
     key: location.key,
-    boxedSet: location.boxedSet,
     sourceSet: relationshipID(location.sourceSet) ?? undefined,
     requiredSets:
       requiredSets.length > 0
@@ -71,7 +69,6 @@ function fixtureMetadata(
   return {
     name: location.name,
     key: location.key,
-    boxedSet: officialBoxedSetName(location.sourceSetKey) as Location['boxedSet'],
     sourceSet: sourceSet.id,
     requiredSets: requiredSets.map((boxedSet) => boxedSet.id),
     board: location.board,
@@ -160,18 +157,15 @@ export async function seedLocations(payload: Payload, options: SeedLocationsOpti
     const allKeyMatches = byKey.get(fixture.key) ?? []
     const customKeyConflict = allKeyMatches.some(
       (location) =>
-        boxedSetsByID.get(relationshipID(location.sourceSet) ?? '')?.category === 'custom' ||
-        location.boxedSet === 'Custom',
+        boxedSetsByID.get(relationshipID(location.sourceSet) ?? '')?.category === 'custom',
     )
     const keyMatches = allKeyMatches.filter(
       (location) =>
-        boxedSetsByID.get(relationshipID(location.sourceSet) ?? '')?.category !== 'custom' &&
-        location.boxedSet !== 'Custom',
+        boxedSetsByID.get(relationshipID(location.sourceSet) ?? '')?.category !== 'custom',
     )
     const nameMatches = (byName.get(fixture.name) ?? []).filter(
       (location) =>
-        boxedSetsByID.get(relationshipID(location.sourceSet) ?? '')?.category !== 'custom' &&
-        location.boxedSet !== 'Custom',
+        boxedSetsByID.get(relationshipID(location.sourceSet) ?? '')?.category !== 'custom',
     )
     const candidates = keyMatches.length > 0 ? keyMatches : nameMatches
 
