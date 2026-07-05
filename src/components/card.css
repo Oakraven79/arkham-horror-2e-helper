@@ -34,6 +34,14 @@
 /* Mythos Card Front */
 
 .mythoscardfront {
+  --mythos-monster-box-bottom: 0.5rem;
+  --mythos-monster-box-height: 25%;
+  --mythos-monster-box-half-width: 27.5%;
+  --mythos-monster-box-right: 0.5rem;
+  --mythos-monster-box-width: 55%;
+  --mythos-set-mark-gap: 0.08rem;
+  --mythos-set-mark-size: 2rem;
+
   position: relative;
   width: var(--card-width);
   aspect-ratio: 55/88;
@@ -89,6 +97,31 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.mythoscardfront .mythos-boxed-set-mark {
+  top: auto;
+  right: var(--mythos-monster-box-right);
+  bottom: calc(
+    var(--mythos-monster-box-bottom) + var(--mythos-monster-box-height) +
+      var(--mythos-set-mark-gap)
+  );
+  width: var(--mythos-set-mark-size);
+  height: var(--mythos-set-mark-size);
+  z-index: 4;
+}
+
+.mythoscardfront .mythos-boxed-set-mark.centered {
+  right: auto;
+  left: calc(50% + var(--mythos-monster-box-half-width) - var(--mythos-set-mark-size));
+}
+
+.mythoscardfront .mythos-boxed-set-mark.boxed-set-mark--image {
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .mythoscardheaderbox {
@@ -188,14 +221,14 @@
 /* bottom-right monster movement box */
 .mythos-monster-corner-box {
   position: absolute;
-  bottom: 0.5rem; /* ✅ anchors it at bottom */
-  right: 0.5rem; /* ✅ anchors it at right */
+  bottom: var(--mythos-monster-box-bottom);
+  right: var(--mythos-monster-box-right);
 
   display: flex;
   flex-direction: column;
 
-  height: 25%; /* 🟢 25% of card height */
-  width: 55%;
+  height: var(--mythos-monster-box-height);
+  width: var(--mythos-monster-box-width);
 
   border: 3px solid #1d1d1d; /* 🟢 border here */
   box-shadow: 0 0 10px #1d1d1d;

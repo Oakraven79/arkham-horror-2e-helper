@@ -232,10 +232,13 @@ export const MythosCardFront = ({
 
   const centeredMonsterMovementBox =
     !gateInstruction && !lowerLeftOverride?.imageUrl && !lowerLeftOverride?.text
+  const boxedSetMarkClassName = centeredMonsterMovementBox
+    ? 'mythos-boxed-set-mark centered'
+    : 'mythos-boxed-set-mark'
 
   return (
     <div className="mythoscardfront">
-      <BoxedSetMark boxedSet={boxedSet} />
+      <BoxedSetMark boxedSet={boxedSet} className={boxedSetMarkClassName} />
       <div className="mythoscardheaderbox">
         <div className={titleSizeClass}>{title}</div>
         <div className={cardTypeSizeClass}>{cardType}</div>
