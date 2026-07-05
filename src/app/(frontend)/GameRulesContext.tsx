@@ -44,14 +44,28 @@ export function GameRulesContext({
   const elderSignStatus = elderSignVictoryStatus(tracks.elderSigns)
   const monsterLimitRemoved = tracks.terror >= 10
   const secondaryModifiers = [
-    ['Terror 10 awakening', `${investigatorRules.terrorTenAwakeningMonsterCount} monsters`],
-    ['Close-gates victory', `${investigatorRules.closeGateTrophiesRequired} gate trophies`],
-    [
-      'Final battle progress',
-      `${investigatorRules.finalBattleSuccessesPerDoom} successes per doom`,
-    ],
+    {
+      help: 'Only after Terror reaches 10: awakening occurs when Arkham + Sky monsters reach twice the normal monster limit. Do not count expansion-board monsters.',
+      label: 'At Terror 10',
+      value: `${investigatorRules.terrorTenAwakeningMonsterCount} monsters`,
+    },
+    {
+      help: 'When the last open gate closes, investigators win if they collectively hold this many unspent gate trophies. Use actual investigators, not the adjusted board-pressure count.',
+      label: 'Close-gates victory',
+      value: `${investigatorRules.closeGateTrophiesRequired} gate trophies`,
+    },
+    {
+      help: `Final battle only: investigators attack the Ancient One with Combat checks. Each 5 or 6 is 1 success. Successes carry across investigators and rounds; remove 1 doom each time total successes reaches the original investigator count (${investigatorRules.finalBattleSuccessesPerDoom} in this game).`,
+      label: 'Final battle progress',
+      value: `${investigatorRules.finalBattleSuccessesPerDoom} successes per doom`,
+    },
     ...(hasRelationships
-      ? [['Relationship setup', `${investigatorRules.relationshipCardCount} cards`] as const]
+      ? [
+          {
+            label: 'Relationship setup',
+            value: `${investigatorRules.relationshipCardCount} cards`,
+          },
+        ]
       : []),
   ]
 
@@ -223,10 +237,13 @@ export function GameRulesContext({
               </p>
             )}
             <dl className="secondary-modifier-grid">
-              {secondaryModifiers.map(([label, value]) => (
-                <div key={label}>
-                  <dt>{label}</dt>
-                  <dd>{value}</dd>
+              {secondaryModifiers.map((modifier) => (
+                <div key={modifier.label}>
+                  <dt>{modifier.label}</dt>
+                  <dd>
+                    <strong>{modifier.value}</strong>
+                    {'help' in modifier && modifier.help && <span>{modifier.help}</span>}
+                  </dd>
                 </div>
               ))}
             </dl>

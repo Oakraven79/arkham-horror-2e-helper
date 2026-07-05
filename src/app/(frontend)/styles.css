@@ -1065,9 +1065,25 @@ button {
 
 .secondary-modifier-grid dd {
   margin: 2px 0 0;
+}
+
+.secondary-modifier-grid dd strong,
+.secondary-modifier-grid dd span {
+  display: block;
+}
+
+.secondary-modifier-grid dd strong {
   color: var(--ink);
   font-size: 12px;
   font-weight: 800;
+}
+
+.secondary-modifier-grid dd span {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.35;
 }
 
 .final-battle-context {

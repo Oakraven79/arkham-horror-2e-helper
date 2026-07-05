@@ -77,7 +77,20 @@ describe('persistent game rules context', () => {
     expect(markup).toContain('0/6')
     expect(markup).toContain('6 more on the board wins the game.')
     expect(markup).toContain('Adjusted investigators')
-    expect(markup).toContain('Terror 10 awakening')
+    expect(markup).toContain('At Terror 10')
+    expect(markup).toContain(
+      'Only after Terror reaches 10: awakening occurs when Arkham + Sky monsters reach twice the normal monster limit.',
+    )
+    expect(markup).toContain('6 gate trophies')
+    expect(markup).toContain('Use actual investigators, not the adjusted board-pressure count.')
+    expect(markup).toContain('6 successes per doom')
+    expect(markup).toContain(
+      'Final battle only: investigators attack the Ancient One with Combat checks.',
+    )
+    expect(markup).toContain('Each 5 or 6 is 1 success.')
+    expect(markup).toContain(
+      'remove 1 doom each time total successes reaches the original investigator count (6 in this game).',
+    )
     expect(markup).toContain('Relationship setup')
     expect(markup).toContain('Dunwich Horror, Innsmouth Horror')
     expect(markup).toContain('Reference details')
