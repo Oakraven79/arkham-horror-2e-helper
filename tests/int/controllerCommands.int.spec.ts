@@ -2,21 +2,24 @@ import type { Payload } from 'payload'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import type { ControllerParticipant } from '@/lib/controllerAuth'
-import type { GameSession } from '@/payload-types'
+import type { GameSession, MythosCard } from '@/payload-types'
 
 const actionMocks = vi.hoisted(() => ({
+  adjustExpansionTrackAction: vi.fn(),
   advancePhaseAction: vi.fn(),
+  discardCurrentDrawAction: vi.fn(),
 }))
 
 vi.mock('@/app/(frontend)/actions', () => ({
   activateCurrentEnvironmentAction: vi.fn(),
   activateCurrentRumorAction: vi.fn(),
+  adjustExpansionTrackAction: actionMocks.adjustExpansionTrackAction,
   adjustSessionTrackAction: vi.fn(),
   advancePhaseAction: actionMocks.advancePhaseAction,
   clearActiveEnvironmentAction: vi.fn(),
   clearActiveRumorAction: vi.fn(),
   clearArkhamNeighborhoodAction: vi.fn(),
-  discardCurrentDrawAction: vi.fn(),
+  discardCurrentDrawAction: actionMocks.discardCurrentDrawAction,
   drawArkhamEncounterAction: vi.fn(),
   drawMythosAction: vi.fn(),
   flipNextOtherWorldEncounterAction: vi.fn(),
@@ -76,6 +79,22 @@ function savedSession(overrides: Partial<GameSession> = {}) {
   } as GameSession
 }
 
+function mythosCard(cardType: MythosCard['cardType']) {
+  return {
+    id: 'headline-card',
+    title: `${cardType} card`,
+    cardCode: `${cardType}-1`,
+    copyCount: 1,
+    cardType,
+    gateInstruction: {
+      mode: 'single',
+      locations: ['woods'],
+    },
+    updatedAt: '2026-07-03T00:00:00.000Z',
+    createdAt: '2026-07-03T00:00:00.000Z',
+  } as MythosCard
+}
+
 const participant: ControllerParticipant = {
   expiresAt: Date.UTC(2030, 0, 1),
   name: 'Jenny',
@@ -85,13 +104,23 @@ const participant: ControllerParticipant = {
 
 describe('controller command execution', () => {
   let current: GameSession
+  let findByID: ReturnType<typeof vi.fn>
   let payload: Payload
 
   beforeEach(() => {
+    actionMocks.adjustExpansionTrackAction.mockReset()
     actionMocks.advancePhaseAction.mockReset()
+    actionMocks.discardCurrentDrawAction.mockReset()
     current = savedSession()
+    findByID = vi.fn(async (args: { collection: string }) => {
+      if (args.collection === 'mythos-cards') {
+        throw new Error('Unexpected Mythos card lookup.')
+      }
+
+      return current
+    })
     payload = {
-      findByID: vi.fn(async () => current),
+      findByID,
       update: vi.fn(async (args: { data: Partial<GameSession> }) => {
         current = {
           ...current,
@@ -105,6 +134,20 @@ describe('controller command execution', () => {
       current = {
         ...current,
         currentPhase: 'Movement',
+        stateRevision: current.stateRevision + 1,
+      }
+    })
+    actionMocks.adjustExpansionTrackAction.mockImplementation(async () => {
+      current = {
+        ...current,
+        expansionTracks: {
+          ...current.expansionTracks,
+          dunwichHorrorTokens: 1,
+        },
+        tracks: {
+          ...current.tracks,
+          terror: current.tracks.terror + 1,
+        },
         stateRevision: current.stateRevision + 1,
       }
     })
@@ -156,5 +199,85 @@ describe('controller command execution', () => {
 
     expect(actionMocks.advancePhaseAction).not.toHaveBeenCalled()
     expect(current.currentPhase).toBe('Upkeep')
+  })
+
+  it('allows MOBILE-07 discarding a revealed Mythos card stored as an ID relationship', async () => {
+    const headline = mythosCard('Headline')
+    current = savedSession({
+      currentPhase: 'Mythos',
+      mythos: {
+        currentDraw: String(headline.id),
+        currentDrawInstanceKey: `${headline.id}:1`,
+        currentDrawRevealed: true,
+        shuffleCount: 0,
+      },
+    })
+    findByID.mockImplementation(async (args: { collection: string }) =>
+      args.collection === 'mythos-cards' ? headline : current,
+    )
+    actionMocks.discardCurrentDrawAction.mockImplementation(async () => {
+      current = {
+        ...current,
+        mythos: {
+          ...current.mythos,
+          currentDraw: null,
+          currentDrawInstanceKey: null,
+          currentDrawRevealed: false,
+        },
+        sessionLog: [
+          ...(current.sessionLog ?? []),
+          {
+            turnNumber: current.turnNumber,
+            phase: 'Mythos',
+            action: 'discard-card',
+            card: String(headline.id),
+          },
+        ],
+        stateRevision: current.stateRevision + 1,
+      }
+    })
+
+    const result = await executeControllerCommand(payload, participant, {
+      command: 'discard-mythos',
+      expectedRevision: 2,
+      idempotencyKey: 'command-discard',
+    })
+
+    expect(actionMocks.discardCurrentDrawAction).toHaveBeenCalledOnce()
+    expect(result.commands.map((command) => command.id)).toEqual(['advance-phase'])
+    expect(current.controllerCommandHistory).toMatchObject([
+      {
+        actorName: 'Jenny',
+        command: 'discard-mythos',
+        idempotencyKey: 'command-discard',
+      },
+    ])
+  })
+
+  it('applies and records MOBILE-08 expansion track commands', async () => {
+    const expansionCommand = { type: 'dunwich-vortex' } as const
+
+    const result = await executeControllerCommand(payload, participant, {
+      command: 'adjust-expansion-track',
+      expectedRevision: 2,
+      idempotencyKey: 'command-expansion',
+      params: {
+        expansionCommand,
+      },
+    })
+
+    expect(actionMocks.adjustExpansionTrackAction).toHaveBeenCalledWith(
+      'session-one',
+      expansionCommand,
+    )
+    expect(result.expansionTracks.state.dunwichHorrorTokens).toBe(1)
+    expect(result.tracks.terror).toBe(1)
+    expect(current.controllerCommandHistory).toMatchObject([
+      {
+        actorName: 'Jenny',
+        command: 'adjust-expansion-track',
+        idempotencyKey: 'command-expansion',
+      },
+    ])
   })
 })

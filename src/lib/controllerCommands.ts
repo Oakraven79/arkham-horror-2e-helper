@@ -3,6 +3,7 @@ import type { Payload } from 'payload'
 import {
   activateCurrentEnvironmentAction,
   activateCurrentRumorAction,
+  adjustExpansionTrackAction,
   adjustSessionTrackAction,
   advancePhaseAction,
   clearActiveEnvironmentAction,
@@ -17,6 +18,7 @@ import {
   selectArkhamNeighborhoodAction,
   skipOpeningMythosCardAction,
 } from '@/app/(frontend)/actions'
+import { assertExpansionTrackCommand, type ExpansionTrackCommand } from '@/lib/expansionTracks'
 import type { AdjustableSessionTrack } from '@/lib/sessionTracks'
 
 import {
@@ -24,7 +26,7 @@ import {
   type ControllerParticipant,
 } from './controllerAuth'
 import {
-  controllerCommandsForSession,
+  controllerCommandsForPayloadSession,
   controllerProjection,
   type ControllerCommandID,
 } from './controllerProjection'
@@ -41,7 +43,7 @@ export class ControllerCommandError extends Error {
 }
 
 export interface ControllerCommandRequest {
-  command: ControllerCommandID | 'adjust-track'
+  command: ControllerCommandID | 'adjust-expansion-track' | 'adjust-track'
   expectedRevision: number
   idempotencyKey: string
   params?: Record<string, unknown>
@@ -89,6 +91,20 @@ function trackAdjustment(params: Record<string, unknown> | undefined) {
   return { delta, track }
 }
 
+function expansionTrackCommand(params: Record<string, unknown> | undefined) {
+  const command = params?.expansionCommand as ExpansionTrackCommand
+
+  try {
+    assertExpansionTrackCommand(command)
+  } catch (error) {
+    throw new ControllerCommandError(
+      error instanceof Error ? error.message : 'That expansion track action is not supported.',
+    )
+  }
+
+  return command
+}
+
 async function dispatchCommand(
   participant: ControllerParticipant,
   request: ControllerCommandRequest,
@@ -131,6 +147,8 @@ async function dispatchCommand(
       const adjustment = trackAdjustment(request.params)
       return adjustSessionTrackAction(sessionID, adjustment.track, adjustment.delta)
     }
+    case 'adjust-expansion-track':
+      return adjustExpansionTrackAction(sessionID, expansionTrackCommand(request.params))
   }
 }
 
@@ -168,12 +186,14 @@ export async function executeControllerCommand(
       )
     }
 
-    if (request.command === 'adjust-track') {
+    if (request.command === 'adjust-track' || request.command === 'adjust-expansion-track') {
       if (!session.activeAncientOne) {
         throw new ControllerCommandError('Complete setup before adjusting counters.')
       }
+      if (request.command === 'adjust-expansion-track') expansionTrackCommand(request.params)
     } else {
-      const allowed = controllerCommandsForSession(session).some(
+      const allowedCommands = await controllerCommandsForPayloadSession(payload, session)
+      const allowed = allowedCommands.some(
         (command) => command.id === request.command,
       )
 

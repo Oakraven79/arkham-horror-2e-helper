@@ -4,6 +4,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { CSSProperties } from 'react'
 
 import { cssBackgroundImageValue } from '@/lib/ancientOneBackground'
+import { expansionTrackSetKeys, type ExpansionTrackCommand } from '@/lib/expansionTracks'
+import type { GamePhase } from '@/lib/gamePhaseState'
 import type {
   ControllerCommandDescriptor,
   ControllerCommandID,
@@ -12,6 +14,7 @@ import type {
 import { createControllerCommandID } from '@/lib/controllerCommandID'
 import type { AdjustableSessionTrack } from '@/lib/sessionTracks'
 
+import { ExpansionTrackPanel } from '../ExpansionTrackPanel'
 import styles from './controller.module.css'
 
 interface ControllerClientProps {
@@ -37,6 +40,7 @@ const trackLabels: Record<AdjustableSessionTrack, string> = {
 }
 
 const trackOrder = Object.keys(trackLabels) as AdjustableSessionTrack[]
+const expansionBoardSetKeys = new Set<string>(Object.values(expansionTrackSetKeys))
 
 async function responseBody<T>(response: Response): Promise<T> {
   const body = (await response.json()) as T & ErrorResponse
@@ -187,7 +191,7 @@ export function ControllerClient({ joinSecret, sessionID }: ControllerClientProp
   }
 
   const sendCommand = async (
-    command: ControllerCommandID | 'adjust-track',
+    command: ControllerCommandID | 'adjust-expansion-track' | 'adjust-track',
     params?: Record<string, unknown>,
     confirmation?: string,
   ) => {
@@ -289,6 +293,9 @@ export function ControllerClient({ joinSecret, sessionID }: ControllerClientProp
   const secondaryCommands = projection.commands.filter(
     (command) => command.group === 'secondary',
   )
+  const hasExpansionTrackControls = projection.expansionTracks.enabledSetKeys.some((key) =>
+    expansionBoardSetKeys.has(key),
+  )
   const shellStyle: ControllerShellStyle | undefined = projection.presentation.tableBackgroundUrl
     ? {
         '--controller-background-image': cssBackgroundImageValue(
@@ -364,6 +371,16 @@ export function ControllerClient({ joinSecret, sessionID }: ControllerClientProp
           disabled={Boolean(pendingCommand)}
           onAdjust={(track, delta) =>
             void sendCommand('adjust-track', { track, delta })
+          }
+          projection={projection}
+        />
+      )}
+
+      {projection.canAdjustTracks && hasExpansionTrackControls && (
+        <MobileExpansionTrackControls
+          disabled={Boolean(pendingCommand)}
+          onCommand={(expansionCommand) =>
+            void sendCommand('adjust-expansion-track', { expansionCommand })
           }
           projection={projection}
         />
@@ -485,6 +502,31 @@ function CommandButton({
     >
       {pending ? 'Applying…' : command.label}
     </button>
+  )
+}
+
+function MobileExpansionTrackControls({
+  disabled,
+  onCommand,
+  projection,
+}: {
+  disabled: boolean
+  onCommand: (command: ExpansionTrackCommand) => void
+  projection: ControllerProjection
+}) {
+  return (
+    <details className={styles.expansionPanel}>
+      <summary>Expansion boards</summary>
+      <ExpansionTrackPanel
+        enabledSetKeys={projection.expansionTracks.enabledSetKeys}
+        mythosMovement={projection.expansionTracks.mythosMovement ?? undefined}
+        onCommand={(command) => {
+          if (!disabled) onCommand(command)
+        }}
+        phase={projection.session.phase as GamePhase}
+        state={projection.expansionTracks.state}
+      />
+    </details>
   )
 }
 

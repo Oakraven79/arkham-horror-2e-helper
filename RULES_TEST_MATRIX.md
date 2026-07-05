@@ -30,6 +30,8 @@ for each rules-facing change. Cite the scenario ID in test names where useful.
 | MOBILE-04 | A controller repeats an idempotency key                  | The request is retried           | Return current state without applying the command twice                   |
 | MOBILE-05 | A command belongs to another phase                       | A controller submits it manually | Reject it even if the mobile UI had previously displayed it               |
 | MOBILE-06 | A controller room is disabled or expires                 | A phone reconnects or submits    | Reject access without changing or pausing the underlying game             |
+| MOBILE-07 | A revealed Mythos Headline or Special is stored by ID    | The controller refreshes         | Show and accept Discard after resolving                                   |
+| MOBILE-08 | An expansion board track is enabled                      | A controller submits a track event or correction | Apply the same dashboard expansion-track action and record the actor |
 
 ## Fixture Data Integrity
 

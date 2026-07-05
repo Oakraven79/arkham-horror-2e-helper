@@ -3,7 +3,7 @@ import type { Payload } from 'payload'
 
 import type { ControllerParticipant } from '@/lib/controllerAuth'
 import { controllerCommandsForSession, controllerProjection } from '@/lib/controllerProjection'
-import type { AncientOne, GameSession, Media, MythosCard } from '@/payload-types'
+import type { AncientOne, BoxedSet, GameSession, Media, MythosCard } from '@/payload-types'
 
 function mythosCard(
   cardType: MythosCard['cardType'],
@@ -63,6 +63,19 @@ function session(overrides: Partial<GameSession> = {}) {
     createdAt: '2026-07-03T00:00:00.000Z',
     ...overrides,
   } as GameSession
+}
+
+function boxedSet(key: string) {
+  return {
+    id: `${key}-set`,
+    name: key,
+    key,
+    abbreviation: key.slice(0, 3).toUpperCase(),
+    category: 'large-expansion',
+    sortOrder: 1,
+    updatedAt: '2026-07-03T00:00:00.000Z',
+    createdAt: '2026-07-03T00:00:00.000Z',
+  } as BoxedSet
 }
 
 const participant: ControllerParticipant = {
@@ -201,8 +214,93 @@ describe('mobile controller phase projection', () => {
     ).toEqual(['activate-rumor'])
   })
 
+  it('offers MOBILE-07 discard for a revealed Mythos card stored as an ID relationship', async () => {
+    const headline = mythosCard('Headline')
+    const payload = {
+      findByID: async (args: { collection: string; id: string }) => {
+        expect(args.collection).toBe('mythos-cards')
+        expect(args.id).toBe(String(headline.id))
+        return headline
+      },
+    } as unknown as Payload
+    const projection = await controllerProjection(
+      payload,
+      session({
+        currentPhase: 'Mythos',
+        mythos: {
+          currentDraw: String(headline.id),
+          currentDrawInstanceKey: `${headline.id}:1`,
+          currentDrawRevealed: true,
+          shuffleCount: 0,
+        },
+      }),
+      participant,
+    )
+
+    expect(projection.commands.map((command) => command.id)).toEqual(['discard-mythos'])
+    expect(projection.currentCard).toMatchObject({
+      revealed: true,
+      title: headline.title,
+      type: 'Headline',
+    })
+  })
+
   it('keeps Setup read-only on phones', () => {
     expect(commandIDs(session({ currentPhase: 'Setup' }))).toEqual([])
+  })
+
+  it('projects MOBILE-08 enabled expansion board tracks for phones', async () => {
+    const projection = await controllerProjection(
+      unusedPayload,
+      session({
+        enabledSets: [
+          boxedSet('base-game'),
+          boxedSet('dunwich-horror'),
+          boxedSet('innsmouth-horror'),
+          boxedSet('kingsport-horror'),
+        ],
+        expansionTracks: {
+          dunwichHorrorTokens: 2,
+          deepOnesRising: 3,
+          fedsChurchGreen: 1,
+          fedsFactoryDistrict: 2,
+          fedsInnsmouthShore: 0,
+          kingsportRifts: [
+            {
+              trackKey: 'rift-1',
+              progress: 4,
+              open: true,
+              investigated: 1,
+              currentLocation: 'South Shore',
+            },
+          ],
+        },
+      }),
+      participant,
+    )
+
+    expect(projection.expansionTracks.enabledSetKeys).toEqual([
+      'base-game',
+      'dunwich-horror',
+      'innsmouth-horror',
+      'kingsport-horror',
+    ])
+    expect(projection.expansionTracks.state).toMatchObject({
+      dunwichHorrorTokens: 2,
+      deepOnesRising: 3,
+      fedsRaid: {
+        'church-green': 1,
+        'factory-district': 2,
+        'innsmouth-shore': 0,
+      },
+    })
+    expect(projection.expansionTracks.state.kingsportRifts[0]).toMatchObject({
+      trackKey: 'rift-1',
+      progress: 4,
+      open: true,
+      investigated: 1,
+      currentLocation: 'South Shore',
+    })
   })
 
   it('uses the default table background when the Ancient One background is disabled', async () => {

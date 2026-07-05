@@ -3,6 +3,10 @@ import type { Payload } from 'payload'
 import { activeAncientOneBackground } from '@/lib/ancientOneBackground'
 import { arkhamEncounterStateFromSession } from '@/lib/arkhamEncounterSessionState'
 import {
+  expansionTrackStateFromSession,
+  type ExpansionTrackState,
+} from '@/lib/expansionTracks'
+import {
   eligibleDocuments,
   relationshipID,
   relationshipIDs,
@@ -57,6 +61,14 @@ export interface ControllerProjection {
     expiresAt: string
     participantName: string
   }
+  expansionTracks: {
+    enabledSetKeys: string[]
+    mythosMovement: {
+      black: string[]
+      white: string[]
+    } | null
+    state: ExpansionTrackState
+  }
   currentCard: {
     revealed: boolean
     title: string
@@ -84,7 +96,7 @@ export interface ControllerProjection {
 }
 
 function mythosCardDocument(value: GameSession['mythos']['currentDraw']) {
-  return value && typeof value === 'object' ? (value as MythosCard) : null
+  return value && typeof value === 'object' && 'cardType' in value ? (value as MythosCard) : null
 }
 
 function relationshipTitle(value: unknown) {
@@ -103,6 +115,17 @@ function neighborhoodDocument(
 
 function ancientOneDocument(value: GameSession['activeAncientOne']) {
   return value && typeof value === 'object' ? (value as AncientOne) : null
+}
+
+function boxedSetKey(value: GameSession['enabledSets'][number]) {
+  if (!value) return null
+  if (typeof value === 'object' && 'key' in value && value.key) return String(value.key)
+  if (typeof value === 'string') return value
+  return null
+}
+
+function enabledSetKeys(session: GameSession) {
+  return [...new Set(session.enabledSets.map(boxedSetKey).filter((key): key is string => Boolean(key)))]
 }
 
 function selectedAncientOneSheet(
@@ -133,10 +156,14 @@ function primaryCommand(
 
 export function controllerCommandsForSession(
   session: GameSession,
+  options: {
+    currentMythosCard?: MythosCard | null
+  } = {},
 ): ControllerCommandDescriptor[] {
   const commands: ControllerCommandDescriptor[] = []
   const mythos = mythosDeckStateFromSession(session)
-  const currentCard = mythosCardDocument(session.mythos.currentDraw)
+  const currentCard =
+    options.currentMythosCard ?? mythosCardDocument(session.mythos.currentDraw)
   const arkham = arkhamEncounterStateFromSession(session)
   const mythosResolvedThisPhase = (session.sessionLog ?? []).some(
     (entry) =>
@@ -258,6 +285,37 @@ export function controllerCommandsForSession(
   return commands
 }
 
+async function controllerCurrentMythosCard(
+  payload: Payload,
+  session: GameSession,
+  mythos = mythosDeckStateFromSession(session),
+) {
+  const currentCard = mythosCardDocument(session.mythos.currentDraw)
+
+  if (currentCard) return currentCard
+  if (!mythos.currentDraw?.cardID) return null
+
+  try {
+    return await payload.findByID({
+      collection: 'mythos-cards',
+      id: mythos.currentDraw.cardID,
+      depth: 0,
+      overrideAccess: true,
+    })
+  } catch {
+    return null
+  }
+}
+
+export async function controllerCommandsForPayloadSession(
+  payload: Payload,
+  session: GameSession,
+) {
+  return controllerCommandsForSession(session, {
+    currentMythosCard: await controllerCurrentMythosCard(payload, session),
+  })
+}
+
 async function controllerNeighborhoods(payload: Payload, session: GameSession) {
   if (session.currentPhase !== 'Arkham Encounters') return []
 
@@ -300,7 +358,7 @@ export async function controllerProjection(
   participant: ControllerParticipant,
 ): Promise<ControllerProjection> {
   const mythos = mythosDeckStateFromSession(session)
-  const currentCard = mythosCardDocument(session.mythos.currentDraw)
+  const currentCard = await controllerCurrentMythosCard(payload, session, mythos)
   const storedArkhamEncounter = session.arkhamEncounters ?? {}
   const selectedNeighborhood = neighborhoodDocument(
     storedArkhamEncounter.selectedNeighborhood,
@@ -324,10 +382,22 @@ export async function controllerProjection(
         relationshipID(storedArkhamEncounter.selectedNeighborhood) ?? null,
       selectedNeighborhoodName: selectedNeighborhood?.name ?? null,
     },
-    commands: controllerCommandsForSession(session),
+    commands: controllerCommandsForSession(session, {
+      currentMythosCard: currentCard,
+    }),
     connection: {
       expiresAt: new Date(participant.expiresAt).toISOString(),
       participantName: participant.name,
+    },
+    expansionTracks: {
+      enabledSetKeys: enabledSetKeys(session),
+      mythosMovement: currentCard
+        ? {
+            black: currentCard.monsterMoveBlack ?? [],
+            white: currentCard.monsterMoveWhite ?? [],
+          }
+        : null,
+      state: expansionTrackStateFromSession(session.expansionTracks),
     },
     currentCard: currentCard
       ? {
