@@ -38,7 +38,7 @@ export const AncientOnes: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'sourceSet', 'key', 'updatedAt'],
+    defaultColumns: ['name', 'sheets', 'sourceSet', 'key', 'updatedAt'],
   },
   versions: {
     drafts: {
@@ -109,6 +109,11 @@ export const AncientOnes: CollectionConfig = {
       required: true,
       minRows: 1,
       validate: validateAncientOneSheets,
+      admin: {
+        components: {
+          Cell: '/components/admin/AncientOneSheetsListCell',
+        },
+      },
       fields: [
         {
           name: 'key',
