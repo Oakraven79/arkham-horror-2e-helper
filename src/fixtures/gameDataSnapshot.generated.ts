@@ -3,7 +3,7 @@
 import type { GameDataSnapshot } from './gameDataSnapshotTypes'
 
 export const generatedGameDataSnapshot: GameDataSnapshot = {
-  generatedAt: '2026-07-02T22:44:38.525Z',
+  generatedAt: '2026-07-05T01:02:00.597Z',
   excludedCollections: ['users', 'game-sessions', 'fixture-installations'],
   collections: {
     boxedSets: [
@@ -12,6 +12,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'base-game',
         category: 'core',
         abbreviation: 'AH',
+        addsExpansionBoard: false,
         sortOrder: 10,
         aliases: [
           {
@@ -19,13 +20,14 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         _status: 'published',
-        addsExpansionBoard: false,
       },
       {
         name: 'The Black Goat of the Woods',
         key: 'black-goat',
         category: 'small-expansion',
         abbreviation: 'BG',
+        addsExpansionBoard: false,
+        icon: 'media-black-goat',
         sortOrder: 80,
         aliases: [
           {
@@ -33,13 +35,14 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         _status: 'published',
-        addsExpansionBoard: false,
       },
       {
         name: 'Curse of the Dark Pharaoh (original)',
         key: 'curse-dark-pharaoh-original',
         category: 'small-expansion',
         abbreviation: 'DP',
+        addsExpansionBoard: false,
+        icon: 'media-dark-pharoah-1st',
         sortOrder: 60,
         aliases: [
           {
@@ -47,13 +50,14 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         _status: 'published',
-        addsExpansionBoard: false,
       },
       {
         name: 'Curse of the Dark Pharaoh (Revised Edition)',
         key: 'curse-dark-pharaoh-revised',
         category: 'small-expansion',
         abbreviation: 'DP-R',
+        addsExpansionBoard: false,
+        icon: 'media-dark-pharoah-revised',
         sortOrder: 70,
         aliases: [
           {
@@ -67,13 +71,14 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         _status: 'published',
-        addsExpansionBoard: false,
       },
       {
         name: 'Dunwich Horror',
         key: 'dunwich-horror',
         category: 'large-expansion',
         abbreviation: 'DH',
+        addsExpansionBoard: false,
+        icon: 'media-dunwich',
         sortOrder: 20,
         aliases: [
           {
@@ -81,13 +86,14 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         _status: 'published',
-        addsExpansionBoard: false,
       },
       {
         name: 'Innsmouth Horror',
         key: 'innsmouth-horror',
         category: 'large-expansion',
         abbreviation: 'IH',
+        addsExpansionBoard: false,
+        icon: 'media-innsmouth',
         sortOrder: 40,
         aliases: [
           {
@@ -95,13 +101,14 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         _status: 'published',
-        addsExpansionBoard: false,
       },
       {
         name: 'The King in Yellow',
         key: 'king-in-yellow',
         category: 'small-expansion',
         abbreviation: 'KiY',
+        addsExpansionBoard: false,
+        icon: 'media-king-in-yellow',
         sortOrder: 90,
         aliases: [
           {
@@ -109,13 +116,14 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         _status: 'published',
-        addsExpansionBoard: false,
       },
       {
         name: 'Kingsport Horror',
         key: 'kingsport-horror',
         category: 'large-expansion',
         abbreviation: 'KH',
+        addsExpansionBoard: false,
+        icon: 'media-kingsport',
         sortOrder: 30,
         aliases: [
           {
@@ -123,13 +131,14 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         _status: 'published',
-        addsExpansionBoard: false,
       },
       {
         name: 'The Lurker at the Threshold',
         key: 'lurker-at-the-threshold',
         category: 'small-expansion',
         abbreviation: 'LatT',
+        addsExpansionBoard: false,
+        icon: 'media-lurker',
         sortOrder: 100,
         aliases: [
           {
@@ -137,13 +146,14 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         _status: 'published',
-        addsExpansionBoard: false,
       },
       {
         name: 'Miskatonic Horror',
         key: 'miskatonic-horror',
         category: 'large-expansion',
         abbreviation: 'MH',
+        addsExpansionBoard: false,
+        icon: 'media-miskatonic',
         sortOrder: 50,
         aliases: [
           {
@@ -151,13 +161,13 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         _status: 'published',
-        addsExpansionBoard: false,
       },
       {
         name: 'Promotional',
         key: 'promotional',
         category: 'promotional',
         abbreviation: 'Promo',
+        addsExpansionBoard: false,
         sortOrder: 110,
         aliases: [
           {
@@ -165,7 +175,6 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         _status: 'published',
-        addsExpansionBoard: false,
       },
     ],
     ancientOnes: [
@@ -173,6 +182,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Abhoth',
         key: 'abhoth',
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         lore: 'Abhoth first appears in The Seven Geases (1934), written by Clark Ashton Smith.',
         sheets: [
           {
@@ -203,6 +213,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Atlach-Nacha',
         key: 'atlach-nacha',
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         lore: 'Atlach-Nacha first appears in The Seven Geases (1934), written by Clark Ashton Smith.',
         sheets: [
           {
@@ -233,6 +244,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Azathoth',
         key: 'azathoth',
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         lore: 'Azathoth first appears in Azathoth (1922), written by H.P. Lovecraft.',
         sheets: [
           {
@@ -261,6 +273,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Bokrug',
         key: 'bokrug',
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         lore: 'Bokrug first appeared in the story The Doom That Came to Sarnath (1919), written by H.P. Lovecraft. Bokrug was a god worshiped by the beings of the city of Ib. The beings of Ib were killed by the men that founded the city Sarnath. 1,000 years after the massacre Bokrug helped the ghosts of the Beings of Ib take their revenge on Sarnath.',
         sheets: [
           {
@@ -296,6 +309,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Chaugnar Faugn',
         key: 'chaugnar-faugn',
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         lore: 'Chaugnar Faugn first appears in The Horror from the Hills (1931), written by Frank B. Long.',
         sheets: [
           {
@@ -326,6 +340,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Cthugha',
         key: 'cthugha',
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         lore: 'Cthugha first appears in The House on Curwen Street (1944), written by August Derleth.',
         sheets: [
           {
@@ -356,6 +371,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Cthulhu',
         key: 'cthulhu',
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         lore: 'Cthulhu was introduced in The Call of Cthulhu (1926), written by H.P. Lovecraft.',
         sheets: [
           {
@@ -407,6 +423,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Daoloth',
         key: 'daoloth',
         sourceSet: 'promotional',
+        requiredSets: ['promotional'],
         lore: 'Daoloth first appeared in The Render of the Veils (1964), written by Ramsey Campbell.',
         sheets: [
           {
@@ -437,6 +454,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Eihort',
         key: 'eihort',
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         lore: 'Eihort first appeared in Before the Storm (1980), written by Ramsey Campbell.',
         sheets: [
           {
@@ -467,6 +485,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Ghatanothoa',
         key: 'ghatanothoa',
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         lore: 'Ghatanothoa first appeared in Out of the Aeons (1933), written by H.P. Lovecraft and Hazel Heald.',
         sheets: [
           {
@@ -497,6 +516,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Glaaki',
         key: 'glaaki',
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         lore: 'Glaaki first appeared in The Inhabitant of the Lake (1964), written by Ramsey Campbell.',
         sheets: [
           {
@@ -527,6 +547,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Hastur',
         key: 'hastur',
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         lore: 'The name Hastur first appeared in Haita the Shepherd (1893), written by Ambrose Bierce, where he was a benevolent god of shepherds. Robert W. Chambers appropriated the name for use in his anthology The King in Yellow (1895). The first Mythos story to use the name was The Whisperer in Darkness (1930), written by H.P. Lovecraft.',
         sheets: [
           {
@@ -578,6 +599,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Ithaqua',
         key: 'ithaqua',
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         lore: 'Ithaqua first appeared in The Thing that Walked on the Wind (1933), written by August Derleth.',
         sheets: [
           {
@@ -615,6 +637,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Nyarlathotep',
         key: 'nyarlathotep',
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         lore: 'Nyarlathotep is first mentioned in the prose poem Nyarlathotep (1920), written by H.P. Lovecraft. The first piece of fiction to feature him is The Rats in the Walls (1924), also written by H.P. Lovecraft.',
         sheets: [
           {
@@ -652,6 +675,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Nyogtha',
         key: 'nyogtha',
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         lore: 'Nyogtha first appeared in The Salem Horror (1937), written by Henry Kuttner.',
         sheets: [
           {
@@ -682,6 +706,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Quachil Uttaus',
         key: 'quachil-uttaus',
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         lore: 'Quachil Uttaus first appeared in The Treader of the Dust (1935), written by Clark Ashton Smith.',
         sheets: [
           {
@@ -718,6 +743,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Rhan-Tegoth',
         key: 'rhan-tegoth',
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         lore: 'Rhan-Tegoth first appeared in The Horror in the Museum (1932), ghost-written by H.P. Lovecraft for Hazel Heald.',
         sheets: [
           {
@@ -754,6 +780,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Shub-Niggurath',
         key: 'shub-niggurath',
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         lore: 'Shub-Niggurath first appeared in The Last Test (1927), written by H.P. Lovecraft and Adolphe de Castro. It was also mentioned in The Thing on the Doorstep (1937), written by H.P. Lovecraft.',
         sheets: [
           {
@@ -786,6 +813,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: "Shudde M'ell",
         key: 'shudde-mell',
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         lore: "Shudde M'ell first appeared in Cement Surroundings (1969), written by Brian Lumley.",
         sheets: [
           {
@@ -816,6 +844,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Tsathoggua',
         key: 'tsathoggua',
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         lore: "Tsathoggua was first mentioned in H.P. Lovecraft's The Whisperer in the Darkness (1931) and again in The Shadow Out of Time (1936), although he was invented and first described in Clark Ashton Smith's short story The Tale of Satampra Zeiros (1931). Published only a few month's apart, Smith's story was actually written a year earlier. Tsathoggua is a primary deity in Smith's Hyperborean Cycle.",
         sheets: [
           {
@@ -847,6 +876,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: "Y'Golonac",
         key: 'ygolonac',
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         lore: "Y'Golonac first appeared in Cold Print (1969), written by Ramsey Campbell.",
         sheets: [
           {
@@ -882,6 +912,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Yibb-Tstll',
         key: 'yibb-tstll',
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         lore: 'Yibb-Tstll first appeared in Cement Surroundings (1969), written by Brian Lumley.',
         sheets: [
           {
@@ -912,6 +943,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Yig',
         key: 'yig',
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         lore: 'Yig first appears in The Curse of Yig (1928), written by H.P. Lovecraft and Zealia Bishop.',
         sheets: [
           {
@@ -967,6 +999,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Yog-Sothoth',
         key: 'yog-sothoth',
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         lore: 'The name Yog-Sothoth first appears in The Case of Charles Dexter Ward (1927), written by H.P. Lovecraft. Actual details of his attributes appear in The Dunwich Horror (1928), also written by H.P. Lovecraft.',
         sheets: [
           {
@@ -1003,6 +1036,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         name: 'Zhar',
         key: 'zhar',
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         lore: 'Zhar first appears in Lair of the Star Spawn (1932), written by August Derleth and Mark Schorer.',
         sheets: [
           {
@@ -1042,6 +1076,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         frontFrame: 'arkham-encounter-arkham-downtown-front',
         backFrame: 'arkham-encounter-arkham-downtown-back',
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1053,6 +1088,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         frontFrame: 'arkham-encounter-arkham-easttown-front',
         backFrame: 'arkham-encounter-arkham-easttown-back',
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1064,6 +1100,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         frontFrame: 'arkham-encounter-arkham-french-hill-front',
         backFrame: 'arkham-encounter-arkham-french-hill-back',
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1075,6 +1112,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         frontFrame: 'arkham-encounter-arkham-merchant-district-front',
         backFrame: 'arkham-encounter-arkham-merchant-district-back',
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1086,6 +1124,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         frontFrame: 'arkham-encounter-arkham-miskatonic-university-front',
         backFrame: 'arkham-encounter-arkham-miskatonic-university-back',
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1097,6 +1136,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         frontFrame: 'arkham-encounter-arkham-northside-front',
         backFrame: 'arkham-encounter-arkham-northside-back',
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1108,6 +1148,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         frontFrame: 'arkham-encounter-arkham-rivertown-front',
         backFrame: 'arkham-encounter-arkham-rivertown-back',
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1119,6 +1160,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         frontFrame: 'arkham-encounter-arkham-southside-front',
         backFrame: 'arkham-encounter-arkham-southside-back',
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1130,6 +1172,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         frontFrame: 'arkham-encounter-arkham-uptown-front',
         backFrame: 'arkham-encounter-arkham-uptown-back',
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1137,6 +1180,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'dunwich-backwoods-country',
         board: 'Dunwich',
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -1144,6 +1188,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'dunwich-blasted-heath',
         board: 'Dunwich',
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -1151,6 +1196,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'dunwich-village-commons',
         board: 'Dunwich',
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -1158,6 +1204,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'innsmouth-church-green',
         board: 'Innsmouth',
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -1165,6 +1212,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'innsmouth-factory-district',
         board: 'Innsmouth',
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -1172,6 +1220,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'innsmouth-innsmouth-shore',
         board: 'Innsmouth',
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -1179,6 +1228,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'kingsport-central-hill',
         board: 'Kingsport',
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -1186,6 +1236,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'kingsport-harborside',
         board: 'Kingsport',
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -1193,6 +1244,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'kingsport-kingsport-head',
         board: 'Kingsport',
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -1200,6 +1252,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'kingsport-south-shore',
         board: 'Kingsport',
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
     ],
@@ -1218,6 +1271,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           '607 Water St. is a location in the Harborside neighborhood of Kingsport. It first appeared in the Kingsport Horror expansion.',
         homeInvestigators: [],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -1234,6 +1288,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'The 7th House on the Left is a location in the Central Hill neighborhood of Kingsport. It originally appeared in the Kingsport Horror expansion.',
         homeInvestigators: [],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -1263,6 +1318,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1292,6 +1348,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1308,6 +1365,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           "The Artists' Colony is a location in the South Shore neighborhood of Kingsport. It first appeared in the Kingsport Horror expansion.",
         homeInvestigators: [],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -1337,6 +1395,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1353,6 +1412,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           "Bishop's Brook Bridge is a Dunwich location in the Village Commons neighborhood. It first appeared in the Dunwich Horror expansion. Bishop's Brook Bridge is the rail depot for the town of Dunwich.",
         homeInvestigators: [],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -1370,6 +1430,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'The Black Cave is an Arkham location in the Rivertown neighborhood. It first appeared in the Arkham Horror board game.',
         homeInvestigators: [],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1386,6 +1447,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'Cold Spring Glen is a Dunwich location in the Backwoods Country neighborhood. It first appeared in the Dunwich Horror expansion.',
         homeInvestigators: [],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -1404,6 +1466,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'Treatment: Instead of having an encounter here, you may spend $1 to regain 1 Sanity and 1 Stamina.',
         homeInvestigators: [],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -1433,6 +1496,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1451,6 +1515,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'Wheel of Fortune: Instead of having an encounter here, you may pay $1 to roll a die. On a success, you gain $3.',
         homeInvestigators: [],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -1469,6 +1534,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'Accursed: Investigators must end their movement upon entering Devil Reef. Flying Monsters may move into Devil Reef as though it were a street area.',
         homeInvestigators: [],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -1487,6 +1553,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'Strange Deal: Instead of having an encounter here, you may spend 5 toughness worth of monster trophies or 1 gate trophy to gain 1 Clue token and $2.',
         homeInvestigators: [],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -1505,6 +1572,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           "Osborn's General Store: Instead of having an encounter here, you may pay $4 to roll a die. On a success, draw 1 Unique Item. On a failure, draw 1 Common Item",
         homeInvestigators: [],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'draft',
       },
       {
@@ -1521,6 +1589,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'The Esoteric Order of Dagon is an Innsmouth location in the Church Green neighborhood. It first appeared in the Innsmouth Horror expansion.',
         homeInvestigators: [],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -1539,6 +1608,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'Boat Charter: During the Movement Phase, you may spend $2 to move to any aquatic location and have an encounter there (if applicable), or move any other investigator in an aquatic location to Falcon Point. Investigators may not move any further after moving with this location ability.',
         homeInvestigators: [],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -1557,6 +1627,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'Food and Gossip: Instead of having an encounter here, you may spend $1 to search the Common Item deck for a "Food" or "Research Materials" card.',
         homeInvestigators: [],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -1573,6 +1644,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           "Gardners' Place is a Dunwich location in the Blasted Heath neighborhood. It first appeared in the Dunwich Horror expansion.",
         homeInvestigators: [],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -1602,6 +1674,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1620,6 +1693,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'Uneasy Sleep: After having an encounter here, if you are still at this location, you may gain 1 Sanity or 1 Stamina.',
         homeInvestigators: [],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -1637,6 +1711,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'The Graveyard is an Arkham location in the Rivertown neighborhood. It first appeared in the Arkham Horror board game.',
         homeInvestigators: [],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1651,6 +1726,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         encounterTypes: ['Clue', 'Spell'],
         homeInvestigators: [],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -1669,6 +1745,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'Hospitality: Instead of having an encounter here, you may regain 1 Sanity or 1 Stamina.',
         homeInvestigators: [],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -1686,6 +1763,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           "Hibb's Roadhouse is an Arkham location in the Easttown neighborhood. It first appeared in the Arkham Horror board game.",
         homeInvestigators: [],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1703,6 +1781,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'The Historical Society is an Arkham location in the Southside neighborhood. It first appeared in the Arkham Horror board game.',
         homeInvestigators: [],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1720,6 +1799,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'Independence Square is an Arkham location in the Downtown neighborhood. It first appeared in the Arkham Horror board game.',
         homeInvestigators: [],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1736,6 +1816,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'The Inner Sanctum is an Arkham location in the French Hill neighborhood. It first appeared in the Arkham Horror board game. Investigators must possess a Silver Twilight Lodge Membership to have encounters at this location.',
         homeInvestigators: [],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1752,6 +1833,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'The Innsmouth Jail is an Innsmouth location in the Church Green neighborhood. It first appeared in the Innsmouth Horror expansion.',
         homeInvestigators: [],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -1770,6 +1852,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'Jail Break: Each investigator in the Jail Cell during the Arkham Encounter Phase makes a Sneak (-1) check and draws one encounter card, plus one additional card for every success rolled, encountering one card of his choice and discarding the others.',
         homeInvestigators: [],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -1797,6 +1880,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1813,6 +1897,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'The Marsh Refinery is an Innsmouth location in the Factory District neighborhood. It first appeared in the Innsmouth Horror expansion.',
         homeInvestigators: [],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -1842,6 +1927,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1860,6 +1946,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'Pawn: Instead of having an encounter here, you may sell a Common or Unique Item. Make a Will (-1) check. If you pass, you get its list price. If you fail, you get half its list price (round up).',
         homeInvestigators: [],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -1887,6 +1974,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1905,6 +1993,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'The White Ship: Instead of having an encounter here, you my spend 10 toughness worth of monster trophies, 2 gate trophies, or 5 toughness worth of monster trophies and 1 gate trophy to take the Captain of the White Ship card.',
         homeInvestigators: [],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -1934,6 +2023,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1963,6 +2053,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -1986,6 +2077,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2003,6 +2095,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'Silver Twilight Lodge is an Arkham location in the French Hill neighborhood. It first appeared in the Arkham Horror board game.\n\nSome encounters in this location can earn investigators a Silver Twilight Lodge Membership. If investigators possess such a membership, they may choose to have an encounter in the Inner Sanctum instead of in the Lodge.',
         homeInvestigators: [],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2032,6 +2125,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2048,6 +2142,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           "St. Eramus's Home is a location in the Central Hill neighborhood of Kingsport. It first appeared in the Kingsport Horror expansion.",
         homeInvestigators: [],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -2077,6 +2172,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2095,6 +2191,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'Otherworldly: Instead of having an encounter here, you may spend 10 toughness worth of monster trophies, 2 gate trophies, or 5 toughness worth of monster trophies and 1 gate trophy to take the Changed card.',
         homeInvestigators: [],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -2112,6 +2209,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         specialEncounter: 'Hard Going: You must end your movement upon entering this location.',
         homeInvestigators: [],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'draft',
       },
       {
@@ -2130,6 +2228,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'Tavern: Instead of having an encounter here, you may spend $1 to search the Common Item deck for a "Food" or "Whiskey" card.',
         homeInvestigators: [],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -2147,6 +2246,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'The Unnamable is an Arkham location in the Merchant District neighborhood. It first appeared in the Arkham Horror board game.',
         homeInvestigators: [],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2164,6 +2264,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'The Witch House is an Arkham location in the French Hill neighborhood. It first appeared in the Arkham Horror board game.',
         homeInvestigators: [],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2194,6 +2295,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2211,6 +2313,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'Unvisited Isle is an Arkham aquatic location in the Merchant District neighborhood. It first appeared in the Arkham Horror board game.',
         homeInvestigators: [],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2238,6 +2341,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2254,6 +2358,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'Whateley Farm is a Dunwich location in the Backwoods Country neighborhood. It first appeared in the Dunwich Horror expansion.',
         homeInvestigators: [],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -2271,6 +2376,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         specialEncounter: 'Hard Going: You must end your movement upon entering this location.',
         homeInvestigators: [],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -2287,6 +2393,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           "Wizard's Hill is a Dunwich location in the Backwoods Country neighborhood. It first appeared in the Dunwich Horror expansion.",
         homeInvestigators: [],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -2304,6 +2411,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           'Woods is an Arkham location in the Uptown neighborhood. It first appeared in the Arkham Horror board game.',
         homeInvestigators: [],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2333,6 +2441,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2351,6 +2460,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           "Inaccessible: Investigators may only enter Y'ha-nthlei from Devil Reef or when returning to Arkham from an Other World, regardless of other game effects. This is true even if there is an open gate here.",
         homeInvestigators: [],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
     ],
@@ -2373,6 +2483,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2393,6 +2504,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2413,6 +2525,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2433,6 +2546,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2453,6 +2567,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2473,6 +2588,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2493,6 +2609,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2513,6 +2630,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2533,6 +2651,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
     ],
@@ -2557,6 +2676,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2579,6 +2699,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2605,6 +2726,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2627,6 +2749,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2648,6 +2771,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2670,6 +2794,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2692,6 +2817,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2714,6 +2840,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2736,6 +2863,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2758,6 +2886,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2779,6 +2908,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2801,6 +2931,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2828,6 +2959,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2850,6 +2982,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2875,6 +3008,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2897,6 +3031,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2919,6 +3054,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2941,6 +3077,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2962,6 +3099,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -2988,6 +3126,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3010,6 +3149,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3031,6 +3171,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3053,6 +3194,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3075,6 +3217,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3102,6 +3245,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3124,6 +3268,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square', 'triangle'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3146,6 +3291,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3168,6 +3314,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3190,6 +3337,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3216,6 +3364,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3237,6 +3386,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3258,6 +3408,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3279,6 +3430,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3301,6 +3453,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3323,6 +3476,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3345,6 +3499,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3366,6 +3521,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3387,6 +3543,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3408,6 +3565,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3430,6 +3588,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3451,6 +3610,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3472,6 +3632,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3494,6 +3655,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3515,6 +3677,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3537,6 +3700,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3559,6 +3723,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3580,6 +3745,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3601,6 +3767,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3623,6 +3790,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3645,6 +3813,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3666,6 +3835,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3688,6 +3858,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3715,6 +3886,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3742,6 +3914,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3764,6 +3937,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3785,6 +3959,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3807,6 +3982,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3832,6 +4008,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3854,6 +4031,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3884,6 +4062,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3908,6 +4087,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3931,6 +4111,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: [],
         monsterMoveBlack: [],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3963,6 +4144,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -3985,6 +4167,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -4006,6 +4189,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -4028,6 +4212,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
       },
       {
@@ -4050,6 +4235,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4073,6 +4259,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4096,6 +4283,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4123,6 +4311,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         monsterMoveBlack: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4145,6 +4334,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4166,6 +4356,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4188,6 +4379,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4210,6 +4402,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4231,6 +4424,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4253,6 +4447,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4275,6 +4470,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4301,6 +4497,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4323,6 +4520,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         monsterMoveBlack: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4345,6 +4543,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4366,6 +4565,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4387,6 +4587,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4408,6 +4609,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         monsterMoveBlack: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4429,6 +4631,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4450,6 +4653,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4472,6 +4676,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4494,6 +4699,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4516,6 +4722,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'black-goat',
+        requiredSets: ['black-goat'],
         _status: 'published',
       },
       {
@@ -4539,6 +4746,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'curse-dark-pharaoh-revised',
+        requiredSets: ['curse-dark-pharaoh-revised'],
         _status: 'published',
       },
       {
@@ -4563,6 +4771,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'curse-dark-pharaoh-revised',
+        requiredSets: ['curse-dark-pharaoh-revised'],
         _status: 'published',
       },
       {
@@ -4587,6 +4796,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'curse-dark-pharaoh-revised',
+        requiredSets: ['curse-dark-pharaoh-revised'],
         _status: 'published',
       },
       {
@@ -4611,6 +4821,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'curse-dark-pharaoh-revised',
+        requiredSets: ['curse-dark-pharaoh-revised'],
         _status: 'published',
       },
       {
@@ -4635,6 +4846,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'curse-dark-pharaoh-revised',
+        requiredSets: ['curse-dark-pharaoh-revised'],
         _status: 'published',
       },
       {
@@ -4662,6 +4874,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'curse-dark-pharaoh-revised',
+        requiredSets: ['curse-dark-pharaoh-revised'],
         _status: 'published',
       },
       {
@@ -4689,6 +4902,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'curse-dark-pharaoh-revised',
+        requiredSets: ['curse-dark-pharaoh-revised'],
         _status: 'published',
       },
       {
@@ -4713,6 +4927,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'curse-dark-pharaoh-revised',
+        requiredSets: ['curse-dark-pharaoh-revised'],
         _status: 'published',
       },
       {
@@ -4737,6 +4952,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'curse-dark-pharaoh-revised',
+        requiredSets: ['curse-dark-pharaoh-revised'],
         _status: 'published',
       },
       {
@@ -4761,6 +4977,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'curse-dark-pharaoh-revised',
+        requiredSets: ['curse-dark-pharaoh-revised'],
         _status: 'published',
       },
       {
@@ -4785,6 +5002,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'curse-dark-pharaoh-revised',
+        requiredSets: ['curse-dark-pharaoh-revised'],
         _status: 'published',
       },
       {
@@ -4807,6 +5025,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'curse-dark-pharaoh-revised',
+        requiredSets: ['curse-dark-pharaoh-revised'],
         _status: 'published',
       },
       {
@@ -4829,6 +5048,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'curse-dark-pharaoh-revised',
+        requiredSets: ['curse-dark-pharaoh-revised'],
         _status: 'published',
       },
       {
@@ -4854,6 +5074,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'curse-dark-pharaoh-revised',
+        requiredSets: ['curse-dark-pharaoh-revised'],
         _status: 'published',
       },
       {
@@ -4879,6 +5100,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'curse-dark-pharaoh-revised',
+        requiredSets: ['curse-dark-pharaoh-revised'],
         _status: 'published',
       },
       {
@@ -4908,6 +5130,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'curse-dark-pharaoh-revised',
+        requiredSets: ['curse-dark-pharaoh-revised'],
         _status: 'published',
       },
       {
@@ -4930,6 +5153,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'curse-dark-pharaoh-revised',
+        requiredSets: ['curse-dark-pharaoh-revised'],
         _status: 'published',
       },
       {
@@ -4954,6 +5178,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'curse-dark-pharaoh-revised',
+        requiredSets: ['curse-dark-pharaoh-revised'],
         _status: 'published',
       },
       {
@@ -4976,6 +5201,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -4998,6 +5224,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5020,6 +5247,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5042,6 +5270,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5064,6 +5293,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5086,6 +5316,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5108,6 +5339,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5130,6 +5362,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5152,6 +5385,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5174,6 +5408,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5196,6 +5431,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5218,6 +5454,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5240,6 +5477,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5262,6 +5500,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5284,6 +5523,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5306,6 +5546,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5328,6 +5569,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5349,6 +5591,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5376,6 +5619,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5397,6 +5641,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5419,6 +5664,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5446,6 +5692,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5468,6 +5715,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5490,6 +5738,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5511,6 +5760,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5538,6 +5788,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5560,6 +5811,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5581,6 +5833,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5602,6 +5855,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5624,6 +5878,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5646,6 +5901,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5668,6 +5924,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5690,6 +5947,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5712,6 +5970,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5734,6 +5993,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5756,6 +6016,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5778,6 +6039,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         _status: 'published',
       },
       {
@@ -5799,6 +6061,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -5821,6 +6084,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -5843,6 +6107,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: [],
         monsterMoveBlack: [],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -5865,6 +6130,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -5887,6 +6153,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -5909,6 +6176,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -5931,6 +6199,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: [],
         monsterMoveBlack: [],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -5952,6 +6221,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -5974,6 +6244,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -5996,6 +6267,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6018,6 +6290,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6040,6 +6313,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6062,6 +6336,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6084,6 +6359,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6106,6 +6382,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6128,6 +6405,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6150,6 +6428,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6172,6 +6451,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6199,6 +6479,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6221,6 +6502,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6243,6 +6525,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6264,6 +6547,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6286,6 +6570,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6308,6 +6593,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6329,6 +6615,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6351,6 +6638,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6378,6 +6666,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         monsterMoveBlack: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6400,6 +6689,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6422,6 +6712,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6443,6 +6734,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         monsterMoveBlack: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6465,6 +6757,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6487,6 +6780,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6509,6 +6803,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6531,6 +6826,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6553,6 +6849,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6575,6 +6872,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'innsmouth-horror',
+        requiredSets: ['innsmouth-horror'],
         _status: 'published',
       },
       {
@@ -6597,6 +6895,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -6621,6 +6920,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -6645,6 +6945,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -6669,6 +6970,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -6691,6 +6993,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: [],
         monsterMoveBlack: [],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -6715,6 +7018,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -6739,6 +7043,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -6762,6 +7067,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -6785,6 +7091,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -6808,6 +7115,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -6831,6 +7139,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -6855,6 +7164,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -6878,6 +7188,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -6900,6 +7211,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -6922,6 +7234,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -6944,6 +7257,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         monsterMoveBlack: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -6968,6 +7282,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -6995,6 +7310,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -7019,6 +7335,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -7042,6 +7359,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -7066,6 +7384,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -7090,6 +7409,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -7114,6 +7434,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         monsterMoveBlack: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         sourceSet: 'king-in-yellow',
+        requiredSets: ['king-in-yellow'],
         _status: 'published',
       },
       {
@@ -7136,6 +7457,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7158,6 +7480,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7180,6 +7503,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7208,6 +7532,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         monsterMoveBlack: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7230,6 +7555,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7252,6 +7578,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7274,6 +7601,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7296,6 +7624,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7318,6 +7647,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7340,6 +7670,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7368,6 +7699,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7390,6 +7722,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7411,6 +7744,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         monsterMoveBlack: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7432,6 +7766,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7454,6 +7789,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7476,6 +7812,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7498,6 +7835,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7519,6 +7857,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7541,6 +7880,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7563,6 +7903,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7595,6 +7936,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7616,6 +7958,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         _status: 'published',
       },
       {
@@ -7637,6 +7980,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -7659,6 +8003,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -7681,6 +8026,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -7702,6 +8048,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -7723,6 +8070,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         monsterMoveBlack: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -7745,6 +8093,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -7767,6 +8116,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -7788,6 +8138,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -7810,6 +8161,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -7832,6 +8184,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -7853,6 +8206,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -7875,6 +8229,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -7897,6 +8252,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -7919,6 +8275,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -7941,6 +8298,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -7962,6 +8320,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -7983,6 +8342,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -8004,6 +8364,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         monsterMoveBlack: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -8028,6 +8389,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -8054,6 +8416,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -8076,6 +8439,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -8097,6 +8461,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'lurker-at-the-threshold',
+        requiredSets: ['lurker-at-the-threshold'],
         _status: 'published',
       },
       {
@@ -8119,6 +8484,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8140,6 +8506,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8166,6 +8533,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8188,6 +8556,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8210,6 +8579,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8232,6 +8602,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8254,6 +8625,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8276,6 +8648,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8298,6 +8671,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8320,6 +8694,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8342,6 +8717,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8365,6 +8741,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8388,6 +8765,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8410,6 +8788,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8432,6 +8811,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8454,6 +8834,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8476,6 +8857,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8501,6 +8883,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8523,6 +8906,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8545,6 +8929,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8566,6 +8951,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8588,6 +8974,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8610,6 +8997,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8632,6 +9020,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8654,6 +9043,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8676,6 +9066,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8698,6 +9089,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8720,6 +9112,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8742,6 +9135,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8764,6 +9158,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8786,6 +9181,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8807,6 +9203,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8828,6 +9225,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon', 'diamond', 'hexagon', 'square'],
         monsterMoveBlack: ['circle', 'cross', 'leftLean', 'star', 'triangle'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8850,6 +9248,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['hexagon'],
         monsterMoveBlack: ['leftLean', 'star', 'triangle'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8871,6 +9270,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['diamond', 'square'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8898,6 +9298,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['leftLean', 'star', 'triangle'],
         monsterMoveBlack: ['hexagon'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8920,6 +9321,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: [],
         monsterMoveBlack: [],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8942,6 +9344,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['crescentMoon'],
         monsterMoveBlack: ['cross'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8969,6 +9372,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -8991,6 +9395,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['cross'],
         monsterMoveBlack: ['crescentMoon'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
       {
@@ -9013,6 +9418,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         monsterMoveWhite: ['diamond', 'square'],
         monsterMoveBlack: ['circle'],
         sourceSet: 'miskatonic-horror',
+        requiredSets: ['miskatonic-horror'],
         _status: 'published',
       },
     ],
@@ -9022,6 +9428,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'abyss',
         preferredColours: ['blue', 'red'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         art: 'media-abyss',
         _status: 'published',
       },
@@ -9030,6 +9437,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'another-dimension',
         preferredColours: ['blue', 'green', 'yellow', 'red'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         art: 'media-another-dimension',
         _status: 'published',
       },
@@ -9038,6 +9446,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'another-time',
         preferredColours: ['green', 'red'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         art: 'media-another-time',
         _status: 'published',
       },
@@ -9046,6 +9455,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'carcosa',
         preferredColours: ['blue', 'yellow'],
         sourceSet: 'dunwich-horror',
+        requiredSets: ['dunwich-horror'],
         art: 'media-lost-carcosa',
         _status: 'published',
       },
@@ -9054,6 +9464,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'celano',
         preferredColours: ['blue'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         art: 'media-celano',
         _status: 'draft',
       },
@@ -9062,6 +9473,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'city-of-the-great-race',
         preferredColours: ['green', 'yellow'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         art: 'media-city-of-the-great-race',
         _status: 'published',
       },
@@ -9070,6 +9482,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'leng',
         preferredColours: ['red', 'green'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         art: 'media-leng',
         _status: 'published',
       },
@@ -9078,6 +9491,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'rlyeh',
         preferredColours: ['red', 'yellow'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         art: 'media-rlyeh',
         _status: 'published',
       },
@@ -9086,6 +9500,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'the-dreamlands',
         preferredColours: ['green'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         art: 'media-dreamlands',
         _status: 'published',
       },
@@ -9094,6 +9509,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'the-underworld ',
         preferredColours: ['blue', 'green'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         art: 'media-underworld',
         _status: 'published',
       },
@@ -9102,6 +9518,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'unknown-kadath',
         preferredColours: ['red', 'yellow'],
         sourceSet: 'kingsport-horror',
+        requiredSets: ['kingsport-horror'],
         art: 'media-kadath',
         _status: 'published',
       },
@@ -9110,6 +9527,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         key: 'yuggoth',
         preferredColours: ['blue', 'green'],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         art: 'media-yuggoth',
         _status: 'published',
       },
@@ -9117,6 +9535,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
     otherWorldEncounterCards: [
       {
         cardCode: 'base-blue-001',
+        copyCount: 1,
         colour: 'blue',
         encounters: [
           {
@@ -9135,11 +9554,12 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
-        copyCount: 1,
       },
       {
         cardCode: 'base-green-001',
+        copyCount: 1,
         colour: 'green',
         encounters: [
           {
@@ -9158,11 +9578,12 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
-        copyCount: 1,
       },
       {
         cardCode: 'base-red-001',
+        copyCount: 1,
         colour: 'red',
         encounters: [
           {
@@ -9181,11 +9602,12 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
-        copyCount: 1,
       },
       {
         cardCode: 'base-yellow-001',
+        copyCount: 1,
         colour: 'yellow',
         encounters: [
           {
@@ -9204,8 +9626,8 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           },
         ],
         sourceSet: 'base-game',
+        requiredSets: ['base-game'],
         _status: 'published',
-        copyCount: 1,
       },
     ],
   },

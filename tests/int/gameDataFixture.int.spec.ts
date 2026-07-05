@@ -283,13 +283,31 @@ describe('Game data fixture', () => {
       arkhamEncounterCards: 9,
       boxedSets: 11,
       locations: 57,
-      media: 102,
+      media: 111,
       mythosCards: 287,
       neighborhoods: 19,
       otherWorldEncounterCards: 4,
       otherWorlds: 12,
     })
     expect(validation.checksum).toMatch(/^[a-f0-9]{64}$/)
+    expect(gameDataFixture.mediaRelationships.boxedSetIcons).toEqual({
+      'black-goat': 'media-black-goat',
+      'curse-dark-pharaoh-original': 'media-dark-pharoah-1st',
+      'curse-dark-pharaoh-revised': 'media-dark-pharoah-revised',
+      'dunwich-horror': 'media-dunwich',
+      'innsmouth-horror': 'media-innsmouth',
+      'king-in-yellow': 'media-king-in-yellow',
+      'kingsport-horror': 'media-kingsport',
+      'lurker-at-the-threshold': 'media-lurker',
+      'miskatonic-horror': 'media-miskatonic',
+    })
+    expect(
+      Object.fromEntries(
+        gameDataFixture.snapshot.collections.boxedSets.flatMap((boxedSet) =>
+          boxedSet.icon ? [[boxedSet.key, boxedSet.icon]] : [],
+        ),
+      ),
+    ).toEqual(gameDataFixture.mediaRelationships.boxedSetIcons)
   })
 
   it('stores portable relationship keys instead of Payload IDs', () => {
