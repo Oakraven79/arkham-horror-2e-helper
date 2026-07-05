@@ -3,10 +3,15 @@
 A local table companion for **Arkham Horror Second Edition**. It provides a shared
 dashboard for the table that can be on a laptop or TV and a phone-friendly controller.
 
+You need node 22, pnpm and docker installed
+
+
 This is ***not a repalcement for the game you must own it and the expansions you wish to play***
 
+It is currently a work in progress!
 
-All artwork and credits go to the creators of this, this is just a helper. 
+
+All artwork and credits go to the creators of this, this is just a helper. They put in all the real work so we can enjoy. 
 https://boardgamegeek.com/boardgame/15987/arkham-horror/credits
 
 
@@ -62,22 +67,22 @@ Imagine this on a TV near the game table
 ![Live table dashboard](docs/screenshots/otherworld.png)
 ![Live table dashboard](docs/screenshots/otherworld2.png)
 
+## Mythos with active env
 
-### Mobile Controller Room
+![Live table dashboard](docs/screenshots/activeenv.png)
 
-![Dashboard mobile controller room](docs/screenshots/dashboard-mobile-room.png)
+
+# Mobile Controller Room
+
+Rather than having a keyboard and mouse, which is ok if you want, people can also use their mobile phones to join the game and control it as well. 
+
+
+![Dashboard mobile controller room](docs/screenshots/mobile-enable.png)
 
 ### Phone Controller
 
-
-
 ![Mobile controller join screen](docs/screenshots/mobile-controller.png)
-
-
-
 ![Connected mobile controller](docs/screenshots/mobile-controller-connected.png)
-
-
 
 
 ## Requirements
@@ -163,6 +168,15 @@ origin before starting Next.js.
 
 7. Go to `/sessions`, create or resume a saved table, then use `/` as the live
    table display.
+
+
+## To really use it
+
+1. Start the production server:
+
+   ```bash
+   pnpm run build && pnpm run start
+   ```
 
 ## Docker
 
