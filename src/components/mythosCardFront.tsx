@@ -215,9 +215,11 @@ export const MythosCardFront = ({
 }: MythosCardFrontProps) => {
   const descSizeClass = getDescSizeClass(cardDescription)
 
-  const titleSizeClass = (title?.length ?? 1) > 22 ? 'mythoscardtitle-long' : 'mythoscardtitle'
+  const compactHeader = (title?.length ?? 1) >= 22
 
-  const cardTypeSizeClass = (title?.length ?? 1) > 22 ? 'mythoscardtype-small' : 'mythoscardtype'
+  const titleSizeClass = compactHeader ? 'mythoscardtitle-long' : 'mythoscardtitle'
+
+  const cardTypeSizeClass = compactHeader ? 'mythoscardtype-small' : 'mythoscardtype'
 
   const monsterMoveBlackList: MonsterIcons[] = monsterMoveBlack
     ? Array.isArray(monsterMoveBlack)
@@ -235,9 +237,12 @@ export const MythosCardFront = ({
   const boxedSetMarkClassName = centeredMonsterMovementBox
     ? 'mythos-boxed-set-mark centered'
     : 'mythos-boxed-set-mark'
+  const cardClassName = compactHeader
+    ? 'mythoscardfront mythoscardfront-compact-header'
+    : 'mythoscardfront'
 
   return (
-    <div className="mythoscardfront">
+    <div className={cardClassName}>
       <BoxedSetMark boxedSet={boxedSet} className={boxedSetMarkClassName} />
       <div className="mythoscardheaderbox">
         <div className={titleSizeClass}>{title}</div>

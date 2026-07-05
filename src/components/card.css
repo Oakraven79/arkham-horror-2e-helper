@@ -34,6 +34,9 @@
 /* Mythos Card Front */
 
 .mythoscardfront {
+  --mythos-desc-really-small-top: 16%;
+  --mythos-desc-small-top: 16%;
+  --mythos-desc-top: 20%;
   --mythos-monster-box-bottom: 0.5rem;
   --mythos-monster-box-height: 25%;
   --mythos-monster-box-half-width: 27.5%;
@@ -60,6 +63,12 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover; /* or contain (see below) */
+}
+
+.mythoscardfront-compact-header {
+  --mythos-desc-really-small-top: 17%;
+  --mythos-desc-small-top: 17%;
+  --mythos-desc-top: 20.5%;
 }
 
 .mythoscardfront p,
@@ -168,7 +177,7 @@
   margin-bottom: 0.5em;
   margin-top: 0.5em;
   position: absolute;
-  top: 20%; /* starts 30% down from the top of the card */
+  top: var(--mythos-desc-top);
   left: 50%; /* anchor at horizontal center */
   transform: translateX(-50%); /* shift back so it’s actually centered */
 
@@ -190,7 +199,7 @@
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
   position: absolute;
-  top: 16%; /* starts 30% down from the top of the card */
+  top: var(--mythos-desc-small-top);
   left: 50%; /* anchor at horizontal center */
   transform: translateX(-50%); /* shift back so it’s actually centered */
 
@@ -207,7 +216,7 @@
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
   position: absolute;
-  top: 16%; /* starts 30% down from the top of the card */
+  top: var(--mythos-desc-really-small-top);
   left: 50%; /* anchor at horizontal center */
   transform: translateX(-50%); /* shift back so it’s actually centered */
 
