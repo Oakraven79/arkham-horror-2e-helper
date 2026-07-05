@@ -3,7 +3,7 @@
 import type { GameDataSnapshot } from './gameDataSnapshotTypes'
 
 export const generatedGameDataSnapshot: GameDataSnapshot = {
-  generatedAt: '2026-07-05T01:02:00.597Z',
+  generatedAt: '2026-07-05T22:32:13.619Z',
   excludedCollections: ['users', 'game-sessions', 'fixture-installations'],
   collections: {
     boxedSets: [
@@ -204,6 +204,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
               'While Abhoth stirs in his slumber, each time a monster surge occurs, place a random Child of Abhoth on the surging gate. If all 3 Children of Abhoth are already on the board, raise the terror level by 2 and add 1 doom token to the doom track.',
             attack:
               'Each investigator must discard a total of 3 Clue tokens, monster trophies, gate trophies, and/or Items or be devoured.',
+            sheetImage: 'media-abhoth',
           },
         ],
         rulesNotes: [],
@@ -235,6 +236,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
               'While Atlach-Nacha stirs in his slumber, all gate openings are gate bursts. In addition, all Mystic cards are discarded without their special effects taking place.',
             attack:
               'The Investigators must, as a group, choose one Ally in play or one investigator. If an Ally is chosen, it is returned to the box. If an investigator is chosen, that investigator is devoured.',
+            sheetImage: 'media-nacha',
           },
         ],
         rulesNotes: [],
@@ -295,6 +297,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
             startOfBattle: 'X is set to twice the number of Beings of Ib on this sheet.',
             attack:
               'Add 1 clue token to this sheet. If this brings the total number of clues and Beings of Ib on this sheet to eight or more, the investigators are devoured and lose the game.',
+            sheetImage: 'media-bokrug',
           },
         ],
         rulesNotes: [
@@ -331,6 +334,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
               'While Chaugnar Faugn stirs in his slumber, any investigator carrying an Elder Sign or in the same neighborhood as an elder sign token suffers a -1 penalty to all skill checks.',
             attack:
               'Each investigator must discard three Clue tokens, one Ally, or be devoured. Chaugnar Faugn cannot have more than three doom tokens removed from his doom track during a single round of combat - he ignores all further successes.',
+            sheetImage: 'media-chaugnah-faugri',
           },
         ],
         rulesNotes: [],
@@ -362,6 +366,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
               'While Cthugha stirs in its slumber, each investigator loses 1 Stamina for each movement point over 3 he spends each turn. Reading Tomes does not count towards this total. In addition, all Weather cards are ignored when drawn - a new card being drawn instead.',
             attack:
               'Roll a die. Each investigator must lose a total of that many Clue tokens, Stamina, and/or Sanity or be devoured. Any weapon used in an attack against Cthugha is discarded after the attack is made.',
+            sheetImage: 'media-cthuga',
           },
         ],
         rulesNotes: [],
@@ -393,6 +398,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
               'While Cthulhu stirs in his slumber, investigators have their maximum Sanity and maximum Stamina reduced by 1.',
             attack:
               "Each investigator lowers either his maximum Sanity or Maximum Stamina by 1 (his choice). After Cthulhu attacks 1 doom token is placed back on Cthulhu's doom track if it isn't already full.",
+            sheetImage: 'media-cthulu',
           },
           {
             key: 'arkham-nights',
@@ -445,6 +451,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
               'While Daoloth stirs in his slumber, immediately after each monster surge, replace all open gates, one at a time. Do this by reshuffling the gate into the pile of gate markers and drawing a new one to take its place. Then, discard all explored markers. This is not treated as a new gate opening (no doom tokens are added to the doom track and no monsters are drawn). Investigators are not drawn through these gates until the Arkham Encounter phase.',
             attack:
               "Draw a Mythos Card. If the card instructs the players to place a gate in a location that does not have an elder sign on it, the first player is devoured. If the card instructs players to place a gate in a location that does have an elder sign on it, remove the elder sign from that location. If the Mythos Card does not instruct players to place a gate in a location, 1 token is placed back on Daoloth's doom track if it is not full.",
+            sheetImage: 'media-daloth',
           },
         ],
         rulesNotes: [],
@@ -476,6 +483,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
               "While Eihort stirs in his slumber, any investigator who seals a gate gains 1 brood token. Any brood tokens on an investigator who is devoured are immediately added to Eihort's doom track as doom tokens. Eihort can exceed 12 doom tokens on his doom track.\n\nEihort's Brood: Each time an investigator gains a brood token, roll a die. If the roll is lower than the number of brood tokens possessed by that investigator, he is devoured.",
             startOfBattle: 'When Eihort awakens, each investigator gains one brood token.',
             attack: 'The first player gains one brood token.',
+            sheetImage: 'media-eihort',
           },
         ],
         rulesNotes: [],
@@ -507,6 +515,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
               "While Ghatanothoa stirs in his slumber, place the eight visage tokens facedown on this sheet. Each time an investigator gains 2 or more Clue tokens at once, he must turn a visage token faceup. If it has Ghatanothoa's face on it, he is devoured. If not, leave the token faceup. Once four visage tokens are faceup, turn them facedown and shuffle the visage tokens.",
             attack:
               "Each investigator must spend 1 movement point or be devoured. This increases by 1 point in each successive round (e.g. 2 points in round 2, 3 in round three, etc.).\n\nEach investigator's attack against Ghatanothoa deals one less success than normal.",
+            sheetImage: 'media-ghatanotha',
           },
         ],
         rulesNotes: [],
@@ -538,6 +547,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
               'While Glaaki stirs in his slumber, each time an Ally is discarded or removed from the game, draw a mythos card and place a random Servant of Glaaki on the gate location shown (even if it is sealed). If all 5 Servants of Glaaki are already on the board, Glaaki immediately awakens. If an investigator is devoured, raise the terror level by 2.',
             attack:
               'Raise the terror level by 1. If it is 10 or higher, all investigators are devoured.',
+            sheetImage: 'media-glaaki',
           },
         ],
         rulesNotes: [],
@@ -569,6 +579,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
             startOfBattle: 'X is set to the current terror level.',
             attack:
               "Each investigator must pass a Luck (+1) check or lose 2 Sanity. This check's modifier decreases by 1 each turn (+0 the 2nd turn, -1 the 3rd turn, etc.)",
+            sheetImage: 'media-hastur',
           },
           {
             key: 'arkham-nights',
@@ -589,7 +600,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
               'While Hastur stirs in his slumber, immediately after an investigator seals a gate, he or she must reduce his or her maximum Sanity by 1. (An investigator may seal a gate even if doing so would reduce his or her maximum Sanity to 0.)\n\nEach time an investigator in Arkham is driven insane or devoured, raise the Terror\nLevel by 1.',
             attack:
               "Each investigator must pass a Luck (+1) check or lose 2 Sanity. This check's modifier decreases by 1 each turn (+0 the 2nd turn, -1 the 3rd turn, etc.)",
-            sheetImage: 'media-hastur',
+            sheetImage: 'media-hastur-2',
           },
         ],
         rulesNotes: [],
@@ -623,6 +634,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
               'Investigators must roll a die for every item they have, discarding the item on a failure.',
             attack:
               "Each investigator must pass a Fight (+1) check or lose 2 Stamina. This check's modifier decreases by 1 each turn (+0 the 2nd turn, -1 the 3rd turn, etc.)",
+            sheetImage: 'media-ithaqua',
           },
         ],
         rulesNotes: [
@@ -697,6 +709,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
               'While Nyogtha stirs in its slumber, at the start of the game, place the Tendril of Nyogtha monster token on this sheet. Each time a monster (but not a gate) appears during an encounter, the Tendril of Nyogtha is encountered instead. If it is defeated, return the Tendril to this sheet. It cannot be claimed as a trophy.',
             attack:
               "The first player is pulled underground. Roll a die. On a success, that player escapes with their life; otherwise they are devoured.\n\nNyogtha's combat rating is -3 for the first player only.",
+            sheetImage: 'media-nyogtha',
           },
         ],
         rulesNotes: [],
@@ -729,6 +742,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
             startOfBattle: 'All Allies are returned to the box.',
             attack:
               'Quachil Uttaus touches the first player, who ages to dust and blows away in the wind. The first player is devoured.',
+            sheetImage: 'media-quachil-uttaus-1',
           },
         ],
         rulesNotes: [
@@ -766,6 +780,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
             startOfBattle: 'Rhan-Tegoth gains 2 extra doom tokens for each Cultist on this sheet.',
             attack:
               'Rhan-Tegoth drains the blood from a victim. The investigator with the highest current Stamina (first player breaks ties) rolls dice equal to his Stamina and loses 1 Stamina for each failed die. For each Stamina Rhan-Tegoth drains, the investigators must inflict one extra success on him in order to defeat him.',
+            sheetImage: 'media-rhan-tegoth',
           },
         ],
         rulesNotes: [
@@ -835,6 +850,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
               "While Shudde M'ell stirs in his slumber place the 7 rubble tokens face down near the board. Each time a monster surge occurs, draw a rubble token. The token is placed on the location it shows, closing that location for the rest of the game. If there are no rubble tokens left when one should be drawn, the game is over and the investigators lose.",
             attack:
               "One undrawn rubble token is discarded. If there are no rubble tokens left to discard when Shudde M'ell attacks, Arkham is destroyed by a massive earthquake and all investigators are devoured.",
+            sheetImage: 'media-shudde-mell',
           },
         ],
         rulesNotes: [],
@@ -867,6 +883,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
             startOfBattle: 'Investigators discard all Clue tokens.',
             attack:
               'Each investigator must discard 2 monster trophies and 1 gate trophy or be devoured.',
+            sheetImage: 'media-tsathogga',
           },
         ],
         rulesNotes: [],
@@ -898,6 +915,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
               "While Y'Golonac stirs in his slumber, each time an investigator draws a Tome from any deck after dealing out starting equipment (whether he keeps the Tome or not) add one doom token to Y'Golonac's doom track.",
             attack:
               "Wounds from Y'Golonac's hands remain open and bleeding. Each investigator loses 1 point of Sanity and/or Stamina, split between the two however he likes. This increases by 1 point each successive round (e.g., 2 points in round two, 3 in round three, etc.).",
+            sheetImage: 'media-golon',
           },
         ],
         rulesNotes: [
@@ -934,6 +952,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
             startOfBattle: 'When Yibb-Tstll awakens all investigators lose all Clue tokens.',
             attack:
               "The first player rolls dice equal to his focus. If he does not roll at least one success, he is devoured. If he rolls two or more successes he is Blessed. It takes twice as many successes as usual to remove each doom token from Yibb-Tstll's doom track.",
+            sheetImage: 'media-yibb',
           },
         ],
         rulesNotes: [],
@@ -967,6 +986,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
               'Every investigator is Cursed. Any investigator that already has a Curse is devoured.',
             attack:
               "Each investigator must pass a Speed (+1) check or lose 1 Sanity and 1 Stamina. This check's modifier decreases by 1 each turn (+0 the 2nd turn, -1 the 3rd turn, etc.)",
+            sheetImage: 'media-yig',
           },
           {
             key: 'arkham-nights',
@@ -989,7 +1009,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
               'All Cursed investigators are devoured. Then all remaining investigators are Cursed.',
             attack:
               "Each investigator must pass a Speed (+1) check or lose 1 Sanity and 1 Stamina. This check's modifier decreases by 1 each turn (+0 the 2nd turn, -1 the 3rd turn, etc.) If the results of an investigator's skill check include two or more 1s, he loses 1 Sanity and 1 Stamina. If the investigator is devoured as a result, no successes are scored and he fails the check.",
-            sheetImage: 'media-yig',
+            sheetImage: 'media-yig2',
           },
         ],
         rulesNotes: [],
@@ -1022,6 +1042,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
             startOfBattle: 'Any investigator with no gate trophies is devoured.',
             attack:
               "Each investigator must pass a Will (+1) check or lose 1 gate trophy. Any investigator with no gate trophies left is devoured. This check's modifier decreases by 1 each turn (+0 the 2nd turn, -1 the 3rd turn, etc.)",
+            sheetImage: 'media-yog-sothoth',
           },
         ],
         rulesNotes: [
@@ -1060,6 +1081,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
               'Zhar gains Magical Immunity. Once Zhar has been defeated once, this becomes Physical Immunity instead.',
             attack:
               'Each investigator is in turn wrapped in a tentacle, then crushed. If no player has the Zhar token, give the Zhar token to the first player. That player then loses one hand for use in combat. If an investigator already has the Zhar token he is devoured. The first player marker does not get passed until its current holder is devoured.',
+            sheetImage: 'media-zhar',
           },
         ],
         rulesNotes: [],
@@ -2508,6 +2530,132 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         _status: 'published',
       },
       {
+        cardCode: 'base-easttown-002',
+        neighborhood: 'arkham-easttown',
+        encounters: [
+          {
+            location: 'hibbs-roadhouse',
+            text: 'Pass a **Luck (-1)** check or a pickpocket cleans you out! Lose all your money.',
+          },
+          {
+            location: 'police-station',
+            text: 'Deputy Dingby accidentally drops a case file as he makes his way past you. Pass a **Sneak (+0)** check to search the Common Item deck for a Research Materials card and take it.',
+          },
+          {
+            location: 'velmas-diner',
+            text: 'You find some money on the floor under the back booth. If you take it, make a **Sneak (-1)** check. If you pass, roll a die and gain that much money. If you fail, Velma sees you pick up the money. She comes over and swipes it out of your hands screaming, "Stealing my tips!" so loudly that you flee the diner. Move to the street.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-easttown-003',
+        neighborhood: 'arkham-easttown',
+        encounters: [
+          {
+            location: 'hibbs-roadhouse',
+            text: '"So, what\'s your story, friend?" A smiling man inquires about your adventures over a glass of gin. You tell him your story. If you spend 3 Clue tokens, he introduces himself as **Ryan Dean** and asks to join you. Take his Ally card. If it\'s not available, he gives you some useful items instead. Draw 2 Common Items.',
+          },
+          {
+            location: 'police-station',
+            text: "One of the men in the holding cells tries to intimidate you with a bizarre story that he's seen. Make a **Will (-1)** check. If you pass, gain 1 Clue token. If you fail, move to the street and lose 1 Sanity as the man laughs at your retreating back.",
+          },
+          {
+            location: 'velmas-diner',
+            text: '"What\'ll it be, hon?" Velma takes your order. Pay up to $6 to gain that many points split between Sanity and Stamina however you like.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-easttown-004',
+        neighborhood: 'arkham-easttown',
+        encounters: [
+          {
+            location: 'hibbs-roadhouse',
+            text: "Prohibition failed to influence the proprietor of Hibb's. You drink heavily while guzzling the locals about the strange goings-on in Arkham. Make a **Will (-1)** check. If you pass, you hold your liquor and learn something. Gain 2 Clue tokens. If you fail, you pass out. Move to the street and either have 1 Item of your choice or all of your money stolen.",
+          },
+          {
+            location: 'police-station',
+            text: 'Sheriff Engle trusts you and asks you to step into his office to discuss the strangest events. Pass a **Luck (-2)** check to convince him to take you into his confidence and give you something to help you out. Draw 1 Unique Item.',
+          },
+          {
+            location: 'velmas-diner',
+            text: 'You get food poisoning! Pass a **Luck (-1)** check or lose 2 Stamina.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-easttown-005',
+        neighborhood: 'arkham-easttown',
+        encounters: [
+          {
+            location: 'hibbs-roadhouse',
+            text: 'A horrible monster appears!',
+          },
+          {
+            location: 'police-station',
+            text: "Sheriff Engle notices that you're carrying an awful lot of weapons. Either pay him $5 or discard all of your  ***Weapons*** .",
+          },
+          {
+            location: 'velmas-diner',
+            text: 'Velma reads the tea leaves left in your cup. Make a **Luck (-1)** check. If you pass, the formation of the leaves indicates hope; you are Blessed. If you fail, the future looks bleak; you are Cursed.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-easttown-006',
+        neighborhood: 'arkham-easttown',
+        encounters: [
+          {
+            location: 'hibbs-roadhouse',
+            text: 'You enter a "friendly" card game. Make a **Luck (-1)** check. If you pass, you win $5. If you fail, you lose $3. If you lose and can\'t pay, the boys rough you up and throw you outside. Lose 1 Stamina and move to the street.',
+          },
+          {
+            location: 'police-station',
+            text: 'Deputy Dingby, excitedly cleaning his gun, fires a bullet from the chamber in your direction. Pass a **Luck (-1)** check to avoid getting shot. If you fail, lose 2 Stamina.',
+          },
+          {
+            location: 'velmas-diner',
+            text: 'Velma comments on how skinny you look and gives you a sandwich on the house. You may search the Common Item deck for a Food card and take it.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-easttown-007',
+        neighborhood: 'arkham-easttown',
+        encounters: [
+          {
+            location: 'hibbs-roadhouse',
+            text: 'Joey "the Rat" Vigil slips into an empty chair at your table and whispers, "Psssst! Wanna buy something?" Look at the top 3 cards of the Common Item deck. You may purchase any or all of them for $1 above list price. "Hey, I\'ve got overhead," the Rat explains.',
+          },
+          {
+            location: 'police-station',
+            text: 'If you succeed at a **Luck (-1)** check, then Deputy Dingby absentmindedly leaves you holding his gun. You may search the Common Item deck for a .38 Revolver card and take it.',
+          },
+          {
+            location: 'velmas-diner',
+            text: 'You spot a rat leaving the kitchen. Pass a **Will (-2)** check to convince Velma to bribe you $5 not to tell anyone.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
         cardCode: 'base-french-hill-001',
         neighborhood: 'arkham-french-hill',
         encounters: [
@@ -2522,6 +2670,132 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           {
             location: 'the-witch-house',
             text: '"Excuse me, stranger, but have you ever seen this symbol before?" A man standing near the house holds up an occult symbol. Make a **Lore (-1) check**. If you pass, the man introduces himself as **Thomas F. Malone**, a police detective visiting Arkham on a case. He\'s impressed with you and offers to join you. Take his Ally card. If it\'s not available, he tells you some valuable information instead. Gain 2 Clue tokens. If you fail, nothing happens.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-french-hill-002',
+        neighborhood: 'arkham-french-hill',
+        encounters: [
+          {
+            location: 'silver-twilight-lodge',
+            text: '"Care to join the Order?" Carl Sanford and several of his henchmen ask. If you accept, pay $3 and take a Silver Twilight Membership. If you decline, pass a Will (-1) check or lose 3 Stamina as the henchmen assist you out the door. Whether you pass or not, move to the street.',
+          },
+          {
+            location: 'inner-sanctum',
+            text: 'You attend a ceremony in which the order opens a gate and a monster bursts out of it before the gate closes once more. A monster appears!',
+          },
+          {
+            location: 'the-witch-house',
+            text: 'In an old journal you learn some horrible eldritch secrets. Roll a die. Lose that much Sanity and gain that many Clue tokens.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-french-hill-003',
+        neighborhood: 'arkham-french-hill',
+        encounters: [
+          {
+            location: 'silver-twilight-lodge',
+            text: 'Carl Sanford draws you into the study to talk and you feel the cold creep of dread listening to him. Make a Lore (-1) check. If you pass, your willpower stands up to the test of the ancient wizard and you even learn something of value. Gain 3 Clue tokens. If you fail, his hypnotic tones lull you into a trance. The conversation seems short, but when you leave the study, much time has passed and your thoughts are confused. Lose all of your Clue tokens and move to the street.',
+          },
+          {
+            location: 'inner-sanctum',
+            text: 'Carl Sanford does not trust you and at the climax of the monthly ceremony spits a spell at you. Pass a Luck (-2) check or you are Cursed.',
+          },
+          {
+            location: 'the-witch-house',
+            text: 'A gate and a monster appear!',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-french-hill-004',
+        neighborhood: 'arkham-french-hill',
+        encounters: [
+          {
+            location: 'silver-twilight-lodge',
+            text: 'Make a Sneak (-2) check. If you pass, you slip into the temple area of the Lodge and find 2 items of interest. Roll a die for each item. On a success, draw a Unique Item, otherwise draw a Common Item.',
+          },
+          {
+            location: 'inner-sanctum',
+            text: "You're invited to take part in a Gating ceremony. If you agree, spend 2 Clue tokens and 1 Sanity to make a Lore (-2) check. If you pass, close one gate of your choice. If you fail, nothing happens.",
+          },
+          {
+            location: 'the-witch-house',
+            text: 'You are overcome by the echoing chants of the long-gone witches who have lived and died here—you pass out. Make a Will (-2) check. If you pass, you learn an ancient spell in your dreams. Draw 1 Spell. If you fail, you are missing half your items when you wake up. Discard half of your items (your choice, round down).',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-french-hill-005',
+        neighborhood: 'arkham-french-hill',
+        encounters: [
+          {
+            location: 'silver-twilight-lodge',
+            text: '"Care to join the Order?" Carl Sanford and several of his henchmen ask. If you accept, pay $3 and take a Silver Twilight Membership. If you decline, pass a Will (-1) check or lose 3 Stamina as the henchmen assist you out the door. Whether you pass or not, move to the street.',
+          },
+          {
+            location: 'inner-sanctum',
+            text: 'Pay your monthly dues of $3 or lose 2 Sanity from strange dreams sent to you by Carl Sanford when he kicks you out of the Order. If you are kicked out, lose your Silver Twilight Membership.',
+          },
+          {
+            location: 'the-witch-house',
+            text: 'You feel the house actually breathe and speak your name. Lose 1 Sanity.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-french-hill-006',
+        neighborhood: 'arkham-french-hill',
+        encounters: [
+          {
+            location: 'silver-twilight-lodge',
+            text: 'You hear the quiet sounds of an intruder. If you investigate, you find a woman dressed in black. She attacks you as soon as she sees you. Pass a Fight (-1) check to subdue her long enough to explain your innocent visit. You find out that her name is Ruby Standish and that she was robbing the Lodge. However, upon hearing your tale, she agrees to join you. Take her Ally card. If it is not available, draw a Unique Item instead.',
+          },
+          {
+            location: 'inner-sanctum',
+            text: 'The Order of the Silver Twilight casts a banishment spell in their monthly ceremony. Spend 1 Sanity to make a Luck (-1) check. If you pass, claim any 1 monster on the board as a trophy. If you fail, nothing happens.',
+          },
+          {
+            location: 'the-witch-house',
+            text: 'Pass a Luck (-1) check to find an odd-looking item in an old dusty display case. Draw 1 Unique Item.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-french-hill-007',
+        neighborhood: 'arkham-french-hill',
+        encounters: [
+          {
+            location: 'silver-twilight-lodge',
+            text: 'Brushing up against a strange object in the hall, you feel stretched and thin, like your skin is too tight. Pass a Luck (-1) check or you are Cursed.',
+          },
+          {
+            location: 'inner-sanctum',
+            text: 'Participating in the monthly ceremony, you witness great power and great evil. Lose up to 3 Sanity and gain that many Clue tokens.',
+          },
+          {
+            location: 'the-witch-house',
+            text: "You find a banquet laid out in the dining room and feel compelled to sit down and eat. Make a Luck (+0) check and consult the following chart:\n\n**Successes**\n\n**0)** You suddenly realize what you've been eating. Lose 3 Sanity.\n\n**1)** You gorge yourself, unable to stop eating. Stay here next turn.\n\n**2)** The food makes you feel sick. Lose 1 Stamina.\n\n**3+)** The meal refreshes you. Gain 3 Stamina.",
           },
         ],
         sourceSet: 'base-game',
@@ -2550,6 +2824,132 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         _status: 'published',
       },
       {
+        cardCode: 'base-merchant-district-002',
+        neighborhood: 'arkham-merchant-district',
+        encounters: [
+          {
+            location: 'river-docks',
+            text: 'Walking along the dock you see something floating in the water near the edge of the dock. You reach for it—make a **Luck (-1)** check. If you pass, you dredge up something useful. Draw 1 Common Item. If you fail, you pull to the surface a tentacle that immediately wraps around your neck and drags you under the water and out to sea. Lose 1 Sanity and 3 Stamina before you can break free.',
+          },
+          {
+            location: 'the-unnamable',
+            text: 'Pass a **Luck (-1)** check to find a hidden cache concealed in the wall of an upstairs bedroom. Draw 1 Unique Item.',
+          },
+          {
+            location: 'unvisited-isle',
+            text: 'A group of hooded cultists are having a meeting among the standing stones on the island. Pass a **Sneak (-1)** check to overhear some of what they have to say. Gain 2 Clue tokens.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-merchant-district-003',
+        neighborhood: 'arkham-merchant-district',
+        encounters: [
+          {
+            location: 'river-docks',
+            text: 'You open some crates on the dock. Inside you find some useful things. Draw 2 Common Items. Next, make a **Luck (-1)** check. If you pass, you get away without being seen. If you fail, you are arrested and taken to the Police Station.',
+          },
+          {
+            location: 'the-unnamable',
+            text: 'In a dusty and decaying roll-top desk, you find a mysterious manuscript. If you read it, make a **Lore (-1)** check. If you pass, draw 1 Spell. If you fail, the manuscript is nothing but the insane babbling of a previous renter. Stay here next turn reading it, but gain 2 Clue tokens.',
+          },
+          {
+            location: 'unvisited-isle',
+            text: "You come across a man examining some old bones. Pass a **Sneak (-1)** check to get close enough to see what he's doing. He finally notices you and is impressed with your skills, introducing himself as **John Legrasse**. Take his Ally card if it's available, otherwise he shares a meal with you. Restore your Sanity and Stamina to their maximum values.",
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-merchant-district-004',
+        neighborhood: 'arkham-merchant-district',
+        encounters: [
+          {
+            location: 'river-docks',
+            text: 'The dock workers are short-handed and offer you a job as a stevedore for the day. Make a **Fight (+0)** check. If you pass, gain **$3** for every success you rolled. If you fail, the boss gets tired of your lollygagging and throws you out. Lose 1 Stamina and move to the street.',
+          },
+          {
+            location: 'the-unnamable',
+            text: 'A monster and gate appear!',
+          },
+          {
+            location: 'unvisited-isle',
+            text: 'A silent man brushes past you on the trail. Your arm goes numb with cold from the brief contact, and you whirl around to look at him, but he has disappeared.Lose 1 Stamina and pass a **Will (-1)** check or lose 1 Sanity as well.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-merchant-district-005',
+        neighborhood: 'arkham-merchant-district',
+        encounters: [
+          {
+            location: 'river-docks',
+            text: "You bump into Abner Weems, the local drunk. You help him find a place to sleep for the night, and he mumbles something to you over and over. Make a **Luck (-1)** check. If you pass, his mumbling is a magical chant. Draw 1 Spell. If you fail, it's gibberish. Nothing happens.",
+          },
+          {
+            location: 'the-unnamable',
+            text: "You bump into **Eric Colt**. He tells you a horrible tale of the Mythos to test your nerve. If you listen, lose 2 Sanity. If this doesn't drive you insane, take his Ally card if it is available. If it is not available, you may pump him for information instead. Gain 3 Clue tokens.",
+          },
+          {
+            location: 'unvisited-isle',
+            text: 'You come across a large pile of human bones under the boughs of one of the willows on the isle. Lose 1 Sanity, but find a scroll among the bones. Draw 1 Spell.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-merchant-district-006',
+        neighborhood: 'arkham-merchant-district',
+        encounters: [
+          {
+            location: 'river-docks',
+            text: 'A horrific stench draws your attention to the body of some bizarre marine creature, rotting on the edge of the docks. As you move towards it, an uneasy feeling grows in the pit of your stomach, as though you are meddling with something best left alone. Make a **Will (-1)** check. If you pass, lose 1 Sanity. If you fail, lose 2 Sanity. In either event, if you are not reduced to 0 Sanity, you find something clutched in its webbed hands. Draw 1 Unique Item.',
+          },
+          {
+            location: 'the-unnamable',
+            text: 'The ceiling beam suddenly buckles. Make a **Speed (-1)** check. If you pass, move to the street. If you fail, lose 2 Stamina.',
+          },
+          {
+            location: 'unvisited-isle',
+            text: 'As you start to climb back into your canoe and row to shore, you see a huge, shadowy shape disturb the water near the island. Waves of intense dread grip you, and you must pass a **Will (-1)** check or be **Cursed**.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-merchant-district-007',
+        neighborhood: 'arkham-merchant-district',
+        encounters: [
+          {
+            location: 'river-docks',
+            text: "You notice a piece of wood floating in the water, carved into it is the name of a ship long since sunk. As you touch it, visions of the drowning passengers' last moments of life flood through your mind. Pass a **Speed (-1)** check to hurl it away from you. If you fail, you fall to the ground with a cry. Lose 1 Sanity.",
+          },
+          {
+            location: 'the-unnamable',
+            text: 'You notice a glint of light in a crevice. If you reach in, make a **Luck (-1)** check. If you pass, draw 1 Unique Item. If you fail, you feel a sharp pain as teeth clamp down on your hand. You manage to pull free, but you lose 2 Stamina and 1 Sanity.',
+          },
+          {
+            location: 'unvisited-isle',
+            text: 'The willows sway in a wind that you cannot hear or feel, and for a moment, the hatred of these ancient trees for the invader who has come to their island drives you to your knees. Pass a **Will (-2)** check or lose 3 Sanity.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
         cardCode: 'base-miskatonic-university-001',
         neighborhood: 'arkham-miskatonic-university',
         encounters: [
@@ -2564,6 +2964,132 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           {
             location: 'science-building',
             text: 'A chemical brew bubbles on a nearby Bunsen burner. It smells delicious. If you drink it, make a **Luck (+0) check**. If you pass, the strange liquid fortifies you. Roll a die and gain that many points, split between your Stamina and Sanity however you like. If you fail, the liquid turns out to be coffee. Gain 1 Stamina.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-miskatonic-university-002',
+        neighborhood: 'arkham-miskatonic-university',
+        encounters: [
+          {
+            location: 'administration-building',
+            text: 'The Dean introduces you to an anthropology professor who gives you some insight into your investigation. Gain 1 Clue token.',
+          },
+          {
+            location: 'library',
+            text: "Make a **Will (+0)** check and consult the chart below.\n\n**Successes**\n\n**0)** Abigail tosses you out. Move to the street.\n\n**1)** Abigail lets you into a private section of the library where you find an ancient tome. Draw 2 Spells and keep whichever one of them you want.\n\n**2+)** Abigail loans you one of the strange items in the library's display case. Draw 1 Unique Item.",
+          },
+          {
+            location: 'science-building',
+            text: 'Assisting a professor in his research, you find a valuable Spell. Draw 1 Spell.\n\nHowever, you must pass a **Fight (-1)** check or some sticky-fingered student steals one of your items. Lose 1 item of your choice.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-miskatonic-university-003',
+        neighborhood: 'arkham-miskatonic-university',
+        encounters: [
+          {
+            location: 'administration-building',
+            text: 'Discuss the opportunity to sell a monograph with the President of the University. Pass a **Lore (-1)** check to make the sale and gain **$5**.',
+          },
+          {
+            location: 'library',
+            text: 'Overdue book fines of **$4**. Pay up, or move to the street!',
+          },
+          {
+            location: 'science-building',
+            text: 'A professor of the occult asks you to hold a hideous statue that he believes to have strange powers while he reads a scroll.\n\nEnergy shoots through your body. Make a **Luck (-1)** check.\n\nIf you pass, your spirit rises from your body and you feel that you have the power to switch bodies with another investigator. You may choose another investigator from among the investigators and bring it into play as a new character, discarding your current investigator (along with all of its items, skills, trophies, etc.).\n\nIf you fail, nothing happens.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-miskatonic-university-004',
+        neighborhood: 'arkham-miskatonic-university',
+        encounters: [
+          {
+            location: 'administration-building',
+            text: 'Pass a **Will (-1)** check to get the Dean to offer you a retainer to write a monograph for the college. Gain a Retainer card.',
+          },
+          {
+            location: 'library',
+            text: 'You find an unusual book that radiates evil at the touch. You begin to read and are drawn into it. Make a **Lore (-2)** check. If you pass, you obtain vital arcane knowledge of the eldritch threat. Roll a die and gain that many Clue tokens.\n\nIf you fail, the book consumes your mind and soul—lose 2 Sanity and 2 Stamina.',
+          },
+          {
+            location: 'science-building',
+            text: 'An archaeology professor shows you an item he recovered in an Egyptian pyramid. If you have **2 or fewer Spells**, it glows in your hands and you find yourself outside, still holding it. Not wanting to tempt it, gain 1 Unique Item and move to the street. If you have **more than 2 Spells**, nothing happens.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-miskatonic-university-005',
+        neighborhood: 'arkham-miskatonic-university',
+        encounters: [
+          {
+            location: 'administration-building',
+            text: 'Discuss the opportunity to sell a monograph with the President of the University. Pass a **Lore (-1)** check to make the sale and gain **$5**.',
+          },
+          {
+            location: 'library',
+            text: "You look up to see Abigail Foreman leaning over you with hands on hips and a frustrated look on her face. Make a **Will (-1)** check. If you pass, she helps you find the book you were looking for. Take the first Tome from the Unique Item deck. If you fail, you've made too much noise. She escorts you out of the library. Move to the street.",
+          },
+          {
+            location: 'science-building',
+            text: 'As you enter the Department of Alchemy, a professor looks up in horror. He grabs an ancient artifact from a locked drawer in his desk and holds it up before your face, chanting and making symbolic motions with the item. If you are **Cursed**, discard the Curse. If you are **not Cursed**, then you are **Blessed**.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-miskatonic-university-006',
+        neighborhood: 'arkham-miskatonic-university',
+        encounters: [
+          {
+            location: 'administration-building',
+            text: 'You may choose to help an anthropology professor and his students decipher an ancient stone tablet. If so, make a **Lore (-2)** check. If you pass, you correctly interpret it and draw 1 Spell. If you fail, you mispronounce a word and are **Cursed**.',
+          },
+          {
+            location: 'library',
+            text: 'You doze off and enter the Dreamlands. Have an encounter there, then immediately return here.',
+          },
+          {
+            location: 'science-building',
+            text: 'You find a muscular, bored-looking man who challenges you to an arm wrestling match. Lose 2 Stamina if you accept. If this does not knock you unconscious, **Sir William Brinton** laughs and slaps your shoulder, offering to join your investigation. Take his Ally card. If it is not available, gain **$5** instead.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-miskatonic-university-007',
+        neighborhood: 'arkham-miskatonic-university',
+        encounters: [
+          {
+            location: 'administration-building',
+            text: "A student mistakes you for the bursar. If you want to carry on the deception, make a **Will (-2)** check. If you pass, gain **$8** in ill-gotten tuition money. If you fail, you're arrested and taken to the Police Station.",
+          },
+          {
+            location: 'library',
+            text: 'Pass a **Luck (-2)** check to find **$5** someone was using as a bookmark.',
+          },
+          {
+            location: 'science-building',
+            text: "You find a student puzzling on a strange device that has hooked up to massive machinery. He states that it is a dimensional beam machine. If you offer to help him, make a **Lore (-2)** check. If you pass, beams shoot out in all directions, disrupting the gates open throughout the world. Roll a die for each open gate, one at a time. On a success, the gate is closed. However, you may not take it as a trophy, but instead return it to the pile of gate markers. If you fail, the machinery overheats and explodes. Roll a die and lose that much Stamina, then move to St. Mary's Hospital.",
           },
         ],
         sourceSet: 'base-game',

@@ -1,22 +1,67 @@
 # Arkham Horror 2e Helper
 
 A local table companion for **Arkham Horror Second Edition**. It provides a shared
-dashboard for the table, a phone-friendly controller, Payload CMS admin screens
-for reference data, and saved game sessions backed by MongoDB.
+dashboard for the table that can be on a laptop or TV and a phone-friendly controller.
+
+This is ***not a repalcement for the game you must own it and the expansions you wish to play***
+
+
+All artwork and credits go to the creators of this, this is just a helper. 
+https://boardgamegeek.com/boardgame/15987/arkham-horror/credits
+
+
+
+The idea is to cut down set up time focussing on: 
+
+- Active rules centralised on screen
+- Mythos, Arkham Encounter, Otherworld Encounter are all on screen. 
+- Game counters are tracked and visible. 
+- Admin backend for custom creation and also import/export of set ups. 
+- Add an optional mobile interface to remote control the dashboard.
+
 
 The physical board remains authoritative. This app tracks state, presents phase
 guidance, draws supported digital decks, and lets players correct or advance the
 table without replacing the game rules.
 
+
+Payload CMS admin screens for reference data, and saved game sessions backed by MongoDB.
+
 ## Screenshots
 
-### Session Hub
+### Starting a game
 
-![Game sessions hub](docs/screenshots/sessions.png)
+Imagine this on a TV near the game table
 
-### Live Table Dashboard
+![Game sessions hub](docs/screenshots/setup-1.png)
 
-![Live table dashboard](docs/screenshots/dashboard.png)
+![Game sessions setup](docs/screenshots/setup-2.png) 
+
+
+
+# Table Dashboard (Opening Mythos)
+
+
+![Live table dashboard](docs/screenshots/Opening-mythos.png)
+![Live table dashboard](docs/screenshots/Opening-mythos-2.png)
+
+
+# Table Dashboard (Game Phases)
+
+## Upkeep
+![Live table dashboard](docs/screenshots/upkeep.png)
+
+## Movement
+![Live table dashboard](docs/screenshots/Movement.png)
+
+## Arkham Encounters
+![Live table dashboard](docs/screenshots/Neighbourhood.png)
+![Live table dashboard](docs/screenshots/encounter.png)
+
+## Other World Encounters
+![Live table dashboard](docs/screenshots/otherworld.png)
+![Live table dashboard](docs/screenshots/otherworld2.png)
+
 
 ### Mobile Controller Room
 
@@ -24,9 +69,16 @@ table without replacing the game rules.
 
 ### Phone Controller
 
+
+
 ![Mobile controller join screen](docs/screenshots/mobile-controller.png)
 
+
+
 ![Connected mobile controller](docs/screenshots/mobile-controller-connected.png)
+
+
+
 
 ## Requirements
 

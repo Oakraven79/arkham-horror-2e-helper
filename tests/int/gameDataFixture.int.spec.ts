@@ -280,10 +280,10 @@ describe('Game data fixture', () => {
     expect(validation.errors).toEqual([])
     expect(validation.counts).toEqual({
       ancientOnes: 25,
-      arkhamEncounterCards: 9,
+      arkhamEncounterCards: 33,
       boxedSets: 11,
       locations: 57,
-      media: 111,
+      media: 132,
       mythosCards: 287,
       neighborhoods: 19,
       otherWorldEncounterCards: 4,
@@ -308,6 +308,31 @@ describe('Game data fixture', () => {
         ),
       ),
     ).toEqual(gameDataFixture.mediaRelationships.boxedSetIcons)
+    expect(gameDataFixture.media.map((asset) => asset.fixtureKey)).toEqual(
+      expect.arrayContaining([
+        'media-abhoth',
+        'media-bokrug',
+        'media-chaugnah-faugri',
+        'media-cthuga',
+        'media-daloth',
+        'media-eihort',
+        'media-ghatanotha',
+        'media-glaaki',
+        'media-golon',
+        'media-hastur-2',
+        'media-ithaqua',
+        'media-nacha',
+        'media-nyogtha',
+        'media-quachil-uttaus-1',
+        'media-rhan-tegoth',
+        'media-shudde-mell',
+        'media-tsathogga',
+        'media-yibb',
+        'media-yig2',
+        'media-yog-sothoth',
+        'media-zhar',
+      ]),
+    )
   })
 
   it('stores portable relationship keys instead of Payload IDs', () => {

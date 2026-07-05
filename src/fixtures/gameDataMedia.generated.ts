@@ -164,6 +164,13 @@ export const generatedGameDataMedia = {
       "publicPath": "/fixture-assets/game-data/media-7th-house.webp"
     },
     {
+      "fixtureKey": "media-abhoth",
+      "alt": "abhoth.png",
+      "filename": "media-abhoth.webp",
+      "matchFilename": "abhoth.png",
+      "publicPath": "/fixture-assets/game-data/media-abhoth.webp"
+    },
+    {
       "fixtureKey": "media-abyss",
       "alt": "abyss.png",
       "filename": "media-abyss.webp",
@@ -255,6 +262,13 @@ export const generatedGameDataMedia = {
       "publicPath": "/fixture-assets/game-data/media-boarding.webp"
     },
     {
+      "fixtureKey": "media-bokrug",
+      "alt": "bokrug.png",
+      "filename": "media-bokrug.webp",
+      "matchFilename": "bokrug.png",
+      "publicPath": "/fixture-assets/game-data/media-bokrug.webp"
+    },
+    {
       "fixtureKey": "media-capture",
       "alt": "Capture.jpg",
       "filename": "media-capture.webp",
@@ -281,6 +295,13 @@ export const generatedGameDataMedia = {
       "filename": "media-celano.webp",
       "matchFilename": "media-celano-celano-1.png",
       "publicPath": "/fixture-assets/game-data/media-celano.webp"
+    },
+    {
+      "fixtureKey": "media-chaugnah-faugri",
+      "alt": "Chaugnah Faugri.png",
+      "filename": "media-chaugnah-faugri.webp",
+      "matchFilename": "Chaugnah Faugri.png",
+      "publicPath": "/fixture-assets/game-data/media-chaugnah-faugri.webp"
     },
     {
       "fixtureKey": "media-church",
@@ -311,6 +332,13 @@ export const generatedGameDataMedia = {
       "publicPath": "/fixture-assets/game-data/media-congregational-hospital.webp"
     },
     {
+      "fixtureKey": "media-cthuga",
+      "alt": "Cthuga.png",
+      "filename": "media-cthuga.webp",
+      "matchFilename": "Cthuga.png",
+      "publicPath": "/fixture-assets/game-data/media-cthuga.webp"
+    },
+    {
       "fixtureKey": "media-cthulu",
       "alt": "cthulu.png",
       "filename": "media-cthulu.webp",
@@ -323,6 +351,13 @@ export const generatedGameDataMedia = {
       "filename": "media-curiousitie.webp",
       "matchFilename": "media-curiousitie-curiousitie-1.jpg",
       "publicPath": "/fixture-assets/game-data/media-curiousitie.webp"
+    },
+    {
+      "fixtureKey": "media-daloth",
+      "alt": "Daloth.png",
+      "filename": "media-daloth.webp",
+      "matchFilename": "Daloth.png",
+      "publicPath": "/fixture-assets/game-data/media-daloth.webp"
     },
     {
       "fixtureKey": "media-dark-pharoah-1st",
@@ -388,6 +423,13 @@ export const generatedGameDataMedia = {
       "publicPath": "/fixture-assets/game-data/media-dunwich-villiage.webp"
     },
     {
+      "fixtureKey": "media-eihort",
+      "alt": "Eihort.png",
+      "filename": "media-eihort.webp",
+      "matchFilename": "Eihort.png",
+      "publicPath": "/fixture-assets/game-data/media-eihort.webp"
+    },
+    {
       "fixtureKey": "media-eldritch-horror-board-game-artwork",
       "alt": "eldritch-horror-board-game-artwork.jpg",
       "filename": "media-eldritch-horror-board-game-artwork.webp",
@@ -423,11 +465,32 @@ export const generatedGameDataMedia = {
       "publicPath": "/fixture-assets/game-data/media-genstore.webp"
     },
     {
+      "fixtureKey": "media-ghatanotha",
+      "alt": "Ghatanotha.png",
+      "filename": "media-ghatanotha.webp",
+      "matchFilename": "Ghatanotha.png",
+      "publicPath": "/fixture-assets/game-data/media-ghatanotha.webp"
+    },
+    {
       "fixtureKey": "media-gilman-house-hotel",
       "alt": "gilman house hotel.png",
       "filename": "media-gilman-house-hotel.webp",
       "matchFilename": "media-gilman-house-hotel-gilman-house-hotel-1.png",
       "publicPath": "/fixture-assets/game-data/media-gilman-house-hotel.webp"
+    },
+    {
+      "fixtureKey": "media-glaaki",
+      "alt": "Glaaki.png",
+      "filename": "media-glaaki.webp",
+      "matchFilename": "Glaaki.png",
+      "publicPath": "/fixture-assets/game-data/media-glaaki.webp"
+    },
+    {
+      "fixtureKey": "media-golon",
+      "alt": "golon.png",
+      "filename": "media-golon.webp",
+      "matchFilename": "golon.png",
+      "publicPath": "/fixture-assets/game-data/media-golon.webp"
     },
     {
       "fixtureKey": "media-grave",
@@ -456,6 +519,13 @@ export const generatedGameDataMedia = {
       "filename": "media-hastur.webp",
       "matchFilename": "media-hastur-hastur-1.png",
       "publicPath": "/fixture-assets/game-data/media-hastur.webp"
+    },
+    {
+      "fixtureKey": "media-hastur-2",
+      "alt": "Hastur 2.png",
+      "filename": "media-hastur-2.webp",
+      "matchFilename": "Hastur 2.png",
+      "publicPath": "/fixture-assets/game-data/media-hastur-2.webp"
     },
     {
       "fixtureKey": "media-hibbs",
@@ -505,6 +575,13 @@ export const generatedGameDataMedia = {
       "filename": "media-isle-1.webp",
       "matchFilename": "isle-1.jpg",
       "publicPath": "/fixture-assets/game-data/media-isle-1.webp"
+    },
+    {
+      "fixtureKey": "media-ithaqua",
+      "alt": "ithaqua.png",
+      "filename": "media-ithaqua.webp",
+      "matchFilename": "ithaqua.png",
+      "publicPath": "/fixture-assets/game-data/media-ithaqua.webp"
     },
     {
       "fixtureKey": "media-kadath",
@@ -584,6 +661,13 @@ export const generatedGameDataMedia = {
       "publicPath": "/fixture-assets/game-data/media-mythos-backing.webp"
     },
     {
+      "fixtureKey": "media-nacha",
+      "alt": "nacha.png",
+      "filename": "media-nacha.webp",
+      "matchFilename": "nacha.png",
+      "publicPath": "/fixture-assets/game-data/media-nacha.webp"
+    },
+    {
       "fixtureKey": "media-neils-curiosity",
       "alt": "neils curiosity.png",
       "filename": "media-neils-curiosity.webp",
@@ -610,6 +694,13 @@ export const generatedGameDataMedia = {
       "filename": "media-nyalothep.webp",
       "matchFilename": "media-nyalothep-nyalothep-1.png",
       "publicPath": "/fixture-assets/game-data/media-nyalothep.webp"
+    },
+    {
+      "fixtureKey": "media-nyogtha",
+      "alt": "Nyogtha.png",
+      "filename": "media-nyogtha.webp",
+      "matchFilename": "Nyogtha.png",
+      "publicPath": "/fixture-assets/game-data/media-nyogtha.webp"
     },
     {
       "fixtureKey": "media-old-house-1",
@@ -647,6 +738,20 @@ export const generatedGameDataMedia = {
       "publicPath": "/fixture-assets/game-data/media-police.webp"
     },
     {
+      "fixtureKey": "media-quachil-uttaus-1",
+      "alt": "Quachil uttaus-1.png",
+      "filename": "media-quachil-uttaus-1.webp",
+      "matchFilename": "Quachil uttaus-1.png",
+      "publicPath": "/fixture-assets/game-data/media-quachil-uttaus-1.webp"
+    },
+    {
+      "fixtureKey": "media-rhan-tegoth",
+      "alt": "rhan-tegoth.png",
+      "filename": "media-rhan-tegoth.webp",
+      "matchFilename": "rhan-tegoth.png",
+      "publicPath": "/fixture-assets/game-data/media-rhan-tegoth.webp"
+    },
+    {
       "fixtureKey": "media-rlyeh",
       "alt": "rlyeh.png",
       "filename": "media-rlyeh.webp",
@@ -675,6 +780,13 @@ export const generatedGameDataMedia = {
       "publicPath": "/fixture-assets/game-data/media-shub.webp"
     },
     {
+      "fixtureKey": "media-shudde-mell",
+      "alt": "Shudde Mell.png",
+      "filename": "media-shudde-mell.webp",
+      "matchFilename": "Shudde Mell.png",
+      "publicPath": "/fixture-assets/game-data/media-shudde-mell.webp"
+    },
+    {
       "fixtureKey": "media-silver",
       "alt": "silver.jpg",
       "filename": "media-silver.webp",
@@ -701,6 +813,13 @@ export const generatedGameDataMedia = {
       "filename": "media-train.webp",
       "matchFilename": "media-train-train-1.jpg",
       "publicPath": "/fixture-assets/game-data/media-train.webp"
+    },
+    {
+      "fixtureKey": "media-tsathogga",
+      "alt": "tsathogga.png",
+      "filename": "media-tsathogga.webp",
+      "matchFilename": "tsathogga.png",
+      "publicPath": "/fixture-assets/game-data/media-tsathogga.webp"
     },
     {
       "fixtureKey": "media-underworld",
@@ -759,6 +878,13 @@ export const generatedGameDataMedia = {
       "publicPath": "/fixture-assets/game-data/media-y-ha-nthlei.webp"
     },
     {
+      "fixtureKey": "media-yibb",
+      "alt": "yibb.png",
+      "filename": "media-yibb.webp",
+      "matchFilename": "yibb.png",
+      "publicPath": "/fixture-assets/game-data/media-yibb.webp"
+    },
+    {
       "fixtureKey": "media-yig",
       "alt": "yig.png",
       "filename": "media-yig.webp",
@@ -766,11 +892,32 @@ export const generatedGameDataMedia = {
       "publicPath": "/fixture-assets/game-data/media-yig.webp"
     },
     {
+      "fixtureKey": "media-yig2",
+      "alt": "yig2.png",
+      "filename": "media-yig2.webp",
+      "matchFilename": "yig2.png",
+      "publicPath": "/fixture-assets/game-data/media-yig2.webp"
+    },
+    {
+      "fixtureKey": "media-yog-sothoth",
+      "alt": "Yog sothoth.png",
+      "filename": "media-yog-sothoth.webp",
+      "matchFilename": "Yog sothoth.png",
+      "publicPath": "/fixture-assets/game-data/media-yog-sothoth.webp"
+    },
+    {
       "fixtureKey": "media-yuggoth",
       "alt": "yuggoth.png",
       "filename": "media-yuggoth.webp",
       "matchFilename": "media-yuggoth-yuggoth-1.png",
       "publicPath": "/fixture-assets/game-data/media-yuggoth.webp"
+    },
+    {
+      "fixtureKey": "media-zhar",
+      "alt": "zhar.png",
+      "filename": "media-zhar.webp",
+      "matchFilename": "zhar.png",
+      "publicPath": "/fixture-assets/game-data/media-zhar.webp"
     },
     {
       "fixtureKey": "mythos-doom-counters",

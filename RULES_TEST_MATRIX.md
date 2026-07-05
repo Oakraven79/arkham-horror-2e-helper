@@ -31,6 +31,12 @@ for each rules-facing change. Cite the scenario ID in test names where useful.
 | MOBILE-05 | A command belongs to another phase                       | A controller submits it manually | Reject it even if the mobile UI had previously displayed it               |
 | MOBILE-06 | A controller room is disabled or expires                 | A phone reconnects or submits    | Reject access without changing or pausing the underlying game             |
 
+## Fixture Data Integrity
+
+| ID      | Given                                     | When                                 | Then                                                                                |
+| ------- | ----------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------------------- |
+| DATA-01 | The bundled CMS game-data fixture changes | Validate or load the bundled fixture | Preserve portable relationship keys, required boxed-set gates, and registered media |
+
 ## Movement, encounters, and status
 
 | ID           | Given                                                         | When                    | Then                                                                                 |
