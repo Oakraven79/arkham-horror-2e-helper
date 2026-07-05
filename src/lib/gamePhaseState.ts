@@ -65,10 +65,7 @@ export function previousGamePhase(state: GamePhasePointer): GamePhasePointer {
   }
 
   if (state.currentPhase === openingMythosPhase) {
-    return {
-      currentPhase: 'Setup',
-      turnNumber: 1,
-    }
+    return state
   }
 
   if (state.currentPhase === 'Final Battle') {

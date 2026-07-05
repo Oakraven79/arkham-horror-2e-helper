@@ -72,6 +72,7 @@ import {
 } from './actions'
 import { ArkhamEncounterDeckSlot } from './ArkhamEncounterDeckSlot'
 import { AncientOneSetupFields, type AncientOneSetupOption } from './AncientOneSetupFields'
+import { AutoSubmitCheckbox } from './AutoSubmitCheckbox'
 import {
   ArkhamNeighborhoodShelf,
   type ArkhamNeighborhoodDeckOption,
@@ -485,7 +486,6 @@ function AncientOneSetup({
             <p className="eyebrow">Game Content</p>
             <h3>Sets in play</h3>
           </div>
-          <button type="submit">Apply sets</button>
         </div>
         <div className="boxed-set-groups">
           {boxedSetsByCategory.map(
@@ -509,13 +509,21 @@ function AncientOneSetup({
                           {isBaseGame && (
                             <input name="enabledSet" type="hidden" value={boxedSet.id} />
                           )}
-                          <input
-                            defaultChecked={isBaseGame || enabledSetIDs.has(String(boxedSet.id))}
-                            disabled={isBaseGame}
-                            name="enabledSet"
-                            type="checkbox"
-                            value={boxedSet.id}
-                          />
+                          {isBaseGame ? (
+                            <input
+                              defaultChecked
+                              disabled
+                              name="enabledSet"
+                              type="checkbox"
+                              value={boxedSet.id}
+                            />
+                          ) : (
+                            <AutoSubmitCheckbox
+                              defaultChecked={enabledSetIDs.has(String(boxedSet.id))}
+                              name="enabledSet"
+                              value={boxedSet.id}
+                            />
+                          )}
                           <span className="setup-boxed-set-mark" aria-hidden="true">
                             {icon?.url ? (
                               // Payload media may be local or externally hosted.
@@ -554,7 +562,6 @@ function AncientOneSetup({
               <label>Investigators</label>
               <InvestigatorCountInput initialValue={investigatorCount} />
             </div>
-            <button type="submit">Save setup</button>
           </div>
         </form>
       ) : (
@@ -624,7 +631,7 @@ function PhaseNavigation({
       <form action={previousPhaseAction.bind(null, sessionID)}>
         <button
           className="phase-navigation-button previous"
-          disabled={phase === 'Setup'}
+          disabled={phase === 'Setup' || isOpeningMythos}
           type="submit"
         >
           <span aria-hidden="true">&larr;</span>
@@ -823,10 +830,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   return (
     <main className="mythos-table" style={tableBackgroundStyle}>
-      <SessionLiveRefresh
-        revision={session.stateRevision ?? 0}
-        sessionID={sessionID}
-      />
+      <SessionLiveRefresh revision={session.stateRevision ?? 0} sessionID={sessionID} />
       <header className="table-topbar">
         <div className="session-title">
           <p className="eyebrow">Arkham Horror Helper</p>
@@ -934,8 +938,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                 <p className="resolver-copy">
                   {currentCardDocument
                     ? mythos.currentDrawRevealed
-                      ? isOpeningMythos &&
-                        !isEligibleOpeningMythosCard(currentCardDocument)
+                      ? isOpeningMythos && !isEligibleOpeningMythosCard(currentCardDocument)
                         ? `${currentCardType || 'Mythos card'}: skip this card and draw again.`
                         : currentCardType || 'Mythos card'
                       : 'Flip the card to reveal it.'

@@ -33,7 +33,6 @@ const meta = {
                 <label>Investigators</label>
                 <strong>4</strong>
               </div>
-              <button type="button">Save setup</button>
             </div>
           </form>
         </section>

@@ -60,10 +60,7 @@ import {
   pauseActiveGameSessions,
   resumeGameSession,
 } from '@/lib/gameSessions'
-import {
-  isEligibleOpeningMythosCard,
-  resolveOpeningMythosCard,
-} from '@/lib/openingMythos'
+import { isEligibleOpeningMythosCard, resolveOpeningMythosCard } from '@/lib/openingMythos'
 import {
   discardCurrentOtherWorldEncounterCard,
   flipNextOtherWorldEncounterCard,
@@ -79,6 +76,7 @@ import {
   isAdjustableSessionTrack,
   sessionTrackLogNote,
 } from '@/lib/sessionTracks'
+import { assertSelectedAncientOneCanBegin, requiredSetupAncientOneID } from '@/lib/setupReadiness'
 import config from '@/payload.config'
 import type { GameSession } from '@/payload-types'
 
@@ -467,19 +465,78 @@ function phasePointer(session: GameSession): GamePhasePointer {
   }
 }
 
+async function assertSetupCanBegin(
+  payload: Awaited<ReturnType<typeof getPayloadClient>>,
+  session: GameSession,
+) {
+  if (session.currentPhase !== 'Setup') return
+
+  const activeAncientOneID = requiredSetupAncientOneID(session)
+  const ancientOne = await payload.findByID({
+    collection: 'ancient-ones',
+    id: activeAncientOneID,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  assertSelectedAncientOneCanBegin(session, ancientOne)
+}
+
 export async function selectAncientOneAction(sessionID: string, formData: FormData) {
-  const selection = formData.get('ancientOneSelection')
+  const selectionValue = formData.get('ancientOneSelection')
+  const selection = typeof selectionValue === 'string' ? selectionValue : ''
   const investigatorCountValue = formData.get('investigatorCount')
   const useAncientOneBackground = formData.get('useAncientOneBackground') === 'on'
-
-  if (typeof selection !== 'string') {
-    throw new Error('Select an Ancient One before beginning the game.')
-  }
 
   const investigatorCount = Number(investigatorCountValue)
 
   if (!Number.isInteger(investigatorCount) || investigatorCount < 1 || investigatorCount > 8) {
     throw new Error('Investigator count must be between 1 and 8.')
+  }
+
+  const payload = await getPayloadClient()
+  const session = await payload.findByID({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  if (session.currentPhase !== 'Setup') {
+    throw new Error('The Ancient One is locked after setup.')
+  }
+
+  if (!selection) {
+    const setupChanged =
+      session.playerCount !== investigatorCount ||
+      Boolean(session.useAncientOneBackground) !== useAncientOneBackground
+
+    if (!setupChanged) {
+      revalidatePath('/')
+      return
+    }
+
+    await payload.update({
+      collection: GAME_SESSIONS,
+      id: sessionID,
+      overrideAccess: true,
+      data: {
+        playerCount: investigatorCount,
+        useAncientOneBackground,
+        sessionLog: [
+          ...(session.sessionLog ?? []),
+          logEntry(
+            session,
+            'select-ancient-one',
+            null,
+            `Setup updated with ${investigatorCount} investigators. Ancient One background ${useAncientOneBackground ? 'enabled' : 'disabled'}.`,
+          ),
+        ],
+      },
+    })
+
+    revalidatePath('/')
+    return
   }
 
   const [ancientOneID, sheetKey] = selection.split('::')
@@ -488,33 +545,34 @@ export async function selectAncientOneAction(sessionID: string, formData: FormDa
     throw new Error('The selected Ancient One sheet is invalid.')
   }
 
-  const payload = await getPayloadClient()
-  const [session, ancientOne] = await Promise.all([
-    payload.findByID({
-      collection: GAME_SESSIONS,
-      id: sessionID,
-      depth: 0,
-      overrideAccess: true,
-    }),
-    payload.findByID({
-      collection: 'ancient-ones',
-      id: ancientOneID,
-      depth: 0,
-      overrideAccess: true,
-    }),
-  ])
+  const ancientOne = await payload.findByID({
+    collection: 'ancient-ones',
+    id: ancientOneID,
+    depth: 0,
+    overrideAccess: true,
+  })
   const sheet = ancientOne.sheets.find((candidate) => candidate.key === sheetKey)
 
   if (!sheet) {
     throw new Error('The selected Ancient One sheet could not be found.')
   }
 
-  if (session.currentPhase !== 'Setup') {
-    throw new Error('The Ancient One is locked after setup.')
-  }
-
   if (!contentIsEligibleForEnabledSets(ancientOne, relationshipIDs(session.enabledSets))) {
     throw new Error('The selected Ancient One is not from a set enabled for this session.')
+  }
+
+  const previousAncientOneID = relationshipID(session.activeAncientOne)
+  const ancientOneChanged =
+    previousAncientOneID !== String(ancientOne.id) || session.ancientOneSheetKey !== sheet.key
+  const setupChanged =
+    ancientOneChanged ||
+    session.playerCount !== investigatorCount ||
+    Boolean(session.useAncientOneBackground) !== useAncientOneBackground ||
+    session.tracks?.doomMax !== sheet.doomTrack
+
+  if (!setupChanged) {
+    revalidatePath('/')
+    return
   }
 
   await payload.update({
@@ -529,7 +587,7 @@ export async function selectAncientOneAction(sessionID: string, formData: FormDa
       playerCount: investigatorCount,
       tracks: {
         ...session.tracks,
-        doomCurrent: 0,
+        ...(ancientOneChanged ? { doomCurrent: 0 } : {}),
         doomMax: sheet.doomTrack,
       },
       sessionLog: [
@@ -556,7 +614,9 @@ export async function advancePhaseAction(sessionID: string) {
     overrideAccess: true,
   })
 
-  if (!relationshipID(session.activeAncientOne)) {
+  if (session.currentPhase === 'Setup') {
+    await assertSetupCanBegin(payload, session)
+  } else if (!relationshipID(session.activeAncientOne)) {
     return
   }
 
@@ -939,6 +999,10 @@ export async function previousPhaseAction(sessionID: string) {
       }
     : previousGamePhase(current)
 
+  if (previous.currentPhase === 'Setup' && current.currentPhase !== 'Setup') {
+    return
+  }
+
   if (
     previous.currentPhase === current.currentPhase &&
     previous.turnNumber === current.turnNumber
@@ -1101,8 +1165,7 @@ export async function skipOpeningMythosCardAction(sessionID: string) {
 
   const skippedState = discardCurrentMythosCard(sessionState)
   const result = drawMythosCard(skippedState, shuffle(skippedState.discardPile ?? []))
-  const skipReason =
-    card.cardType === 'Rumor' ? 'Rumor' : 'Mythos card without a gate location'
+  const skipReason = card.cardType === 'Rumor' ? 'Rumor' : 'Mythos card without a gate location'
   const skipNote = `Opening ${skipReason} discarded during Game Setup.`
 
   await payload.update({
@@ -1160,9 +1223,7 @@ export async function resolveOpeningHeadlineAction(sessionID: string) {
   })
 
   if (!isEligibleOpeningMythosCard(card)) {
-    throw new Error(
-      'The opening Mythos card must not be a Rumor and must depict a gate location.',
-    )
+    throw new Error('The opening Mythos card must not be a Rumor and must depict a gate location.')
   }
 
   const current = phasePointer(session)

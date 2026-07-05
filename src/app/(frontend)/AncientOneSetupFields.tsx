@@ -4,6 +4,8 @@ import { useMemo, useState } from 'react'
 
 import { cssBackgroundImageValue } from '@/lib/ancientOneBackground'
 
+import { submitContainingForm } from './setupAutoSubmit'
+
 export interface AncientOneSetupOption {
   imageAlt?: string
   imageUrl?: string
@@ -36,8 +38,10 @@ export function AncientOneSetupFields({
         <select
           id="ancient-one-selection"
           name="ancientOneSelection"
-          onChange={(event) => setSelection(event.target.value)}
-          required
+          onChange={(event) => {
+            setSelection(event.target.value)
+            submitContainingForm(event.currentTarget)
+          }}
           value={selection}
         >
           <option disabled value="">
@@ -57,7 +61,10 @@ export function AncientOneSetupFields({
           <input
             checked={useBackground}
             name="useAncientOneBackground"
-            onChange={(event) => setUseBackground(event.target.checked)}
+            onChange={(event) => {
+              setUseBackground(event.target.checked)
+              submitContainingForm(event.currentTarget)
+            }}
             type="checkbox"
           />
           <span

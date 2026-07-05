@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import {
   AncientOneSetupFields,
@@ -20,6 +20,11 @@ const options: AncientOneSetupOption[] = [
 ]
 
 describe('Ancient One setup background control', () => {
+  afterEach(() => {
+    cleanup()
+    vi.restoreAllMocks()
+  })
+
   it('shows available artwork and preserves the saved preference', () => {
     render(
       <AncientOneSetupFields
@@ -53,5 +58,47 @@ describe('Ancient One setup background control', () => {
     expect(
       screen.getByText('No artwork available; the default background will be used.'),
     ).toBeDefined()
+  })
+
+  it('requests setup persistence when the selected sheet changes', async () => {
+    const requestSubmit = vi
+      .spyOn(HTMLFormElement.prototype, 'requestSubmit')
+      .mockImplementation(() => undefined)
+
+    render(
+      <form>
+        <AncientOneSetupFields
+          currentSelection="cthulhu::standard"
+          initialUseBackground={false}
+          options={options}
+        />
+      </form>,
+    )
+
+    fireEvent.change(screen.getByLabelText('Ancient One and sheet'), {
+      target: { value: 'azathoth::standard' },
+    })
+
+    await waitFor(() => expect(requestSubmit).toHaveBeenCalledOnce())
+  })
+
+  it('requests setup persistence when the artwork preference changes', async () => {
+    const requestSubmit = vi
+      .spyOn(HTMLFormElement.prototype, 'requestSubmit')
+      .mockImplementation(() => undefined)
+
+    render(
+      <form>
+        <AncientOneSetupFields
+          currentSelection="cthulhu::standard"
+          initialUseBackground={false}
+          options={options}
+        />
+      </form>,
+    )
+
+    fireEvent.click(screen.getByRole('checkbox', { name: /Use Ancient One artwork/ }))
+
+    await waitFor(() => expect(requestSubmit).toHaveBeenCalledOnce())
   })
 })

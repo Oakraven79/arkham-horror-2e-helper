@@ -16,17 +16,20 @@ for each rules-facing change. Cite the scenario ID in test names where useful.
 
 ## Setup and optional mobile controllers
 
-| ID        | Given                                                    | When                                | Then                                                                 |
-| --------- | -------------------------------------------------------- | ----------------------------------- | -------------------------------------------------------------------- |
-| SETUP-01  | Opening Mythos draws a Rumor                             | Resolve Game Setup                  | Discard it and draw again                                            |
-| SETUP-02  | Opening Mythos draws a non-Rumor without a gate location | Resolve Game Setup                  | Discard it and draw again                                            |
-| SETUP-03  | Opening Mythos draws an Environment depicting a gate     | Resolve Game Setup                  | Fully resolve the card and leave the Environment in play                |
-| MOBILE-01 | Mobile controls are disabled                             | The dashboard changes game state    | Dashboard remains fully functional and authoritative                 |
-| MOBILE-02 | A controller has the current revision                    | It submits a legal phase command    | Apply once, log the actor, increment revision, and notify displays    |
-| MOBILE-03 | A controller has an older revision                       | It submits any command              | Reject as stale without changing game state                           |
-| MOBILE-04 | A controller repeats an idempotency key                  | The request is retried              | Return current state without applying the command twice               |
-| MOBILE-05 | A command belongs to another phase                       | A controller submits it manually    | Reject it even if the mobile UI had previously displayed it           |
-| MOBILE-06 | A controller room is disabled or expires                 | A phone reconnects or submits       | Reject access without changing or pausing the underlying game         |
+| ID        | Given                                                    | When                             | Then                                                                      |
+| --------- | -------------------------------------------------------- | -------------------------------- | ------------------------------------------------------------------------- |
+| SETUP-01  | Opening Mythos draws a Rumor                             | Resolve Game Setup               | Discard it and draw again                                                 |
+| SETUP-02  | Opening Mythos draws a non-Rumor without a gate location | Resolve Game Setup               | Discard it and draw again                                                 |
+| SETUP-03  | Opening Mythos draws an Environment depicting a gate     | Resolve Game Setup               | Fully resolve the card and leave the Environment in play                  |
+| SETUP-04  | Setup has no selected Ancient One                        | Advance to Opening Mythos        | Reject the transition; an Ancient One is mandatory before the game starts |
+| SETUP-05  | The game has advanced to Opening Mythos                  | Previous phase is requested      | Stay in Opening Mythos; Setup is no longer reachable                      |
+| SETUP-06  | A setup field or set checkbox changes                    | The control value changes        | Persist the setup change immediately without a separate apply/save button |
+| MOBILE-01 | Mobile controls are disabled                             | The dashboard changes game state | Dashboard remains fully functional and authoritative                      |
+| MOBILE-02 | A controller has the current revision                    | It submits a legal phase command | Apply once, log the actor, increment revision, and notify displays        |
+| MOBILE-03 | A controller has an older revision                       | It submits any command           | Reject as stale without changing game state                               |
+| MOBILE-04 | A controller repeats an idempotency key                  | The request is retried           | Return current state without applying the command twice                   |
+| MOBILE-05 | A command belongs to another phase                       | A controller submits it manually | Reject it even if the mobile UI had previously displayed it               |
+| MOBILE-06 | A controller room is disabled or expires                 | A phone reconnects or submits    | Reject access without changing or pausing the underlying game             |
 
 ## Movement, encounters, and status
 
@@ -169,4 +172,4 @@ for each rules-facing change. Cite the scenario ID in test names where useful.
 | MISK-02    | Alternate gate upper board enabled                   | Resolve gate                                  | Use upper location only                                  |
 | MISK-03    | Miskatonic card requires disabled expansion icon     | Draw                                          | Exclude at setup or replace draw                         |
 | MISK-04    | Investigator holds a paired Injury and Madness       | Resolve acquisition                           | Devour unless a specific ability prevents it             |
-| MISK-05    | Miskatonic component requires another boxed set      | Build eligible content for enabled sets      | Include only when every required set is enabled          |
+| MISK-05    | Miskatonic component requires another boxed set      | Build eligible content for enabled sets       | Include only when every required set is enabled          |

@@ -1276,17 +1276,6 @@ button {
   font-size: 20px;
 }
 
-.setup-section-heading button {
-  min-height: 40px;
-  border: 1px solid rgba(232, 207, 146, 0.45);
-  border-radius: 6px;
-  background: linear-gradient(180deg, #efe0b4, #c6a34b);
-  color: #17130d;
-  cursor: pointer;
-  font-weight: 900;
-  padding: 7px 16px;
-}
-
 .boxed-set-groups {
   display: grid;
   gap: 0;
@@ -1389,7 +1378,7 @@ button {
 
 .setup-form-fields {
   display: grid;
-  grid-template-columns: minmax(280px, 1fr) minmax(260px, 0.85fr) 190px auto;
+  grid-template-columns: minmax(280px, 1fr) minmax(260px, 0.85fr) 190px;
   gap: 14px;
   align-items: end;
 }
@@ -1471,7 +1460,6 @@ button {
   line-height: 1.25;
 }
 
-.ancient-one-selector > .setup-form-fields > button,
 .setup-empty-state a {
   display: inline-flex;
   min-height: 44px;

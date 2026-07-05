@@ -38,13 +38,13 @@ describe('game phase state', () => {
     })
   })
 
-  it('returns from first-turn Upkeep through opening Mythos to Setup', () => {
+  it('returns from first-turn Upkeep to Opening Mythos but never back into Setup', () => {
     expect(previousGamePhase({ currentPhase: 'Upkeep', turnNumber: 1 })).toEqual({
       currentPhase: 'Opening Mythos',
       turnNumber: 1,
     })
     expect(previousGamePhase({ currentPhase: 'Opening Mythos', turnNumber: 1 })).toEqual({
-      currentPhase: 'Setup',
+      currentPhase: 'Opening Mythos',
       turnNumber: 1,
     })
   })
