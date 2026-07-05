@@ -240,10 +240,11 @@ export const MythosCardFront = ({
   const cardClassName = compactHeader
     ? 'mythoscardfront mythoscardfront-compact-header'
     : 'mythoscardfront'
+  const mythosBoxedSetMark = boxedSet?.iconUrl ? boxedSet : undefined
 
   return (
     <div className={cardClassName}>
-      <BoxedSetMark boxedSet={boxedSet} className={boxedSetMarkClassName} />
+      <BoxedSetMark boxedSet={mythosBoxedSetMark} className={boxedSetMarkClassName} />
       <div className="mythoscardheaderbox">
         <div className={titleSizeClass}>{title}</div>
         <div className={cardTypeSizeClass}>{cardType}</div>

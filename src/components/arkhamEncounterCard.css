@@ -122,7 +122,18 @@
 }
 
 .arkham-encounter-card--front .boxed-set-mark {
+  top: auto;
+  right: 0.8rem;
+  bottom: 1rem;
   z-index: 4;
+}
+
+.arkham-encounter-card--front .boxed-set-mark.boxed-set-mark--image {
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .arkham-encounter-deck {

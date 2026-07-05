@@ -60,6 +60,7 @@ export function ArkhamEncounterCardFront({
     '--arkham-encounter-colour': neighborhood.colourHex ?? '#686862',
   } as React.CSSProperties
   const copyStyle = encounterCopyStyle(encounters)
+  const arkhamEncounterBoxedSetMark = boxedSet?.iconUrl ? boxedSet : undefined
 
   return (
     <div
@@ -77,7 +78,7 @@ export function ArkhamEncounterCardFront({
           src={neighborhood.frontFrameUrl}
         />
       )}
-      <BoxedSetMark boxedSet={boxedSet} />
+      <BoxedSetMark boxedSet={arkhamEncounterBoxedSetMark} />
 
       <div className="arkham-encounter-copy" style={copyStyle}>
         {encounters.map((encounter, index) => (
