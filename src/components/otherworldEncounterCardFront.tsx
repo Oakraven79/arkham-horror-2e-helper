@@ -61,10 +61,11 @@ export const OtherworldEncounterCardFront = ({
 }: OtherworldEncounterCardFrontProps) => {
   const cardClass = 'otherworldcardfront ' + colour
   const copyStyle = encounterCopyStyle(textBlocks)
+  const otherWorldBoxedSetMark = boxedSet?.iconUrl ? boxedSet : undefined
 
   return (
     <div className={cardClass}>
-      <BoxedSetMark boxedSet={boxedSet} />
+      <BoxedSetMark boxedSet={otherWorldBoxedSetMark} />
       <div className="otherworldcard-center-panel" style={copyStyle}>
         {textBlocks.map((block, index) => (
           <section className="otherworldcard-encounter" key={`${block.header}-${index}`}>

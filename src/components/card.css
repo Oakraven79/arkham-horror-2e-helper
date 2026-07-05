@@ -566,6 +566,21 @@
   background: rgba(255, 255, 0, 0.3);
 }
 
+.otherworldcardfront .boxed-set-mark {
+  top: auto;
+  right: 0.8rem;
+  bottom: 1rem;
+  z-index: 4;
+}
+
+.otherworldcardfront .boxed-set-mark.boxed-set-mark--image {
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
 .otherworldcardfront .otherworldcard-center-panel {
   --encounter-body-size: 0.98rem;
   --encounter-gap: 0.25rem;
