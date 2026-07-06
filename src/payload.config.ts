@@ -47,8 +47,8 @@ export default buildConfig({
       titleSuffix: ' - Arkham Horror 2nd Edition Helper',
     },
     livePreview: {
-      url: ({ collectionConfig, data, req }) =>
-        `${req.protocol}//${req.host}/preview/${collectionConfig?.slug ?? 'mythos-cards'}/${data.id}/`,
+      url: ({ collectionConfig, data }) =>
+        `/preview/${collectionConfig?.slug ?? 'mythos-cards'}/${data.id}/`,
       collections: [
         'mythos-cards',
         'other-world-encounter-cards',

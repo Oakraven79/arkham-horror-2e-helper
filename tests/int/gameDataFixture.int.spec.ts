@@ -342,6 +342,13 @@ describe('Game data fixture', () => {
     expect(serialized).not.toContain('"boxedSet":')
     expect(serialized).not.toContain('"boxedset":')
     expect(serialized).not.toContain('"customSetName":')
+    expect(serialized).not.toContain('/media/')
+    expect(serialized).not.toContain('/api/media/')
+    expect(
+      gameDataFixture.media.every((asset) =>
+        asset.publicPath.startsWith('/fixture-assets/game-data/'),
+      ),
+    ).toBe(true)
     expect(gameDataFixture.snapshot.excludedCollections).toEqual([
       'users',
       'game-sessions',

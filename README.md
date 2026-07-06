@@ -120,7 +120,6 @@ cp .env.example .env
 | --- | --- | --- | --- |
 | `DATABASE_URI` | Yes | `mongodb://127.0.0.1:27017/arkham-horror-helper` | MongoDB connection string. Use `mongodb://mongo:27017/arkham-horror-helper` when running the app inside the provided Docker Compose network. |
 | `PAYLOAD_SECRET` | Yes | generated with `openssl rand -base64 32` | Signs Payload auth cookies and tokens. Never share a production value. |
-| `NEXT_PUBLIC_SERVER_URL` | Recommended | `http://localhost:3000` | Public URL used by Payload live preview links. Set this to the deployed URL in production. |
 | `CONTROLLER_SECRET` | Optional | generated with `openssl rand -base64 32` | Separate signing secret for mobile controller cookies. If omitted, controllers use `PAYLOAD_SECRET`. |
 | `NEXT_PUBLIC_CONTROLLER_ORIGIN` | Optional | `http://192.168.1.25:3000` | Origin encoded into QR links for phones. Set this to a LAN or public URL when phones cannot open `localhost`. |
 
@@ -194,7 +193,6 @@ To run both the app and MongoDB in Docker:
 
    ```bash
    DATABASE_URI=mongodb://mongo:27017/arkham-horror-helper
-   NEXT_PUBLIC_SERVER_URL=http://localhost:3000
    ```
 
 2. Start the stack:
@@ -328,7 +326,6 @@ set:
 
 ```bash
 NEXT_PUBLIC_CONTROLLER_ORIGIN=http://YOUR_LAN_IP:3000
-NEXT_PUBLIC_SERVER_URL=http://YOUR_LAN_IP:3000
 ```
 
 Restart `pnpm dev`, reopen the dashboard from the LAN URL, and generate a new
