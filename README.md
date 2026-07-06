@@ -5,7 +5,7 @@ dashboard for the table that can be on a laptop or TV and a phone-friendly contr
 
 You need node 22, pnpm and docker installed
 
-This is not hosted anywhere and is designed to un on your local private network. Tested on Windows and Linux, not Windows yet. 
+This is not hosted anywhere and is designed to run on your local private network. Tested on Windows and Linux, not Windows yet. 
 
 
 It is currently a work in progress!
@@ -14,6 +14,8 @@ Todo:
 - Still filling in card content so not complete yet (there are a lot of cards)
 
 This is ***not a replacement for the game you must own it and the expansions you wish to play***
+
+Learn more here: https://boardgamegeek.com/boardgame/15987/arkham-horror
 
 
 All artwork and credits go to the creators of this, this is just a helper. They put in all the real work so we can enjoy. 
