@@ -42,12 +42,19 @@ Payload CMS admin screens for reference data, and saved game sessions backed by 
 
 ## Screenshots
 
-### Starting a game
 
 Imagine this on a TV near the game table
 
+![Game sessions hub](docs/screenshots/setup.gif)
+![Game sessions hub](docs/screenshots/phases.gif)
+
+
+### Starting a game
+
+Setting a game up... 
 ![Game sessions hub](docs/screenshots/setup-1.png)
 
+Flow of a game...
 ![Game sessions setup](docs/screenshots/setup-2.png) 
 
 
