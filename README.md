@@ -5,7 +5,7 @@ dashboard for the table that can be on a laptop or TV and a phone-friendly contr
 
 You need node 22, pnpm and docker installed
 
-This is not hosted anywhere and is designed to run on your local private network. Tested on Windows and Linux, not Windows yet. 
+This is not hosted anywhere and is designed to run on your local private network. Tested on OSX and Linux, not Windows yet. 
 
 
 It is currently a work in progress!
