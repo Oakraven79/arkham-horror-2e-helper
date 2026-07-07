@@ -3,7 +3,7 @@
 import type { GameDataSnapshot } from './gameDataSnapshotTypes'
 
 export const generatedGameDataSnapshot: GameDataSnapshot = {
-  generatedAt: '2026-07-05T22:32:13.619Z',
+  generatedAt: '2026-07-07T12:01:10.906Z',
   excludedCollections: ['users', 'game-sessions', 'fixture-installations'],
   collections: {
     boxedSets: [
@@ -2509,6 +2509,132 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         _status: 'published',
       },
       {
+        cardCode: 'base-downtown-002',
+        neighborhood: 'arkham-downtown',
+        encounters: [
+          {
+            location: 'arkham-asylum',
+            text: 'The guards of the sanitarium are aware that there is an intruder. Make a **Sneak (-1)** check to escape. If you pass, move to the street. If you fail, you are arrested and taken to the Police Station.',
+          },
+          {
+            location: 'bank-of-arkham',
+            text: '"This is a stick-up, see? Nobody move!" Three men armed with tommy guns rob the bank while you\'re standing in line. Make a **Combat (-1)** check. If you pass, you drive them off. Nothing happens. If you fail, lose all of your money.',
+          },
+          {
+            location: 'independence-square',
+            text: 'A shadow falls across you from no apparent source and you shiver with more than just cold. Pass a **Will (-1)** check or lose 1 Stamina and 1 Sanity.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-downtown-003',
+        neighborhood: 'arkham-downtown',
+        encounters: [
+          {
+            location: 'arkham-asylum',
+            text: 'You are mistaken for an inmate. Doctor Mintz has the guards subdue you and conducts an experiment. Make a **Will (-1)** check to discover the results. If you pass, the injections seem to increase your capacity for learning. Draw 1 Skill. If you fail, his memory drug fails miserably, resulting in lost knowledge. You must discard one of the following (your choice), if able: 4 Clue tokens, or 2 Spells, or 1 Skill.',
+          },
+          {
+            location: 'bank-of-arkham',
+            text: 'You see a richly dressed man making a large withdrawal. On the way out, he lights his cigar with a piece of green paper which he then drops on the ground. Pass a **Speed (-1)** check to stub it out with your toe before it burns up. You discover it to be a slightly singed two dollar bill. Gain $2.',
+          },
+          {
+            location: 'independence-square',
+            text: 'Pass a **Fight (-1)** check to intimidate a policeman or he rousts you from the park. Move to the street.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-downtown-004',
+        neighborhood: 'arkham-downtown',
+        encounters: [
+          {
+            location: 'arkham-asylum',
+            text: "In the Doctor's study, you find a book of helpful notes gathered from many patient interviews. Make a **Lore (+0)** check and consult the following chart:\n\n**Successes:**\n\n**0)** Their stories fill you with horror even as you learn a few bits of knowledge. Lose 1 Sanity and gain 1 Clue token.\n\n**1-2)** You find several pieces of useful information. Gain 2 Clue tokens.\n\n**3+)** One of the interviews contains vital information. Gain 3 Clue tokens.",
+          },
+          {
+            location: 'bank-of-arkham',
+            text: 'One of the other customers in the bank recognizes you and offers you a lift. Move to any location or street area in Arkham. If you move to a location, immediately have an encounter there.',
+          },
+          {
+            location: 'independence-square',
+            text: 'A pair of friendly picnickers share their lunch with you. Gain 1 Stamina.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-downtown-005',
+        neighborhood: 'arkham-downtown',
+        encounters: [
+          {
+            location: 'arkham-asylum',
+            text: 'You find some strange medicine labeled "Dream Enhancers" in a dusty cabinet. If you choose to take it, make a **Lore (-1)** check. If you pass, your visions show you how to perform a ritual. Draw 1 Spell. Otherwise, nothing happens.',
+          },
+          {
+            location: 'bank-of-arkham',
+            text: 'You find a penny with a strange sigil carved into it. Amused, you flip it in the air, then gasp as you feel the sudden gathering of magical forces around you. Make a **Luck (-2)** check. If you pass, the penny comes up heads. You are **Blessed**. If you fail, it comes up tails. You are **Cursed**.',
+          },
+          {
+            location: 'independence-square',
+            text: 'There are gypsies camped in the park. They are master thieves and you are their target. Pass a **Luck (-2)** check or lose 1 item of your choice.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-downtown-006',
+        neighborhood: 'arkham-downtown',
+        encounters: [
+          {
+            location: 'arkham-asylum',
+            text: 'Nurse Heather accidentally injects you with a sleeping draught. You may make a **Fight (-2)** check to resist. If you fail or choose not to resist, lose your next turn and gain 2 Sanity from the prolonged rest. If you pass, nothing happens.',
+          },
+          {
+            location: 'bank-of-arkham',
+            text: "A teller you've never seen before insists she just saw you come in and make a deposit the day before. She proves it by showing you your signature. Gain $5, but lose 1 Sanity.",
+          },
+          {
+            location: 'independence-square',
+            text: "You touch Founder's Rock. Make a **Luck (-1)** check. If you pass, there is an electrifying shock that opens your mind to the elder things of eons past. Lose 1 Stamina, but gain 2 Clue tokens and draw 1 Spell. If you fail, you find a strange carving. As you finger the grooves, a gate opens here and you are drawn through it.",
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-downtown-007',
+        neighborhood: 'arkham-downtown',
+        encounters: [
+          {
+            location: 'arkham-asylum',
+            text: "You hear screaming. When you open a heavy cell door to investigate, a dark shape leaps out at you! It's an insane man in a straightjacket babbling about invisible horrors. Make a **Lore (-2)** check to glean some useful information from him. If you pass, gain 2 Clue tokens. If you fail, lose 1 Stamina as he attacks you.",
+          },
+          {
+            location: 'bank-of-arkham',
+            text: 'A little old lady stands in front of you in line counting out a bag of pennies to deposit. Lose 1 Sanity.',
+          },
+          {
+            location: 'independence-square',
+            text: 'There are gypsies camped in the park. Make a **Luck (-1)** check if you wish to interact with them. If you pass, an old man has spread several items on a blanket for sale. Draw 1 Unique Item and you may buy it for $1 less than the list price. If you fail, a hag comes up to you and tells you that death shadows you. You scoff at her and she cuts the side of your face with her fingernail, drawing blood. Lose 1 Stamina and you are **Cursed**.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
         cardCode: 'base-easttown-001',
         neighborhood: 'arkham-easttown',
         encounters: [
@@ -3118,6 +3244,132 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         _status: 'published',
       },
       {
+        cardCode: 'base-northside-002',
+        neighborhood: 'arkham-northside',
+        encounters: [
+          {
+            location: 'curiositie-shoppe',
+            text: 'You examine an obscene statue. Pass a **Luck (-2)** check or else you feel a cold dread spreading through your body as you hold it. You are **Cursed**.',
+          },
+          {
+            location: 'newspaper',
+            text: 'You earn a fee for a story and get a ride with Doyle Jefferies, the editor. Gain $2 and move to any location or street area in Arkham. If you move to a location, immediately have an encounter there.',
+          },
+          {
+            location: 'train-station',
+            text: 'On the loading dock you investigate a large crate with strange markings. Make a **Sneak (-1)** check. If you pass, you find a very unusual item in the crate. Gain 1 Unique Item. If you fail, Deputy Dingby catches you breaking it open. You are arrested and taken to the Police Station.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-northside-003',
+        neighborhood: 'arkham-northside',
+        encounters: [
+          {
+            location: 'curiositie-shoppe',
+            text: "Jackpot! You find just what you've been looking for. Search either the Common or Unique Item deck and purchase any one item of your choice at list price.",
+          },
+          {
+            location: 'newspaper',
+            text: 'Editor Doyle Jefferies offers you a Retainer in return for your fascinating stories. Take a Retainer card.',
+          },
+          {
+            location: 'train-station',
+            text: 'The old train hand Bill Washington sits on the train platform playing his guitar as he awaits the next train. As you listen to his singing you feel yourself healing inside. Gain 2 points divided between Stamina and Sanity however you choose.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-northside-004',
+        neighborhood: 'arkham-northside',
+        encounters: [
+          {
+            location: 'curiositie-shoppe',
+            text: 'Pass a **Luck (-1)** check or you accidentally drop an item. Discard 1 item of your choice. If you have no items to drop, then draw again for a different encounter.',
+          },
+          {
+            location: 'newspaper',
+            text: 'Editor Doyle Jefferies offers you a Retainer in return for your fascinating stories. Take a Retainer card.',
+          },
+          {
+            location: 'train-station',
+            text: 'Joey "the Rat" is huddled in the shadows of the train station and motions for you to come over. He has an item for sale. Draw the top Common Item card and pay $1 more than list price if you wish to purchase it.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-northside-005',
+        neighborhood: 'arkham-northside',
+        encounters: [
+          {
+            location: 'curiositie-shoppe',
+            text: 'A sale takes place. All players may participate. Turn over the top 3 Common Item cards and the top Unique Item card. Any player may buy one or more of these cards for their list price. If there is a disagreement over who gets to buy a certain card, you decide. Any items not sold are discarded.',
+          },
+          {
+            location: 'newspaper',
+            text: 'Flipping through the early edition, you are surprised to see that one of the classified ads begins with your name. Reading it, you realize that it contains several coded clues to the nature of the threat that faces Arkham. Pass a **Lore (-1)** check to gain 3 Clue tokens.',
+          },
+          {
+            location: 'train-station',
+            text: "Bill Washington moves the last of the baggage from his cart onto a truck and offers you a ride as he opens the driver's door. If you accept, move to any location or street area in Arkham. If you move to a location, immediately have an encounter there.",
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-northside-006',
+        neighborhood: 'arkham-northside',
+        encounters: [
+          {
+            location: 'curiositie-shoppe',
+            text: 'A pulsing void gapes behind a bookshelf, sending out waves of heat. Pass a **Fight (-1)** check or it sucks you in, hurling you into the Abyss. Have one encounter there, then immediately return.',
+          },
+          {
+            location: 'newspaper',
+            text: 'Earn $5 for a story.',
+          },
+          {
+            location: 'train-station',
+            text: "A well-dressed man is standing on the platform. He turns and greets you by name. Although he seems oddly familiar, you don't remember ever meeting him before. Then he steps off the platform into the path of a speeding train. Make a **Speed (-2)** check. If you pass, he vanishes as you leap right through him. On the ground, you find yourself clutching a scrap of paper. Gain 1 Spell. If you fail, he is obliterated before your eyes. Roll a die and lose that much Sanity.",
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-northside-007',
+        neighborhood: 'arkham-northside',
+        encounters: [
+          {
+            location: 'curiositie-shoppe',
+            text: 'You weed through piles of junk looking for something useful. Make a **Luck (-1)** check to see what you find. If you pass, your search has resulted in success. You may look at the top cards of both the Common and Unique Items decks. You may purchase one, both, or neither at list price. If you fail, there is little of interest here, but you may look at the top card of the Common Item deck and purchase it for its list price.',
+          },
+          {
+            location: 'newspaper',
+            text: 'Pass a **Luck (-1)** check to find an article that a local citizen told you would shed light on the recent strange activities. Gain 1 Clue token.',
+          },
+          {
+            location: 'train-station',
+            text: 'Pay $3 at the Railroad Office to claim an item left in Lost and Found. If you do so, make a **Luck (-2)** check. If you pass, draw a Unique Item. If you fail, draw a Common Item.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
         cardCode: 'base-rivertown-001',
         neighborhood: 'arkham-rivertown',
         encounters: [
@@ -3132,6 +3384,132 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           {
             location: 'graveyard',
             text: 'You find a man painting a picture of one of the horrible gargoyles lining the walls of the graveyard. Seeing you, he introduces himself as **Richard Upton Pickman**, a painter visiting from Boston. If you spend monster trophies that have a total of 5 toughness, Pickman takes a liking to you. Take his Ally card. If it is not available, he teaches you an incantation instead. Draw 1 Spell.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-rivertown-002',
+        neighborhood: 'arkham-rivertown',
+        encounters: [
+          {
+            location: 'black-cave',
+            text: 'In the darkness you happen upon the remains of a previous spelunker. Make a **Luck (+0)** check and consult the chart below:\n\n**Successes:**\n\n**0)** The body begins to bloat and splits open, releasing the horror within. Lose 1 Sanity and a monster appears!\n\n**1)** The body has been ripped apart as if shredded by a powerful monster. Lose 1 Sanity.\n\n**2+)** Searching the body you find something interesting. Draw 1 Common Item.',
+          },
+          {
+            location: 'general-store',
+            text: 'Noticing a glint on the floor, you discover a silver dollar someone must have dropped. Gain $1.',
+          },
+          {
+            location: 'graveyard',
+            text: 'A monster appears!',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-rivertown-003',
+        neighborhood: 'arkham-rivertown',
+        encounters: [
+          {
+            location: 'black-cave',
+            text: 'You are in a maze of twisty passages, all alike. Pass a **Lore (-2)** check or become lost. If you fail, lose 1 Stamina and stay here next turn.\n\n',
+          },
+          {
+            location: 'general-store',
+            text: 'Make a **Will (-2)** check. If you pass, you gain the ear of the shopkeeper. Seeing your valiant cause, he takes you into the back room and offers you some special equipment. Draw 3 Common Items. You may take 1 of them for free as a gift to help thwart evil in Arkham! Discard the other 2. If you fail, nothing happens.',
+          },
+          {
+            location: 'graveyard',
+            text: 'Pass a **Luck (-2)** check to find a valuable clue within your tombstone rubbings. Gain 2 Clue tokens and you may move to any location or street area in Arkham. If you move to a location, immediately have an encounter there.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-rivertown-004',
+        neighborhood: 'arkham-rivertown',
+        encounters: [
+          {
+            location: 'black-cave',
+            text: 'The moaning winds in the cave whisper your name. Lose 1 Sanity.',
+          },
+          {
+            location: 'general-store',
+            text: "You try talking to the elderly locals gathered around the potbellied stove playing checkers, but you gain nothing but stares and a few befuddled grunts for your trouble. Apparently they don't like outsiders. No encounter.",
+          },
+          {
+            location: 'graveyard',
+            text: '"Testifying" Cooter Falwell latches onto you and rambles on about his spiritual beliefs. Make a **Lore (-1)** check. If you pass, then somewhere in Cooter\'s words you find a clue to the Mythos threat. Gain 1 Clue token, but lose 1 Sanity. If you fail, move to the street while you listen to Cooter ramble on about pure nonsense.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-rivertown-005',
+        neighborhood: 'arkham-rivertown',
+        encounters: [
+          {
+            location: 'black-cave',
+            text: 'You are attacked by a shadowy being, but a large man leaps out of the darkness and drives it off. He introduces himself as **Tom "Mountain" Murphy**. Make a **Luck (-2)** check, or discard a **Whiskey** card to pass it automatically. If you pass, he joins your investigation. Take his Ally card if it\'s available, otherwise he gives you something to protect yourself with. Search the Common Item deck and take the first **Weapon** you find. If you fail, nothing happens.',
+          },
+          {
+            location: 'general-store',
+            text: 'A jar on the counter bears a sign proclaiming, "Guess how many marbles are in the jar and win a prize! $1 entry fee." If you want, you may pay $1 to make a **Lore (-2)** check. If you pass, you gain $5. If you fail, nothing happens.',
+          },
+          {
+            location: 'graveyard',
+            text: 'Entering a stone crypt, you are surprised to find a beautiful fresco and some inspirational words upon the wall. There is an almost magical peace within the chamber. Gain 2 Sanity.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-rivertown-006',
+        neighborhood: 'arkham-rivertown',
+        encounters: [
+          {
+            location: 'black-cave',
+            text: 'Bats! Hundreds of them! Pass a **Speed (-1)** check to get out of the cave safely. If you fail, lose 1 Stamina.',
+          },
+          {
+            location: 'general-store',
+            text: "The shopkeeper notices one of the items you're carrying and his face lights up. \"Say, I've been looking for one of those. You wouldn't mind parting with it, would ya? I can pay well.\" You may sell any one of your Common Items for twice its listed price.",
+          },
+          {
+            location: 'graveyard',
+            text: 'Descending into a dark mausoleum, you discover a vampire rising to feed. You quickly find yourself fighting for your life. Make a **Combat (-2)** check. If you pass, you defeat the vampire, gaining 1 Clue token and drawing 1 Unique Item. If you fail, roll a die and lose that much Stamina.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-rivertown-007',
+        neighborhood: 'arkham-rivertown',
+        encounters: [
+          {
+            location: 'black-cave',
+            text: 'You find an old book. If you read it, make a **Luck (+0)** check and consult the chart below.\n\n**Successes:**\n\n**0)** Evil forces assault you. Lose 1 Sanity and 1 Stamina.\n\n**1)** You find the diary of a lost soul who died in the caves long ago. Lose 1 Sanity and gain 1 Clue token as you read his horrible tale.\n\n**2+)** The book is a spellbook. Take the first Tome from the Unique Item deck.',
+          },
+          {
+            location: 'general-store',
+            text: '"Hey, you dropped this!" A young street urchin hands you an item and then scampers off. You don\'t recognize the item, but the boy is already gone. Draw 1 Common Item.',
+          },
+          {
+            location: 'graveyard',
+            text: 'You find the half-buried corpse of a strange being. Draw a monster from the cup and take it as a monster trophy, even if it has the Endless ability.',
           },
         ],
         sourceSet: 'base-game',
@@ -3160,6 +3538,132 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         _status: 'published',
       },
       {
+        cardCode: 'base-southside-002',
+        neighborhood: 'arkham-southside',
+        encounters: [
+          {
+            location: 'historical-society',
+            text: 'You notice a creepy man watching you as you peruse the books. With a feeling of dread you try to slip out without being followed. Make a **Sneak (-1)** check. If you pass, you lose the man, gaining 1 Sanity in the process. If you fail, you are accosted by the man in the street. He is a wizard and he casts a dark spell on you as you flee. Lose 2 Stamina, move to the street, and you are **Cursed**.',
+          },
+          {
+            location: 'mas-boarding-house',
+            text: 'Ma Mathison serves her special soup at supper. Roll a die and gain that much Stamina.',
+          },
+          {
+            location: 'south-church',
+            text: 'Father Michael convinces you that there are members of his congregation in greater need than you. Donate either half your money (rounded up) or half your items (your choice, rounded up) to the poor.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-southside-003',
+        neighborhood: 'arkham-southside',
+        encounters: [
+          {
+            location: 'historical-society',
+            text: 'Pay $3 fee to gain access to the private library. If you refuse, move to the street. If you pay, make a **Luck (-1)** check. If you pass, you learn an ancient spell from a dusty ledger. Draw 1 Spell. If you fail, you doze off and enter The Dreamlands. Have one encounter there, then immediately return here.',
+          },
+          {
+            location: 'mas-boarding-house',
+            text: 'You find a poorly boarded-up passage in the basement that opens into a winding tunnel. If you venture into it, you exit in Silver Twilight Lodge. Draw 2 cards and encounter one card of your choice, discarding the other.',
+          },
+          {
+            location: 'south-church',
+            text: "Knowing that you are engaged in God's work, Father Michael Blesses you.",
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-southside-004',
+        neighborhood: 'arkham-southside',
+        encounters: [
+          {
+            location: 'historical-society',
+            text: 'Pass a **Luck (-1)** check to gain insight into a shelf while studying the old volumes of books. Draw 1 Skill, but stay here next turn.',
+          },
+          {
+            location: 'mas-boarding-house',
+            text: 'After supper while sitting on the porch you strike up a conversation with another guest: Ryan Dean, a traveling salesman. You may make a **Will (+0)** check if you want. If you pass, Ryan has a deal for you. You may draw either 1 Common or 1 Unique Item and purchase it at its list price. If you fail, stay here next turn listening to bawdy stories and tall tales.',
+          },
+          {
+            location: 'south-church',
+            text: 'Noticing you eyeing the holy water, Father Michael tells you, "Take what you need, my child." You may search the Unique Item deck for a Holy Water card and take it.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-southside-005',
+        neighborhood: 'arkham-southside',
+        encounters: [
+          {
+            location: 'historical-society',
+            text: 'You meet Cindy Fleming, a young geology professor at the University. She offers to show you some interesting formations at the Black Cave. If you accept, move to the Black Cave and draw 2 cards, encountering one card of your choice and discarding the other.',
+          },
+          {
+            location: 'mas-boarding-house',
+            text: 'Ma Mathison tells you that the best room in the house is available for the night. If you want, pay $3 to spend the night there. Gain 4 points split between Sanity and Stamina however you choose.',
+          },
+          {
+            location: 'south-church',
+            text: 'Upon entering the church, you are attacked by Father Michael with a giant cross, who for some reason believes you to be in league with the devil. Make a **Speed (-1)** check. If you pass, you escape. If you fail, lose 2 Stamina. In either case, move to the street.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'draft',
+      },
+      {
+        cardCode: 'base-southside-006',
+        neighborhood: 'arkham-southside',
+        encounters: [
+          {
+            location: 'historical-society',
+            text: 'The Society members are bird watching in the woods. The janitor offers you a ride there. If you accept, move to the Woods and draw 2 cards, encountering one card of your choice and discarding the other.',
+          },
+          {
+            location: 'mas-boarding-house',
+            text: 'Staring at a painting in one of the rooms, you find yourself drawn into it. Make a **Luck (+0)** check. If you pass, move to The Dreamlands. Have one encounter there and immediately return here. If you fail, move to the Abyss. Have one encounter there and immediately return here.',
+          },
+          {
+            location: 'south-church',
+            text: 'You could swear a drain pipe gargoyle moved. Lose 1 Sanity.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-southside-007',
+        neighborhood: 'arkham-southside',
+        encounters: [
+          {
+            location: 'historical-society',
+            text: 'You encounter a friendly old professor from Miskatonic University. If you spend 1 gate trophy, he introduces himself as Professor Armitage and offers to join forces with you. Take his Ally card if it is available, otherwise draw 1 Unique Item.',
+          },
+          {
+            location: 'mas-boarding-house',
+            text: 'Chanting neighbors keep you up all night. Pass a **Luck (-1)** check or lose your choice of 1 Stamina or 1 Sanity.',
+          },
+          {
+            location: 'south-church',
+            text: "You join in the morning mass. Spend 1 Clue token to ask for heavenly aid. If you do so, roll a die. On a success, your prayers are answered. Remove 1 doom token from the Ancient One's doom track.",
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
         cardCode: 'base-uptown-001',
         neighborhood: 'arkham-uptown',
         encounters: [
@@ -3174,6 +3678,132 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           {
             location: 'ye-olde-magick-shoppe',
             text: 'Miriam Beecher talks to you for awhile, explaining some very interesting theories she has concerning the Mythos. Gain 1 Clue token.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-uptown-002',
+        neighborhood: 'arkham-uptown',
+        encounters: [
+          {
+            location: 'st-marys-hospital',
+            text: 'You agree to undergo an experimental treatment. Roll a die. On a 1-3, gain that many Stamina. On a 4-6, nothing happens.',
+          },
+          {
+            location: 'woods',
+            text: 'You find a sleeping Sheldon Gang member near the still. Make a **Sneak (-2)** check to try to swipe the shotgun he has dropped on the ground. If you pass, take a **Shotgun** from the Common Item deck if there is one. If you fail, the guard awakens. You are caught and beaten, losing 2 Stamina, but you escape with your life. Move to the street.',
+          },
+          {
+            location: 'ye-olde-magick-shoppe',
+            text: 'There is an old, locked trunk for sale for $5. If you buy it, make a **Luck (+0)** check and consult the chart below:\n\n**Successes:**\n\n**0)** Empty!\n\n**1)** Gold coins! Roll 2 dice, add them together, and gain that much money.\n\n**2+)** Jackpot! Draw 2 Unique Items!',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-uptown-003',
+        neighborhood: 'arkham-uptown',
+        encounters: [
+          {
+            location: 'st-marys-hospital',
+            text: 'The Doctor escorts you behind a curtain with the body of some other unfortunate investigator has been laid. The corpse has been torn to shreds. Pass a **Will (-1)** check or lose 1 Sanity. If you pass, you may also search the body and find a helpful item. Draw 1 Unique Item. If you fail, you run away screaming. Move to the street.',
+          },
+          {
+            location: 'woods',
+            text: 'A gate and a monster appear!',
+          },
+          {
+            location: 'ye-olde-magick-shoppe',
+            text: 'Pass a **Lore (-1)** check to recognize an item that Miriam Beecher has underpriced. If you do so, draw 1 Unique Item. You may purchase it for half its list price (rounded up).',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-uptown-004',
+        neighborhood: 'arkham-uptown',
+        encounters: [
+          {
+            location: 'st-marys-hospital',
+            text: "The corpse you are examining isn't quite dead yet. It reaches out and grabs you by the throat. Lose 1 Sanity. Then you must fight the corpse. If you pass a **Combat (-1)** check, you defeat it and gain 1 Clue token. Otherwise, move to the street.",
+          },
+          {
+            location: 'woods',
+            text: 'You have stumbled onto a still owned by the Sheldon Gang. Make a **Sneak (-1)** check. If you pass, skulk away without being seen. If you fail, lose 2 Stamina as the Sheldon Gang works you over while escorting you from the woods. In either case, move to the street.',
+          },
+          {
+            location: 'ye-olde-magick-shoppe',
+            text: 'Looking into a glass ball, you receive a vision of things to come. Turn the top card of one location deck of your choice face up. The next investigator to have an encounter at that location draws that encounter card.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-uptown-005',
+        neighborhood: 'arkham-uptown',
+        encounters: [
+          {
+            location: 'st-marys-hospital',
+            text: 'Make a **Luck (-1)** check. If you pass, you realize that Dr. Mortimore is sneaking up behind you with a hypodermic needle filled with a phosphorescent gel. You avoid his experiment and subdue the mad doctor. The city awards you $3 and you gain 2 Sanity in the process. If you fail, lose 2 Sanity, then you are dumped in the street.',
+          },
+          {
+            location: 'woods',
+            text: 'You are bushwhacked by the Sheldon Gang. Pass a **Luck (-1)** check to avoid their trap. If you fail, lose 2 items of your choice and 2 Stamina.',
+          },
+          {
+            location: 'ye-olde-magick-shoppe',
+            text: "You see an interesting book sitting open on Miriam Beecher's desk. Pass a **Lore (-1)** check or you peer closely at its pages only to realize too late that the book is **Cursed**...and now, so are you.",
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-uptown-006',
+        neighborhood: 'arkham-uptown',
+        encounters: [
+          {
+            location: 'st-marys-hospital',
+            text: "You sneak a peek at the medical records for a recent admission who was involved in a cult ritual. Pass a **Lore (+0)** check to learn something about the cult's methods. Gain 1 Clue token.",
+          },
+          {
+            location: 'woods',
+            text: 'You meet an old wise man in the grove who offers to share his wisdom with you. If you accept, lose your next turn and make a **Lore (-2)** check. If you pass, you may draw 1 Skill, or draw 2 Spells, or gain 4 Clue tokens. If you fail, nothing happens.',
+          },
+          {
+            location: 'ye-olde-magick-shoppe',
+            text: 'Miriam Beecher, the shopkeeper, peers closely at your face, then screams, "They\'ve marked you! Get out! Get out!" and throws you out. Move to the street and lose 1 Sanity from this unsettling incident.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-uptown-007',
+        neighborhood: 'arkham-uptown',
+        encounters: [
+          {
+            location: 'st-marys-hospital',
+            text: 'One of the staff physicians talks some sense into you. You are disabused of certain crazy but accurate notions. Lose 1 Clue token.',
+          },
+          {
+            location: 'woods',
+            text: 'You trip over an object which turns out to be a rusty lockbox. If you open it, make a **Luck (+0)** check and consult the following chart:\n\n**Successes:**\n\n**0)** A rotted human foot. Lose 1 Sanity.\n\n**1)** Draw 1 Common Item.\n\n**2)** Draw 1 Unique Item.\n\n**3+)** $10 in jewelry.',
+          },
+          {
+            location: 'ye-olde-magick-shoppe',
+            text: 'Looking closely at a mummified head in the shop, you are horrified to find it looking back at you! Lose 1 Sanity.',
           },
         ],
         sourceSet: 'base-game',

@@ -280,7 +280,7 @@ describe('Game data fixture', () => {
     expect(validation.errors).toEqual([])
     expect(validation.counts).toEqual({
       ancientOnes: 25,
-      arkhamEncounterCards: 33,
+      arkhamEncounterCards: 63,
       boxedSets: 11,
       locations: 57,
       media: 132,
@@ -331,6 +331,42 @@ describe('Game data fixture', () => {
         'media-yig2',
         'media-yog-sothoth',
         'media-zhar',
+      ]),
+    )
+    expect(
+      gameDataFixture.snapshot.collections.arkhamEncounterCards.map((card) => card.cardCode),
+    ).toEqual(
+      expect.arrayContaining([
+        'base-downtown-002',
+        'base-downtown-003',
+        'base-downtown-004',
+        'base-downtown-005',
+        'base-downtown-006',
+        'base-downtown-007',
+        'base-northside-002',
+        'base-northside-003',
+        'base-northside-004',
+        'base-northside-005',
+        'base-northside-006',
+        'base-northside-007',
+        'base-rivertown-002',
+        'base-rivertown-003',
+        'base-rivertown-004',
+        'base-rivertown-005',
+        'base-rivertown-006',
+        'base-rivertown-007',
+        'base-southside-002',
+        'base-southside-003',
+        'base-southside-004',
+        'base-southside-005',
+        'base-southside-006',
+        'base-southside-007',
+        'base-uptown-002',
+        'base-uptown-003',
+        'base-uptown-004',
+        'base-uptown-005',
+        'base-uptown-006',
+        'base-uptown-007',
       ]),
     )
   })

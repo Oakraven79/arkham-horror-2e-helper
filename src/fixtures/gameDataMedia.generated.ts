@@ -6,924 +6,924 @@ export const generatedGameDataMedia = {
       "fixtureKey": "arkham-encounter-arkham-downtown-back",
       "alt": "Light Grey Arkham encounter back frame",
       "filename": "arkham-encounter-arkham-downtown-back.webp",
-      "matchFilename": "arkham-encounter-arkham-downtown-back-arkham-encounter-light-grey-1.png",
+      "matchFilename": "arkham-encounter-arkham-downtown-back.webp",
       "publicPath": "/fixture-assets/game-data/arkham-encounter-arkham-downtown-back.webp"
     },
     {
       "fixtureKey": "arkham-encounter-arkham-downtown-front",
       "alt": "Light Grey Arkham encounter front frame",
       "filename": "arkham-encounter-arkham-downtown-front.webp",
-      "matchFilename": "arkham-encounter-arkham-downtown-front-arkham-encounter-light-grey-front-1.png",
+      "matchFilename": "arkham-encounter-arkham-downtown-front.webp",
       "publicPath": "/fixture-assets/game-data/arkham-encounter-arkham-downtown-front.webp"
     },
     {
       "fixtureKey": "arkham-encounter-arkham-easttown-back",
       "alt": "Dark Grey Arkham encounter back frame",
       "filename": "arkham-encounter-arkham-easttown-back.webp",
-      "matchFilename": "arkham-encounter-arkham-easttown-back-arkham-encounter-grey-1.png",
+      "matchFilename": "arkham-encounter-arkham-easttown-back.webp",
       "publicPath": "/fixture-assets/game-data/arkham-encounter-arkham-easttown-back.webp"
     },
     {
       "fixtureKey": "arkham-encounter-arkham-easttown-front",
       "alt": "Dark Grey Arkham encounter front frame",
       "filename": "arkham-encounter-arkham-easttown-front.webp",
-      "matchFilename": "arkham-encounter-arkham-easttown-front-arkham-encounter-grey-front-1.png",
+      "matchFilename": "arkham-encounter-arkham-easttown-front.webp",
       "publicPath": "/fixture-assets/game-data/arkham-encounter-arkham-easttown-front.webp"
     },
     {
       "fixtureKey": "arkham-encounter-arkham-french-hill-back",
       "alt": "Blue Arkham encounter back frame",
       "filename": "arkham-encounter-arkham-french-hill-back.webp",
-      "matchFilename": "arkham-encounter-arkham-french-hill-back-arkham-encounter-blue-1.png",
+      "matchFilename": "arkham-encounter-arkham-french-hill-back.webp",
       "publicPath": "/fixture-assets/game-data/arkham-encounter-arkham-french-hill-back.webp"
     },
     {
       "fixtureKey": "arkham-encounter-arkham-french-hill-front",
       "alt": "Blue Arkham encounter front frame",
       "filename": "arkham-encounter-arkham-french-hill-front.webp",
-      "matchFilename": "arkham-encounter-arkham-french-hill-front-arkham-encounter-blue-front-1.png",
+      "matchFilename": "arkham-encounter-arkham-french-hill-front.webp",
       "publicPath": "/fixture-assets/game-data/arkham-encounter-arkham-french-hill-front.webp"
     },
     {
       "fixtureKey": "arkham-encounter-arkham-merchant-district-back",
       "alt": "Green Arkham encounter back frame",
       "filename": "arkham-encounter-arkham-merchant-district-back.webp",
-      "matchFilename": "arkham-encounter-arkham-merchant-district-back-arkham-encounter-green-1.png",
+      "matchFilename": "arkham-encounter-arkham-merchant-district-back.webp",
       "publicPath": "/fixture-assets/game-data/arkham-encounter-arkham-merchant-district-back.webp"
     },
     {
       "fixtureKey": "arkham-encounter-arkham-merchant-district-front",
       "alt": "Green Arkham encounter front frame",
       "filename": "arkham-encounter-arkham-merchant-district-front.webp",
-      "matchFilename": "arkham-encounter-arkham-merchant-district-front-arkham-encounter-green-front-1.png",
+      "matchFilename": "arkham-encounter-arkham-merchant-district-front.webp",
       "publicPath": "/fixture-assets/game-data/arkham-encounter-arkham-merchant-district-front.webp"
     },
     {
       "fixtureKey": "arkham-encounter-arkham-miskatonic-university-back",
       "alt": "Yellow Arkham encounter back frame",
       "filename": "arkham-encounter-arkham-miskatonic-university-back.webp",
-      "matchFilename": "arkham-encounter-arkham-miskatonic-university-back-arkham-encounter-yellow-1.png",
+      "matchFilename": "arkham-encounter-arkham-miskatonic-university-back.webp",
       "publicPath": "/fixture-assets/game-data/arkham-encounter-arkham-miskatonic-university-back.webp"
     },
     {
       "fixtureKey": "arkham-encounter-arkham-miskatonic-university-front",
       "alt": "Yellow Arkham encounter front frame",
       "filename": "arkham-encounter-arkham-miskatonic-university-front.webp",
-      "matchFilename": "arkham-encounter-arkham-miskatonic-university-front-arkham-encounter-yellow-front-1.png",
+      "matchFilename": "arkham-encounter-arkham-miskatonic-university-front.webp",
       "publicPath": "/fixture-assets/game-data/arkham-encounter-arkham-miskatonic-university-front.webp"
     },
     {
       "fixtureKey": "arkham-encounter-arkham-northside-back",
       "alt": "Orange Arkham encounter back frame",
       "filename": "arkham-encounter-arkham-northside-back.webp",
-      "matchFilename": "arkham-encounter-arkham-northside-back-arkham-encounter-orange-1.png",
+      "matchFilename": "arkham-encounter-arkham-northside-back.webp",
       "publicPath": "/fixture-assets/game-data/arkham-encounter-arkham-northside-back.webp"
     },
     {
       "fixtureKey": "arkham-encounter-arkham-northside-front",
       "alt": "Orange Arkham encounter front frame",
       "filename": "arkham-encounter-arkham-northside-front.webp",
-      "matchFilename": "arkham-encounter-arkham-northside-front-arkham-encounter-orange-front-1.png",
+      "matchFilename": "arkham-encounter-arkham-northside-front.webp",
       "publicPath": "/fixture-assets/game-data/arkham-encounter-arkham-northside-front.webp"
     },
     {
       "fixtureKey": "arkham-encounter-arkham-rivertown-back",
       "alt": "Purple Arkham encounter back frame",
       "filename": "arkham-encounter-arkham-rivertown-back.webp",
-      "matchFilename": "arkham-encounter-arkham-rivertown-back-arkham-encounter-purple-1.png",
+      "matchFilename": "arkham-encounter-arkham-rivertown-back.webp",
       "publicPath": "/fixture-assets/game-data/arkham-encounter-arkham-rivertown-back.webp"
     },
     {
       "fixtureKey": "arkham-encounter-arkham-rivertown-front",
       "alt": "Purple Arkham encounter front frame",
       "filename": "arkham-encounter-arkham-rivertown-front.webp",
-      "matchFilename": "arkham-encounter-arkham-rivertown-front-arkham-encounter-purple-front-1.png",
+      "matchFilename": "arkham-encounter-arkham-rivertown-front.webp",
       "publicPath": "/fixture-assets/game-data/arkham-encounter-arkham-rivertown-front.webp"
     },
     {
       "fixtureKey": "arkham-encounter-arkham-southside-back",
       "alt": "Brown Arkham encounter back frame",
       "filename": "arkham-encounter-arkham-southside-back.webp",
-      "matchFilename": "arkham-encounter-arkham-southside-back-arkham-encounter-brown-1.png",
+      "matchFilename": "arkham-encounter-arkham-southside-back.webp",
       "publicPath": "/fixture-assets/game-data/arkham-encounter-arkham-southside-back.webp"
     },
     {
       "fixtureKey": "arkham-encounter-arkham-southside-front",
       "alt": "Brown Arkham encounter front frame",
       "filename": "arkham-encounter-arkham-southside-front.webp",
-      "matchFilename": "arkham-encounter-arkham-southside-front-arkham-encounter-brown-front-1.png",
+      "matchFilename": "arkham-encounter-arkham-southside-front.webp",
       "publicPath": "/fixture-assets/game-data/arkham-encounter-arkham-southside-front.webp"
     },
     {
       "fixtureKey": "arkham-encounter-arkham-uptown-back",
       "alt": "Red Arkham encounter back frame",
       "filename": "arkham-encounter-arkham-uptown-back.webp",
-      "matchFilename": "arkham-encounter-arkham-uptown-back-arkham-encounter-red-1.png",
+      "matchFilename": "arkham-encounter-arkham-uptown-back.webp",
       "publicPath": "/fixture-assets/game-data/arkham-encounter-arkham-uptown-back.webp"
     },
     {
       "fixtureKey": "arkham-encounter-arkham-uptown-front",
       "alt": "Red Arkham encounter front frame",
       "filename": "arkham-encounter-arkham-uptown-front.webp",
-      "matchFilename": "arkham-encounter-arkham-uptown-front-arkham-encounter-red-front-1.png",
+      "matchFilename": "arkham-encounter-arkham-uptown-front.webp",
       "publicPath": "/fixture-assets/game-data/arkham-encounter-arkham-uptown-front.webp"
     },
     {
       "fixtureKey": "location-black-cave",
       "alt": "Black Cave",
       "filename": "location-black-cave.webp",
-      "matchFilename": "location-black-cave-cave-1.jpg",
+      "matchFilename": "location-black-cave-1.webp",
       "publicPath": "/fixture-assets/game-data/location-black-cave.webp"
     },
     {
       "fixtureKey": "location-the-witch-house",
       "alt": "The Witch House",
       "filename": "location-the-witch-house.webp",
-      "matchFilename": "location-the-witch-house-old-house-1.jpg",
+      "matchFilename": "location-the-witch-house-1.webp",
       "publicPath": "/fixture-assets/game-data/location-the-witch-house.webp"
     },
     {
       "fixtureKey": "location-unvisited-isle",
       "alt": "Unvisited Isle",
       "filename": "location-unvisited-isle.webp",
-      "matchFilename": "location-unvisited-isle-isle-1.jpg",
+      "matchFilename": "location-unvisited-isle-1.webp",
       "publicPath": "/fixture-assets/game-data/location-unvisited-isle.webp"
     },
     {
       "fixtureKey": "media-607-water",
       "alt": "607 water.png",
       "filename": "media-607-water.webp",
-      "matchFilename": "media-607-water-607-water-1.png",
+      "matchFilename": "media-607-water-1.webp",
       "publicPath": "/fixture-assets/game-data/media-607-water.webp"
     },
     {
       "fixtureKey": "media-7th-house",
       "alt": "7th house.png",
       "filename": "media-7th-house.webp",
-      "matchFilename": "media-7th-house-7th-house-1.png",
+      "matchFilename": "media-7th-house-1.webp",
       "publicPath": "/fixture-assets/game-data/media-7th-house.webp"
     },
     {
       "fixtureKey": "media-abhoth",
       "alt": "abhoth.png",
       "filename": "media-abhoth.webp",
-      "matchFilename": "abhoth.png",
+      "matchFilename": "media-abhoth.webp",
       "publicPath": "/fixture-assets/game-data/media-abhoth.webp"
     },
     {
       "fixtureKey": "media-abyss",
       "alt": "abyss.png",
       "filename": "media-abyss.webp",
-      "matchFilename": "media-abyss-abyss-1.png",
+      "matchFilename": "media-abyss.webp",
       "publicPath": "/fixture-assets/game-data/media-abyss.webp"
     },
     {
       "fixtureKey": "media-admin",
       "alt": "admin.jpg",
       "filename": "media-admin.webp",
-      "matchFilename": "media-admin-admin-1.jpg",
+      "matchFilename": "media-admin-1.webp",
       "publicPath": "/fixture-assets/game-data/media-admin.webp"
     },
     {
       "fixtureKey": "media-another-dimension",
       "alt": "Another Dimension.png",
       "filename": "media-another-dimension.webp",
-      "matchFilename": "media-another-dimension-Another-Dimension-1.png",
+      "matchFilename": "media-another-dimension.webp",
       "publicPath": "/fixture-assets/game-data/media-another-dimension.webp"
     },
     {
       "fixtureKey": "media-another-time",
       "alt": "Another Time.png",
       "filename": "media-another-time.webp",
-      "matchFilename": "media-another-time-Another-Time-1.png",
+      "matchFilename": "media-another-time.webp",
       "publicPath": "/fixture-assets/game-data/media-another-time.webp"
     },
     {
       "fixtureKey": "media-arkham-horror-box",
       "alt": "arkham_horror_box.jpg",
       "filename": "media-arkham-horror-box.webp",
-      "matchFilename": "arkham_horror_box.jpg",
+      "matchFilename": "media-arkham-horror-box-1.webp",
       "publicPath": "/fixture-assets/game-data/media-arkham-horror-box.webp"
     },
     {
       "fixtureKey": "media-arkham-horror-the-card-game-lcg-artwork",
       "alt": "arkham-horror-the-card-game-lcg-artwork.jpg",
       "filename": "media-arkham-horror-the-card-game-lcg-artwork.webp",
-      "matchFilename": "arkham-horror-the-card-game-lcg-artwork.jpg",
+      "matchFilename": "media-arkham-horror-the-card-game-lcg-artwork-1.webp",
       "publicPath": "/fixture-assets/game-data/media-arkham-horror-the-card-game-lcg-artwork.webp"
     },
     {
       "fixtureKey": "media-artists-colony",
       "alt": "artists colony.png",
       "filename": "media-artists-colony.webp",
-      "matchFilename": "media-artists-colony-artists-colony-1.png",
+      "matchFilename": "media-artists-colony-1.webp",
       "publicPath": "/fixture-assets/game-data/media-artists-colony.webp"
     },
     {
       "fixtureKey": "media-asylym",
       "alt": "Asylym.jpg",
       "filename": "media-asylym.webp",
-      "matchFilename": "media-asylym-Asylym-1.jpg",
+      "matchFilename": "media-asylym-1.webp",
       "publicPath": "/fixture-assets/game-data/media-asylym.webp"
     },
     {
       "fixtureKey": "media-azathoth",
       "alt": "azathoth.png",
       "filename": "media-azathoth.webp",
-      "matchFilename": "media-azathoth-azathoth-1.png",
+      "matchFilename": "media-azathoth.webp",
       "publicPath": "/fixture-assets/game-data/media-azathoth.webp"
     },
     {
       "fixtureKey": "media-bank",
       "alt": "bank.jpg",
       "filename": "media-bank.webp",
-      "matchFilename": "media-bank-bank-1.jpg",
+      "matchFilename": "media-bank-1.webp",
       "publicPath": "/fixture-assets/game-data/media-bank.webp"
     },
     {
       "fixtureKey": "media-bishop-brook-bridge",
       "alt": "Bishop Brook Bridge.png",
       "filename": "media-bishop-brook-bridge.webp",
-      "matchFilename": "media-bishop-brook-bridge-Bishop-Brook-Bridge-1.png",
+      "matchFilename": "media-bishop-brook-bridge-1.webp",
       "publicPath": "/fixture-assets/game-data/media-bishop-brook-bridge.webp"
     },
     {
       "fixtureKey": "media-black-goat",
       "alt": "black goat.png",
       "filename": "media-black-goat.webp",
-      "matchFilename": "black goat.png",
+      "matchFilename": "media-black-goat.webp",
       "publicPath": "/fixture-assets/game-data/media-black-goat.webp"
     },
     {
       "fixtureKey": "media-boarding",
       "alt": "boarding.jpg",
       "filename": "media-boarding.webp",
-      "matchFilename": "media-boarding-boarding-1.jpg",
+      "matchFilename": "media-boarding-1.webp",
       "publicPath": "/fixture-assets/game-data/media-boarding.webp"
     },
     {
       "fixtureKey": "media-bokrug",
       "alt": "bokrug.png",
       "filename": "media-bokrug.webp",
-      "matchFilename": "bokrug.png",
+      "matchFilename": "media-bokrug.webp",
       "publicPath": "/fixture-assets/game-data/media-bokrug.webp"
     },
     {
       "fixtureKey": "media-capture",
       "alt": "Capture.jpg",
       "filename": "media-capture.webp",
-      "matchFilename": "Capture.jpg",
+      "matchFilename": "media-capture-1.webp",
       "publicPath": "/fixture-assets/game-data/media-capture.webp"
     },
     {
       "fixtureKey": "media-causeway",
       "alt": "causeway.png",
       "filename": "media-causeway.webp",
-      "matchFilename": "media-causeway-causeway-1.png",
+      "matchFilename": "media-causeway-1.webp",
       "publicPath": "/fixture-assets/game-data/media-causeway.webp"
     },
     {
       "fixtureKey": "media-cave-1",
       "alt": "cave-1.jpg",
       "filename": "media-cave-1.webp",
-      "matchFilename": "cave-1.jpg",
+      "matchFilename": "media-cave-2.webp",
       "publicPath": "/fixture-assets/game-data/media-cave-1.webp"
     },
     {
       "fixtureKey": "media-celano",
       "alt": "celano.png",
       "filename": "media-celano.webp",
-      "matchFilename": "media-celano-celano-1.png",
+      "matchFilename": "media-celano.webp",
       "publicPath": "/fixture-assets/game-data/media-celano.webp"
     },
     {
       "fixtureKey": "media-chaugnah-faugri",
       "alt": "Chaugnah Faugri.png",
       "filename": "media-chaugnah-faugri.webp",
-      "matchFilename": "Chaugnah Faugri.png",
+      "matchFilename": "media-chaugnah-faugri.webp",
       "publicPath": "/fixture-assets/game-data/media-chaugnah-faugri.webp"
     },
     {
       "fixtureKey": "media-church",
       "alt": "church.jpg",
       "filename": "media-church.webp",
-      "matchFilename": "media-church-church-1.jpg",
+      "matchFilename": "media-church-1.webp",
       "publicPath": "/fixture-assets/game-data/media-church.webp"
     },
     {
       "fixtureKey": "media-city-of-the-great-race",
       "alt": "city of the great race.png",
       "filename": "media-city-of-the-great-race.webp",
-      "matchFilename": "media-city-of-the-great-race-city-of-the-great-race-1.png",
+      "matchFilename": "media-city-of-the-great-race.webp",
       "publicPath": "/fixture-assets/game-data/media-city-of-the-great-race.webp"
     },
     {
       "fixtureKey": "media-cold-spring-glen",
       "alt": "Cold Spring Glen.png",
       "filename": "media-cold-spring-glen.webp",
-      "matchFilename": "media-cold-spring-glen-Cold-Spring-Glen-1.png",
+      "matchFilename": "media-cold-spring-glen-1.webp",
       "publicPath": "/fixture-assets/game-data/media-cold-spring-glen.webp"
     },
     {
       "fixtureKey": "media-congregational-hospital",
       "alt": "congregational hospital.png",
       "filename": "media-congregational-hospital.webp",
-      "matchFilename": "media-congregational-hospital-congregational-hospital-1.png",
+      "matchFilename": "media-congregational-hospital-1.webp",
       "publicPath": "/fixture-assets/game-data/media-congregational-hospital.webp"
     },
     {
       "fixtureKey": "media-cthuga",
       "alt": "Cthuga.png",
       "filename": "media-cthuga.webp",
-      "matchFilename": "Cthuga.png",
+      "matchFilename": "media-cthuga.webp",
       "publicPath": "/fixture-assets/game-data/media-cthuga.webp"
     },
     {
       "fixtureKey": "media-cthulu",
       "alt": "cthulu.png",
       "filename": "media-cthulu.webp",
-      "matchFilename": "media-cthulu-cthulu-1.png",
+      "matchFilename": "media-cthulu.webp",
       "publicPath": "/fixture-assets/game-data/media-cthulu.webp"
     },
     {
       "fixtureKey": "media-curiousitie",
       "alt": "curiousitie.jpg",
       "filename": "media-curiousitie.webp",
-      "matchFilename": "media-curiousitie-curiousitie-1.jpg",
+      "matchFilename": "media-curiousitie-1.webp",
       "publicPath": "/fixture-assets/game-data/media-curiousitie.webp"
     },
     {
       "fixtureKey": "media-daloth",
       "alt": "Daloth.png",
       "filename": "media-daloth.webp",
-      "matchFilename": "Daloth.png",
+      "matchFilename": "media-daloth.webp",
       "publicPath": "/fixture-assets/game-data/media-daloth.webp"
     },
     {
       "fixtureKey": "media-dark-pharoah-1st",
       "alt": "dark pharoah 1st.png",
       "filename": "media-dark-pharoah-1st.webp",
-      "matchFilename": "dark pharoah 1st.png",
+      "matchFilename": "media-dark-pharoah-1st.webp",
       "publicPath": "/fixture-assets/game-data/media-dark-pharoah-1st.webp"
     },
     {
       "fixtureKey": "media-dark-pharoah-revised",
       "alt": "dark pharoah revised.png",
       "filename": "media-dark-pharoah-revised.webp",
-      "matchFilename": "dark pharoah revised.png",
+      "matchFilename": "media-dark-pharoah-revised.webp",
       "publicPath": "/fixture-assets/game-data/media-dark-pharoah-revised.webp"
     },
     {
       "fixtureKey": "media-darke-carnival",
       "alt": "darke carnival.png",
       "filename": "media-darke-carnival.webp",
-      "matchFilename": "media-darke-carnival-darke-carnival-1.png",
+      "matchFilename": "media-darke-carnival-1.webp",
       "publicPath": "/fixture-assets/game-data/media-darke-carnival.webp"
     },
     {
       "fixtureKey": "media-devil-reef",
       "alt": "Devil Reef.png",
       "filename": "media-devil-reef.webp",
-      "matchFilename": "media-devil-reef-Devil-Reef-1.png",
+      "matchFilename": "media-devil-reef-1.webp",
       "publicPath": "/fixture-assets/game-data/media-devil-reef.webp"
     },
     {
       "fixtureKey": "media-devils-hopyard",
       "alt": "Devils Hopyard.png",
       "filename": "media-devils-hopyard.webp",
-      "matchFilename": "media-devils-hopyard-Devils-Hopyard-1.png",
+      "matchFilename": "media-devils-hopyard-1.webp",
       "publicPath": "/fixture-assets/game-data/media-devils-hopyard.webp"
     },
     {
       "fixtureKey": "media-docks",
       "alt": "docks.jpg",
       "filename": "media-docks.webp",
-      "matchFilename": "media-docks-docks-1.jpg",
+      "matchFilename": "media-docks-1.webp",
       "publicPath": "/fixture-assets/game-data/media-docks.webp"
     },
     {
       "fixtureKey": "media-dreamlands",
       "alt": "dreamlands.png",
       "filename": "media-dreamlands.webp",
-      "matchFilename": "media-dreamlands-dreamlands-1.png",
+      "matchFilename": "media-dreamlands.webp",
       "publicPath": "/fixture-assets/game-data/media-dreamlands.webp"
     },
     {
       "fixtureKey": "media-dunwich",
       "alt": "dunwich.png",
       "filename": "media-dunwich.webp",
-      "matchFilename": "dunwich.png",
+      "matchFilename": "media-dunwich.webp",
       "publicPath": "/fixture-assets/game-data/media-dunwich.webp"
     },
     {
       "fixtureKey": "media-dunwich-villiage",
       "alt": "Dunwich villiage.png",
       "filename": "media-dunwich-villiage.webp",
-      "matchFilename": "media-dunwich-villiage-Dunwich-villiage-1.png",
+      "matchFilename": "media-dunwich-villiage-1.webp",
       "publicPath": "/fixture-assets/game-data/media-dunwich-villiage.webp"
     },
     {
       "fixtureKey": "media-eihort",
       "alt": "Eihort.png",
       "filename": "media-eihort.webp",
-      "matchFilename": "Eihort.png",
+      "matchFilename": "media-eihort.webp",
       "publicPath": "/fixture-assets/game-data/media-eihort.webp"
     },
     {
       "fixtureKey": "media-eldritch-horror-board-game-artwork",
       "alt": "eldritch-horror-board-game-artwork.jpg",
       "filename": "media-eldritch-horror-board-game-artwork.webp",
-      "matchFilename": "eldritch-horror-board-game-artwork.jpg",
+      "matchFilename": "media-eldritch-horror-board-game-artwork-1.webp",
       "publicPath": "/fixture-assets/game-data/media-eldritch-horror-board-game-artwork.webp"
     },
     {
       "fixtureKey": "media-falcon-point",
       "alt": "falcon point.png",
       "filename": "media-falcon-point.webp",
-      "matchFilename": "media-falcon-point-falcon-point-1.png",
+      "matchFilename": "media-falcon-point-1.webp",
       "publicPath": "/fixture-assets/game-data/media-falcon-point.webp"
     },
     {
       "fixtureKey": "media-first-national-gallery",
       "alt": "First national gallery.png",
       "filename": "media-first-national-gallery.webp",
-      "matchFilename": "media-first-national-gallery-First-national-gallery-1.png",
+      "matchFilename": "media-first-national-gallery-1.webp",
       "publicPath": "/fixture-assets/game-data/media-first-national-gallery.webp"
     },
     {
       "fixtureKey": "media-gardners-place",
       "alt": "Gardners place.png",
       "filename": "media-gardners-place.webp",
-      "matchFilename": "media-gardners-place-Gardners-place-1.png",
+      "matchFilename": "media-gardners-place-1.webp",
       "publicPath": "/fixture-assets/game-data/media-gardners-place.webp"
     },
     {
       "fixtureKey": "media-genstore",
       "alt": "genstore.jpg",
       "filename": "media-genstore.webp",
-      "matchFilename": "media-genstore-genstore-1.jpg",
+      "matchFilename": "media-genstore-1.webp",
       "publicPath": "/fixture-assets/game-data/media-genstore.webp"
     },
     {
       "fixtureKey": "media-ghatanotha",
       "alt": "Ghatanotha.png",
       "filename": "media-ghatanotha.webp",
-      "matchFilename": "Ghatanotha.png",
+      "matchFilename": "media-ghatanotha.webp",
       "publicPath": "/fixture-assets/game-data/media-ghatanotha.webp"
     },
     {
       "fixtureKey": "media-gilman-house-hotel",
       "alt": "gilman house hotel.png",
       "filename": "media-gilman-house-hotel.webp",
-      "matchFilename": "media-gilman-house-hotel-gilman-house-hotel-1.png",
+      "matchFilename": "media-gilman-house-hotel-1.webp",
       "publicPath": "/fixture-assets/game-data/media-gilman-house-hotel.webp"
     },
     {
       "fixtureKey": "media-glaaki",
       "alt": "Glaaki.png",
       "filename": "media-glaaki.webp",
-      "matchFilename": "Glaaki.png",
+      "matchFilename": "media-glaaki.webp",
       "publicPath": "/fixture-assets/game-data/media-glaaki.webp"
     },
     {
       "fixtureKey": "media-golon",
       "alt": "golon.png",
       "filename": "media-golon.webp",
-      "matchFilename": "golon.png",
+      "matchFilename": "media-golon.webp",
       "publicPath": "/fixture-assets/game-data/media-golon.webp"
     },
     {
       "fixtureKey": "media-grave",
       "alt": "grave.jpg",
       "filename": "media-grave.webp",
-      "matchFilename": "media-grave-grave-1.jpg",
+      "matchFilename": "media-grave-1.webp",
       "publicPath": "/fixture-assets/game-data/media-grave.webp"
     },
     {
       "fixtureKey": "media-hall-school",
       "alt": "hall school.png",
       "filename": "media-hall-school.webp",
-      "matchFilename": "media-hall-school-hall-school-1.png",
+      "matchFilename": "media-hall-school-1.webp",
       "publicPath": "/fixture-assets/game-data/media-hall-school.webp"
     },
     {
       "fixtureKey": "media-harney-jones-shack",
       "alt": "Harney Jones Shack.png",
       "filename": "media-harney-jones-shack.webp",
-      "matchFilename": "media-harney-jones-shack-Harney-Jones-Shack-1.png",
+      "matchFilename": "media-harney-jones-shack-1.webp",
       "publicPath": "/fixture-assets/game-data/media-harney-jones-shack.webp"
     },
     {
       "fixtureKey": "media-hastur",
       "alt": "hastur.png",
       "filename": "media-hastur.webp",
-      "matchFilename": "media-hastur-hastur-1.png",
+      "matchFilename": "media-hastur.webp",
       "publicPath": "/fixture-assets/game-data/media-hastur.webp"
     },
     {
       "fixtureKey": "media-hastur-2",
       "alt": "Hastur 2.png",
       "filename": "media-hastur-2.webp",
-      "matchFilename": "Hastur 2.png",
+      "matchFilename": "media-hastur-2.webp",
       "publicPath": "/fixture-assets/game-data/media-hastur-2.webp"
     },
     {
       "fixtureKey": "media-hibbs",
       "alt": "hibbs.jpg",
       "filename": "media-hibbs.webp",
-      "matchFilename": "media-hibbs-hibbs-1.jpg",
+      "matchFilename": "media-hibbs-1.webp",
       "publicPath": "/fixture-assets/game-data/media-hibbs.webp"
     },
     {
       "fixtureKey": "media-hist-society",
       "alt": "hist society.jpg",
       "filename": "media-hist-society.webp",
-      "matchFilename": "media-hist-society-hist-society-1.jpg",
+      "matchFilename": "media-hist-society-1.webp",
       "publicPath": "/fixture-assets/game-data/media-hist-society.webp"
     },
     {
       "fixtureKey": "media-hospital",
       "alt": "hospital.jpg",
       "filename": "media-hospital.webp",
-      "matchFilename": "media-hospital-hospital-1.jpg",
+      "matchFilename": "media-hospital-1.webp",
       "publicPath": "/fixture-assets/game-data/media-hospital.webp"
     },
     {
       "fixtureKey": "media-indepsquare",
       "alt": "indepsquare.jpg",
       "filename": "media-indepsquare.webp",
-      "matchFilename": "media-indepsquare-indepsquare-1.jpg",
+      "matchFilename": "media-indepsquare-1.webp",
       "publicPath": "/fixture-assets/game-data/media-indepsquare.webp"
     },
     {
       "fixtureKey": "media-innsmouth",
       "alt": "innsmouth.png",
       "filename": "media-innsmouth.webp",
-      "matchFilename": "innsmouth.png",
+      "matchFilename": "media-innsmouth.webp",
       "publicPath": "/fixture-assets/game-data/media-innsmouth.webp"
     },
     {
       "fixtureKey": "media-innsmouth-jail",
       "alt": "innsmouth jail.png",
       "filename": "media-innsmouth-jail.webp",
-      "matchFilename": "media-innsmouth-jail-innsmouth-jail-1.png",
+      "matchFilename": "media-innsmouth-jail-1.webp",
       "publicPath": "/fixture-assets/game-data/media-innsmouth-jail.webp"
     },
     {
       "fixtureKey": "media-isle-1",
       "alt": "isle-1.jpg",
       "filename": "media-isle-1.webp",
-      "matchFilename": "isle-1.jpg",
+      "matchFilename": "media-isle-2.webp",
       "publicPath": "/fixture-assets/game-data/media-isle-1.webp"
     },
     {
       "fixtureKey": "media-ithaqua",
       "alt": "ithaqua.png",
       "filename": "media-ithaqua.webp",
-      "matchFilename": "ithaqua.png",
+      "matchFilename": "media-ithaqua.webp",
       "publicPath": "/fixture-assets/game-data/media-ithaqua.webp"
     },
     {
       "fixtureKey": "media-kadath",
       "alt": "kadath.png",
       "filename": "media-kadath.webp",
-      "matchFilename": "media-kadath-kadath-1.png",
+      "matchFilename": "media-kadath.webp",
       "publicPath": "/fixture-assets/game-data/media-kadath.webp"
     },
     {
       "fixtureKey": "media-king-in-yellow",
       "alt": "king in yellow.png",
       "filename": "media-king-in-yellow.webp",
-      "matchFilename": "king in yellow.png",
+      "matchFilename": "media-king-in-yellow.webp",
       "publicPath": "/fixture-assets/game-data/media-king-in-yellow.webp"
     },
     {
       "fixtureKey": "media-kingsport",
       "alt": "kingsport.png",
       "filename": "media-kingsport.webp",
-      "matchFilename": "kingsport.png",
+      "matchFilename": "media-kingsport.webp",
       "publicPath": "/fixture-assets/game-data/media-kingsport.webp"
     },
     {
       "fixtureKey": "media-leng",
       "alt": "Leng.png",
       "filename": "media-leng.webp",
-      "matchFilename": "media-leng-Leng-1.png",
+      "matchFilename": "media-leng.webp",
       "publicPath": "/fixture-assets/game-data/media-leng.webp"
     },
     {
       "fixtureKey": "media-library",
       "alt": "library.jpg",
       "filename": "media-library.webp",
-      "matchFilename": "media-library-library-1.jpg",
+      "matchFilename": "media-library-1.webp",
       "publicPath": "/fixture-assets/game-data/media-library.webp"
     },
     {
       "fixtureKey": "media-lost-carcosa",
       "alt": "Lost Carcosa.png",
       "filename": "media-lost-carcosa.webp",
-      "matchFilename": "media-lost-carcosa-Lost-Carcosa-1.png",
+      "matchFilename": "media-lost-carcosa.webp",
       "publicPath": "/fixture-assets/game-data/media-lost-carcosa.webp"
     },
     {
       "fixtureKey": "media-lurker",
       "alt": "lurker.png",
       "filename": "media-lurker.webp",
-      "matchFilename": "lurker.png",
+      "matchFilename": "media-lurker.webp",
       "publicPath": "/fixture-assets/game-data/media-lurker.webp"
     },
     {
       "fixtureKey": "media-magicshop",
       "alt": "magicshop.jpg",
       "filename": "media-magicshop.webp",
-      "matchFilename": "media-magicshop-magicshop-1.jpg",
+      "matchFilename": "media-magicshop-1.webp",
       "publicPath": "/fixture-assets/game-data/media-magicshop.webp"
     },
     {
       "fixtureKey": "media-marsh-refinery",
       "alt": "marsh refinery.png",
       "filename": "media-marsh-refinery.webp",
-      "matchFilename": "media-marsh-refinery-marsh-refinery-1.png",
+      "matchFilename": "media-marsh-refinery-1.webp",
       "publicPath": "/fixture-assets/game-data/media-marsh-refinery.webp"
     },
     {
       "fixtureKey": "media-miskatonic",
       "alt": "miskatonic.png",
       "filename": "media-miskatonic.webp",
-      "matchFilename": "miskatonic.png",
+      "matchFilename": "media-miskatonic.webp",
       "publicPath": "/fixture-assets/game-data/media-miskatonic.webp"
     },
     {
       "fixtureKey": "media-mythos-backing",
       "alt": "mythos_backing.jpg",
       "filename": "media-mythos-backing.webp",
-      "matchFilename": "mythos_backing.jpg",
+      "matchFilename": "media-mythos-backing-1.webp",
       "publicPath": "/fixture-assets/game-data/media-mythos-backing.webp"
     },
     {
       "fixtureKey": "media-nacha",
       "alt": "nacha.png",
       "filename": "media-nacha.webp",
-      "matchFilename": "nacha.png",
+      "matchFilename": "media-nacha.webp",
       "publicPath": "/fixture-assets/game-data/media-nacha.webp"
     },
     {
       "fixtureKey": "media-neils-curiosity",
       "alt": "neils curiosity.png",
       "filename": "media-neils-curiosity.webp",
-      "matchFilename": "media-neils-curiosity-neils-curiosity-1.png",
+      "matchFilename": "media-neils-curiosity-1.webp",
       "publicPath": "/fixture-assets/game-data/media-neils-curiosity.webp"
     },
     {
       "fixtureKey": "media-newspaper",
       "alt": "newspaper.jpg",
       "filename": "media-newspaper.webp",
-      "matchFilename": "media-newspaper-newspaper-1.jpg",
+      "matchFilename": "media-newspaper-1.webp",
       "publicPath": "/fixture-assets/game-data/media-newspaper.webp"
     },
     {
       "fixtureKey": "media-northpoint-lighthouse",
       "alt": "northpoint lighthouse.png",
       "filename": "media-northpoint-lighthouse.webp",
-      "matchFilename": "media-northpoint-lighthouse-northpoint-lighthouse-1.png",
+      "matchFilename": "media-northpoint-lighthouse-1.webp",
       "publicPath": "/fixture-assets/game-data/media-northpoint-lighthouse.webp"
     },
     {
       "fixtureKey": "media-nyalothep",
       "alt": "nyalothep.png",
       "filename": "media-nyalothep.webp",
-      "matchFilename": "media-nyalothep-nyalothep-1.png",
+      "matchFilename": "media-nyalothep.webp",
       "publicPath": "/fixture-assets/game-data/media-nyalothep.webp"
     },
     {
       "fixtureKey": "media-nyogtha",
       "alt": "Nyogtha.png",
       "filename": "media-nyogtha.webp",
-      "matchFilename": "Nyogtha.png",
+      "matchFilename": "media-nyogtha.webp",
       "publicPath": "/fixture-assets/game-data/media-nyogtha.webp"
     },
     {
       "fixtureKey": "media-old-house-1",
       "alt": "old-house-1.jpg",
       "filename": "media-old-house-1.webp",
-      "matchFilename": "old-house-1.jpg",
+      "matchFilename": "media-old-house-2.webp",
       "publicPath": "/fixture-assets/game-data/media-old-house-1.webp"
     },
     {
       "fixtureKey": "media-order-of-dagon",
       "alt": "order of dagon.png",
       "filename": "media-order-of-dagon.webp",
-      "matchFilename": "media-order-of-dagon-order-of-dagon-1.png",
+      "matchFilename": "media-order-of-dagon-1.webp",
       "publicPath": "/fixture-assets/game-data/media-order-of-dagon.webp"
     },
     {
       "fixtureKey": "media-otherworld-encounter",
       "alt": "otherworld_encounter.jpg",
       "filename": "media-otherworld-encounter.webp",
-      "matchFilename": "otherworld_encounter.jpg",
+      "matchFilename": "media-otherworld-encounter-1.webp",
       "publicPath": "/fixture-assets/game-data/media-otherworld-encounter.webp"
     },
     {
       "fixtureKey": "media-otherworld-encounter-front",
       "alt": "otherworld encounter front.jpg",
       "filename": "media-otherworld-encounter-front.webp",
-      "matchFilename": "otherworld encounter front.jpg",
+      "matchFilename": "media-otherworld-encounter-front-1.webp",
       "publicPath": "/fixture-assets/game-data/media-otherworld-encounter-front.webp"
     },
     {
       "fixtureKey": "media-police",
       "alt": "police.jpg",
       "filename": "media-police.webp",
-      "matchFilename": "media-police-police-1.jpg",
+      "matchFilename": "media-police-1.webp",
       "publicPath": "/fixture-assets/game-data/media-police.webp"
     },
     {
       "fixtureKey": "media-quachil-uttaus-1",
       "alt": "Quachil uttaus-1.png",
       "filename": "media-quachil-uttaus-1.webp",
-      "matchFilename": "Quachil uttaus-1.png",
+      "matchFilename": "media-quachil-uttaus-1.webp",
       "publicPath": "/fixture-assets/game-data/media-quachil-uttaus-1.webp"
     },
     {
       "fixtureKey": "media-rhan-tegoth",
       "alt": "rhan-tegoth.png",
       "filename": "media-rhan-tegoth.webp",
-      "matchFilename": "rhan-tegoth.png",
+      "matchFilename": "media-rhan-tegoth.webp",
       "publicPath": "/fixture-assets/game-data/media-rhan-tegoth.webp"
     },
     {
       "fixtureKey": "media-rlyeh",
       "alt": "rlyeh.png",
       "filename": "media-rlyeh.webp",
-      "matchFilename": "media-rlyeh-rlyeh-1.png",
+      "matchFilename": "media-rlyeh.webp",
       "publicPath": "/fixture-assets/game-data/media-rlyeh.webp"
     },
     {
       "fixtureKey": "media-rope-and-anchor",
       "alt": "rope and anchor.png",
       "filename": "media-rope-and-anchor.webp",
-      "matchFilename": "media-rope-and-anchor-rope-and-anchor-1.png",
+      "matchFilename": "media-rope-and-anchor-1.webp",
       "publicPath": "/fixture-assets/game-data/media-rope-and-anchor.webp"
     },
     {
       "fixtureKey": "media-sciencebuilding",
       "alt": "sciencebuilding.jpg",
       "filename": "media-sciencebuilding.webp",
-      "matchFilename": "media-sciencebuilding-sciencebuilding-1.jpg",
+      "matchFilename": "media-sciencebuilding-1.webp",
       "publicPath": "/fixture-assets/game-data/media-sciencebuilding.webp"
     },
     {
       "fixtureKey": "media-shub",
       "alt": "shub.png",
       "filename": "media-shub.webp",
-      "matchFilename": "media-shub-shub-1.png",
+      "matchFilename": "media-shub.webp",
       "publicPath": "/fixture-assets/game-data/media-shub.webp"
     },
     {
       "fixtureKey": "media-shudde-mell",
       "alt": "Shudde Mell.png",
       "filename": "media-shudde-mell.webp",
-      "matchFilename": "Shudde Mell.png",
+      "matchFilename": "media-shudde-mell.webp",
       "publicPath": "/fixture-assets/game-data/media-shudde-mell.webp"
     },
     {
       "fixtureKey": "media-silver",
       "alt": "silver.jpg",
       "filename": "media-silver.webp",
-      "matchFilename": "media-silver-silver-1.jpg",
+      "matchFilename": "media-silver-1.webp",
       "publicPath": "/fixture-assets/game-data/media-silver.webp"
     },
     {
       "fixtureKey": "media-st-eremus",
       "alt": "st eremus.png",
       "filename": "media-st-eremus.webp",
-      "matchFilename": "media-st-eremus-st-eremus-1.png",
+      "matchFilename": "media-st-eremus-1.webp",
       "publicPath": "/fixture-assets/game-data/media-st-eremus.webp"
     },
     {
       "fixtureKey": "media-strange-high-house",
       "alt": "strange high house.png",
       "filename": "media-strange-high-house.webp",
-      "matchFilename": "media-strange-high-house-strange-high-house-1.png",
+      "matchFilename": "media-strange-high-house-1.webp",
       "publicPath": "/fixture-assets/game-data/media-strange-high-house.webp"
     },
     {
       "fixtureKey": "media-train",
       "alt": "train.jpg",
       "filename": "media-train.webp",
-      "matchFilename": "media-train-train-1.jpg",
+      "matchFilename": "media-train-1.webp",
       "publicPath": "/fixture-assets/game-data/media-train.webp"
     },
     {
       "fixtureKey": "media-tsathogga",
       "alt": "tsathogga.png",
       "filename": "media-tsathogga.webp",
-      "matchFilename": "tsathogga.png",
+      "matchFilename": "media-tsathogga.webp",
       "publicPath": "/fixture-assets/game-data/media-tsathogga.webp"
     },
     {
       "fixtureKey": "media-underworld",
       "alt": "Underworld.png",
       "filename": "media-underworld.webp",
-      "matchFilename": "media-underworld-Underworld-1.png",
+      "matchFilename": "media-underworld.webp",
       "publicPath": "/fixture-assets/game-data/media-underworld.webp"
     },
     {
       "fixtureKey": "media-unnamable",
       "alt": "unnamable.jpg",
       "filename": "media-unnamable.webp",
-      "matchFilename": "media-unnamable-unnamable-1.jpg",
+      "matchFilename": "media-unnamable-1.webp",
       "publicPath": "/fixture-assets/game-data/media-unnamable.webp"
     },
     {
       "fixtureKey": "media-velmas",
       "alt": "velmas.jpg",
       "filename": "media-velmas.webp",
-      "matchFilename": "media-velmas-velmas-1.jpg",
+      "matchFilename": "media-velmas-1.webp",
       "publicPath": "/fixture-assets/game-data/media-velmas.webp"
     },
     {
       "fixtureKey": "media-whataley-farm",
       "alt": "Whataley Farm.png",
       "filename": "media-whataley-farm.webp",
-      "matchFilename": "media-whataley-farm-Whataley-Farm-1.png",
+      "matchFilename": "media-whataley-farm-1.webp",
       "publicPath": "/fixture-assets/game-data/media-whataley-farm.webp"
     },
     {
       "fixtureKey": "media-wireless-station",
       "alt": "wireless station.png",
       "filename": "media-wireless-station.webp",
-      "matchFilename": "media-wireless-station-wireless-station-1.png",
+      "matchFilename": "media-wireless-station-1.webp",
       "publicPath": "/fixture-assets/game-data/media-wireless-station.webp"
     },
     {
       "fixtureKey": "media-wizards-hill",
       "alt": "Wizards Hill.png",
       "filename": "media-wizards-hill.webp",
-      "matchFilename": "media-wizards-hill-Wizards-Hill-1.png",
+      "matchFilename": "media-wizards-hill-1.webp",
       "publicPath": "/fixture-assets/game-data/media-wizards-hill.webp"
     },
     {
       "fixtureKey": "media-woods",
       "alt": "woods.jpg",
       "filename": "media-woods.webp",
-      "matchFilename": "media-woods-woods-1.jpg",
+      "matchFilename": "media-woods-1.webp",
       "publicPath": "/fixture-assets/game-data/media-woods.webp"
     },
     {
       "fixtureKey": "media-y-ha-nthlei",
       "alt": "Y'ha-nthlei.png",
       "filename": "media-y-ha-nthlei.webp",
-      "matchFilename": "media-y-ha-nthlei-Y-ha-nthlei-1.png",
+      "matchFilename": "media-y-ha-nthlei-1.webp",
       "publicPath": "/fixture-assets/game-data/media-y-ha-nthlei.webp"
     },
     {
       "fixtureKey": "media-yibb",
       "alt": "yibb.png",
       "filename": "media-yibb.webp",
-      "matchFilename": "yibb.png",
+      "matchFilename": "media-yibb.webp",
       "publicPath": "/fixture-assets/game-data/media-yibb.webp"
     },
     {
       "fixtureKey": "media-yig",
       "alt": "yig.png",
       "filename": "media-yig.webp",
-      "matchFilename": "media-yig-yig-1.png",
+      "matchFilename": "media-yig.webp",
       "publicPath": "/fixture-assets/game-data/media-yig.webp"
     },
     {
       "fixtureKey": "media-yig2",
       "alt": "yig2.png",
       "filename": "media-yig2.webp",
-      "matchFilename": "yig2.png",
+      "matchFilename": "media-yig2.webp",
       "publicPath": "/fixture-assets/game-data/media-yig2.webp"
     },
     {
       "fixtureKey": "media-yog-sothoth",
       "alt": "Yog sothoth.png",
       "filename": "media-yog-sothoth.webp",
-      "matchFilename": "Yog sothoth.png",
+      "matchFilename": "media-yog-sothoth.webp",
       "publicPath": "/fixture-assets/game-data/media-yog-sothoth.webp"
     },
     {
       "fixtureKey": "media-yuggoth",
       "alt": "yuggoth.png",
       "filename": "media-yuggoth.webp",
-      "matchFilename": "media-yuggoth-yuggoth-1.png",
+      "matchFilename": "media-yuggoth.webp",
       "publicPath": "/fixture-assets/game-data/media-yuggoth.webp"
     },
     {
       "fixtureKey": "media-zhar",
       "alt": "zhar.png",
       "filename": "media-zhar.webp",
-      "matchFilename": "zhar.png",
+      "matchFilename": "media-zhar.webp",
       "publicPath": "/fixture-assets/game-data/media-zhar.webp"
     },
     {
       "fixtureKey": "mythos-doom-counters",
       "alt": "Doom counters",
       "filename": "mythos-doom-counters.webp",
-      "matchFilename": "mythos-doom-counters-doomCounters-1.png",
+      "matchFilename": "mythos-doom-counters-1.webp",
       "publicPath": "/fixture-assets/game-data/mythos-doom-counters.webp"
     }
   ],
