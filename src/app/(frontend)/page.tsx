@@ -859,6 +859,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             initiallyEnabled={Boolean(session.mobileControlsEnabled)}
             sessionID={sessionID}
           />
+          <Link className="table-admin-link" href="/admin">
+            Admin
+          </Link>
           <form action={exitGameAction.bind(null, sessionID)} className="exit-game-form">
             <button type="submit">Exit game</button>
           </form>

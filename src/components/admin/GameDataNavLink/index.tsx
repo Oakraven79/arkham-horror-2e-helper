@@ -5,18 +5,45 @@ import { usePathname } from 'next/navigation'
 
 import './styles.scss'
 
+const links = [
+  {
+    href: '/',
+    label: 'Game Dashboard',
+  },
+  {
+    href: '/sessions',
+    label: 'Game Sessions',
+  },
+  {
+    href: '/admin/game-data',
+    label: 'Game Data',
+  },
+]
+
+function isActivePath(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
+
 export default function GameDataNavLink() {
   const pathname = usePathname()
 
   return (
-    <div className="game-data-nav">
-      <Link
-        aria-current={pathname === '/admin/game-data' ? 'page' : undefined}
-        className={pathname === '/admin/game-data' ? 'active' : undefined}
-        href="/admin/game-data"
-      >
-        Game Data
-      </Link>
-    </div>
+    <nav className="game-data-nav" aria-label="Game navigation">
+      <p className="game-data-nav__label">Game</p>
+      {links.map((link) => {
+        const active = isActivePath(pathname, link.href)
+
+        return (
+          <Link
+            aria-current={active ? 'page' : undefined}
+            className={active ? 'active' : undefined}
+            href={link.href}
+            key={link.href}
+          >
+            {link.label}
+          </Link>
+        )
+      })}
+    </nav>
   )
 }

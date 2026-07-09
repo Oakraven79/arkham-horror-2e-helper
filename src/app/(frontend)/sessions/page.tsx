@@ -149,7 +149,7 @@ export default async function SessionsPage() {
           <h1>Game sessions</h1>
           <p>Resume a saved table or prepare a new game.</p>
         </div>
-        <Link href="/admin">Payload Admin</Link>
+        <Link href="/admin">Admin</Link>
       </header>
 
       <div className="session-hub-layout">

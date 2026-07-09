@@ -307,15 +307,27 @@ button {
   gap: 6px;
 }
 
+.table-admin-link,
 .exit-game-form button {
-  min-width: 104px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid rgba(232, 207, 146, 0.38);
   border-radius: 6px;
   background: rgba(10, 10, 9, 0.72);
   color: var(--ink);
-  cursor: pointer;
   font-weight: 800;
   padding: 8px 14px;
+  text-decoration: none;
+}
+
+.table-admin-link {
+  min-width: 76px;
+}
+
+.exit-game-form button {
+  min-width: 104px;
+  cursor: pointer;
 }
 
 .table-layout {
