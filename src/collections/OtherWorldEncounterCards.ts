@@ -6,6 +6,7 @@ import {
   validateCustomSetName,
   validateOtherWorldEncounterRows,
 } from '@/lib/otherWorldContent'
+import { cardPreviewField } from './fields/cardPreviewField'
 import { gameDataFixtureFields } from './fields/gameDataFixtureFields'
 import { requiredSetsField } from './fields/requiredSetsField'
 
@@ -22,7 +23,7 @@ export const OtherWorldEncounterCards: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'cardCode',
-    defaultColumns: ['cardCode', 'colour', 'encounters', 'sourceSet', 'updatedAt'],
+    defaultColumns: ['cardCode', 'cardPreview', 'colour', 'sourceSet', 'updatedAt'],
     listSearchableFields: ['cardCode', 'encounters.text'],
   },
   versions: {
@@ -44,6 +45,7 @@ export const OtherWorldEncounterCards: CollectionConfig = {
         description: 'Stable internal identifier, for example "base-blue-001".',
       },
     },
+    cardPreviewField(),
     {
       name: 'copyCount',
       label: 'Physical Copies',

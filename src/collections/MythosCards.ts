@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { mythosCardTypesList, monsterIcons } from '@/components/constants'
 import { arkhamHorror2eBoxes } from '@/components/arkhamConstants'
+import { cardPreviewField } from './fields/cardPreviewField'
 import { gameDataFixtureFields } from './fields/gameDataFixtureFields'
 import { requiredSetsField } from './fields/requiredSetsField'
 
@@ -9,6 +10,7 @@ export const MythosCards: CollectionConfig = {
   slug: 'mythos-cards',
   admin: {
     useAsTitle: 'title',
+    defaultColumns: ['title', 'cardPreview', 'cardType', 'sourceSet', 'updatedAt'],
   },
   versions: {
     drafts: {
@@ -23,6 +25,7 @@ export const MythosCards: CollectionConfig = {
       type: 'text',
       required: true,
     },
+    cardPreviewField(),
     {
       name: 'cardCode',
       label: 'Card Code',

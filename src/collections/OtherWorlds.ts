@@ -96,6 +96,20 @@ export const OtherWorlds: CollectionConfig = {
       type: 'upload',
       relationTo: 'media',
     },
+    {
+      name: 'aliases',
+      type: 'array',
+      fields: [
+        {
+          name: 'name',
+          type: 'text',
+          required: true,
+        },
+      ],
+      admin: {
+        description: 'Alternate source names accepted by import and transcription tools.',
+      },
+    },
     ...gameDataFixtureFields,
   ],
 }

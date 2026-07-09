@@ -1,6 +1,7 @@
 import { ValidationError, type CollectionConfig } from 'payload'
 
 import { gameDataFixtureFields } from './fields/gameDataFixtureFields'
+import { cardPreviewField } from './fields/cardPreviewField'
 import { validateArkhamEncounterRows } from '@/lib/arkhamEncounterContent'
 import { relationshipID } from '@/lib/boxedSetContent'
 import { requiredSetsField } from './fields/requiredSetsField'
@@ -13,7 +14,7 @@ export const ArkhamEncounterCards: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'cardCode',
-    defaultColumns: ['cardCode', 'neighborhood', 'encounters', 'sourceSet', 'updatedAt'],
+    defaultColumns: ['cardCode', 'cardPreview', 'neighborhood', 'sourceSet', 'updatedAt'],
     listSearchableFields: ['cardCode', 'encounters.text'],
   },
   versions: {
@@ -83,6 +84,7 @@ export const ArkhamEncounterCards: CollectionConfig = {
         description: 'Stable internal identifier, for example "base-uptown-001".',
       },
     },
+    cardPreviewField(),
     {
       name: 'neighborhood',
       type: 'relationship',

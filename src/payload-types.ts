@@ -582,6 +582,15 @@ export interface OtherWorld {
   requiredSets?: (string | BoxedSet)[] | null;
   customSetName?: string | null;
   art?: (string | null) | Media;
+  /**
+   * Alternate source names accepted by import and transcription tools.
+   */
+  aliases?:
+    | {
+        name: string;
+        id?: string | null;
+      }[]
+    | null;
   fixtureNamespace?: string | null;
   fixtureVersion?: number | null;
   updatedAt: string;
@@ -1370,6 +1379,12 @@ export interface OtherWorldsSelect<T extends boolean = true> {
   requiredSets?: T;
   customSetName?: T;
   art?: T;
+  aliases?:
+    | T
+    | {
+        name?: T;
+        id?: T;
+      };
   fixtureNamespace?: T;
   fixtureVersion?: T;
   updatedAt?: T;

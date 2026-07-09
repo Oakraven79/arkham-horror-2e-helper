@@ -22,6 +22,12 @@ function clamp(min: number, value: number, max: number) {
   return Math.min(max, Math.max(min, value))
 }
 
+const CARD_ROOT_FONT_SIZE = 16
+
+function cardPx(value: number) {
+  return `${(value * CARD_ROOT_FONT_SIZE).toFixed(3)}px`
+}
+
 function encounterBreakWeight(text: string) {
   const paragraphBreaks = text.match(/\n\s*\n/g)?.length ?? 0
   const lineBreaks = text.match(/\n/g)?.length ?? 0
@@ -47,10 +53,10 @@ function encounterCopyStyle(textBlocks: TextBlocks[]) {
   const blockPadding = clamp(0.48, 0.82 - contentScore * 0.00028, 0.72)
 
   return {
-    '--encounter-body-size': `${bodySize.toFixed(3)}rem`,
-    '--encounter-gap': `${gap.toFixed(3)}rem`,
-    '--encounter-heading-size': `${headingSize.toFixed(3)}rem`,
-    '--encounter-panel-padding-block': `${blockPadding.toFixed(3)}rem`,
+    '--encounter-body-size': cardPx(bodySize),
+    '--encounter-gap': cardPx(gap),
+    '--encounter-heading-size': cardPx(headingSize),
+    '--encounter-panel-padding-block': cardPx(blockPadding),
   } as React.CSSProperties
 }
 

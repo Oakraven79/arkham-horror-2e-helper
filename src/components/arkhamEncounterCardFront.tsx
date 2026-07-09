@@ -17,6 +17,12 @@ function clamp(min: number, value: number, max: number) {
   return Math.min(max, Math.max(min, value))
 }
 
+const CARD_ROOT_FONT_SIZE = 16
+
+function cardPx(value: number) {
+  return `${(value * CARD_ROOT_FONT_SIZE).toFixed(3)}px`
+}
+
 function encounterBreakWeight(text: string) {
   const paragraphBreaks = text.match(/\n\s*\n/g)?.length ?? 0
   const lineBreaks = text.match(/\n/g)?.length ?? 0
@@ -43,11 +49,11 @@ function encounterCopyStyle(encounters: ArkhamEncounterTextBlock[]) {
   const inlinePadding = clamp(0.68, 0.92 - contentScore * 0.00016, 0.86)
 
   return {
-    '--encounter-copy-gap': `${gap.toFixed(3)}rem`,
-    '--encounter-copy-padding-block': `${blockPadding.toFixed(3)}rem`,
-    '--encounter-copy-padding-inline': `${inlinePadding.toFixed(3)}rem`,
-    '--encounter-copy-size': `${bodySize.toFixed(3)}rem`,
-    '--encounter-heading-size': `${headingSize.toFixed(3)}rem`,
+    '--encounter-copy-gap': cardPx(gap),
+    '--encounter-copy-padding-block': cardPx(blockPadding),
+    '--encounter-copy-padding-inline': cardPx(inlinePadding),
+    '--encounter-copy-size': cardPx(bodySize),
+    '--encounter-heading-size': cardPx(headingSize),
   } as React.CSSProperties
 }
 

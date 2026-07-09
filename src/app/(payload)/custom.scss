@@ -468,6 +468,40 @@ body::selection {
   border-color: rgba(215, 183, 95, 0.16);
 }
 
+.collection-list .table:has(.cell-cardPreview) {
+  overflow-x: auto;
+}
+
+.collection-list .table:has(.cell-cardPreview) table {
+  min-width: max-content;
+}
+
+.collection-list .table th#heading-cardPreview,
+.collection-list .table td.cell-cardPreview {
+  width: calc(var(--card-width, 335px) + 32px);
+  min-width: calc(var(--card-width, 335px) + 32px);
+  vertical-align: top;
+  white-space: normal;
+}
+
+.collection-list .table td.cell-cardPreview {
+  padding-block: 14px;
+}
+
+.card-preview-list-cell {
+  display: grid;
+  width: var(--card-width, 335px);
+  min-width: var(--card-width, 335px);
+  justify-items: center;
+  padding-block: 4px;
+}
+
+.card-preview-list-cell .arkham-encounter-card,
+.card-preview-list-cell .mythoscardfront,
+.card-preview-list-cell .otherworldcardfront {
+  margin: 0 auto;
+}
+
 .table tbody tr:nth-child(odd) {
   background: rgba(215, 183, 95, 0.055);
 }

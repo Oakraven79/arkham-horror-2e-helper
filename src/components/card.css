@@ -2,6 +2,23 @@
   --card-width: 335px;
 }
 
+.mythoscardback,
+.mythoscardfront,
+.otherworldcardback,
+.otherworldcardfront {
+  box-sizing: border-box;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.mythoscardback *,
+.mythoscardfront *,
+.otherworldcardback *,
+.otherworldcardfront * {
+  box-sizing: border-box;
+}
+
 /* Mythos Card back */
 .mythoscardback {
   position: relative;
@@ -37,13 +54,13 @@
   --mythos-desc-really-small-top: 16%;
   --mythos-desc-small-top: 16%;
   --mythos-desc-top: 20%;
-  --mythos-monster-box-bottom: 0.5rem;
+  --mythos-monster-box-bottom: 8px;
   --mythos-monster-box-height: 25%;
   --mythos-monster-box-half-width: 27.5%;
-  --mythos-monster-box-right: 0.5rem;
+  --mythos-monster-box-right: 8px;
   --mythos-monster-box-width: 55%;
-  --mythos-set-mark-gap: 0.08rem;
-  --mythos-set-mark-size: 2rem;
+  --mythos-set-mark-gap: 1.28px;
+  --mythos-set-mark-size: 32px;
 
   position: relative;
   width: var(--card-width);
@@ -71,23 +88,62 @@
   --mythos-desc-top: 20.5%;
 }
 
-.mythoscardfront p,
+.mythoscardfront p {
+  margin: 1em 0;
+  color: inherit;
+}
+
 .mythoscardfront h1,
 .mythoscardfront h2,
-.mythoscardfront h3,
+.mythoscardfront h3 {
+  color: inherit;
+  font-family: inherit;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.mythoscardfront h1 {
+  margin: 0.67em 0;
+  font-size: 2em;
+}
+
+.mythoscardfront h2 {
+  margin: 0.83em 0;
+  font-size: 1.5em;
+}
+
+.mythoscardfront h3 {
+  margin: 1em 0;
+  font-size: 1.17em;
+}
+
+.mythoscardfront ol,
+.mythoscardfront ul {
+  margin: 1em 0;
+  padding-left: 40px;
+}
+
 .mythoscardfront strong,
 .mythoscardfront em {
   color: inherit;
 }
 
+.mythoscardfront strong {
+  font-weight: 700;
+}
+
+.mythoscardfront em {
+  font-style: italic;
+}
+
 .boxed-set-mark {
   position: absolute;
-  top: 0.55rem;
-  right: 0.55rem;
+  top: 8.8px;
+  right: 8.8px;
   z-index: 5;
   display: grid;
-  width: 2rem;
-  height: 2rem;
+  width: 32px;
+  height: 32px;
   place-items: center;
   overflow: hidden;
   border: 1px solid rgba(29, 29, 29, 0.7);
@@ -96,7 +152,7 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
   color: #171512;
   font-family: Arial, sans-serif;
-  font-size: 0.58rem;
+  font-size: 9.28px;
   font-weight: 800;
   line-height: 1;
   text-align: center;
@@ -137,7 +193,7 @@
   position: absolute;
   top: 1%; /* center vertically */
   width: 90%; /* control how wide the box is */
-  padding: 1rem;
+  padding: 16px;
   background: transparent; /* 🟢 semi-transparent black */
   text-align: center;
   justify-content: center;
@@ -147,33 +203,33 @@
 
 .mythoscardtitle {
   font-size: 1.6em;
-  font-weight: 1.2em;
+  font-weight: 400;
   margin-bottom: 0.5em;
 }
 
 .mythoscardtitle-long {
   font-size: 1.1em;
-  font-weight: 1.2em;
+  font-weight: 400;
   margin-bottom: 0.5em;
 }
 
 .mythoscardtype {
   font-size: 1.2em;
-  font-weight: 0.5em;
+  font-weight: 400;
   margin-bottom: 0.5em;
   font-style: italic;
 }
 
 .mythoscardtype-small {
   font-size: 0.9em;
-  font-weight: 0.5em;
+  font-weight: 400;
   margin-bottom: 0.5em;
   font-style: italic;
 }
 
 .mythoscarddesc {
   font-size: 1em;
-  font-weight: 0.5em;
+  font-weight: 400;
   margin-bottom: 0.5em;
   margin-top: 0.5em;
   position: absolute;
@@ -194,10 +250,10 @@
 }
 
 .mythoscarddesc-small {
-  font-size: 0.75rem;
-  font-weight: 0.5rem;
-  margin-bottom: 0.5rem;
-  margin-top: 0.5rem;
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 8px;
+  margin-top: 8px;
   position: absolute;
   top: var(--mythos-desc-small-top);
   left: 50%; /* anchor at horizontal center */
@@ -211,10 +267,10 @@
 }
 
 .mythoscarddesc-really-small {
-  font-size: 0.65rem;
-  font-weight: 0.5rem;
-  margin-bottom: 0.5rem;
-  margin-top: 0.5rem;
+  font-size: 10.4px;
+  font-weight: 400;
+  margin-bottom: 8px;
+  margin-top: 8px;
   position: absolute;
   top: var(--mythos-desc-really-small-top);
   left: 50%; /* anchor at horizontal center */
@@ -245,7 +301,7 @@
   border-radius: 6px;
   overflow: hidden;
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 12.8px;
   z-index: 3; /* keeps it above background */
 }
 
@@ -262,20 +318,20 @@
   flex-direction: row; /* 🟢 images/text flow left→right */
   align-items: center;
   justify-content: center; /* spread when few */
-  gap: 0.25rem; /* space between items */
+  gap: 4px; /* space between items */
   overflow: hidden;
 }
 
 .mythos-monster-corner-box .monster-top {
   background: rgb(211, 211, 211); /* semi-transparent red for demo */
   color: #000;
-  padding: 0.25rem;
+  padding: 4px;
 }
 
 .mythos-monster-corner-box .monster-bottom {
   background: #000;
   color: #fff;
-  padding: 0.25rem;
+  padding: 4px;
 }
 
 .mythos-monster-corner-box .monster-top img,
@@ -315,7 +371,7 @@
 
 .mythos-portal-location-text {
   position: absolute;
-  bottom: 0.5rem; /* ✅ anchors it at bottom */ /* adjust so it overlaps the circle */
+  bottom: 8px; /* ✅ anchors it at bottom */ /* adjust so it overlaps the circle */
   left: 1.5%; /* ✅ anchors it at right */
   width: 35%; /* size of the square */
   height: 9%;
@@ -353,7 +409,7 @@
 
 .mythos-portal-alt-location-text {
   position: absolute;
-  bottom: 0.5rem; /* ✅ anchors it at bottom */ /* adjust so it overlaps the circle */
+  bottom: 8px; /* ✅ anchors it at bottom */ /* adjust so it overlaps the circle */
   left: 1.5%; /* ✅ anchors it at right */
   width: 35%; /* size of the square */
   height: 11%;
@@ -375,7 +431,7 @@
   left: 27%;
   z-index: 4;
   display: grid;
-  width: 3.2rem;
+  width: 51.2px;
   aspect-ratio: 1;
   place-items: center;
   border: 2px solid #f2d69a;
@@ -385,7 +441,7 @@
     0 0 0 2px #24110e,
     0 3px 8px rgba(0, 0, 0, 0.55);
   color: #fff4d5;
-  font-size: 0.62rem;
+  font-size: 9.92px;
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -393,16 +449,16 @@
 .mythos-gate-burst-seal.compact {
   bottom: auto;
   left: auto;
-  right: -0.4rem;
-  top: -0.6rem;
-  width: 2.65rem;
-  font-size: 0.52rem;
+  right: -6.4px;
+  top: -9.6px;
+  width: 42.4px;
+  font-size: 8.32px;
 }
 
 .mythos-multiple-gates,
 .mythos-special-instruction {
   position: absolute;
-  bottom: 0.5rem;
+  bottom: 8px;
   left: 1.5%;
   z-index: 3;
   width: 35%;
@@ -417,16 +473,16 @@
 .mythos-gate-destinations {
   display: grid;
   grid-template-rows: repeat(2, minmax(0, 1fr));
-  min-height: 8.4rem;
+  min-height: 134.4px;
 }
 
 .mythos-gate-destination {
   display: grid;
-  grid-template-columns: 2.2rem minmax(0, 1fr);
+  grid-template-columns: 35.2px minmax(0, 1fr);
   align-items: center;
   min-width: 0;
-  padding: 0.2rem 0.3rem;
-  font-size: 0.61rem;
+  padding: 3.2px 4.8px;
+  font-size: 9.76px;
   font-weight: 700;
   line-height: 1.05;
   text-align: center;
@@ -441,7 +497,7 @@
 }
 
 .mythos-gate-destination img {
-  width: 2rem;
+  width: 32px;
   aspect-ratio: 1;
   border: 1px solid #1d1d1d;
   border-radius: 50%;
@@ -457,13 +513,13 @@
   left: 50%;
   top: 50%;
   z-index: 2;
-  min-width: 1.8rem;
-  padding: 0.12rem 0.25rem;
+  min-width: 28.8px;
+  padding: 1.92px 4px;
   transform: translate(-50%, -50%);
   border: 1px solid #1d1d1d;
   border-radius: 50%;
   background: #f0e6c8;
-  font-size: 0.52rem;
+  font-size: 8.32px;
   font-weight: 700;
   text-align: center;
 }
@@ -475,17 +531,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.2rem;
-  padding: 0.45rem;
-  font-size: 0.72rem;
+  gap: 3.2px;
+  padding: 7.2px;
+  font-size: 11.52px;
   font-weight: 700;
   line-height: 1.15;
   text-align: center;
 }
 
 .mythos-special-instruction img {
-  width: 3rem;
-  max-height: 3rem;
+  width: 48px;
+  max-height: 48px;
   object-fit: contain;
 }
 
@@ -568,8 +624,8 @@
 
 .otherworldcardfront .boxed-set-mark {
   top: auto;
-  right: 0.8rem;
-  bottom: 1rem;
+  right: 12.8px;
+  bottom: 16px;
   z-index: 4;
 }
 
@@ -582,10 +638,10 @@
 }
 
 .otherworldcardfront .otherworldcard-center-panel {
-  --encounter-body-size: 0.98rem;
-  --encounter-gap: 0.25rem;
-  --encounter-heading-size: 1.2rem;
-  --encounter-panel-padding-block: 0.7rem;
+  --encounter-body-size: 15.68px;
+  --encounter-gap: 4px;
+  --encounter-heading-size: 19.2px;
+  --encounter-panel-padding-block: 11.2px;
   position: absolute;
   top: 2%;
   left: 2%;
@@ -602,7 +658,7 @@
   justify-content: space-evenly;
   gap: var(--encounter-gap);
   overflow: hidden;
-  padding: var(--encounter-panel-padding-block) 0.55rem;
+  padding: var(--encounter-panel-padding-block) 8.8px;
   text-align: center;
 }
 
@@ -638,8 +694,10 @@
 .otherworldcardfront .otherworldcard-center-panel h2,
 .otherworldcardfront .otherworldcard-center-panel h3 {
   text-align: center;
-  margin: 0.2rem 0;
+  margin: 3.2px 0;
   color: inherit;
+  font-family: inherit;
   font-size: var(--encounter-heading-size);
+  font-weight: 700;
   line-height: 1.05;
 }

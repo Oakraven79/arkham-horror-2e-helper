@@ -1,4 +1,5 @@
 .arkham-encounter-card {
+  box-sizing: border-box;
   position: relative;
   width: var(--card-width, 335px);
   aspect-ratio: 55 / 88;
@@ -10,6 +11,13 @@
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.55);
   color: #111;
   font-family: 'IM Fell English', Georgia, serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.arkham-encounter-card * {
+  box-sizing: border-box;
 }
 
 .arkham-encounter-card--front {
@@ -57,23 +65,23 @@
   display: grid;
   place-items: center;
   min-height: 0;
-  padding: 1rem;
+  padding: 16px;
   background:
     linear-gradient(rgba(0, 0, 0, 0.18), rgba(255, 255, 255, 0.06)),
     var(--arkham-encounter-colour, #686862);
   color: white;
-  font-size: 1.15rem;
+  font-size: 18.4px;
   font-weight: 700;
   text-align: center;
   text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
 }
 
 .arkham-encounter-copy {
-  --encounter-copy-gap: 0.18rem;
-  --encounter-copy-padding-block: 0.35rem;
-  --encounter-copy-padding-inline: 0.8rem;
-  --encounter-copy-size: 0.8rem;
-  --encounter-heading-size: 1.06rem;
+  --encounter-copy-gap: 2.88px;
+  --encounter-copy-padding-block: 5.6px;
+  --encounter-copy-padding-inline: 12.8px;
+  --encounter-copy-size: 12.8px;
+  --encounter-heading-size: 16.96px;
   position: absolute;
   z-index: 3;
   inset: 4.6% 4% 3%;
@@ -90,9 +98,11 @@
 }
 
 .arkham-encounter-entry h2 {
-  margin: 0 0 0.16rem;
+  margin: 0 0 2.56px;
   color: inherit;
+  font-family: inherit;
   font-size: var(--encounter-heading-size);
+  font-weight: 700;
   line-height: 1.05;
   text-align: center;
 }
@@ -123,8 +133,8 @@
 
 .arkham-encounter-card--front .boxed-set-mark {
   top: auto;
-  right: 0.8rem;
-  bottom: 1rem;
+  right: 12.8px;
+  bottom: 16px;
   z-index: 4;
 }
 
