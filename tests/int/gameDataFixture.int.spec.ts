@@ -283,10 +283,10 @@ describe('Game data fixture', () => {
       arkhamEncounterCards: 63,
       boxedSets: 11,
       locations: 57,
-      media: 132,
+      media: 133,
       mythosCards: 287,
       neighborhoods: 19,
-      otherWorldEncounterCards: 4,
+      otherWorldEncounterCards: 48,
       otherWorlds: 12,
     })
     expect(validation.checksum).toMatch(/^[a-f0-9]{64}$/)
@@ -300,6 +300,7 @@ describe('Game data fixture', () => {
       'kingsport-horror': 'media-kingsport',
       'lurker-at-the-threshold': 'media-lurker',
       'miskatonic-horror': 'media-miskatonic',
+      promotional: 'media-arkham-nights',
     })
     expect(
       Object.fromEntries(
@@ -311,6 +312,7 @@ describe('Game data fixture', () => {
     expect(gameDataFixture.media.map((asset) => asset.fixtureKey)).toEqual(
       expect.arrayContaining([
         'media-abhoth',
+        'media-arkham-nights',
         'media-bokrug',
         'media-chaugnah-faugri',
         'media-cthuga',
@@ -367,6 +369,56 @@ describe('Game data fixture', () => {
         'base-uptown-005',
         'base-uptown-006',
         'base-uptown-007',
+      ]),
+    )
+    expect(
+      gameDataFixture.snapshot.collections.otherWorldEncounterCards.map((card) => card.cardCode),
+    ).toEqual(
+      expect.arrayContaining([
+        'base-blue-002',
+        'base-blue-003',
+        'base-blue-004',
+        'base-blue-005',
+        'base-blue-006',
+        'base-blue-007',
+        'base-blue-008',
+        'base-blue-009',
+        'base-blue-010',
+        'base-blue-011',
+        'base-blue-012',
+        'base-green-002',
+        'base-green-003',
+        'base-green-004',
+        'base-green-005',
+        'base-green-006',
+        'base-green-007',
+        'base-green-008',
+        'base-green-009',
+        'base-green-010',
+        'base-green-011',
+        'base-green-012',
+        'base-red-002',
+        'base-red-003',
+        'base-red-004',
+        'base-red-005',
+        'base-red-006',
+        'base-red-007',
+        'base-red-008',
+        'base-red-009',
+        'base-red-010',
+        'base-red-011',
+        'base-red-012',
+        'base-yellow-002',
+        'base-yellow-003',
+        'base-yellow-004',
+        'base-yellow-005',
+        'base-yellow-006',
+        'base-yellow-007',
+        'base-yellow-008',
+        'base-yellow-009',
+        'base-yellow-010',
+        'base-yellow-011',
+        'base-yellow-012',
       ]),
     )
   })

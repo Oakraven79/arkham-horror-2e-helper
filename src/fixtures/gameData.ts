@@ -11,7 +11,7 @@ import { generatedGameDataMedia } from './gameDataMedia.generated'
 import { generatedGameDataSnapshot } from './gameDataSnapshot.generated'
 
 export const GAME_DATA_FIXTURE_NAMESPACE = 'arkham-horror-2e'
-export const GAME_DATA_FIXTURE_VERSION = 9
+export const GAME_DATA_FIXTURE_VERSION = 10
 
 const generatedMediaKeys = new Set<string>(
   generatedGameDataMedia.assets.map((asset) => asset.fixtureKey),

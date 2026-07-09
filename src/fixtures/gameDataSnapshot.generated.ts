@@ -3,7 +3,7 @@
 import type { GameDataSnapshot } from './gameDataSnapshotTypes'
 
 export const generatedGameDataSnapshot: GameDataSnapshot = {
-  generatedAt: '2026-07-07T12:01:10.906Z',
+  generatedAt: '2026-07-09T11:02:49.300Z',
   excludedCollections: ['users', 'game-sessions', 'fixture-installations'],
   collections: {
     boxedSets: [
@@ -168,13 +168,14 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         category: 'promotional',
         abbreviation: 'Promo',
         addsExpansionBoard: false,
+        icon: 'media-arkham-nights',
         sortOrder: 110,
         aliases: [
           {
             name: 'Promotional offer',
           },
         ],
-        _status: 'published',
+        _status: 'draft',
       },
     ],
     ancientOnes: [
@@ -10587,6 +10588,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         requiredSets: ['base-game'],
         art: 'media-abyss',
         _status: 'published',
+        aliases: [],
       },
       {
         name: 'Another Dimension',
@@ -10596,6 +10598,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         requiredSets: ['base-game'],
         art: 'media-another-dimension',
         _status: 'published',
+        aliases: [],
       },
       {
         name: 'Another Time',
@@ -10605,6 +10608,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         requiredSets: ['dunwich-horror'],
         art: 'media-another-time',
         _status: 'published',
+        aliases: [],
       },
       {
         name: 'Lost Carcosa',
@@ -10614,6 +10618,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         requiredSets: ['dunwich-horror'],
         art: 'media-lost-carcosa',
         _status: 'published',
+        aliases: [],
       },
       {
         name: 'Great Hall of Celano',
@@ -10622,6 +10627,14 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         sourceSet: 'base-game',
         requiredSets: ['base-game'],
         art: 'media-celano',
+        aliases: [
+          {
+            name: 'Celeano',
+          },
+          {
+            name: 'Great Hall of Celano',
+          },
+        ],
         _status: 'draft',
       },
       {
@@ -10631,6 +10644,14 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         sourceSet: 'base-game',
         requiredSets: ['base-game'],
         art: 'media-city-of-the-great-race',
+        aliases: [
+          {
+            name: 'City of the Great Race',
+          },
+          {
+            name: 'Great Race',
+          },
+        ],
         _status: 'published',
       },
       {
@@ -10640,6 +10661,14 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         sourceSet: 'base-game',
         requiredSets: ['base-game'],
         art: 'media-leng',
+        aliases: [
+          {
+            name: 'Leng',
+          },
+          {
+            name: 'The Plateau of Leng',
+          },
+        ],
         _status: 'published',
       },
       {
@@ -10649,6 +10678,14 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         sourceSet: 'base-game',
         requiredSets: ['base-game'],
         art: 'media-rlyeh',
+        aliases: [
+          {
+            name: 'Rlyeh',
+          },
+          {
+            name: 'R’lyeh',
+          },
+        ],
         _status: 'published',
       },
       {
@@ -10658,6 +10695,11 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         sourceSet: 'base-game',
         requiredSets: ['base-game'],
         art: 'media-dreamlands',
+        aliases: [
+          {
+            name: 'Dreamlands',
+          },
+        ],
         _status: 'published',
       },
       {
@@ -10668,6 +10710,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         requiredSets: ['kingsport-horror'],
         art: 'media-underworld',
         _status: 'published',
+        aliases: [],
       },
       {
         name: 'Unknown Kadath',
@@ -10677,6 +10720,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         requiredSets: ['kingsport-horror'],
         art: 'media-kadath',
         _status: 'published',
+        aliases: [],
       },
       {
         name: 'Yuggoth',
@@ -10686,6 +10730,7 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         requiredSets: ['base-game'],
         art: 'media-yuggoth',
         _status: 'published',
+        aliases: [],
       },
     ],
     otherWorldEncounterCards: [
@@ -10707,6 +10752,270 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           {
             isOther: true,
             text: 'A Monster Appears!',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-blue-002',
+        copyCount: 1,
+        colour: 'blue',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'abyss',
+            text: 'The feeble glow and warmth of the candle is enough to restore you a bit. Gain 1 Stamina.',
+          },
+          {
+            isOther: false,
+            destination: 'yuggoth',
+            text: "The creature's grip is like steel! Pass a **Fight (-2) check** to break free and escape. If you fail, the creature's grip tightens with a sickening pop. You are _lost in time and space_.",
+          },
+          {
+            isOther: true,
+            text: "You've completed your task, but now you must escape before the portal closes! Pass a **Speed (-2) check** to return to Arkham. If you fail, you are _lost in time and space_. In either event, you automatically close the gate you entered through.",
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-blue-003',
+        copyCount: 1,
+        colour: 'blue',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'As you are climbing the cliffs in the underworld, your pocket gets caught and tears open. Pass a **Speed (-1) check** or lose all your money.',
+          },
+          {
+            isOther: false,
+            destination: 'celano',
+            text: 'As you read the page, you realize that you have stumbled into a written trap. Pass a **Lore (-1) check** or you are Cursed.',
+          },
+          {
+            isOther: true,
+            text: 'A hideous monster appears!',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-blue-004',
+        copyCount: 1,
+        colour: 'blue',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'A thief attempts to rob you. Pass a **Sneak (+0) check** to notice him. If you fail, lose half your items (your choice) and half your money (rounded up).',
+          },
+          {
+            isOther: false,
+            destination: 'yuggoth',
+            text: "You're dizzy from the strange ray. Pass a **Will (-2) check** or lose 1 item of your choice.",
+          },
+          {
+            isOther: true,
+            text: 'The strain is too much for your mind. Lose 1 Sanity.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-blue-005',
+        copyCount: 1,
+        colour: 'blue',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'Pass a **Lore (+0) check** to fight off your desire to sleep. If you fail, you freeze in the night. You are _lost in time and space_. If you succeed, return to Arkham.',
+          },
+          {
+            isOther: false,
+            destination: 'yuggoth',
+            text: 'The stone creature pursues you. Pass a **Speed (-1) check** to escape with the statue, gaining $5 and 2 Clue tokens. If you fail, the creature smashes you off the cliff. You are _lost in time and space_.',
+          },
+          {
+            isOther: true,
+            text: 'Luck is with you. You stumble on a cache of supplies. Draw 1 Common Item.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-blue-006',
+        copyCount: 1,
+        colour: 'blue',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'abyss',
+            text: 'A glowing light ahead draws you towards it. Make a **Luck (-1) check**. If you pass, the glow is a way home. Return to Arkham. If you fail, the light is a trap set by one of the creatures that lives here. A monster appears!',
+          },
+          {
+            isOther: false,
+            destination: 'celano',
+            text: "That's it! That's the document you need! Quietly, you reach for it, trying not to disturb its guardian. Make a **Sneak (-2) check**. If you pass, search the Spell deck and take 1 Spell of your choice. If you fail, lose 2 Stamina.",
+          },
+          {
+            isOther: true,
+            text: 'Pass a **Fight (-1) check** to hang on to your prize despite the wind. Draw 1 Spell.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-blue-007',
+        copyCount: 1,
+        colour: 'blue',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'yuggoth',
+            text: 'Exposure and fear weaken your mind. Pass a **Will (-2) check** or you must either lose 2 Spells of your choice or lose 2 Sanity.',
+          },
+          {
+            isOther: false,
+            destination: 'celano',
+            text: 'A lurking monster appears!',
+          },
+          {
+            isOther: true,
+            text: 'Monsters lurk everywhere. Pass a **Sneak (-2) check** or stay here next turn.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-blue-008',
+        copyCount: 1,
+        colour: 'blue',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'abyss',
+            text: 'You are bewildered. Pass a **Lore (-1) check** or stay here next turn.',
+          },
+          {
+            isOther: false,
+            destination: 'yuggoth',
+            text: 'Pass a **Sneak (-1) check** or the creatures capture and experiment on you. Lose half of your items, then immediately return to Arkham with no memory of the experiments.',
+          },
+          {
+            isOther: true,
+            text: 'The insanity of this place finally hits you. Lose 1 Sanity.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-blue-009',
+        copyCount: 1,
+        colour: 'blue',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'At the south gates of Thran, you are stopped by a red-robed sentry until you can tell three dreams beyond belief. Pass a **Luck (-1) check** to tour the golden spires of Thran, gaining 2 Clue tokens in the process. If you fail, stay here next turn.',
+          },
+          {
+            isOther: false,
+            destination: 'celano',
+            text: 'The symbol above the doorway glows. Make a **Luck (-1) check**. If you pass, gain 2 Stamina and 2 Sanity. If you fail, discard 2 items of your choice.',
+          },
+          {
+            isOther: true,
+            text: 'Pass a **Fight (-2) check** to lever back the lid of the stone chest. Inside, you find $8. If you fail, lose 1 Stamina.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-blue-010',
+        copyCount: 1,
+        colour: 'blue',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'yuggoth',
+            text: 'A monster appears from the darkness!',
+          },
+          {
+            isOther: false,
+            destination: 'celano',
+            text: 'Pass a **Luck (-1) check** or the book is a prison. If you fail, roll a die. On a failure, a monster appears from the book. On a success, you are drawn into the book for a time. Stay here next turn.',
+          },
+          {
+            isOther: true,
+            text: 'Pass a **Luck (-1) check** to find something to defend yourself with. Take the first _Weapon_ from the Common Item deck.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-blue-011',
+        copyCount: 1,
+        colour: 'blue',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'You wander the frozen wastes. No encounter.',
+          },
+          {
+            isOther: false,
+            destination: 'abyss',
+            text: 'You rest a bit beside a small, glowing pool filled with black, blind fish. Pass a **Luck (-1) check** to notice an unusual object in the water. Fishing it out, you draw 1 Unique Item and gain $3.',
+          },
+          {
+            isOther: true,
+            text: 'Pass a **Luck (-1) check** to discover a cache of ancient papers containing valuable information about the Mythos. Gain 1 Clue token for every success you rolled on your Luck check.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-blue-012',
+        copyCount: 1,
+        colour: 'blue',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'You drink impure water from the River Kra. Pass a **Luck (-1) check** or lose 1 Stamina and stay here next turn due to illness.',
+          },
+          {
+            isOther: false,
+            destination: 'abyss',
+            text: 'You are lost in the darkness. Pass a **Luck (-2) check** or lose 1 Sanity and stay here next turn.',
+          },
+          {
+            isOther: true,
+            text: 'You are lost in a labyrinth of high walls. Pass a **Lore (-1) check** or stay here next turn.',
           },
         ],
         sourceSet: 'base-game',
@@ -10738,6 +11047,270 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         _status: 'published',
       },
       {
+        cardCode: 'base-green-002',
+        copyCount: 1,
+        colour: 'green',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'Pass a **Luck (-1) check** to chance across one of the little red singing birds of Celephais. Its song brings solace and strength to your heart. Restore your Sanity and Stamina to their maximum values.',
+          },
+          {
+            isOther: false,
+            destination: 'celano',
+            text: 'You come across a wizened old creature who debates with you for some time. If you pass a **Lore (-1) check**, the creature is amused by your discussion and you are Blessed.',
+          },
+          {
+            isOther: true,
+            text: 'Pass a **Fight (-2) check** to pry open a grate you find built into the wall. Inside, you find something fascinating. Draw 1 Unique Item.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-green-003',
+        copyCount: 1,
+        colour: 'green',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'Pass a **Will (-1) check** to convince the Rulers of Rokol to share their wealth with you. If so, roll two dice and add them together. Gain that much money.',
+          },
+          {
+            isOther: false,
+            destination: 'leng',
+            text: 'Pass a **Luck (-2) check** to find some useful things among the bones. If so, draw 1 Common Item and 1 Spell.',
+          },
+          {
+            isOther: true,
+            text: 'Pass a **Luck (-1) check** to find the gate back. If so, immediately return to Arkham.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-green-004',
+        copyCount: 1,
+        colour: 'green',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'Pass a **Luck (-1) check** to come across a riding zebra and save some traveling time. If you are in the first area of The Dreamlands, move to the second area. If you are in the second area, return to Arkham.',
+          },
+          {
+            isOther: false,
+            destination: 'leng',
+            text: 'The rickety bridge collapses as you cross it. Pass a **Fight (-1) check** to hang on, finding a relic on the other side. Draw 1 Unique Item. If you fail, you plummet into darkness. You are _lost in time and space_.',
+          },
+          {
+            isOther: true,
+            text: 'You come across a slaughtered creature. Pass a **Luck (-1) check** to claim a monster trophy from the cup (even if it is Endless) and gain 2 Clue tokens.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-green-005',
+        copyCount: 1,
+        colour: 'green',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'city-of-the-great-race',
+            text: 'You may choose to try and infiltrate one of the angled structures. If so, make a **Sneak (-1) check**. If you pass, draw 2 Unique Items and keep 1 of them. If you fail, you are _lost in time and space_.',
+          },
+          {
+            isOther: false,
+            destination: 'leng',
+            text: 'Your peril clears your mind. Pass a **Will (+0) check** to restore your Sanity to its maximum value.',
+          },
+          {
+            isOther: true,
+            text: 'You are beginning to understand the strange creatures here. Gain 1 Clue token.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-green-006',
+        copyCount: 1,
+        colour: 'green',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'Make a **Luck (-1) check**. If you pass, then, waving goodbye, the happy villagers bestow a gift upon you. Draw 1 Common Item.',
+          },
+          {
+            isOther: false,
+            destination: 'celano',
+            text: 'Pass a **Luck (-2) check** to find a book small enough to carry. Search the Unique Item deck and take the first _Tome_ you find.',
+          },
+          {
+            isOther: true,
+            text: 'You find a quiet spot to rest and recuperate. Gain 1 Stamina.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-green-007',
+        copyCount: 1,
+        colour: 'green',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'leng',
+            text: 'You wander the frozen wastes. No encounter.',
+          },
+          {
+            isOther: false,
+            destination: 'celano',
+            text: 'An old professor from Earth teaches you a thing or two. Pass a **Luck (-1) [2] check** to draw 1 Skill.',
+          },
+          {
+            isOther: true,
+            text: "You come across a sleeping horror with a tentacle draped across a small gold idol. Silence is of the essence as you attempt to gently ease the idol out from under the creature's pseudopod. Make a **Sneak (-1) check**. If you pass, gain $3. If you fail, lose 2 Stamina.",
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-green-008',
+        copyCount: 1,
+        colour: 'green',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'city-of-the-great-race',
+            text: 'You find yourself in an ancient and abandoned temple. Pass a **Luck (-1) check** to find a golden statue worth $10. However, if you take it, you are Cursed.',
+          },
+          {
+            isOther: false,
+            destination: 'celano',
+            text: 'Your red-eyed reflection in the mirror captures your attention. Stay here next turn.',
+          },
+          {
+            isOther: true,
+            text: "The rope seems to extend upwards forever, but it's the only way out of the crevasse you find yourself in. Pass a **Fight (-1) check** to climb it and return to Arkham. If you fail, you fall, losing 2 Stamina and staying here next turn.",
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-green-009',
+        copyCount: 1,
+        colour: 'green',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'Touring the perfumed jungles of Kled, you come across an ancient ivory palace. Pass a **Luck (-1) check** to explore it without getting caught. Draw 1 Spell. If you fail the check, lose 1 item of your choice.',
+          },
+          {
+            isOther: false,
+            destination: 'city-of-the-great-race',
+            text: 'Sometimes, violence is the answer. Pass a **Fight (-1) check** to break free of your captors and return to Arkham.',
+          },
+          {
+            isOther: true,
+            text: 'Carefully, you avoid the gaze of a gigantic eye watching an altar. You may try to pass a **Sneak (-1) check** to steal a scroll from the dais. Draw 1 Spell. If you fail, you are wracked by pain and lose 3 Sanity.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-green-010',
+        copyCount: 1,
+        colour: 'green',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'city-of-the-great-race',
+            text: 'The conical entity tries to teach you some magic. Pass a **Lore (-2) [2] check** to draw 2 Spells.',
+          },
+          {
+            isOther: false,
+            destination: 'celano',
+            text: 'You find secret lore hidden in the mosaics on the wall. Make a **Lore (+2) check** and gain Clue tokens equal to your successes.',
+          },
+          {
+            isOther: true,
+            text: 'You find some valuable items that you can sell back in Arkham. Gain $3.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-green-011',
+        copyCount: 1,
+        colour: 'green',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'city-of-the-great-race',
+            text: 'You must have that device if you are to escape from this accursed city. Pass a **Sneak (-1) [2] check** to draw 1 Unique Item and return to Arkham. If you fail, your captors are none too kind. Lose 3 Sanity and 1 Stamina.',
+          },
+          {
+            isOther: false,
+            destination: 'leng',
+            text: 'The hooved, wide-mouthed traders of this land are wealthy, but dangerous. You may make a **Lore (-2) check** to trade with them. If you pass, gain $6. If you fail, you are _lost in time and space_.',
+          },
+          {
+            isOther: true,
+            text: 'Pass a **Luck (-1) check** to discover a vital document. Gain 2 Clue tokens.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-green-012',
+        copyCount: 1,
+        colour: 'green',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'leng',
+            text: 'Your mind and body are toughened by your experiences. Pass a **Will (+0) [2] check** to draw 1 Skill.',
+          },
+          {
+            isOther: false,
+            destination: 'celano',
+            text: 'Pass a **Luck (-2) check** to find a valuable book. If so, search the Unique Item deck and take the first _Tome_ you find.',
+          },
+          {
+            isOther: true,
+            text: 'Wedged beneath a fallen stone is a scroll. Draw 1 Spell.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
         cardCode: 'base-red-001',
         copyCount: 1,
         colour: 'red',
@@ -10762,6 +11335,270 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
         _status: 'published',
       },
       {
+        cardCode: 'base-red-002',
+        copyCount: 1,
+        colour: 'red',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'abyss',
+            text: 'Starving, you consider eating some of the glowing mushrooms. If you decide to do so, make a **Luck (-1) check**. If you fail, roll a die and lose that much Stamina. If you succeed, roll a die and gain that much Stamina.',
+          },
+          {
+            isOther: false,
+            destination: 'leng',
+            text: 'A monster appears from the shadows!',
+          },
+          {
+            isOther: true,
+            text: 'The pinkish rays nearly get you. Pass a **Sneak (+0) check** or lose 2 Stamina.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-red-003',
+        copyCount: 1,
+        colour: 'red',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'rlyeh',
+            text: 'Hurricane winds smash you against the cyclopean stones. Pass a **Fight (-1) check** or lose 3 Stamina.',
+          },
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'The wind increases, and you feel your feet go numb. Pass a **Fight (-1) check** or lose 2 Stamina.',
+          },
+          {
+            isOther: true,
+            text: 'A lurking monster appears!',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-red-004',
+        copyCount: 1,
+        colour: 'red',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'abyss',
+            text: 'A monster appears!',
+          },
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'The shantak claws at you as it swoops past overhead. Pass a **Speed (-2) check** or lose 2 Stamina as its claws rake your chest.',
+          },
+          {
+            isOther: true,
+            text: 'You sleep, fitfully, and awaken to the sound of your own voice, chanting something. Make a **Luck (-2) check**. If you pass, you are able to retain what you are saying. Draw 1 Spell and gain 2 Clue tokens. If you fail, the chant attracts something unsavory. A monster appears!',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-red-005',
+        copyCount: 1,
+        colour: 'red',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'abyss',
+            text: 'The stone arch breaks! Pass a **Speed (-1) check** to dive out of the way or roll a die and lose that much Stamina.',
+          },
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'The ice bridge begins to crack. Pass a **Luck (-1) check** or fall into the icy depths. If you fall, you are _lost in time and space_.',
+          },
+          {
+            isOther: true,
+            text: 'The humidity and heat is exhausting. Lose 1 Stamina.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-red-006',
+        copyCount: 1,
+        colour: 'red',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'leng',
+            text: 'The villagers leap around a bonfire on the hoary plain. Pass a **Sneak (-1) check** or you are captured and subjected to terrible rites. Lose 3 Sanity and 3 Stamina, then stay here next turn.',
+          },
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'In the valley of Pnoth, where the dholes crawl and burrow nastily, you hear a slithering among the mountains of bone. Make a **Sneak (-1) check**. If you fail, you are devoured. If you pass, gain 3 Clue tokens and return immediately to Arkham.',
+          },
+          {
+            isOther: true,
+            text: 'Pass a **Speed (-1) check** to grab the carving before it falls. Draw 1 Spell.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-red-007',
+        copyCount: 1,
+        colour: 'red',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'rlyeh',
+            text: 'The shadow tries to force its way between your lips. Pass a **Fight (-2) check** or lose 2 Stamina and stay here next turn.',
+          },
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'While wandering the phosphorescent woods, you are surrounded by hungry zoogs! Make a **Luck (-2) check**. If you pass, they take a liking to you and give you a gourd of moon-tree wine. Gain 1 Sanity and 1 Clue token. If you fail, the zoogs close in around you, their teeth gleaming. You are _lost in time and space_.',
+          },
+          {
+            isOther: true,
+            text: 'Pass a **Luck (-1) check** to find a quiet spot to rest. Gain 2 Stamina and 2 Sanity.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-red-008',
+        copyCount: 1,
+        colour: 'red',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'abyss',
+            text: 'You are disturbed by unsettling echoes. Pass a **Sneak (-1) check** to quiet them or lose 2 Sanity.',
+          },
+          {
+            isOther: false,
+            destination: 'leng',
+            text: 'The loathsome villagers send out their strongest warrior to fight you in unarmed combat. Pass a **Fight (-1) [2] check** to defeat him and draw 1 Unique Item and gain 1 Clue token. Otherwise lose 1 Sanity and 2 Stamina.',
+          },
+          {
+            isOther: true,
+            text: 'You push yourself to the limit. Roll 1 die for each point of Stamina you have. Lose 1 Stamina for each die that does not roll a success. If you do not fall unconscious, gain 1 Clue token for each die that rolled a success.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-red-009',
+        copyCount: 1,
+        colour: 'red',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'leng',
+            text: 'While you are climbing a high cliff, you begin to slip. Pass a **Speed (-1) check** or crash down the mountain, losing 2 Stamina.',
+          },
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'Avalanche! Pass a **Speed (-1) check** or lose 3 Stamina.',
+          },
+          {
+            isOther: true,
+            text: 'The shadowy entity gives up the chase. Lose 1 Stamina from exhaustion.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-red-010',
+        copyCount: 1,
+        colour: 'red',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'rlyeh',
+            text: "You become tangled in the damp seaweed. Pass a **Luck (-1) check** to pull free before something finds you while you're helpless. If you fail, roll a die and lose that much Stamina.",
+          },
+          {
+            isOther: false,
+            destination: 'leng',
+            text: 'You are taken to a prehistoric monastery, where a high priest in a yellow silken mask questions you. Pass a **Lore (-2) check** to answer him to his satisfaction. Gain your freedom and 1 Spell. Otherwise, you are _lost in time and space_.',
+          },
+          {
+            isOther: true,
+            text: 'Pass a **Luck (-1) check** to discover a useful object in your wanderings. Draw 1 Unique Item.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-red-011',
+        copyCount: 1,
+        colour: 'red',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'rlyeh',
+            text: 'A slimy monster appears!',
+          },
+          {
+            isOther: false,
+            destination: 'abyss',
+            text: 'Pass a **Speed (-1) check** to avoid a monstrous mass. If you fail, you are _lost in time and space_.',
+          },
+          {
+            isOther: true,
+            text: 'The colors are blinding. Pass a **Lore (-1) check** or stay here next turn.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-red-012',
+        copyCount: 1,
+        colour: 'red',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'rlyeh',
+            text: 'Slip on wet stones and slide into a pit. Pass a **Luck (+0) check** to climb out. If you fail, lose 1 Sanity and stay here next turn.',
+          },
+          {
+            isOther: false,
+            destination: 'leng',
+            text: 'A vast stirring rumbles through the plateau. Pass a **Sneak (+0) check** or roll a die and lose that much Stamina.',
+          },
+          {
+            isOther: true,
+            text: 'There is nothing here but barren wastes. No encounter.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
         cardCode: 'base-yellow-001',
         copyCount: 1,
         colour: 'yellow',
@@ -10779,6 +11616,270 @@ export const generatedGameDataSnapshot: GameDataSnapshot = {
           {
             isOther: true,
             text: 'Time and space bend around you. Make a **Luck (-1) check**. If you pass, return to Arkham. If you fail, stay here next turn.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-yellow-002',
+        copyCount: 1,
+        colour: 'yellow',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'rlyeh',
+            text: 'The night stars change and the brazen temple doors open, pouring forth a vast, black corpulence. Roll a die and lose that much Sanity.',
+          },
+          {
+            isOther: false,
+            destination: 'city-of-the-great-race',
+            text: 'The hideous whistling fills your ears. Pass a **Will (-1) check** or lose 2 Sanity.',
+          },
+          {
+            isOther: true,
+            text: 'The sky is spinning. Pass a **Will (-2) check** or pass out and stay here next turn.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-yellow-003',
+        copyCount: 1,
+        colour: 'yellow',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'rlyeh',
+            text: 'A horrible visage captures your gaze. Pass a **Will (+0) check** to look away or lose 1 Stamina and stay here next turn.',
+          },
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: "Pass a **Luck (+0) check** or stumble into a spider's web. Lose 2 Sanity and stay here next turn while struggling to get free.",
+          },
+          {
+            isOther: true,
+            text: "Suddenly, the things you've seen make sense! Gain 1 Clue token.",
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-yellow-004',
+        copyCount: 1,
+        colour: 'yellow',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'rlyeh',
+            text: "You trip over a stone outcropping that shouldn't be there. Pass a **Speed (-1) check** or you are _lost in time and space_.",
+          },
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'The meeping of the ghouls in the tunnels echoes in your ears. Pass a **Will (-2) check** or lose 2 Sanity.',
+          },
+          {
+            isOther: true,
+            text: 'A monster appears from the shadows!',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-yellow-005',
+        copyCount: 1,
+        colour: 'yellow',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'city-of-the-great-race',
+            text: 'You wander the empty streets of the city. No encounter.',
+          },
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'You come across an abandoned onyx quarry whose chiselled vacancies are so vast that it staggers your mind. Pass a **Lore (-1) check** to avoid awakening anything here, or else lose 3 Sanity.',
+          },
+          {
+            isOther: true,
+            text: 'The unending blackness terrifies you. Pass a **Will (-1) check** or lose 1 Sanity and 1 Stamina from fear and exhaustion.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-yellow-006',
+        copyCount: 1,
+        colour: 'yellow',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'city-of-the-great-race',
+            text: 'Glancing behind you, you see that the beasts are still chasing you. Pass a **Speed (-1) check** or be _lost in time and space_.',
+          },
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'The stone face reveals to you one of the deepest secrets of the Dreamlands. Pass a **Lore (-1) [2] check** to gain 4 Clue tokens. If you fail the check, however, the sight claims your last shred of sanity. Lose all your Sanity.',
+          },
+          {
+            isOther: true,
+            text: 'Suddenly you notice something that you had previously missed. Gain 1 Clue token.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-yellow-007',
+        copyCount: 1,
+        colour: 'yellow',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'city-of-the-great-race',
+            text: 'The odd plant has you in its clutches. Pass a **Fight (-1) check** to break free. If you fail, lose 1 Stamina and 1 Sanity as it partially digests you.',
+          },
+          {
+            isOther: false,
+            destination: 'yuggoth',
+            text: 'An alien mind forces its way into your body. Pass a **Luck (-2) check** to guess a way to drive it out, gaining 2 Clue tokens in the process, or else stay here next turn, serving as its host body.',
+          },
+          {
+            isOther: true,
+            text: 'A glimmer of gold catches your eye. Gain $2.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-yellow-008',
+        copyCount: 1,
+        colour: 'yellow',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'rlyeh',
+            text: 'You run for the boat. Pass a **Speed (-1) [2] check** to reach it in time. If you do, you escape with vital information. Gain 5 Clue tokens. If you fail, stay here next turn, hiding from your pursuer.',
+          },
+          {
+            isOther: false,
+            destination: 'yuggoth',
+            text: 'Breathing hard, you stay huddled against the rock until the sounds of pursuit fade into the distance. No encounter.',
+          },
+          {
+            isOther: true,
+            text: 'Your mind is flooded with knowledge. Make a **Lore (-2) check**. If you pass it, draw 1 Spell, but lose 1 Sanity.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-yellow-009',
+        copyCount: 1,
+        colour: 'yellow',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'yuggoth',
+            text: 'Fear grabs you as the buzzing entities approach. Pass a **Will (-1) check** or lose 2 Sanity.',
+          },
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'You see the mountains move. Lose 1 Sanity from terror.',
+          },
+          {
+            isOther: true,
+            text: 'A ripple in the air passes over you. Pass a **Lore (-1) check** or lose 1 Spell of your choice as it is burned from your mind.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-yellow-010',
+        copyCount: 1,
+        colour: 'yellow',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'yuggoth',
+            text: 'Your only hope is to steal a byakhee and some space mead! Pass a **Sneak (-2) check** to escape. Return to Arkham and gain 2 Clue tokens. If you fail, you are _lost in time and space_.',
+          },
+          {
+            isOther: false,
+            destination: 'the-dreamlands',
+            text: 'The golden city of your dreams is threatening to become an obsession. Pass a **Luck (-1) check** or stay here next turn to hunt for it.',
+          },
+          {
+            isOther: true,
+            text: 'You stare into the face of madness. Roll 1 die for each point of Sanity you have. Lose 1 Sanity for each die that does not roll a success. If you do not go insane, gain 1 Clue token for each die that rolled a success.',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-yellow-011',
+        copyCount: 1,
+        colour: 'yellow',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'city-of-the-great-race',
+            text: 'The buzzing language of your captors begins to make sense to you. Gain 2 Clue tokens. Then you must pass a **Luck (-1) check** to avoid learning about the origins of mankind and thereby losing 2 Sanity.',
+          },
+          {
+            isOther: false,
+            destination: 'yuggoth',
+            text: 'The cylindered head mocks your hopes. "You\'ll never return home!" it cackles. Pass a **Will (-2) check** or lose 2 Sanity.',
+          },
+          {
+            isOther: true,
+            text: 'A monster appears!',
+          },
+        ],
+        sourceSet: 'base-game',
+        requiredSets: ['base-game'],
+        _status: 'published',
+      },
+      {
+        cardCode: 'base-yellow-012',
+        copyCount: 1,
+        colour: 'yellow',
+        encounters: [
+          {
+            isOther: false,
+            destination: 'rlyeh',
+            text: 'The city is filled with unnerving alien angles. Pass a **Speed (-1) check** to avoid touching them or lose 1 Sanity.',
+          },
+          {
+            isOther: false,
+            destination: 'yuggoth',
+            text: 'A strange creature stares at you with burning eyes. It is as if its gaze were stealing your soul. Pass a **Luck (-1) check** or roll a die and subtract 2 from it (minimum 0), then lose that much Stamina and Sanity.',
+          },
+          {
+            isOther: true,
+            text: 'You are not safe here. A monster appears!',
           },
         ],
         sourceSet: 'base-game',
