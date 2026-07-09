@@ -188,6 +188,7 @@ export async function createGameSession(
         elderSigns: 0,
         monstersInArkham: 0,
         monstersInOutskirts: 0,
+        finalBattleRound: 1,
       },
       expansionTracks: expansionTrackStateForPayload(freshExpansionTrackState()),
       mythos: mythosDeckStateForPayload(freshMythosDeckState(eligibleMythosCards)),

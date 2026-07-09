@@ -360,6 +360,17 @@ export const GameSessions: CollectionConfig = {
           defaultValue: 0,
           min: 0,
         },
+        {
+          name: 'finalBattleRound',
+          label: 'Final Battle Round',
+          type: 'number',
+          defaultValue: 1,
+          min: 1,
+          admin: {
+            description:
+              'Round counter used after the Ancient One awakens for turn-based final battle effects.',
+          },
+        },
       ],
     },
     {

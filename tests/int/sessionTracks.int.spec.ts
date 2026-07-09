@@ -15,6 +15,7 @@ const tracks: SessionTracks = {
   elderSigns: 1,
   monstersInArkham: 5,
   monstersInOutskirts: 2,
+  finalBattleRound: 1,
 }
 
 describe('session track adjustments', () => {
@@ -51,9 +52,15 @@ describe('session track adjustments', () => {
     expect(adjustSessionTrack({ ...tracks, elderSigns: 6 }, 'elderSigns', 1).nextValue).toBe(6)
   })
 
+  it('keeps the final battle round counter at one or higher', () => {
+    expect(adjustSessionTrack(tracks, 'finalBattleRound', -1).nextValue).toBe(1)
+    expect(adjustSessionTrack(tracks, 'finalBattleRound', 1).nextValue).toBe(2)
+  })
+
   it('rejects unsupported counters and adjustment sizes', () => {
     expect(isAdjustableSessionTrack('drawPile')).toBe(false)
     expect(isAdjustableSessionTrack('monstersInArkham')).toBe(true)
+    expect(isAdjustableSessionTrack('finalBattleRound')).toBe(true)
     expect(() => adjustSessionTrack(tracks, 'terror', 2)).toThrow(
       'Session counters can only be adjusted by one step at a time.',
     )

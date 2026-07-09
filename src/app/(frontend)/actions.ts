@@ -25,6 +25,7 @@ import {
   revealCurrentMythosCard,
   type MythosDeckState,
 } from '@/lib/mythosDeckState'
+import { calculateInvestigatorRules, hasTrackedAwakeningCondition } from '@/lib/investigatorRules'
 import { mythosDeckStateForPayload, mythosDeckStateFromSession } from '@/lib/mythosSessionState'
 import {
   nextGamePhase,
@@ -84,9 +85,11 @@ type SessionLogAction = NonNullable<GameSession['sessionLog']>[number]['action']
 type ShuffleEventReason = NonNullable<GameSession['shuffleEvents']>[number]['reason']
 
 const GAME_SESSIONS = 'game-sessions' as const
+const BOXED_SETS = 'boxed-sets' as const
 const ARKHAM_ENCOUNTER_CARDS = 'arkham-encounter-cards' as const
 const MYTHOS_CARDS = 'mythos-cards' as const
 const OTHER_WORLD_ENCOUNTER_CARDS = 'other-world-encounter-cards' as const
+const EXPANSION_CITY_KEYS = new Set(['dunwich-horror', 'kingsport-horror', 'innsmouth-horror'])
 
 function shuffle<T>(items: T[]): T[] {
   const shuffled = [...items]
@@ -465,6 +468,33 @@ function phasePointer(session: GameSession): GamePhasePointer {
   }
 }
 
+function boxedSetAddsExpansionBoard(boxedSet: {
+  addsExpansionBoard?: boolean | null
+  key?: string | null
+}) {
+  return Boolean(boxedSet.addsExpansionBoard || EXPANSION_CITY_KEYS.has(boxedSet.key ?? ''))
+}
+
+async function sessionExpansionBoardCount(
+  payload: Awaited<ReturnType<typeof getPayloadClient>>,
+  session: GameSession,
+) {
+  const enabledSetIDs = relationshipIDs(session.enabledSets)
+  const enabledSets = await payload.find({
+    collection: BOXED_SETS,
+    where: {
+      id: {
+        in: enabledSetIDs,
+      },
+    },
+    limit: 100,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  return enabledSets.docs.filter(boxedSetAddsExpansionBoard).length
+}
+
 async function assertSetupCanBegin(
   payload: Awaited<ReturnType<typeof getPayloadClient>>,
   session: GameSession,
@@ -684,6 +714,73 @@ export async function advancePhaseAction(sessionID: string) {
           null,
           `Advanced to ${next.currentPhase}, turn ${next.turnNumber}.`,
         ),
+      ],
+    },
+  })
+
+  revalidatePath('/')
+}
+
+export async function startFinalBattleAction(sessionID: string) {
+  const payload = await getPayloadClient()
+  const session = await payload.findByID({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    depth: 0,
+    overrideAccess: true,
+  })
+
+  if (!relationshipID(session.activeAncientOne) || session.currentPhase === 'Final Battle') {
+    return
+  }
+
+  const expansionBoardCount = await sessionExpansionBoardCount(payload, session)
+  const rules = calculateInvestigatorRules({
+    investigatorCount: session.playerCount,
+    expansionBoardCount,
+  })
+  const tracks = session.tracks
+  const doomMax = tracks.doomMax ?? 10
+  const limitState = {
+    doomCurrent: tracks.doomCurrent ?? 0,
+    doomMax,
+    gatesOpen: tracks.gatesOpen ?? 0,
+    monstersInArkham: tracks.monstersInArkham ?? 0,
+    monstersInOutskirts: tracks.monstersInOutskirts ?? 0,
+    terror: tracks.terror ?? 0,
+  }
+
+  if (!hasTrackedAwakeningCondition(rules, limitState)) {
+    return
+  }
+
+  const current = phasePointer(session)
+  const next = {
+    currentPhase: 'Final Battle' as const,
+    turnNumber: current.turnNumber,
+  }
+  const mythosState = clearActiveRumor(
+    clearActiveEnvironment(discardCurrentMythosCard(mythosDeckStateFromSession(session))),
+  )
+
+  await payload.update({
+    collection: GAME_SESSIONS,
+    id: sessionID,
+    overrideAccess: true,
+    data: {
+      currentPhase: next.currentPhase,
+      turnNumber: next.turnNumber,
+      phaseHistory: [...(session.phaseHistory ?? []), transitionFor(current, next)],
+      // Core rulebook, PDF p. 20: awakening from a non-doom condition fills Doom before battle.
+      tracks: {
+        ...tracks,
+        doomCurrent: doomMax,
+        finalBattleRound: 1,
+      },
+      mythos: mythosDeckStateForPayload(mythosState),
+      sessionLog: [
+        ...(session.sessionLog ?? []),
+        logEntry(session, 'advance-phase', null, 'Ancient One awakened. Advanced to Final Battle.'),
       ],
     },
   })

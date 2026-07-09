@@ -772,6 +772,10 @@ export interface GameSession {
     elderSigns: number;
     monstersInArkham: number;
     monstersInOutskirts: number;
+    /**
+     * Round counter used after the Ancient One awakens for turn-based final battle effects.
+     */
+    finalBattleRound?: number | null;
   };
   /**
    * Persistent Dunwich, Innsmouth, and Kingsport board state. The table UI only exposes tracks for enabled expansions.
@@ -1469,6 +1473,7 @@ export interface GameSessionsSelect<T extends boolean = true> {
         elderSigns?: T;
         monstersInArkham?: T;
         monstersInOutskirts?: T;
+        finalBattleRound?: T;
       };
   expansionTracks?:
     | T

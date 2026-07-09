@@ -15,6 +15,7 @@ import { adjustSessionTrackAction } from './actions'
 
 interface SessionTrackControlsProps {
   disabled?: boolean
+  finalBattle?: boolean
   gateAwakeningThreshold: number
   monsterLimit: number
   outskirtsCapacity: number
@@ -126,6 +127,7 @@ function capacityStatus(
 
 export function SessionTrackControls({
   disabled = false,
+  finalBattle = false,
   gateAwakeningThreshold,
   monsterLimit,
   outskirtsCapacity,
@@ -176,67 +178,69 @@ export function SessionTrackControls({
         value={optimisticTracks.doomCurrent}
       />
 
-      <div className="table-counters" aria-label="Session counters">
-        <Counter
-          className="track-gates"
-          disabled={counterDisabled}
-          displayLimit={gateAwakeningThreshold}
-          label={sessionTrackLabels.gatesOpen}
-          onAdjust={(delta) => adjust('gatesOpen', delta)}
-          status={capacityStatus(optimisticTracks.gatesOpen, gateAwakeningThreshold, true)}
-          value={optimisticTracks.gatesOpen}
-        />
-        <Counter
-          className="track-elder-signs"
-          disabled={counterDisabled}
-          label={sessionTrackLabels.elderSigns}
-          maximum={sessionTrackMaximum(optimisticTracks, 'elderSigns')}
-          onAdjust={(delta) => adjust('elderSigns', delta)}
-          status={
-            elderSignStatus.won
-              ? 'victory'
-              : elderSignStatus.remaining === 1
-                ? 'warning'
-                : undefined
-          }
-          value={optimisticTracks.elderSigns}
-        />
-        <Counter
-          className="track-arkham-monsters"
-          disabled={counterDisabled}
-          displayLimit={monsterLimitRemoved ? 'no cap' : monsterLimit}
-          fullFlowLabel={monsterLimitRemoved ? undefined : 'Outskirts'}
-          label={sessionTrackLabels.monstersInArkham}
-          maximum={monsterLimitRemoved ? undefined : monsterLimit}
-          onAdjust={(delta) => adjust('monstersInArkham', delta)}
-          status={
-            monsterLimitRemoved
-              ? undefined
-              : capacityStatus(optimisticTracks.monstersInArkham, monsterLimit)
-          }
-          value={optimisticTracks.monstersInArkham}
-        />
-        <Counter
-          className="track-outskirts"
-          disabled={counterDisabled}
-          displayLimit={outskirtsCapacity}
-          fullFlowLabel="Clear; Terror +1"
-          label={sessionTrackLabels.monstersInOutskirts}
-          maximum={outskirtsCapacity}
-          onAdjust={(delta) => adjust('monstersInOutskirts', delta)}
-          status={capacityStatus(optimisticTracks.monstersInOutskirts, outskirtsCapacity)}
-          value={optimisticTracks.monstersInOutskirts}
-        />
-        <Counter
-          className="track-terror"
-          disabled={counterDisabled}
-          label={sessionTrackLabels.terror}
-          maximum={sessionTrackMaximum(optimisticTracks, 'terror')}
-          onAdjust={(delta) => adjust('terror', delta)}
-          status={optimisticTracks.terror >= 10 ? 'critical' : undefined}
-          value={optimisticTracks.terror}
-        />
-      </div>
+      {!finalBattle && (
+        <div className="table-counters" aria-label="Session counters">
+          <Counter
+            className="track-gates"
+            disabled={counterDisabled}
+            displayLimit={gateAwakeningThreshold}
+            label={sessionTrackLabels.gatesOpen}
+            onAdjust={(delta) => adjust('gatesOpen', delta)}
+            status={capacityStatus(optimisticTracks.gatesOpen, gateAwakeningThreshold, true)}
+            value={optimisticTracks.gatesOpen}
+          />
+          <Counter
+            className="track-elder-signs"
+            disabled={counterDisabled}
+            label={sessionTrackLabels.elderSigns}
+            maximum={sessionTrackMaximum(optimisticTracks, 'elderSigns')}
+            onAdjust={(delta) => adjust('elderSigns', delta)}
+            status={
+              elderSignStatus.won
+                ? 'victory'
+                : elderSignStatus.remaining === 1
+                  ? 'warning'
+                  : undefined
+            }
+            value={optimisticTracks.elderSigns}
+          />
+          <Counter
+            className="track-arkham-monsters"
+            disabled={counterDisabled}
+            displayLimit={monsterLimitRemoved ? 'no cap' : monsterLimit}
+            fullFlowLabel={monsterLimitRemoved ? undefined : 'Outskirts'}
+            label={sessionTrackLabels.monstersInArkham}
+            maximum={monsterLimitRemoved ? undefined : monsterLimit}
+            onAdjust={(delta) => adjust('monstersInArkham', delta)}
+            status={
+              monsterLimitRemoved
+                ? undefined
+                : capacityStatus(optimisticTracks.monstersInArkham, monsterLimit)
+            }
+            value={optimisticTracks.monstersInArkham}
+          />
+          <Counter
+            className="track-outskirts"
+            disabled={counterDisabled}
+            displayLimit={outskirtsCapacity}
+            fullFlowLabel="Clear; Terror +1"
+            label={sessionTrackLabels.monstersInOutskirts}
+            maximum={outskirtsCapacity}
+            onAdjust={(delta) => adjust('monstersInOutskirts', delta)}
+            status={capacityStatus(optimisticTracks.monstersInOutskirts, outskirtsCapacity)}
+            value={optimisticTracks.monstersInOutskirts}
+          />
+          <Counter
+            className="track-terror"
+            disabled={counterDisabled}
+            label={sessionTrackLabels.terror}
+            maximum={sessionTrackMaximum(optimisticTracks, 'terror')}
+            onAdjust={(delta) => adjust('terror', delta)}
+            status={optimisticTracks.terror >= 10 ? 'critical' : undefined}
+            value={optimisticTracks.terror}
+          />
+        </div>
+      )}
     </div>
   )
 }

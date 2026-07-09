@@ -19,6 +19,8 @@ export interface InvestigatorRules {
 }
 
 export interface GameLimitState {
+  doomCurrent: number
+  doomMax: number
   gatesOpen: number
   monstersInArkham: number
   monstersInOutskirts: number
@@ -87,6 +89,18 @@ export function gameLimitWarnings(
 ): GameLimitWarning[] {
   const warnings: GameLimitWarning[] = []
 
+  if (state.doomCurrent >= state.doomMax) {
+    warnings.push({
+      level: 'critical',
+      text: 'The doom track is full. The Ancient One awakens.',
+    })
+  } else if (state.doomCurrent === state.doomMax - 1) {
+    warnings.push({
+      level: 'warning',
+      text: 'One more doom token will awaken the Ancient One.',
+    })
+  }
+
   if (state.gatesOpen >= rules.gateAwakeningThreshold) {
     warnings.push({
       level: 'critical',
@@ -129,4 +143,12 @@ export function gameLimitWarnings(
   }
 
   return warnings
+}
+
+export function hasTrackedAwakeningCondition(rules: InvestigatorRules, state: GameLimitState) {
+  return (
+    state.doomCurrent >= state.doomMax ||
+    state.gatesOpen >= rules.gateAwakeningThreshold ||
+    (state.terror >= 10 && state.monstersInArkham >= rules.terrorTenAwakeningMonsterCount)
+  )
 }

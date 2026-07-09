@@ -26,6 +26,19 @@ function renderControls(overrides: Partial<GameSession['tracks']> = {}) {
   )
 }
 
+function renderFinalBattleControls(overrides: Partial<GameSession['tracks']> = {}) {
+  return renderToStaticMarkup(
+    <SessionTrackControls
+      finalBattle
+      gateAwakeningThreshold={7}
+      monsterLimit={7}
+      outskirtsCapacity={4}
+      sessionID="session"
+      tracks={{ ...tracks, ...overrides }}
+    />,
+  )
+}
+
 describe('session track capacity controls', () => {
   it('removes increment controls and shows the next destination at capacity', () => {
     const markup = renderControls()
@@ -52,5 +65,14 @@ describe('session track capacity controls', () => {
     expect(arkhamIndex).toBeGreaterThan(-1)
     expect(outskirtsIndex).toBeGreaterThan(arkhamIndex)
     expect(terrorIndex).toBeGreaterThan(outskirtsIndex)
+  })
+
+  it('hides normal table counters during the final battle', () => {
+    const markup = renderFinalBattleControls()
+
+    expect(markup).toContain('Doom counter')
+    expect(markup).not.toContain('Open gates counter')
+    expect(markup).not.toContain('Arkham + Sky counter')
+    expect(markup).not.toContain('Terror counter')
   })
 })

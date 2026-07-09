@@ -16,22 +16,22 @@ for each rules-facing change. Cite the scenario ID in test names where useful.
 
 ## Setup and optional mobile controllers
 
-| ID        | Given                                                    | When                             | Then                                                                      |
-| --------- | -------------------------------------------------------- | -------------------------------- | ------------------------------------------------------------------------- |
-| SETUP-01  | Opening Mythos draws a Rumor                             | Resolve Game Setup               | Discard it and draw again                                                 |
-| SETUP-02  | Opening Mythos draws a non-Rumor without a gate location | Resolve Game Setup               | Discard it and draw again                                                 |
-| SETUP-03  | Opening Mythos draws an Environment depicting a gate     | Resolve Game Setup               | Fully resolve the card and leave the Environment in play                  |
-| SETUP-04  | Setup has no selected Ancient One                        | Advance to Opening Mythos        | Reject the transition; an Ancient One is mandatory before the game starts |
-| SETUP-05  | The game has advanced to Opening Mythos                  | Previous phase is requested      | Stay in Opening Mythos; Setup is no longer reachable                      |
-| SETUP-06  | A setup field or set checkbox changes                    | The control value changes        | Persist the setup change immediately without a separate apply/save button |
-| MOBILE-01 | Mobile controls are disabled                             | The dashboard changes game state | Dashboard remains fully functional and authoritative                      |
-| MOBILE-02 | A controller has the current revision                    | It submits a legal phase command | Apply once, log the actor, increment revision, and notify displays        |
-| MOBILE-03 | A controller has an older revision                       | It submits any command           | Reject as stale without changing game state                               |
-| MOBILE-04 | A controller repeats an idempotency key                  | The request is retried           | Return current state without applying the command twice                   |
-| MOBILE-05 | A command belongs to another phase                       | A controller submits it manually | Reject it even if the mobile UI had previously displayed it               |
-| MOBILE-06 | A controller room is disabled or expires                 | A phone reconnects or submits    | Reject access without changing or pausing the underlying game             |
-| MOBILE-07 | A revealed Mythos Headline or Special is stored by ID    | The controller refreshes         | Show and accept Discard after resolving                                   |
-| MOBILE-08 | An expansion board track is enabled                      | A controller submits a track event or correction | Apply the same dashboard expansion-track action and record the actor |
+| ID        | Given                                                    | When                                             | Then                                                                      |
+| --------- | -------------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------- |
+| SETUP-01  | Opening Mythos draws a Rumor                             | Resolve Game Setup                               | Discard it and draw again                                                 |
+| SETUP-02  | Opening Mythos draws a non-Rumor without a gate location | Resolve Game Setup                               | Discard it and draw again                                                 |
+| SETUP-03  | Opening Mythos draws an Environment depicting a gate     | Resolve Game Setup                               | Fully resolve the card and leave the Environment in play                  |
+| SETUP-04  | Setup has no selected Ancient One                        | Advance to Opening Mythos                        | Reject the transition; an Ancient One is mandatory before the game starts |
+| SETUP-05  | The game has advanced to Opening Mythos                  | Previous phase is requested                      | Stay in Opening Mythos; Setup is no longer reachable                      |
+| SETUP-06  | A setup field or set checkbox changes                    | The control value changes                        | Persist the setup change immediately without a separate apply/save button |
+| MOBILE-01 | Mobile controls are disabled                             | The dashboard changes game state                 | Dashboard remains fully functional and authoritative                      |
+| MOBILE-02 | A controller has the current revision                    | It submits a legal phase command                 | Apply once, log the actor, increment revision, and notify displays        |
+| MOBILE-03 | A controller has an older revision                       | It submits any command                           | Reject as stale without changing game state                               |
+| MOBILE-04 | A controller repeats an idempotency key                  | The request is retried                           | Return current state without applying the command twice                   |
+| MOBILE-05 | A command belongs to another phase                       | A controller submits it manually                 | Reject it even if the mobile UI had previously displayed it               |
+| MOBILE-06 | A controller room is disabled or expires                 | A phone reconnects or submits                    | Reject access without changing or pausing the underlying game             |
+| MOBILE-07 | A revealed Mythos Headline or Special is stored by ID    | The controller refreshes                         | Show and accept Discard after resolving                                   |
+| MOBILE-08 | An expansion board track is enabled                      | A controller submits a track event or correction | Apply the same dashboard expansion-track action and record the actor      |
 
 ## Fixture Data Integrity
 
@@ -83,23 +83,26 @@ for each rules-facing change. Cite the scenario ID in test names where useful.
 
 ## Limits, terror, victory, and final battle
 
-| ID        | Given                                                       | When                                      | Then                                                                 |
-| --------- | ----------------------------------------------------------- | ----------------------------------------- | -------------------------------------------------------------------- |
-| LIMIT-01  | 3 investigators and 6 Arkham/Sky monsters                   | Another monster appears                   | Put it in Outskirts                                                  |
-| LIMIT-02  | 3 investigators and 5 Outskirts monsters                    | Another enters Outskirts                  | Raise terror, return all 6 to cup                                    |
-| LIMIT-03  | Outskirts just overflowed during a multi-monster event      | More monsters remain                      | Continue remaining draws against the now-empty Outskirts             |
-| TERROR-01 | Terror rises to 3                                           | Resolve milestone                         | Remove random Ally, close General Store, move occupants to Rivertown |
-| TERROR-02 | Terror rises to 10                                          | Resolve milestone                         | Remove monster limit permanently and empty Outskirts                 |
-| TERROR-03 | Terror is already 10                                        | It would rise by 2                        | Add 2 doom instead                                                   |
-| WIN-01    | Last gate closes and held gate trophies equal investigators | Resolve close                             | Win immediately                                                      |
-| WIN-02    | Last gate closes but trophies are too few                   | Resolve close                             | Do not win                                                           |
-| WIN-03    | Sixth elder sign is placed                                  | Resolve seal                              | Win immediately                                                      |
-| AWAKE-01  | 4 investigators and seventh gate opens                      | Check gates                               | Awaken                                                               |
-| AWAKE-02  | Monster must be drawn from empty normal cup                 | Draw event                                | Awaken                                                               |
-| AWAKE-03  | New gate must open with no marker available                 | Open event                                | Awaken                                                               |
-| FINAL-01  | Four original investigators, one eliminated                 | Survivors score four cumulative successes | Remove one doom, not after three                                     |
-| FINAL-02  | Cumulative successes exceed a full group                    | Remove doom                               | Carry remainder into later attacks/rounds                            |
-| FINAL-03  | Investigator is devoured in final battle                    | Resolve devouring                         | Eliminate with no replacement                                        |
+| ID        | Given                                                          | When                                      | Then                                                                                       |
+| --------- | -------------------------------------------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------ |
+| LIMIT-01  | 3 investigators and 6 Arkham/Sky monsters                      | Another monster appears                   | Put it in Outskirts                                                                        |
+| LIMIT-02  | 3 investigators and 5 Outskirts monsters                       | Another enters Outskirts                  | Raise terror, return all 6 to cup                                                          |
+| LIMIT-03  | Outskirts just overflowed during a multi-monster event         | More monsters remain                      | Continue remaining draws against the now-empty Outskirts                                   |
+| TERROR-01 | Terror rises to 3                                              | Resolve milestone                         | Remove random Ally, close General Store, move occupants to Rivertown                       |
+| TERROR-02 | Terror rises to 10                                             | Resolve milestone                         | Remove monster limit permanently and empty Outskirts                                       |
+| TERROR-03 | Terror is already 10                                           | It would rise by 2                        | Add 2 doom instead                                                                         |
+| WIN-01    | Last gate closes and held gate trophies equal investigators    | Resolve close                             | Win immediately                                                                            |
+| WIN-02    | Last gate closes but trophies are too few                      | Resolve close                             | Do not win                                                                                 |
+| WIN-03    | Sixth elder sign is placed                                     | Resolve seal                              | Win immediately                                                                            |
+| AWAKE-01  | 4 investigators and seventh gate opens                         | Check gates                               | Awaken                                                                                     |
+| AWAKE-02  | Monster must be drawn from empty normal cup                    | Draw event                                | Awaken                                                                                     |
+| AWAKE-03  | New gate must open with no marker available                    | Open event                                | Awaken                                                                                     |
+| AWAKE-04  | Doom is one below its maximum and gates are not near threshold | Show table warnings                       | Show a Doom warning, not the open-gate warning                                             |
+| FINAL-01  | Four original investigators, one eliminated                    | Survivors score four cumulative successes | Remove one doom, not after three                                                           |
+| FINAL-02  | Cumulative successes exceed a full group                       | Remove doom                               | Carry remainder into later attacks/rounds                                                  |
+| FINAL-03  | Investigator is devoured in final battle                       | Resolve devouring                         | Eliminate with no replacement                                                              |
+| FINAL-04  | A tracked awakening condition is met                           | Start final battle                        | Fill Doom, discard active Mythos effects, show Ancient One battle stats and round controls |
+| FINAL-05  | Final battle Doom reaches zero                                 | Render final battle counters              | Show a large victory state instead of Doom and battle round counters                       |
 
 ## Multiple expansion boards
 

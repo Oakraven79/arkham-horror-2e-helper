@@ -4,6 +4,7 @@ import {
   calculateInvestigatorRules,
   calculateMonsterSurgeCount,
   gameLimitWarnings,
+  hasTrackedAwakeningCondition,
 } from '@/lib/investigatorRules'
 
 describe('investigator-count rules', () => {
@@ -71,6 +72,8 @@ describe('investigator-count rules', () => {
 
     expect(
       gameLimitWarnings(rules, {
+        doomCurrent: 9,
+        doomMax: 13,
         gatesOpen: 6,
         monstersInArkham: 7,
         monstersInOutskirts: 4,
@@ -81,5 +84,72 @@ describe('investigator-count rules', () => {
       'The monster limit is full. Additional monsters are placed in the Outskirts.',
       'The Outskirts are full. The next monster placed there raises terror.',
     ])
+  })
+
+  it('separates Doom warnings from open-gate awakening warnings', () => {
+    const rules = calculateInvestigatorRules({
+      investigatorCount: 4,
+      expansionBoardCount: 0,
+    })
+
+    expect(
+      gameLimitWarnings(rules, {
+        doomCurrent: 12,
+        doomMax: 13,
+        gatesOpen: 2,
+        monstersInArkham: 0,
+        monstersInOutskirts: 0,
+        terror: 0,
+      }).map((warning) => warning.text),
+    ).toEqual(['One more doom token will awaken the Ancient One.'])
+
+    expect(
+      gameLimitWarnings(rules, {
+        doomCurrent: 11,
+        doomMax: 13,
+        gatesOpen: 2,
+        monstersInArkham: 0,
+        monstersInOutskirts: 0,
+        terror: 0,
+      }).map((warning) => warning.text),
+    ).toEqual([])
+  })
+
+  it('detects tracked awakening conditions for final battle setup', () => {
+    const rules = calculateInvestigatorRules({
+      investigatorCount: 4,
+      expansionBoardCount: 0,
+    })
+
+    expect(
+      hasTrackedAwakeningCondition(rules, {
+        doomCurrent: 13,
+        doomMax: 13,
+        gatesOpen: 0,
+        monstersInArkham: 0,
+        monstersInOutskirts: 0,
+        terror: 0,
+      }),
+    ).toBe(true)
+    expect(
+      hasTrackedAwakeningCondition(rules, {
+        doomCurrent: 12,
+        doomMax: 13,
+        gatesOpen: 7,
+        monstersInArkham: 0,
+        monstersInOutskirts: 0,
+        terror: 0,
+      }),
+    ).toBe(true)
+    expect(
+      hasTrackedAwakeningCondition(rules, {
+        doomCurrent: 12,
+        doomMax: 13,
+        gatesOpen: 6,
+        monstersInArkham: 0,
+        monstersInOutskirts: 0,
+        terror: 0,
+      }),
+    ).toBe(false)
   })
 })

@@ -1951,6 +1951,390 @@ button {
   color: #ffe0dc;
 }
 
+.limit-warnings.has-final-battle-action {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: stretch;
+}
+
+.limit-warnings.has-final-battle-action > div {
+  grid-column: 1;
+}
+
+.limit-warnings.has-final-battle-action form {
+  display: flex;
+  grid-column: 2;
+  grid-row: 1 / span 4;
+}
+
+.limit-warnings.has-final-battle-action button {
+  min-height: 48px;
+  border: 1px solid rgba(255, 224, 220, 0.46);
+  border-radius: 6px;
+  background: linear-gradient(180deg, #f1d2c8, #b84439);
+  color: #1b0f0d;
+  cursor: pointer;
+  font-weight: 900;
+  padding: 10px 18px;
+  text-transform: uppercase;
+}
+
+.final-battle-workspace {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.final-battle-workspace .phase-guide {
+  min-height: 0;
+}
+
+.final-battle-panel {
+  display: grid;
+  grid-template-columns: minmax(220px, 360px) minmax(0, 1fr);
+  gap: 22px;
+  overflow: hidden;
+  border-block: 1px solid rgba(232, 207, 146, 0.34);
+  background: linear-gradient(90deg, rgba(43, 13, 12, 0.92), rgba(12, 12, 10, 0.86)), #12100d;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.34);
+}
+
+.final-battle-art {
+  min-height: 420px;
+  background: #080807;
+}
+
+.final-battle-art img,
+.final-battle-art-placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.final-battle-art img {
+  object-fit: cover;
+}
+
+.final-battle-art-placeholder {
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  color: var(--gold);
+  font-size: 26px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.final-battle-details {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  min-width: 0;
+  padding: 24px 24px 24px 0;
+}
+
+.final-battle-details h2 {
+  margin: 0;
+  color: #fff7df;
+  font-size: clamp(32px, 5vw, 58px);
+  line-height: 0.95;
+}
+
+.final-battle-sheet {
+  margin: -6px 0 0;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.final-battle-counters {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(120px, 160px);
+  gap: 10px;
+  align-items: stretch;
+}
+
+.final-battle-counters.is-victory {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.final-battle-doom-feature,
+.final-battle-round-counter {
+  border: 1px solid rgba(232, 207, 146, 0.24);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.24);
+  padding: 12px;
+}
+
+.final-battle-counter-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.final-battle-counter-heading span,
+.final-battle-round-counter > span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.final-battle-counter-heading strong {
+  color: #fff7df;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.final-battle-doom-track {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18px, 1fr));
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.final-battle-doom-track span {
+  aspect-ratio: 1;
+  border: 1px solid rgba(232, 207, 146, 0.22);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.42);
+}
+
+.final-battle-doom-track span.is-filled {
+  border-color: rgba(240, 217, 154, 0.72);
+  background: #080807 url('/images/counters/doom-counter.png') center / cover no-repeat;
+}
+
+.final-battle-counter-actions {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) 42px;
+  gap: 8px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.final-battle-counter-actions button {
+  width: 42px;
+  min-height: 42px;
+  border: 1px solid rgba(232, 207, 146, 0.38);
+  border-radius: 6px;
+  background: #171713;
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.final-battle-counter-actions button:disabled {
+  cursor: default;
+  opacity: 0.42;
+}
+
+.final-battle-counter-actions span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.final-battle-round-counter {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  gap: 12px;
+  align-self: start;
+  position: relative;
+  overflow: hidden;
+  min-height: 188px;
+  background:
+    linear-gradient(180deg, rgba(232, 207, 146, 0.08), transparent 46%), rgba(0, 0, 0, 0.24);
+}
+
+.final-battle-round-counter > span,
+.final-battle-round-value,
+.final-battle-round-actions {
+  position: relative;
+  z-index: 1;
+}
+
+.final-battle-round-value {
+  display: grid;
+  width: min(96px, 70%);
+  aspect-ratio: 1;
+  place-items: center;
+  align-self: center;
+  justify-self: center;
+  border: 1px solid rgba(232, 207, 146, 0.24);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255, 247, 223, 0.13), transparent 55%),
+    rgba(10, 10, 9, 0.35);
+  box-shadow: inset 0 0 24px rgba(232, 207, 146, 0.08);
+  color: #fff7df;
+  font-size: clamp(48px, 7vw, 72px);
+  line-height: 1;
+  text-align: center;
+  text-shadow: 0 0 26px rgba(232, 207, 146, 0.24);
+}
+
+.final-battle-round-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.final-battle-round-actions button {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid rgba(232, 207, 146, 0.38);
+  border-radius: 6px;
+  background: #171713;
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.final-battle-round-actions button:disabled {
+  cursor: default;
+  opacity: 0.42;
+}
+
+.final-battle-victory {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+  min-height: 230px;
+  border: 1px solid rgba(232, 207, 146, 0.48);
+  border-radius: 6px;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(255, 247, 223, 0.2), transparent 34%),
+    linear-gradient(135deg, rgba(73, 26, 20, 0.88), rgba(12, 12, 10, 0.92));
+  padding: 28px 18px;
+  text-align: center;
+  box-shadow:
+    inset 0 0 42px rgba(232, 207, 146, 0.1),
+    0 16px 42px rgba(0, 0, 0, 0.22);
+}
+
+.final-battle-victory::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(132px, 36vw);
+  aspect-ratio: 1;
+  border: 1px solid rgba(232, 207, 146, 0.26);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(255, 247, 223, 0.18), transparent 58%),
+    url('/images/counters/doom-counter.png') center / cover no-repeat;
+  content: '';
+  filter: saturate(0.75) brightness(1.08);
+  opacity: 0.38;
+  transform: translate(-50%, -50%);
+}
+
+.final-battle-victory span,
+.final-battle-victory strong,
+.final-battle-victory p,
+.final-battle-victory button {
+  position: relative;
+  z-index: 1;
+}
+
+.final-battle-victory span {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.final-battle-victory strong {
+  color: #fff7df;
+  font-size: clamp(56px, 10vw, 96px);
+  line-height: 0.9;
+  text-shadow: 0 0 34px rgba(232, 207, 146, 0.34);
+  text-transform: uppercase;
+}
+
+.final-battle-victory p {
+  margin: 0;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.final-battle-victory button {
+  margin-top: 6px;
+  border: 1px solid rgba(232, 207, 146, 0.42);
+  border-radius: 6px;
+  background: #171713;
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 900;
+  padding: 10px 16px;
+  text-transform: uppercase;
+}
+
+.final-battle-victory button:disabled {
+  cursor: default;
+  opacity: 0.42;
+}
+
+.final-battle-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 4px 0;
+}
+
+.final-battle-stats div {
+  min-width: 0;
+  border: 1px solid rgba(232, 207, 146, 0.2);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+}
+
+.final-battle-stats dt {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.final-battle-stats dd {
+  margin: 4px 0 0;
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.final-battle-rule {
+  border-top: 1px solid rgba(232, 207, 146, 0.18);
+  padding-top: 12px;
+}
+
+.final-battle-rule h3 {
+  margin: 0 0 6px;
+  color: #fff7df;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.final-battle-rule p {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
 .mythos-step-list {
   display: grid;
   gap: 4px;
@@ -2536,6 +2920,14 @@ button {
     justify-content: center;
   }
 
+  .final-battle-panel {
+    grid-template-columns: minmax(200px, 300px) minmax(0, 1fr);
+  }
+
+  .final-battle-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .card-lineup {
     justify-content: space-between;
   }
@@ -2795,6 +3187,35 @@ button {
   .phase-guide,
   .setup-workspace {
     padding: 18px;
+  }
+
+  .limit-warnings.has-final-battle-action {
+    grid-template-columns: 1fr;
+  }
+
+  .limit-warnings.has-final-battle-action form {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .limit-warnings.has-final-battle-action button {
+    width: 100%;
+  }
+
+  .final-battle-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .final-battle-art {
+    min-height: 320px;
+  }
+
+  .final-battle-details {
+    padding: 0 18px 20px;
+  }
+
+  .final-battle-counters {
+    grid-template-columns: 1fr;
   }
 
   .arkham-shelf-heading {

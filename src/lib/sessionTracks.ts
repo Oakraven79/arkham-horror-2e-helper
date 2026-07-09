@@ -9,6 +9,7 @@ export const adjustableSessionTracks = [
   'elderSigns',
   'monstersInArkham',
   'monstersInOutskirts',
+  'finalBattleRound',
 ] as const
 
 export type AdjustableSessionTrack = (typeof adjustableSessionTracks)[number]
@@ -21,6 +22,7 @@ export const sessionTrackLabels: Record<AdjustableSessionTrack, string> = {
   elderSigns: 'Elder signs',
   monstersInArkham: 'Arkham + Sky',
   monstersInOutskirts: 'Outskirts',
+  finalBattleRound: 'Battle round',
 }
 
 export function isAdjustableSessionTrack(value: string): value is AdjustableSessionTrack {
@@ -37,6 +39,10 @@ export function sessionTrackMaximum(
   return undefined
 }
 
+function sessionTrackMinimum(track: AdjustableSessionTrack) {
+  return track === 'finalBattleRound' ? 1 : 0
+}
+
 export function adjustSessionTrack(
   tracks: SessionTracks,
   track: AdjustableSessionTrack,
@@ -46,10 +52,11 @@ export function adjustSessionTrack(
     throw new Error('Session counters can only be adjusted by one step at a time.')
   }
 
-  const previousValue = tracks[track] ?? 0
+  const minimum = sessionTrackMinimum(track)
+  const previousValue = tracks[track] ?? minimum
   const maximum = sessionTrackMaximum(tracks, track)
   const nextValue = Math.max(
-    0,
+    minimum,
     maximum === undefined ? previousValue + delta : Math.min(maximum, previousValue + delta),
   )
 

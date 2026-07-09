@@ -33,6 +33,7 @@ type ControllerShellStyle = CSSProperties & {
 const trackLabels: Record<AdjustableSessionTrack, string> = {
   doomCurrent: 'Doom',
   elderSigns: 'Elder Signs',
+  finalBattleRound: 'Battle Round',
   gatesOpen: 'Open Gates',
   monstersInArkham: 'Arkham + Sky',
   monstersInOutskirts: 'Outskirts',
@@ -62,9 +63,7 @@ export function ControllerClient({ joinSecret, sessionID }: ControllerClientProp
   const [notice, setNotice] = useState('')
   const [loading, setLoading] = useState(true)
   const [pendingCommand, setPendingCommand] = useState<string | null>(null)
-  const [connection, setConnection] = useState<'connected' | 'connecting' | 'offline'>(
-    'connecting',
-  )
+  const [connection, setConnection] = useState<'connected' | 'connecting' | 'offline'>('connecting')
 
   const applyProjection = useCallback((next: ControllerProjection) => {
     setProjection((current) =>
@@ -243,9 +242,7 @@ export function ControllerClient({ joinSecret, sessionID }: ControllerClientProp
         <section className={styles.joinCard}>
           <p className={styles.eyebrow}>Arkham Horror Helper</p>
           <h1>Join the table</h1>
-          <p>
-            This phone becomes an optional remote. The main dashboard remains in control.
-          </p>
+          <p>This phone becomes an optional remote. The main dashboard remains in control.</p>
 
           <form onSubmit={join}>
             <label>
@@ -287,12 +284,8 @@ export function ControllerClient({ joinSecret, sessionID }: ControllerClientProp
     )
   }
 
-  const primaryCommands = projection.commands.filter(
-    (command) => command.group === 'primary',
-  )
-  const secondaryCommands = projection.commands.filter(
-    (command) => command.group === 'secondary',
-  )
+  const primaryCommands = projection.commands.filter((command) => command.group === 'primary')
+  const secondaryCommands = projection.commands.filter((command) => command.group === 'secondary')
   const hasExpansionTrackControls = projection.expansionTracks.enabledSetKeys.some((key) =>
     expansionBoardSetKeys.has(key),
   )
@@ -335,9 +328,7 @@ export function ControllerClient({ joinSecret, sessionID }: ControllerClientProp
             <NeighborhoodChoices
               disabled={Boolean(pendingCommand)}
               key={command.id}
-              onSelect={(neighborhoodID) =>
-                void sendCommand(command.id, { neighborhoodID })
-              }
+              onSelect={(neighborhoodID) => void sendCommand(command.id, { neighborhoodID })}
               projection={projection}
             />
           ) : (
@@ -369,9 +360,7 @@ export function ControllerClient({ joinSecret, sessionID }: ControllerClientProp
       {projection.canAdjustTracks && (
         <TrackControls
           disabled={Boolean(pendingCommand)}
-          onAdjust={(track, delta) =>
-            void sendCommand('adjust-track', { track, delta })
-          }
+          onAdjust={(track, delta) => void sendCommand('adjust-track', { track, delta })}
           projection={projection}
         />
       )}
@@ -409,9 +398,7 @@ function ControllerContext({ projection }: { projection: ControllerProjection })
     if (projection.currentCard) {
       return {
         eyebrow: projection.currentCard.revealed ? projection.currentCard.type : 'Face down',
-        title: projection.currentCard.revealed
-          ? projection.currentCard.title
-          : 'Mythos card drawn',
+        title: projection.currentCard.revealed ? projection.currentCard.title : 'Mythos card drawn',
       }
     }
 
@@ -544,7 +531,8 @@ function TrackControls({
       <summary>Table counters</summary>
       <div>
         {trackOrder.map((track) => {
-          const value = projection.tracks[track] ?? 0
+          const minimum = track === 'finalBattleRound' ? 1 : 0
+          const value = projection.tracks[track] ?? minimum
           const maximum =
             track === 'doomCurrent'
               ? (projection.tracks.doomMax ?? undefined)
@@ -558,7 +546,7 @@ function TrackControls({
               <div>
                 <button
                   aria-label={`Decrease ${trackLabels[track]}`}
-                  disabled={disabled || value <= 0}
+                  disabled={disabled || value <= minimum}
                   onClick={() => onAdjust(track, -1)}
                   type="button"
                 >

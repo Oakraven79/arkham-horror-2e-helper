@@ -20,7 +20,11 @@ import {
 } from '@/lib/ancientOneBackground'
 import { expansionTrackStateFromSession } from '@/lib/expansionTracks'
 import { openingMythosPhase, turnPhases, type GamePhase } from '@/lib/gamePhaseState'
-import { calculateInvestigatorRules, gameLimitWarnings } from '@/lib/investigatorRules'
+import {
+  calculateInvestigatorRules,
+  gameLimitWarnings,
+  hasTrackedAwakeningCondition,
+} from '@/lib/investigatorRules'
 import {
   eligibleDocuments,
   relationshipID,
@@ -68,6 +72,7 @@ import {
   shuffleDiscardIntoDeckAction,
   shuffleOtherWorldEncounterDiscardAction,
   skipOpeningMythosCardAction,
+  startFinalBattleAction,
   updateEnabledSetsAction,
 } from './actions'
 import { ArkhamEncounterDeckSlot } from './ArkhamEncounterDeckSlot'
@@ -77,6 +82,7 @@ import {
   ArkhamNeighborhoodShelf,
   type ArkhamNeighborhoodDeckOption,
 } from './ArkhamNeighborhoodShelf'
+import { FinalBattlePanel } from './FinalBattlePanel'
 import { GameRulesContext } from './GameRulesContext'
 import { ExpansionTrackPanel } from './ExpansionTrackPanel'
 import { InvestigatorCountInput } from './InvestigatorCountInput'
@@ -749,14 +755,24 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     investigatorCount: session.playerCount,
     expansionBoardCount: expansionBoards.length,
   })
-  const limitWarnings = gameLimitWarnings(investigatorRules, {
+  const activeAncientOne = selectedAncientOne(session, ancientOnesByID)
+  const activeSheet = selectedAncientOneSheet(activeAncientOne, session.ancientOneSheetKey)
+  const currentPhase: GamePhase = activeAncientOne ? (session.currentPhase as GamePhase) : 'Setup'
+  const limitState = {
+    doomCurrent: tracks.doomCurrent ?? 0,
+    doomMax: tracks.doomMax ?? activeSheet?.doomTrack ?? 10,
     gatesOpen: tracks.gatesOpen ?? 0,
     monstersInArkham: tracks.monstersInArkham ?? 0,
     monstersInOutskirts: tracks.monstersInOutskirts ?? 0,
     terror: tracks.terror ?? 0,
-  })
-  const activeAncientOne = selectedAncientOne(session, ancientOnesByID)
-  const activeSheet = selectedAncientOneSheet(activeAncientOne, session.ancientOneSheetKey)
+  }
+  const limitWarnings = gameLimitWarnings(investigatorRules, limitState)
+  const canStartFinalBattle =
+    currentPhase !== 'Setup' &&
+    currentPhase !== 'Final Battle' &&
+    hasTrackedAwakeningCondition(investigatorRules, limitState)
+  const showFinalBattlePanel =
+    currentPhase === 'Final Battle' && Boolean(activeAncientOne && activeSheet)
   const ancientOneBackground = activeAncientOneBackground(
     Boolean(session.useAncientOneBackground),
     activeSheet,
@@ -766,7 +782,6 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         '--table-background-image': cssBackgroundImageValue(ancientOneBackground.url),
       }
     : undefined
-  const currentPhase: GamePhase = activeAncientOne ? (session.currentPhase as GamePhase) : 'Setup'
   const isOpeningMythos = currentPhase === openingMythosPhase
 
   const drawPile = mythos.drawPile ?? []
@@ -847,6 +862,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         </section>
         <SessionTrackControls
           disabled={!activeAncientOne}
+          finalBattle={currentPhase === 'Final Battle'}
           gateAwakeningThreshold={investigatorRules.gateAwakeningThreshold}
           monsterLimit={investigatorRules.monsterLimit}
           outskirtsCapacity={investigatorRules.outskirtsCapacity}
@@ -877,40 +893,62 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           turnNumber={session.turnNumber}
         />
 
-        <ExpansionTrackPanel
-          enabledSetKeys={[...enabledSetKeys]}
-          mythosMovement={
-            currentCardDocument
-              ? {
-                  white: currentCardDocument.monsterMoveWhite ?? [],
-                  black: currentCardDocument.monsterMoveBlack ?? [],
-                }
-              : undefined
-          }
-          onCommand={adjustExpansionTrackAction.bind(null, sessionID)}
-          phase={currentPhase}
-          state={expansionTracks}
-        />
+        {showFinalBattlePanel && activeAncientOne && activeSheet ? (
+          <FinalBattlePanel
+            activeAncientOne={activeAncientOne}
+            activeSheet={activeSheet}
+            investigatorRules={investigatorRules}
+            sessionID={sessionID}
+            tracks={tracks}
+          />
+        ) : (
+          <>
+            <ExpansionTrackPanel
+              enabledSetKeys={[...enabledSetKeys]}
+              mythosMovement={
+                currentCardDocument
+                  ? {
+                      white: currentCardDocument.monsterMoveWhite ?? [],
+                      black: currentCardDocument.monsterMoveBlack ?? [],
+                    }
+                  : undefined
+              }
+              onCommand={adjustExpansionTrackAction.bind(null, sessionID)}
+              phase={currentPhase}
+              state={expansionTracks}
+            />
 
-        <GameRulesContext
-          activeAncientOne={activeAncientOne}
-          activeSheet={activeSheet}
-          expansionBoardNames={expansionBoards.map((boxedSet) => boxedSet.name)}
-          hasRelationships={enabledSetKeys.has('lurker-at-the-threshold')}
-          investigatorRules={investigatorRules}
-          phase={currentPhase}
-          tracks={tracks}
-        />
-
-        {currentPhase !== 'Setup' && limitWarnings.length > 0 && (
-          <section className="limit-warnings" aria-label="Game limit warnings">
-            {limitWarnings.map((warning) => (
-              <div className={warning.level} key={warning.text}>
-                {warning.text}
-              </div>
-            ))}
-          </section>
+            <GameRulesContext
+              activeAncientOne={activeAncientOne}
+              activeSheet={activeSheet}
+              expansionBoardNames={expansionBoards.map((boxedSet) => boxedSet.name)}
+              hasRelationships={enabledSetKeys.has('lurker-at-the-threshold')}
+              investigatorRules={investigatorRules}
+              phase={currentPhase}
+              tracks={tracks}
+            />
+          </>
         )}
+
+        {currentPhase !== 'Setup' &&
+          currentPhase !== 'Final Battle' &&
+          limitWarnings.length > 0 && (
+            <section
+              className={`limit-warnings${canStartFinalBattle ? ' has-final-battle-action' : ''}`}
+              aria-label="Game limit warnings"
+            >
+              {limitWarnings.map((warning) => (
+                <div className={warning.level} key={warning.text}>
+                  {warning.text}
+                </div>
+              ))}
+              {canStartFinalBattle && (
+                <form action={startFinalBattleAction.bind(null, sessionID)}>
+                  <button type="submit">Start final battle</button>
+                </form>
+              )}
+            </section>
+          )}
 
         {currentPhase === 'Setup' ? (
           <AncientOneSetup
@@ -1253,6 +1291,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
                 actionLabel="Clear"
               />
             </section>
+          </div>
+        ) : currentPhase === 'Final Battle' ? (
+          <div className="phase-workspace final-battle-workspace">
+            <PhaseGuide phase={currentPhase} />
           </div>
         ) : (
           <div className="phase-workspace">
