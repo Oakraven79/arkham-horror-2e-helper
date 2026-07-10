@@ -2,6 +2,7 @@ import type { Payload } from 'payload'
 import { describe, expect, it } from 'vitest'
 
 import {
+  createGameSession,
   deleteGameSession,
   exitGameSession,
   pauseActiveGameSessions,
@@ -182,5 +183,24 @@ describe('game session lifecycle', () => {
 
     expect(repaired.openingHeadlineResolved).toBe(false)
     expect(updates).toHaveLength(0)
+  })
+
+  it('SETUP-07 refuses to create a session before required game data is loaded', async () => {
+    let created = false
+    const payload = {
+      create: async () => {
+        created = true
+        throw new Error('create should not be called')
+      },
+      find: async () => ({
+        docs: [],
+        totalDocs: 0,
+      }),
+    } as unknown as Payload
+
+    await expect(createGameSession(payload, 'Empty table')).rejects.toThrow(
+      'Load game data before creating a session.',
+    )
+    expect(created).toBe(false)
   })
 })

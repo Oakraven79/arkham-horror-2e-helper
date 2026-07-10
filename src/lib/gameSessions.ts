@@ -12,6 +12,7 @@ import {
   sameSetSelection,
   sourceSetWhere,
 } from './gameSessionContent'
+import { gameDataReadinessMessage, getGameDataReadiness } from './gameDataReadiness'
 import { expansionTrackStateForPayload, freshExpansionTrackState } from './expansionTracks'
 import { mythosDeckStateForPayload } from './mythosSessionState'
 import { freshOtherWorldEncounterDeckState } from './otherWorldEncounterDeckState'
@@ -126,6 +127,12 @@ export async function createGameSession(
   payload: Payload,
   name = 'Arkham Horror Session',
 ): Promise<GameSession> {
+  const readiness = await getGameDataReadiness(payload)
+
+  if (!readiness.ready) {
+    throw new Error(gameDataReadinessMessage(readiness))
+  }
+
   const baseSet = await payload.find({
     collection: 'boxed-sets',
     where: {

@@ -54,6 +54,7 @@ import {
   sameSetSelection,
   sourceSetWhere,
 } from '@/lib/gameSessionContent'
+import { getGameDataReadiness } from '@/lib/gameDataReadiness'
 import {
   createGameSession,
   deleteGameSession,
@@ -188,6 +189,11 @@ function sessionNameFrom(formData: FormData) {
 export async function startNewSessionAction(formData: FormData) {
   const payload = await getPayloadClient()
   const sessionName = sessionNameFrom(formData)
+
+  if (!(await getGameDataReadiness(payload)).ready) {
+    redirect('/sessions')
+  }
+
   await pauseActiveGameSessions(payload)
 
   const session = await createGameSession(payload, sessionName)

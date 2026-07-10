@@ -1,11 +1,13 @@
 import Link from 'next/link'
 import { getPayload } from 'payload'
 
+import { getGameDataReadiness } from '@/lib/gameDataReadiness'
 import config from '@/payload.config'
 import type { AncientOne, BoxedSet, GameSession } from '@/payload-types'
 
 import { deleteSessionAction, resumeSessionAction, startNewSessionAction } from '../actions'
 import { DeleteSessionControl } from './DeleteSessionControl'
+import { GameDataRequiredPanel } from './GameDataRequiredPanel'
 
 export const dynamic = 'force-dynamic'
 
@@ -117,29 +119,32 @@ function SavedSessionRow({ session }: { session: SessionSummary }) {
 export default async function SessionsPage() {
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
-  const result = await payload.find({
-    collection: 'game-sessions',
-    where: {
-      status: {
-        in: ['active', 'paused'],
+  const [result, gameDataReadiness] = await Promise.all([
+    payload.find({
+      collection: 'game-sessions',
+      where: {
+        status: {
+          in: ['active', 'paused'],
+        },
       },
-    },
-    sort: '-updatedAt',
-    limit: 50,
-    depth: 2,
-    select: {
-      name: true,
-      status: true,
-      playerCount: true,
-      enabledSets: true,
-      turnNumber: true,
-      activeAncientOne: true,
-      currentPhase: true,
-      updatedAt: true,
-      createdAt: true,
-    },
-    overrideAccess: true,
-  })
+      sort: '-updatedAt',
+      limit: 50,
+      depth: 2,
+      select: {
+        name: true,
+        status: true,
+        playerCount: true,
+        enabledSets: true,
+        turnNumber: true,
+        activeAncientOne: true,
+        currentPhase: true,
+        updatedAt: true,
+        createdAt: true,
+      },
+      overrideAccess: true,
+    }),
+    getGameDataReadiness(payload),
+  ])
 
   return (
     <main className="session-hub">
@@ -179,18 +184,24 @@ export default async function SessionsPage() {
         <aside className="create-session-panel">
           <p className="eyebrow">New Table</p>
           <h2>Start a game</h2>
-          <form action={startNewSessionAction}>
-            <label htmlFor="session-hub-new-name">Session name</label>
-            <input
-              id="session-hub-new-name"
-              maxLength={80}
-              name="sessionName"
-              placeholder="Friday night in Arkham"
-              required
-              type="text"
+          {gameDataReadiness.ready ? (
+            <form action={startNewSessionAction}>
+              <label htmlFor="session-hub-new-name">Session name</label>
+              <input
+                id="session-hub-new-name"
+                maxLength={80}
+                name="sessionName"
+                placeholder="Friday night in Arkham"
+                required
+                type="text"
+              />
+              <button type="submit">Create session</button>
+            </form>
+          ) : (
+            <GameDataRequiredPanel
+              missingLabels={gameDataReadiness.missing.map((requirement) => requirement.label)}
             />
-            <button type="submit">Create session</button>
-          </form>
+          )}
         </aside>
       </div>
     </main>
