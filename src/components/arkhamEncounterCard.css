@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'IM Fell English';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/im-fell-english-regular.ttf') format('truetype');
+}
+
 .arkham-encounter-card {
   box-sizing: border-box;
   position: relative;
