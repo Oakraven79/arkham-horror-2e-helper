@@ -42,8 +42,8 @@ function encounterCopyStyle(encounters: ArkhamEncounterTextBlock[]) {
     0,
   )
   const contentScore = totalLength + longestEncounter * 0.35 + breakWeight
-  const bodySize = clamp(0.72, 0.97 - contentScore * 0.000235, 0.88)
-  const headingSize = clamp(0.98, bodySize * 1.22 + 0.08, 1.16)
+  const bodySize = clamp(0.76, 1 - contentScore * 0.0002, 0.92)
+  const headingSize = clamp(1.12, 1.56 - contentScore * 0.00018, 1.5)
   const gap = clamp(0.08, 0.36 - contentScore * 0.00022, 0.24)
   const blockPadding = clamp(0.24, 0.5 - contentScore * 0.00018, 0.4)
   const inlinePadding = clamp(0.68, 0.92 - contentScore * 0.00016, 0.86)
