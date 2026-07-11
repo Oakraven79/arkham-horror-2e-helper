@@ -25,6 +25,7 @@ for each rules-facing change. Cite the scenario ID in test names where useful.
 | SETUP-05  | The game has advanced to Opening Mythos                  | Previous phase is requested                      | Stay in Opening Mythos; Setup is no longer reachable                      |
 | SETUP-06  | A setup field or set checkbox changes                    | The control value changes                        | Persist the setup change immediately without a separate apply/save button |
 | SETUP-07  | Required CMS game data is absent                         | A new session is requested                       | Offer the game-data loader first and do not create an empty session       |
+| SETUP-08  | Expansion board tracks are enabled during Setup or Opening Mythos | A track panel or stale track command is reached | Hide the panel and ignore the command until the opening Mythos is resolved |
 | MOBILE-01 | Mobile controls are disabled                             | The dashboard changes game state                 | Dashboard remains fully functional and authoritative                      |
 | MOBILE-02 | A controller has the current revision                    | It submits a legal phase command                 | Apply once, log the actor, increment revision, and notify displays        |
 | MOBILE-03 | A controller has an older revision                       | It submits any command                           | Reject as stale without changing game state                               |

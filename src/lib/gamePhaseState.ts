@@ -97,6 +97,10 @@ export function previousGamePhase(state: GamePhasePointer): GamePhasePointer {
   }
 }
 
+export function expansionTracksAvailableForPhase(phase: GamePhase): boolean {
+  return phase !== 'Setup' && phase !== openingMythosPhase
+}
+
 export function transitionFor(
   current: GamePhasePointer,
   next: GamePhasePointer,

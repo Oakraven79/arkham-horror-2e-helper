@@ -5,7 +5,7 @@ import type { CSSProperties } from 'react'
 
 import { cssBackgroundImageValue } from '@/lib/ancientOneBackground'
 import { expansionTrackSetKeys, type ExpansionTrackCommand } from '@/lib/expansionTracks'
-import type { GamePhase } from '@/lib/gamePhaseState'
+import { expansionTracksAvailableForPhase, type GamePhase } from '@/lib/gamePhaseState'
 import type {
   ControllerCommandDescriptor,
   ControllerCommandID,
@@ -286,9 +286,9 @@ export function ControllerClient({ joinSecret, sessionID }: ControllerClientProp
 
   const primaryCommands = projection.commands.filter((command) => command.group === 'primary')
   const secondaryCommands = projection.commands.filter((command) => command.group === 'secondary')
-  const hasExpansionTrackControls = projection.expansionTracks.enabledSetKeys.some((key) =>
-    expansionBoardSetKeys.has(key),
-  )
+  const hasExpansionTrackControls =
+    expansionTracksAvailableForPhase(projection.session.phase as GamePhase) &&
+    projection.expansionTracks.enabledSetKeys.some((key) => expansionBoardSetKeys.has(key))
   const shellStyle: ControllerShellStyle | undefined = projection.presentation.tableBackgroundUrl
     ? {
         '--controller-background-image': cssBackgroundImageValue(

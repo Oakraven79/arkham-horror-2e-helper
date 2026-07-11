@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest'
 
-import { nextGamePhase, previousGamePhase, transitionFor } from '@/lib/gamePhaseState'
+import {
+  expansionTracksAvailableForPhase,
+  nextGamePhase,
+  previousGamePhase,
+  transitionFor,
+} from '@/lib/gamePhaseState'
 
 describe('game phase state', () => {
   it('moves through the five table phases in order', () => {
@@ -61,5 +66,12 @@ describe('game phase state', () => {
       toPhase: 'Arkham Encounters',
       toTurn: 2,
     })
+  })
+
+  it('keeps expansion tracks hidden until the opening Mythos is resolved', () => {
+    expect(expansionTracksAvailableForPhase('Setup')).toBe(false)
+    expect(expansionTracksAvailableForPhase('Opening Mythos')).toBe(false)
+    expect(expansionTracksAvailableForPhase('Upkeep')).toBe(true)
+    expect(expansionTracksAvailableForPhase('Mythos')).toBe(true)
   })
 })

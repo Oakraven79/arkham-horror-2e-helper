@@ -28,6 +28,7 @@ import {
 import { calculateInvestigatorRules, hasTrackedAwakeningCondition } from '@/lib/investigatorRules'
 import { mythosDeckStateForPayload, mythosDeckStateFromSession } from '@/lib/mythosSessionState'
 import {
+  expansionTracksAvailableForPhase,
   nextGamePhase,
   openingMythosPhase,
   previousGamePhase,
@@ -307,6 +308,10 @@ export async function adjustExpansionTrackAction(
 
   if (!relationshipID(session.activeAncientOne)) {
     throw new Error('Complete setup before adjusting expansion tracks.')
+  }
+
+  if (!expansionTracksAvailableForPhase(session.currentPhase as GamePhase)) {
+    return
   }
 
   const enabledSetIDs = relationshipIDs(session.enabledSets)

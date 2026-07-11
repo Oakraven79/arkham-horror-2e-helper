@@ -19,7 +19,12 @@ import {
   cssBackgroundImageValue,
 } from '@/lib/ancientOneBackground'
 import { expansionTrackStateFromSession } from '@/lib/expansionTracks'
-import { openingMythosPhase, turnPhases, type GamePhase } from '@/lib/gamePhaseState'
+import {
+  expansionTracksAvailableForPhase,
+  openingMythosPhase,
+  turnPhases,
+  type GamePhase,
+} from '@/lib/gamePhaseState'
 import {
   calculateInvestigatorRules,
   gameLimitWarnings,
@@ -814,6 +819,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       }
     : undefined
   const isOpeningMythos = currentPhase === openingMythosPhase
+  const showExpansionTrackPanel = expansionTracksAvailableForPhase(currentPhase)
 
   const drawPile = mythos.drawPile ?? []
   const discardPile = mythos.discardPile ?? []
@@ -937,20 +943,22 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           />
         ) : (
           <>
-            <ExpansionTrackPanel
-              enabledSetKeys={[...enabledSetKeys]}
-              mythosMovement={
-                currentCardDocument
-                  ? {
-                      white: currentCardDocument.monsterMoveWhite ?? [],
-                      black: currentCardDocument.monsterMoveBlack ?? [],
-                    }
-                  : undefined
-              }
-              onCommand={adjustExpansionTrackAction.bind(null, sessionID)}
-              phase={currentPhase}
-              state={expansionTracks}
-            />
+            {showExpansionTrackPanel && (
+              <ExpansionTrackPanel
+                enabledSetKeys={[...enabledSetKeys]}
+                mythosMovement={
+                  currentCardDocument
+                    ? {
+                        white: currentCardDocument.monsterMoveWhite ?? [],
+                        black: currentCardDocument.monsterMoveBlack ?? [],
+                      }
+                    : undefined
+                }
+                onCommand={adjustExpansionTrackAction.bind(null, sessionID)}
+                phase={currentPhase}
+                state={expansionTracks}
+              />
+            )}
 
             <GameRulesContext
               activeAncientOne={activeAncientOne}
