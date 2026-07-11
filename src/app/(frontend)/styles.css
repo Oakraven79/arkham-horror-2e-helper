@@ -499,6 +499,28 @@ button {
 
 .dunwich-track {
   border-left-color: #b58a48;
+  min-height: 146px;
+  background-image:
+    linear-gradient(100deg, rgba(10, 6, 3, 0.96), rgba(34, 20, 9, 0.78) 48%, rgba(6, 4, 2, 0.9)),
+    url('/images/expansion-tracks/dunwich-horror.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: inset 0 0 42px rgba(0, 0, 0, 0.48);
+}
+
+.dunwich-track.is-critical {
+  border-left-color: #c94a3f;
+}
+
+.dunwich-track .expansion-track-heading span,
+.dunwich-track p {
+  color: #e5d3b4;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.72);
+}
+
+.dunwich-track .expansion-track-heading strong {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.72);
 }
 
 .dunwich-track:only-child {
