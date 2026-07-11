@@ -82,6 +82,7 @@ import {
   ArkhamNeighborhoodShelf,
   type ArkhamNeighborhoodDeckOption,
 } from './ArkhamNeighborhoodShelf'
+import { resolveAncientOneSetupSelection } from './ancientOneSetupSelection'
 import { FinalBattlePanel } from './FinalBattlePanel'
 import { GameRulesContext } from './GameRulesContext'
 import { ExpansionTrackPanel } from './ExpansionTrackPanel'
@@ -288,12 +289,17 @@ function selectedAncientOne(
   session: GameSession,
   ancientOnesByID: Map<string, AncientOne>,
 ): AncientOne | null {
+  const id = relationshipID(session.activeAncientOne)
+
+  if (id) {
+    return ancientOnesByID.get(id) ?? null
+  }
+
   if (session.activeAncientOne && typeof session.activeAncientOne === 'object') {
     return session.activeAncientOne
   }
 
-  const id = relationshipID(session.activeAncientOne)
-  return id ? (ancientOnesByID.get(id) ?? null) : null
+  return null
 }
 
 function selectedAncientOneSheet(
@@ -432,20 +438,27 @@ function AncientOneSetup({
   currentSession: GameSession
   sessionID: string
 }) {
-  const currentSelection =
-    activeAncientOne && activeSheet ? `${activeAncientOne.id}::${activeSheet.key}` : ''
   const ancientOneOptions: AncientOneSetupOption[] = ancientOnes.flatMap((ancientOne) =>
     ancientOne.sheets.map((sheet) => {
       const background = ancientOneSheetBackground(sheet)
+      const ancientOneID = String(ancientOne.id)
 
       return {
-        value: `${ancientOne.id}::${sheet.key}`,
+        ancientOneID,
+        ancientOneKey: ancientOne.key,
+        sheetKey: sheet.key,
+        value: `${ancientOneID}::${sheet.key}`,
         label: `${ancientOne.name} - ${sheet.label} (${sheet.doomTrack} doom)`,
         imageUrl: background?.url,
         imageAlt: background?.alt,
       }
     }),
   )
+  const currentSelection = resolveAncientOneSetupSelection(ancientOneOptions, {
+    ancientOneID: relationshipID(currentSession.activeAncientOne),
+    ancientOneKey: activeAncientOne?.key,
+    sheetKey: activeSheet?.key ?? currentSession.ancientOneSheetKey,
+  })
   const enabledSetIDs = new Set(relationshipIDs(currentSession.enabledSets))
   const boxedSetsByCategory = Object.entries(BOXED_SET_CATEGORY_LABELS).map(
     ([category, label]) => ({
@@ -454,6 +467,7 @@ function AncientOneSetup({
       sets: boxedSets.filter((boxedSet) => boxedSet.category === category),
     }),
   )
+  const selectSetupAction = selectAncientOneAction.bind(null, sessionID)
 
   return (
     <section className="setup-workspace">
@@ -485,6 +499,24 @@ function AncientOneSetup({
         </form>
         <Link href="/sessions">All sessions</Link>
       </section>
+
+      <form
+        action={selectSetupAction}
+        className="investigator-count-selector"
+      >
+        <input name="ancientOneSelection" type="hidden" value={currentSelection} />
+        {currentSession.useAncientOneBackground && (
+          <input name="useAncientOneBackground" type="hidden" value="on" />
+        )}
+        <div className="setup-form-field investigator-count-field">
+          <label>Investigators</label>
+          <InvestigatorCountInput
+            initialValue={investigatorCount}
+            key={investigatorCount}
+            sessionID={sessionID}
+          />
+        </div>
+      </form>
 
       <form action={updateEnabledSetsAction.bind(null, sessionID)} className="expansion-selector">
         <div className="setup-section-heading">
@@ -555,19 +587,18 @@ function AncientOneSetup({
 
       {ancientOnes.length > 0 ? (
         <form
-          action={selectAncientOneAction.bind(null, sessionID)}
+          action={selectSetupAction}
           className="ancient-one-selector"
         >
+          <input name="investigatorCount" type="hidden" value={investigatorCount} />
           <div className="setup-form-fields">
             <AncientOneSetupFields
               currentSelection={currentSelection}
               initialUseBackground={Boolean(currentSession.useAncientOneBackground)}
+              key={`${currentSelection}:${Boolean(currentSession.useAncientOneBackground)}`}
               options={ancientOneOptions}
+              persistSetup={selectSetupAction}
             />
-            <div className="setup-form-field investigator-count-field">
-              <label>Investigators</label>
-              <InvestigatorCountInput initialValue={investigatorCount} />
-            </div>
           </div>
         </form>
       ) : (
@@ -862,10 +893,13 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         </section>
         <SessionTrackControls
           disabled={!activeAncientOne}
+          expansionBoardCount={expansionBoards.length}
           finalBattle={currentPhase === 'Final Battle'}
           gateAwakeningThreshold={investigatorRules.gateAwakeningThreshold}
+          investigatorCount={session.playerCount}
           monsterLimit={investigatorRules.monsterLimit}
           outskirtsCapacity={investigatorRules.outskirtsCapacity}
+          previewSetupInvestigatorCount={currentPhase === 'Setup'}
           sessionID={sessionID}
           tracks={tracks}
         />

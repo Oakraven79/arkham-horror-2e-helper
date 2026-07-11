@@ -1,7 +1,12 @@
+import { act, cleanup, render, screen } from '@testing-library/react'
+import { afterEach, describe, expect, it } from 'vitest'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { describe, expect, it } from 'vitest'
 
 import { SessionTrackControls } from '@/app/(frontend)/SessionTrackControls'
+import {
+  SETUP_INVESTIGATOR_COUNT_PREVIEW_EVENT,
+  type SetupInvestigatorCountPreview,
+} from '@/app/(frontend)/setupInvestigatorCountPreview'
 import type { GameSession } from '@/payload-types'
 
 const tracks = {
@@ -40,6 +45,10 @@ function renderFinalBattleControls(overrides: Partial<GameSession['tracks']> = {
 }
 
 describe('session track capacity controls', () => {
+  afterEach(() => {
+    cleanup()
+  })
+
   it('removes increment controls and shows the next destination at capacity', () => {
     const markup = renderControls()
 
@@ -74,5 +83,42 @@ describe('session track capacity controls', () => {
     expect(markup).not.toContain('Open gates counter')
     expect(markup).not.toContain('Arkham + Sky counter')
     expect(markup).not.toContain('Terror counter')
+  })
+
+  it('SETUP-06 previews investigator-count limits in the top counters during setup', () => {
+    render(
+      <SessionTrackControls
+        expansionBoardCount={0}
+        gateAwakeningThreshold={7}
+        investigatorCount={4}
+        monsterLimit={7}
+        outskirtsCapacity={4}
+        previewSetupInvestigatorCount
+        sessionID="session"
+        tracks={{ ...tracks, monstersInArkham: 0, monstersInOutskirts: 0 }}
+      />,
+    )
+
+    const counterText = (name: string) =>
+      screen.getByRole('region', { name: `${name} counter` }).textContent ?? ''
+
+    expect(counterText('Open gates')).toContain('/7')
+    expect(counterText('Arkham + Sky')).toContain('/7')
+    expect(counterText('Outskirts')).toContain('/4')
+
+    act(() => {
+      window.dispatchEvent(
+        new CustomEvent<SetupInvestigatorCountPreview>(SETUP_INVESTIGATOR_COUNT_PREVIEW_EVENT, {
+          detail: {
+            investigatorCount: 6,
+            sessionID: 'session',
+          },
+        }),
+      )
+    })
+
+    expect(counterText('Open gates')).toContain('/6')
+    expect(counterText('Arkham + Sky')).toContain('/9')
+    expect(counterText('Outskirts')).toContain('/2')
   })
 })

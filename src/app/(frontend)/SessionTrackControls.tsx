@@ -1,8 +1,9 @@
 'use client'
 
-import { useOptimistic, useTransition } from 'react'
+import { useEffect, useMemo, useOptimistic, useState, useTransition } from 'react'
 
 import { elderSignVictoryStatus, thresholdState, type ThresholdState } from '@/lib/gameStatusRules'
+import { calculateInvestigatorRules } from '@/lib/investigatorRules'
 import {
   adjustSessionTrack,
   sessionTrackLabels,
@@ -12,13 +13,20 @@ import {
 } from '@/lib/sessionTracks'
 
 import { adjustSessionTrackAction } from './actions'
+import {
+  SETUP_INVESTIGATOR_COUNT_PREVIEW_EVENT,
+  type SetupInvestigatorCountPreview,
+} from './setupInvestigatorCountPreview'
 
 interface SessionTrackControlsProps {
   disabled?: boolean
+  expansionBoardCount?: number
   finalBattle?: boolean
   gateAwakeningThreshold: number
+  investigatorCount?: number
   monsterLimit: number
   outskirtsCapacity: number
+  previewSetupInvestigatorCount?: boolean
   sessionID: string
   tracks: SessionTracks
 }
@@ -127,14 +135,18 @@ function capacityStatus(
 
 export function SessionTrackControls({
   disabled = false,
+  expansionBoardCount,
   finalBattle = false,
   gateAwakeningThreshold,
+  investigatorCount,
   monsterLimit,
   outskirtsCapacity,
+  previewSetupInvestigatorCount = false,
   sessionID,
   tracks,
 }: SessionTrackControlsProps) {
   const [isPending, startTransition] = useTransition()
+  const [previewInvestigatorCount, setPreviewInvestigatorCount] = useState<number | null>(null)
   const [optimisticTracks, applyOptimisticAdjustment] = useOptimistic(
     tracks,
     (
@@ -155,6 +167,47 @@ export function SessionTrackControls({
     })
   }
 
+  useEffect(() => {
+    if (!previewSetupInvestigatorCount) return undefined
+
+    const previewInvestigatorRules = (event: Event) => {
+      const detail = (event as CustomEvent<SetupInvestigatorCountPreview>).detail
+
+      if (detail?.sessionID !== sessionID) return
+
+      setPreviewInvestigatorCount(detail.investigatorCount)
+    }
+
+    window.addEventListener(SETUP_INVESTIGATOR_COUNT_PREVIEW_EVENT, previewInvestigatorRules)
+
+    return () =>
+      window.removeEventListener(SETUP_INVESTIGATOR_COUNT_PREVIEW_EVENT, previewInvestigatorRules)
+  }, [previewSetupInvestigatorCount, sessionID])
+
+  const previewRules = useMemo(() => {
+    if (
+      !previewSetupInvestigatorCount ||
+      investigatorCount === undefined ||
+      expansionBoardCount === undefined
+    ) {
+      return null
+    }
+
+    return calculateInvestigatorRules({
+      expansionBoardCount,
+      investigatorCount: previewInvestigatorCount ?? investigatorCount,
+    })
+  }, [
+    expansionBoardCount,
+    investigatorCount,
+    previewInvestigatorCount,
+    previewSetupInvestigatorCount,
+  ])
+
+  const displayedGateAwakeningThreshold =
+    previewRules?.gateAwakeningThreshold ?? gateAwakeningThreshold
+  const displayedMonsterLimit = previewRules?.monsterLimit ?? monsterLimit
+  const displayedOutskirtsCapacity = previewRules?.outskirtsCapacity ?? outskirtsCapacity
   const counterDisabled = disabled || isPending
   const doomMaximum = sessionTrackMaximum(optimisticTracks, 'doomCurrent') ?? 10
   const monsterLimitRemoved = optimisticTracks.terror >= 10
@@ -183,10 +236,14 @@ export function SessionTrackControls({
           <Counter
             className="track-gates"
             disabled={counterDisabled}
-            displayLimit={gateAwakeningThreshold}
+            displayLimit={displayedGateAwakeningThreshold}
             label={sessionTrackLabels.gatesOpen}
             onAdjust={(delta) => adjust('gatesOpen', delta)}
-            status={capacityStatus(optimisticTracks.gatesOpen, gateAwakeningThreshold, true)}
+            status={capacityStatus(
+              optimisticTracks.gatesOpen,
+              displayedGateAwakeningThreshold,
+              true,
+            )}
             value={optimisticTracks.gatesOpen}
           />
           <Counter
@@ -207,27 +264,27 @@ export function SessionTrackControls({
           <Counter
             className="track-arkham-monsters"
             disabled={counterDisabled}
-            displayLimit={monsterLimitRemoved ? 'no cap' : monsterLimit}
+            displayLimit={monsterLimitRemoved ? 'no cap' : displayedMonsterLimit}
             fullFlowLabel={monsterLimitRemoved ? undefined : 'Outskirts'}
             label={sessionTrackLabels.monstersInArkham}
-            maximum={monsterLimitRemoved ? undefined : monsterLimit}
+            maximum={monsterLimitRemoved ? undefined : displayedMonsterLimit}
             onAdjust={(delta) => adjust('monstersInArkham', delta)}
             status={
               monsterLimitRemoved
                 ? undefined
-                : capacityStatus(optimisticTracks.monstersInArkham, monsterLimit)
+                : capacityStatus(optimisticTracks.monstersInArkham, displayedMonsterLimit)
             }
             value={optimisticTracks.monstersInArkham}
           />
           <Counter
             className="track-outskirts"
             disabled={counterDisabled}
-            displayLimit={outskirtsCapacity}
+            displayLimit={displayedOutskirtsCapacity}
             fullFlowLabel="Clear; Terror +1"
             label={sessionTrackLabels.monstersInOutskirts}
-            maximum={outskirtsCapacity}
+            maximum={displayedOutskirtsCapacity}
             onAdjust={(delta) => adjust('monstersInOutskirts', delta)}
-            status={capacityStatus(optimisticTracks.monstersInOutskirts, outskirtsCapacity)}
+            status={capacityStatus(optimisticTracks.monstersInOutskirts, displayedOutskirtsCapacity)}
             value={optimisticTracks.monstersInOutskirts}
           />
           <Counter

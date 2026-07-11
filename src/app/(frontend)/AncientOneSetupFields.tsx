@@ -1,15 +1,18 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useTransition } from 'react'
 
 import { cssBackgroundImageValue } from '@/lib/ancientOneBackground'
 
 import { submitContainingForm } from './setupAutoSubmit'
 
 export interface AncientOneSetupOption {
+  ancientOneID?: string
+  ancientOneKey?: string
   imageAlt?: string
   imageUrl?: string
   label: string
+  sheetKey?: string
   value: string
 }
 
@@ -17,19 +20,36 @@ interface AncientOneSetupFieldsProps {
   currentSelection: string
   initialUseBackground: boolean
   options: AncientOneSetupOption[]
+  persistSetup?: (formData: FormData) => Promise<void> | void
 }
 
 export function AncientOneSetupFields({
   currentSelection,
   initialUseBackground,
   options,
+  persistSetup,
 }: AncientOneSetupFieldsProps) {
+  const [, startSetupTransition] = useTransition()
   const [selection, setSelection] = useState(currentSelection)
   const [useBackground, setUseBackground] = useState(initialUseBackground)
   const selectedOption = useMemo(
     () => options.find((option) => option.value === selection) ?? null,
     [options, selection],
   )
+  const persistControlChange = (control: HTMLInputElement | HTMLSelectElement) => {
+    if (!persistSetup) {
+      submitContainingForm(control)
+      return
+    }
+
+    const form = control.form
+    if (!form) return
+
+    const formData = new FormData(form)
+    startSetupTransition(() => {
+      void persistSetup(formData)
+    })
+  }
 
   return (
     <>
@@ -40,7 +60,7 @@ export function AncientOneSetupFields({
           name="ancientOneSelection"
           onChange={(event) => {
             setSelection(event.target.value)
-            submitContainingForm(event.currentTarget)
+            persistControlChange(event.currentTarget)
           }}
           value={selection}
         >
@@ -63,7 +83,7 @@ export function AncientOneSetupFields({
             name="useAncientOneBackground"
             onChange={(event) => {
               setUseBackground(event.target.checked)
-              submitContainingForm(event.currentTarget)
+              persistControlChange(event.currentTarget)
             }}
             type="checkbox"
           />

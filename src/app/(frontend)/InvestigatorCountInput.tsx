@@ -3,55 +3,78 @@
 import { useRef, useState } from 'react'
 
 import { submitContainingForm } from './setupAutoSubmit'
+import { publishSetupInvestigatorCountPreview } from './setupInvestigatorCountPreview'
 
 interface InvestigatorCountInputProps {
   initialValue: number
+  sessionID?: string
 }
 
-export function InvestigatorCountInput({ initialValue }: InvestigatorCountInputProps) {
-  const [value, setValue] = useState(initialValue)
+const MIN_INVESTIGATORS = 1
+const MAX_INVESTIGATORS = 8
+const investigatorCounts = Array.from(
+  { length: MAX_INVESTIGATORS },
+  (_, index) => index + MIN_INVESTIGATORS,
+)
+
+function clampInvestigatorCount(value: number) {
+  if (!Number.isFinite(value)) return MIN_INVESTIGATORS
+
+  return Math.min(MAX_INVESTIGATORS, Math.max(MIN_INVESTIGATORS, Math.trunc(value)))
+}
+
+export function InvestigatorCountInput({ initialValue, sessionID }: InvestigatorCountInputProps) {
+  const [value, setValue] = useState(clampInvestigatorCount(initialValue))
   const inputRef = useRef<HTMLInputElement>(null)
+  const selectCount = (nextValue: number) => {
+    const next = clampInvestigatorCount(nextValue)
+    setValue(next)
+
+    if (inputRef.current) {
+      inputRef.current.value = String(next)
+    }
+
+    if (sessionID) {
+      publishSetupInvestigatorCountPreview({
+        investigatorCount: next,
+        sessionID,
+      })
+    }
+
+    submitContainingForm(inputRef.current)
+  }
 
   return (
     <div className="investigator-count-input">
-      <button
-        aria-label="Remove one investigator"
-        disabled={value <= 1}
-        onClick={() => {
-          setValue((current) => Math.max(1, current - 1))
-          submitContainingForm(inputRef.current)
-        }}
-        type="button"
-      >
-        -
-      </button>
-      <input
+      <input name="investigatorCount" readOnly ref={inputRef} type="hidden" value={value} />
+      <div
         aria-label="Number of investigators"
-        max={8}
-        min={1}
-        name="investigatorCount"
-        onChange={(event) => {
-          const next = Number(event.target.value)
-          if (Number.isInteger(next)) {
-            setValue(Math.min(8, Math.max(1, next)))
-            submitContainingForm(event.currentTarget)
-          }
-        }}
-        ref={inputRef}
-        type="number"
-        value={value}
-      />
-      <button
-        aria-label="Add one investigator"
-        disabled={value >= 8}
-        onClick={() => {
-          setValue((current) => Math.min(8, current + 1))
-          submitContainingForm(inputRef.current)
-        }}
-        type="button"
+        className="investigator-count-track"
+        role="radiogroup"
       >
-        +
-      </button>
+        {investigatorCounts.map((count) => {
+          const isSelected = count === value
+          const isFilled = count <= value
+
+          return (
+            <button
+              aria-checked={isSelected}
+              aria-label={`${count} investigator${count === 1 ? '' : 's'}`}
+              className={`investigator-count-token${isFilled ? ' is-filled' : ''}`}
+              key={count}
+              onClick={() => selectCount(count)}
+              role="radio"
+              type="button"
+            >
+              <span className="investigator-count-icon" aria-hidden="true" />
+              <span className="investigator-count-number">{count}</span>
+            </button>
+          )
+        })}
+      </div>
+      <p aria-live="polite" className="investigator-count-summary">
+        <strong>{value}</strong> investigator{value === 1 ? '' : 's'}
+      </p>
     </div>
   )
 }
